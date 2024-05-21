@@ -11,9 +11,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/", (req: Request, res: Response) => {
-  res.json({
-    message: "Hello World",
-  });
+  res.redirect('/app');
 });
 
 app.use('/app', express.static(path.join(__dirname, '../../frontend/dist')));
