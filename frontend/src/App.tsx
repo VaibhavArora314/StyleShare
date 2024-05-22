@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -12,21 +11,23 @@ import NewPost from "./pages/NewPost";
 import { RecoilRoot } from "recoil";
 
 function App() {
-  useEffect(() => {
-    const getResponse = async () => {
-      const response = await fetch("/");
+  // useEffect(() => {
+  //   const getResponse = async () => {
+  //     const response = await fetch("/");
 
-      console.log(response);
-      console.log(await response.json());
-    };
+  //     console.log(response);
+  //     console.log(await response.json());
+  //   };
 
-    getResponse();
-  }, []);
+  //   getResponse();
+  // }, []);
 
   return (
     <RecoilRoot>
       <BrowserRouter>
         <Navbar />
+
+        <div className="min-h-[80vh]">
 
         <Routes>
           <Route path="/app" element={<Home />} />
@@ -36,6 +37,7 @@ function App() {
           <Route path="/app/posts" element={<Posts />} />
           <Route path="/app/posts/:id" element={<Post />} />
         </Routes>
+        </div>
 
         <Footer />
       </BrowserRouter>
