@@ -14,8 +14,9 @@ app.get("/", (req: Request, res: Response) => {
   res.redirect('/app');
 });
 
-app.use('/app', express.static(path.join(__dirname, '../../frontend/dist')));
+app.use('/app', express.static(path.join(__dirname, '../../frontend/dist'), {maxAge: 0}));
 app.get('/app/*', (req: Request, res: Response) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
   res.sendFile(path.join(__dirname, '../../frontend/dist', 'index.html'));
 });
 
