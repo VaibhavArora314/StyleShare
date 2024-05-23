@@ -9,14 +9,13 @@ import Posts from "./pages/Posts";
 import Post from "./pages/Post";
 import NewPost from "./pages/NewPost";
 import { RecoilRoot } from "recoil";
-import axios from "axios";
 import NonAuthenticatedRoute from "./components/NonAuthenticatedRoute";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import Profile from "./pages/Profile";
 import React from "react";
 import Loader from "./components/Loader";
-
-axios.defaults.baseURL = "http://localhost:3001/";
+// import axios from "axios";
+// axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
   return (

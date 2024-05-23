@@ -14,21 +14,23 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(auto()) @map("_id") @db.ObjectId
-  username     String 
-  email        String 
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  username     String
+  email        String
   passwordHash String
-  posts        Post[]    @relation("authorPosts")
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  posts        Post[]   @relation("authorPosts")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Post {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
-  content   String
-  authorId  String    @db.ObjectId
-  author    User      @relation("authorPosts", fields: [authorId], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  codeSnippet String
+  description String
+  tags        String[]
+  authorId    String   @db.ObjectId
+  author      User     @relation("authorPosts", fields: [authorId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

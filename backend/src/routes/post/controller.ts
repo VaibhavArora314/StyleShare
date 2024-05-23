@@ -30,13 +30,17 @@ export const createPostController = async (
     const post = await prisma.post.create({
       data: {
         title: data.title,
-        content: data.content,
+        codeSnippet: data.codeSnippet,
+        description: data.description,
+        tags: data.tags,
         authorId: userId,
       },
       select: {
         id: true,
         title: true,
-        content: true,
+        codeSnippet: true,
+        description: true,
+        tags: true,
         author: {
           select: {
             id: true,
@@ -63,7 +67,9 @@ export const getPostsController = async (req: Request, res: Response) => {
     select: {
       id: true,
       title: true,
-      content: true,
+      codeSnippet: true,
+      description: true,
+      tags: true,
       author: {
         select: {
           id: true,
@@ -80,40 +86,41 @@ export const getPostsController = async (req: Request, res: Response) => {
 };
 
 export const getPostController = async (req: Request, res: Response) => {
-    try {
-        const postId = req.params.id;
+  try {
+    const postId = req.params.id;
 
-        const post = await prisma.post.findFirst({
-          where: {
-            id: postId,
-          },
+    const post = await prisma.post.findFirst({
+      where: {
+        id: postId,
+      },
+      select: {
+        id: true,
+        title: true,
+        codeSnippet: true,
+        description: true,
+        tags: true,
+        author: {
           select: {
             id: true,
-            title: true,
-            content: true,
-            author: {
-              select: {
-                id: true,
-                username: true,
-                email: true,
-              },
-            },
+            username: true,
+            email: true,
           },
-        });
-      
-        if (!post) {
-          res.status(404).json({
-            message: "No such post exists!",
-          });
-        }
-      
-        res.status(200).json({
-          post,
-        });
-    } catch (error) {
-        res.status(411).json({
-            error: "Invalid id"
-        })
+        },
+      },
+    });
+
+    if (!post) {
+      res.status(404).json({
+        message: "No such post exists!",
+      });
     }
 
+    res.status(200).json({
+      post,
+    });
+  } catch (error) {
+    res.status(411).json({
+      error: "No such post exists!",
+    });
+  }
 };
