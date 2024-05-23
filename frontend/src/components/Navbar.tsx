@@ -1,14 +1,27 @@
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { loggedInState } from "../store/atoms/auth";
-import { Link } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { loggedInState, tokenState } from "../store/atoms/auth";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const setTokenState = useSetRecoilState(tokenState);
   const isLoggedIn = useRecoilValue(loggedInState);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setTokenState("");
+  };
+
+  const getNavLinkClass = (path: string) => {
+    return location.pathname === path
+      ? "block py-2 px-3 bg-blue-700 rounded md:bg-transparent md:p-0 text-white md:text-blue-500"
+      : "block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent";
   };
 
   return (
@@ -61,17 +74,14 @@ const Navbar = () => {
             <li>
               <Link
                 to="/app"
-                className="block py-2 px-3 bg-blue-700 rounded md:bg-transparent md:p-0 text-white md:text-blue-500"
+                className={getNavLinkClass("/app")}
                 aria-current="page"
               >
                 Home
               </Link>
             </li>
             <li>
-              <Link
-                to="/app/posts"
-                className="block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
-              >
+              <Link to="/app/posts" className={getNavLinkClass("/app/posts")}>
                 Posts
               </Link>
             </li>
@@ -80,7 +90,7 @@ const Navbar = () => {
                 <li>
                   <Link
                     to="/app/signin"
-                    className="block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                    className={getNavLinkClass("/app/signin")}
                   >
                     Sign in
                   </Link>
@@ -88,7 +98,7 @@ const Navbar = () => {
                 <li>
                   <Link
                     to="/app/signup"
-                    className="block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                    className={getNavLinkClass("/app/signup")}
                   >
                     Sign up
                   </Link>
@@ -99,18 +109,18 @@ const Navbar = () => {
                 <li>
                   <Link
                     to="/app/new-post"
-                    className="block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                    className={getNavLinkClass("/app/new-post")}
                   >
                     New Post
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/app/logout"
+                  <button
                     className="block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                    onClick={handleLogout}
                   >
                     Logout
-                  </Link>
+                  </button>
                 </li>
               </>
             )}

@@ -11,8 +11,12 @@ export const userSignupController = async (req: Request, res: Response) => {
     const result = signupBodySchema.safeParse(payload);
 
     if (!result.success) {
+      const formattedError: any = {};
+      result.error.errors.forEach((e) => {
+        formattedError[e.path[0]] = e.message;
+      });
       return res.status(411).json({
-        error: result.error.errors,
+        error: { ...formattedError, message: "" },
       });
     }
 
@@ -33,7 +37,9 @@ export const userSignupController = async (req: Request, res: Response) => {
 
     if (existingUser) {
       return res.status(411).json({
-        error: "Username or email already in use.",
+        error: {
+          message: "Username or email already in use.",
+        },
       });
     }
 
@@ -64,7 +70,9 @@ export const userSignupController = async (req: Request, res: Response) => {
     });
   } catch (error) {
     return res.status(500).json({
-      error: "An unexpected exception occurred!",
+      error: {
+        message: "An unexpected exception occurred!",
+      },
     });
   }
 };
@@ -75,8 +83,12 @@ export const userSigninController = async (req: Request, res: Response) => {
     const result = signinBodySchema.safeParse(payload);
 
     if (!result.success) {
+      const formattedError: any = {};
+      result.error.errors.forEach((e) => {
+        formattedError[e.path[0]] = e.message;
+      });
       return res.status(411).json({
-        error: result.error.errors,
+        error: { ...formattedError, message: "" },
       });
     }
 
@@ -96,7 +108,9 @@ export const userSigninController = async (req: Request, res: Response) => {
 
     if (!user) {
       return res.status(411).json({
-        error: "No such user exists",
+        error: {
+          message: "No such user exists",
+        },
       });
     }
 
@@ -107,7 +121,9 @@ export const userSigninController = async (req: Request, res: Response) => {
 
     if (!matchPassword) {
       return res.status(411).json({
-        error: "No such user exists",
+        error: {
+          message: "No such user exists",
+        },
       });
     }
 
@@ -122,32 +138,38 @@ export const userSigninController = async (req: Request, res: Response) => {
     });
   } catch (error) {
     return res.status(500).json({
-      error: "An unexpected exception occurred!",
+      error: {
+        message: "An unexpected exception occurred!",
+      },
     });
   }
 };
 
-export const userProfileController = async (req:UserAuthRequest, res:Response) => {
+export const userProfileController = async (
+  req: UserAuthRequest,
+  res: Response
+) => {
   const userId = req.userId;
 
   const user = await prisma.user.findFirst({
     where: {
-      id: userId
-    }, select: {
+      id: userId,
+    },
+    select: {
       id: true,
       email: true,
       username: true,
-      posts: true
-    }
-  })
+      posts: true,
+    },
+  });
 
   if (!user) {
     return res.status(411).json({
       error: "Invalid token",
-    })
+    });
   }
 
   res.status(200).json({
-    user
-  })
-}
+    user,
+  });
+};
