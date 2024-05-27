@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { PostData } from '../types';
+import Loader from '../components/Loader';
 
 const Posts = () => {
   const [posts, setPosts] = useState<PostData[]>([]);
@@ -24,11 +25,11 @@ const Posts = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className='text-red-500 font-semibold text-lg text-center'>{error}</div>;
   }
 
   return (
