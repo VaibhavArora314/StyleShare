@@ -100,9 +100,9 @@ const Signin = () => {
         </button>
         </div>
       </form>
-      <p className="flex justify-center mt-4 text-sm text-white">
+      <p className=" mt-4 text-md text-white">
         Don't have an account? -
-        <Link to="/app/signup" className="text-blue-500">
+        <Link to="/app/signup" className="text-blue-500 text-lg p-2">
           Sign Up
         </Link>
       </p>

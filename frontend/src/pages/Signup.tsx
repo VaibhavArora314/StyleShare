@@ -121,9 +121,9 @@ const Signup = () => {
         </button>
         </div>
       </form>
-      <p className="flex justify-center mt-4 text-sm text-white">
-        Already have an account? {" "}
-        <Link to="/app/signin" className="text-blue-500 ">
+      <p className="mt-4 text-md text-white">
+        Already have an account? -
+        <Link to="/app/signin" className="text-blue-500 text-lg p-2">
           Sign In
         </Link>
       </p>
