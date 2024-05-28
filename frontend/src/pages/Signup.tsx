@@ -49,6 +49,9 @@ const Signup = () => {
   };
 
   return (
+    <section className=" flex justify-center p-10 md:bg-grey-500">
+      <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+
     <div className="max-w-md mx-auto mt-8 p-6 rounded-lg shadow-md">
       <h2 className="text-3xl font-bold mb-4 text-white text-center">
         Sign Up
@@ -65,7 +68,7 @@ const Signup = () => {
           <input
             type="text"
             id="username"
-            className="form-input mt-1 p-2 block w-full rounded-lg bg-gray-700"
+            className="form-input mt-1 p-2 block w-full rounded-lg bg-gray-700 text-white"
             value={username}
             placeholder="John Doe"
             onChange={(e) => setUsername(e.target.value)}
@@ -82,7 +85,7 @@ const Signup = () => {
           <input
             type="email"
             id="email"
-            className="form-input mt-1 p-2 block w-full rounded-lg bg-gray-700"
+            className="form-input mt-1 p-2 block w-full rounded-lg text-white bg-gray-700"
             placeholder="john@gmail.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -99,7 +102,7 @@ const Signup = () => {
           <input
             type="password"
             id="password"
-            className="form-input mt-1 p-2 block w-full rounded-lg bg-gray-700"
+            className="form-input mt-1 p-2 block w-full rounded-lg text-white bg-gray-700"
             placeholder="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -109,20 +112,24 @@ const Signup = () => {
         <p className="text-sm font-semibold mb-2 text-red-600">
           {error.password}
         </p>
+        <div className="flex justify-center">
         <button
           type="submit"
           className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
         >
           Sign Up
         </button>
+        </div>
       </form>
-      <p className="mt-4 text-sm text-white">
-        Already have an account?{" "}
-        <Link to="/app/signin" className="text-blue-500">
+      <p className="mt-4 text-md text-white">
+        Already have an account? -
+        <Link to="/app/signin" className="text-blue-500 text-lg p-2">
           Sign In
         </Link>
       </p>
     </div>
+    </div>
+    </section>
   );
 };
 
