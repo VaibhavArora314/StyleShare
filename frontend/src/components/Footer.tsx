@@ -1,4 +1,4 @@
-import GitHubIcon from '@mui/icons-material/GitHub';
+import github from '../assets/github.png';
 
 const Footer = () => {
   return (
@@ -31,7 +31,7 @@ const Footer = () => {
         </div>
         <div className='block w-3/4 m-auto mt-20'>
             <div className='flex gap-4 justify-center md:justify-end'>
-            <a href="https://github.com/VaibhavArora314/StyleShare"><GitHubIcon className='cursor-pointer'/></a>
+            <a href="https://github.com/VaibhavArora314/StyleShare"><img src={github} alt="github" className='pointer w-14 h-14'/></a>
             </div>
         </div>
         <div className='mt-20 text-gray-300 xl:flex justify-center text-md lg:text-xl xl:text-md'>Copyright @ Style Share</div>
