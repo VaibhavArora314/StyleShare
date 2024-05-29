@@ -77,7 +77,6 @@ const Signup = () => {
 
 	};
 
-	// abcd
 	const handleOtpSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		try {
@@ -104,82 +103,108 @@ const Signup = () => {
 		}
 	}
 
-  return (
-    <div className="max-w-md mx-auto mt-8 p-6 rounded-lg shadow-md">
-      <h2 className="text-3xl font-bold mb-4 text-white text-center">
-        Sign Up
-      </h2>
-      <p className="text-lg font-semibold mb-2 text-red-600 text-center">
-        {error.message}
-      </p>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="username" className="block text-gray-200">
-            Username
-          </label>
+	return (
+		<div className="max-w-md mx-auto mt-8 p-6 rounded-lg shadow-md">
+			<h2 className="text-3xl font-bold mb-4 text-white text-center">
+				Sign Up
+			</h2>
+			<p className="text-lg font-semibold mb-2 text-red-600 text-center">
+				{error.message}
+			</p>
+			<form onSubmit={handleSubmit}>
+				<div className="mb-4">
+					<label htmlFor="username" className="block text-gray-200">
+						Username
+					</label>
 
-          <input
-            type="text"
-            id="username"
-            className="form-input mt-1 p-2 block w-full rounded-lg bg-gray-700"
-            value={username}
-            placeholder="John Doe"
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <p className="text-sm font-semibold mb-2 text-red-600">
-          {error.username}
-        </p>
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-200">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            className="form-input mt-1 p-2 block w-full rounded-lg bg-gray-700"
-            placeholder="john@gmail.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <p className="text-sm font-semibold mb-2 text-red-600">
-            {error.email}
-          </p>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-200">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            className="form-input mt-1 p-2 block w-full rounded-lg bg-gray-700"
-            placeholder="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <p className="text-sm font-semibold mb-2 text-red-600">
-          {error.password}
-        </p>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-        >
-          Sign Up
-        </button>
-      </form>
-      <p className="mt-4 text-sm text-white">
-        Already have an account?{" "}
-        <Link to="/app/signin" className="text-blue-500">
-          Sign In
-        </Link>
-      </p>
-    </div>
-  );
+					<input
+						type="text"
+						id="username"
+						className="form-input mt-1 p-2 block w-full rounded-lg bg-gray-700"
+						value={username}
+						placeholder="John Doe"
+						onChange={(e) => setUsername(e.target.value)}
+						required
+					/>
+				</div>
+				<p className="text-sm font-semibold mb-2 text-red-600">
+					{error.username}
+				</p>
+				<div className="mb-4">
+					<label htmlFor="email" className="block text-gray-200">
+						Email
+					</label>
+					<input
+						type="email"
+						id="email"
+						className="form-input mt-1 p-2 block w-full rounded-lg bg-gray-700"
+						placeholder="john@gmail.com"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						required
+					/>
+					<p className="text-sm font-semibold mb-2 text-red-600">
+						{error.email}
+					</p>
+				</div>
+				<div className="mb-4">
+					<label htmlFor="password" className="block text-gray-200">
+						Password
+					</label>
+					<input
+						type="password"
+						id="password"
+						className="form-input mt-1 p-2 block w-full rounded-lg bg-gray-700"
+						placeholder="password"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+						required
+					/>
+				</div>
+				<div className="mb-4">
+					<label htmlFor="otp" className="block text-gray-200">
+						OTP
+					</label>
+					<input
+						type="string"
+						id="otp"
+						className="form-input mt-1 p-2 block w-full rounded-lg bg-gray-700"
+						placeholder="Enter 6 digit OTP here"
+						value={otpStr}
+						disabled={!userId}
+						onChange={(e) => setOtpStr(e.target.value)}
+						required
+					/>
+					<button
+						className={`bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 ${!userId ? 'cursor-not-allowed' : ''}`}
+						// onClick={handleOtpSubmit}
+						onClick={handleOtpSubmit}
+						disabled={!userId}
+					>
+						Verify Otp
+					</button>
+					<p className="text-sm font-semibold mb-2 text-red-600">
+						{error.email}
+					</p>
+				</div>
+				<p className="text-sm font-semibold mb-2 text-red-600">
+					{error.password}
+				</p>
+				<button
+					type="submit"
+					className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+				>
+					Sign Up
+				</button>
+			</form>
+			<p className="mt-4 text-sm text-white">
+				Already have an account?{" "}
+				<Link to="/app/signin" className="text-blue-500">
+					Sign In
+				</Link>
+			</p>
+		</div>
+	);
 };
 
 export default Signup;
