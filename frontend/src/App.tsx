@@ -12,10 +12,12 @@ import { RecoilRoot } from "recoil";
 import NonAuthenticatedRoute from "./components/NonAuthenticatedRoute";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import Profile from "./pages/Profile";
+// @ts-expect-error
+import OTP from "./pages/Otp.jsx";
 import React from "react";
 import Loader from "./components/Loader";
-// import axios from "axios";
-// axios.defaults.baseURL = "http://localhost:3001/";
+import axios from "axios";
+axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
           <div className="min-h-[80vh]">
             <Routes>
               <Route path="/app" element={<Home />} />
+              <Route path="/app/otp" element={<OTP/>} />
               <Route path="/app/posts/:id" element={<Post />} />
               <Route path="/app/posts" element={<Posts />} />
               <Route
@@ -40,9 +43,9 @@ function App() {
               <Route
                 path="/app/signup"
                 element={
-                  <NonAuthenticatedRoute>
+                  // <NonAuthenticatedRoute>
                     <Signup />
-                  </NonAuthenticatedRoute>
+                  // </NonAuthenticatedRoute>
                 }
               />
               <Route

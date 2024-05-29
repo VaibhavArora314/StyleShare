@@ -4,6 +4,9 @@ import { signinBodySchema, signupBodySchema } from "./zodSchema";
 import { createHash, validatePassword } from "../../helpers/hash";
 import { createJWT } from "../../helpers/jwt";
 import { UserAuthRequest } from "../../helpers/types";
+import crypto from "crypto";
+import { sendVerificationEmail } from "../../helpers/sendMail";
+import { z } from "zod";
 
 export const userSignupController = async (req: Request, res: Response) => {
   try {
@@ -45,11 +48,16 @@ export const userSignupController = async (req: Request, res: Response) => {
 
     const passwordHash = await createHash(data.password);
 
+    const otp = crypto.randomInt(100000, 999999);  // Generate a 6-digit OTP
+
+
     const user = await prisma.user.create({
       data: {
         email: data.email,
         passwordHash,
         username: data.username,
+        // @ts-ignore
+        otp,
       },
       select: {
         id: true,
@@ -57,6 +65,9 @@ export const userSignupController = async (req: Request, res: Response) => {
         username: true,
       },
     });
+
+    // Send OTP to user's email
+    await sendVerificationEmail(user.email, otp);
 
     const token = createJWT({
       id: user.id,
@@ -69,13 +80,89 @@ export const userSignupController = async (req: Request, res: Response) => {
       token: token,
     });
   } catch (error) {
+    console.log(error)
     return res.status(500).json({
       error: {
-        message: "An unexpected exception occurred!",
+        message: "An unexpected exception occurred! Brooo",
+        display: error
       },
     });
   }
 };
+
+// import prisma from "../../db";
+
+const otpVerificationSchema = z.object({
+  userId: z.string(),
+  otp: z.number(),
+});
+
+export const verifyOtpController = async (req: Request, res: Response) => {
+  try {
+    const payload = req.body;
+    const result = otpVerificationSchema.safeParse(payload);
+
+    if (!result.success) {
+      const formattedError: any = {};
+      result.error.errors.forEach((e) => {
+        formattedError[e.path[0]] = e.message;
+      });
+      return res.status(400).json({
+        error: { ...formattedError, message: "Validation error." },
+      });
+    }
+
+    const { userId, otp } = result.data;
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        otp: true,
+        createdAt: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        error: { message: "User not found." },
+      });
+    }
+
+    if (user.otp !== otp) {
+      return res.status(400).json({
+        error: { message: "Invalid OTP." },
+      });
+    }
+
+    const otpAge = Date.now() - new Date(user.createdAt).getTime();
+    const otpExpiry = 10 * 60 * 1000; // 10 minutes
+
+    if (otpAge > otpExpiry) {
+      return res.status(400).json({
+        error: { message: "OTP has expired." },
+      });
+    }
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        otp: null,
+      },
+    });
+
+    return res.status(200).json({
+      message: "Email verified successfully.",
+    });
+  } catch (error) {
+    console.error("OTP verification error:", error);
+    return res.status(500).json({
+      error: { message: "An unexpected error occurred." },
+    });
+  }
+};
+
+
 
 export const userSigninController = async (req: Request, res: Response) => {
   try {
