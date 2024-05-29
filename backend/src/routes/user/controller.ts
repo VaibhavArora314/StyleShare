@@ -39,39 +39,63 @@ export const userSignupController = async (req: Request, res: Response) => {
     });
 
     if (existingUser) {
-      return res.status(411).json({
-        error: {
-          message: "Username or email already in use.",
-        },
-      });
+      if (!existingUser.otp) {
+        return res.status(411).json({
+          error: {
+            message: "Username or email already in use.",
+          },
+        });
+
+      }
     }
+
+
 
     const passwordHash = await createHash(data.password);
 
     const otp = crypto.randomInt(100000, 999999);  // Generate a 6-digit OTP
 
-
-    const user = await prisma.user.create({
-      data: {
-        email: data.email,
-        passwordHash,
-        username: data.username,
-        // @ts-ignore
-        otp,
-      },
-      select: {
-        id: true,
-        email: true,
-        username: true,
-      },
-    });
-
+    let user;
+    if(!existingUser){
+      user = await prisma.user.create({
+        data: {
+          email: data.email,
+          passwordHash,
+          username: data.username,
+          // @ts-ignore
+          otp,
+        },
+        select: {
+          id: true,
+          email: true,
+          username: true,
+        },
+      });
+    }
+    else if(existingUser && existingUser.otp){
+      user = await prisma.user.update({
+        where: {
+          id: existingUser.id
+        },
+        data: {
+          otp: otp,
+          passwordHash,
+        },
+        select: {
+          id: true,
+          email: true,
+          username: true,
+        }
+      })
+    }
+    
+    
     // Send OTP to user's email
-    await sendVerificationEmail(user.email, otp);
+    await sendVerificationEmail(user!.email, otp);
 
     const token = createJWT({
-      id: user.id,
-      username: user.username,
+      id: user!.id,
+      username: user!.username,
     });
 
     res.status(201).json({
@@ -186,6 +210,7 @@ export const userSigninController = async (req: Request, res: Response) => {
         email: data.email,
       },
       select: {
+        otp: true,
         id: true,
         username: true,
         email: true,
@@ -197,6 +222,15 @@ export const userSigninController = async (req: Request, res: Response) => {
       return res.status(411).json({
         error: {
           message: "No such user exists",
+        },
+      });
+    }
+
+    if (user.otp) {
+      console.log("Email really not verified")
+      return res.status(411).json({
+        error: {
+          message: "Email not verified",
         },
       });
     }

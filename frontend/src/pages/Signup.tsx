@@ -16,7 +16,8 @@ const Signup = () => {
 	});
 	const [userId, setUserId] = useState<string | null>(null);
 	const [otpStr, setOtpStr] = useState<string>(""); // to store otp string
-	const [otpSent, setOtpSent] = useState<boolean>(false); // to store otp sent status
+	// const [otpSent, setOtpSent] = useState<boolean>(false); // to store otp sent status
+	const [token, setToken] = useState<string>(""); // to store token
 
 
 	const setTokenState = useSetRecoilState(tokenState);
@@ -32,10 +33,8 @@ const Signup = () => {
 			});
 
 			console.log(response);
-			setTokenState(response.data?.token);
 			setUserId(response.data?.user?.id);  // to send while verifying otp
-			localStorage.setItem("token", response.data?.token || "");
-			// navigate('/app');
+			setToken(response.data?.token);
 		} catch (e) {
 			const axiosError = e as AxiosError<{
 				error: {
@@ -51,30 +50,6 @@ const Signup = () => {
 				return e;
 			});
 		}
-
-		// try{
-		// 	const response = await axios.post("/api/v1/user/verify", {
-		// 		userId,
-		// 		otp: parseInt(otpStr),
-		// 	})
-		// 	console.log(response);
-		// 	navigate('/app');
-		// }catch(e){
-		// 	const axiosError = e as AxiosError<{
-		// 		error: {
-		// 			message: string;
-		// 		};
-		// 	}>;
-		// 	// console.log(e);
-		// 	setError((e) => {
-		// 		if (axiosError?.response?.data?.error)
-		// 			return axiosError?.response?.data?.error as typeof e;
-
-		// 		e.message = "An unexpected error occurred";
-		// 		return e;
-		// 	});
-		// }
-
 	};
 
 	const handleOtpSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -85,6 +60,8 @@ const Signup = () => {
 				otp: parseInt(otpStr),
 			})
 			console.log(response);
+			setTokenState(token);
+			localStorage.setItem("token", token || "");
 			navigate('/app');
 		} catch (e) {
 			const axiosError = e as AxiosError<{
@@ -162,27 +139,37 @@ const Signup = () => {
 					/>
 				</div>
 				<div className="mb-4">
+					<button
+						type="submit"
+						className="bg-blue-500 mb-3 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+						disabled={userId!==null}
+					>
+						Get OTP
+					</button>
 					<label htmlFor="otp" className="block text-gray-200">
 						OTP
 					</label>
-					<input
-						type="string"
-						id="otp"
-						className="form-input mt-1 p-2 block w-full rounded-lg bg-gray-700"
-						placeholder="Enter 6 digit OTP here"
-						value={otpStr}
-						disabled={!userId}
-						onChange={(e) => setOtpStr(e.target.value)}
-						required
-					/>
-					<button
-						className={`bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 ${!userId ? 'cursor-not-allowed' : ''}`}
-						// onClick={handleOtpSubmit}
-						onClick={handleOtpSubmit}
-						disabled={!userId}
-					>
-						Verify Otp
-					</button>
+					<div className="w-full h-fit flex items-center justify-between">
+						<input
+							type="string"
+							id="otp"
+							className="form-input h-10 mt-1 p-2 w-[65%] rounded-lg bg-gray-700"
+							placeholder="Enter 6 digit OTP here"
+							value={otpStr}
+							disabled={!userId}
+							onChange={(e) => setOtpStr(e.target.value)}
+							required
+						/>
+						<button
+							className={`bg-blue-500 h-10 text-white py-2 px-4 rounded-md  ${!userId ? 'cursor-not-allowed bg-blue-300 text-rose-500' : 'hover:bg-blue-600'}`}
+							// onClick={handleOtpSubmit}
+							onClick={handleOtpSubmit}
+							disabled={!userId}
+						>
+							Verify Otp
+						</button>
+
+					</div>
 					<p className="text-sm font-semibold mb-2 text-red-600">
 						{error.email}
 					</p>
@@ -190,12 +177,7 @@ const Signup = () => {
 				<p className="text-sm font-semibold mb-2 text-red-600">
 					{error.password}
 				</p>
-				<button
-					type="submit"
-					className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-				>
-					Sign Up
-				</button>
+
 			</form>
 			<p className="mt-4 text-sm text-white">
 				Already have an account?{" "}

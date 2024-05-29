@@ -19,7 +19,7 @@ export const userState = selector({
                     Authorization: `Bearer ${token}`,
                 }
             })
-
+            console.log("DATA:",data)
             return data?.user;
         } catch (error) {
             return null;
