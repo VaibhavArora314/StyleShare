@@ -3,11 +3,17 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { tokenState } from "../store/atoms/auth";
+import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
+import zxcvbn, { ZXCVBNResult } from 'zxcvbn';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faCircle } from '@fortawesome/free-solid-svg-icons';
 
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState<ZXCVBNResult | null>(null);
   const [error, setError] = useState({
     username: "",
     email: "",
@@ -48,6 +54,28 @@ const Signup = () => {
     }
   };
 
+   const handlePasswordChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    setPasswordStrength(zxcvbn(newPassword));
+  };
+  
+   const strengthMeterColor = (score:number) => {
+    switch (score) {
+      case 0:
+        return 'bg-red-500';
+      case 1:
+        return 'bg-yellow-500';
+      case 2:
+        return 'bg-yellow-300';
+      case 3:
+        return 'bg-green-300';
+      case 4:
+        return 'bg-green-500';
+      default:
+        return 'bg-gray-500';
+    }
+  };
   return (
     <section className=" flex justify-center p-10 md:bg-grey-500">
       <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -96,19 +124,96 @@ const Signup = () => {
           </p>
         </div>
         <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-200">
+          <label htmlFor="password" className="block text-gray-200 relative">
             Password
-          </label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             id="password"
             className="form-input mt-1 p-2 block w-full rounded-lg text-white bg-gray-700"
             placeholder="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+            onChange={handlePasswordChange}
+            required/>
+            <span
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-[38px] cursor-pointer ">
+            {showPassword ? (
+                <AiOutlineEyeInvisible
+                    fontSize={24}
+                    fill="#AFB2BF"
+                />
+            ) : (
+                <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+            )}
+            </span>
+              </label>
+               {passwordStrength && (
+        <div className="mt-2">
+          <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+            <div
+              className={`h-2.5 rounded-full ${strengthMeterColor(passwordStrength.score)}`}
+              style={{ width: `${(passwordStrength.score + 1) * 20}%` }}
+            ></div>
+          </div>
+          <p className="text-gray-400 text-sm">
+            {['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'][passwordStrength.score]}
+          </p>
         </div>
+        )}
+         
+              <ul className="list-none text-gray-400 text-sm mt-2">
+        <li className="text-sm">
+          <span className="low-upper-case">
+            <FontAwesomeIcon
+              icon={
+                /([a-z].*[A-Z])|([A-Z].*[a-z])/.test(password)
+                  ? faCheck
+                  : faCircle
+              }
+              className={
+                /([a-z].*[A-Z])|([A-Z].*[a-z])/.test(password)
+                  ? 'text-green-600'
+                  : 'text-gray-400'
+              }
+            />
+            &nbsp;Lowercase &amp; Uppercase
+          </span>
+        </li>
+        <li className="text-sm">
+          <span className="one-number">
+            <FontAwesomeIcon
+              icon={/([0-9])/.test(password) ? faCheck : faCircle}
+              className={
+                /([0-9])/.test(password) ? 'text-green-600' : 'text-gray-400'
+              }
+            />
+            &nbsp;Number (0-9)
+          </span>
+        </li>
+        <li className="text-sm">
+          <span className="one-special-char">
+            <FontAwesomeIcon
+              icon={/([!,%,&,@,#,$,^,*,?,_,~])/.test(password) ? faCheck : faCircle}
+              className={
+                /([!,%,&,@,#,$,^,*,?,_,~])/.test(password) ? 'text-green-600' : 'text-gray-400'
+              }
+            />
+            &nbsp;Special Character (!@#$%^&*)
+          </span>
+        </li>
+        <li className="text-sm">
+          <span className="eight-character">
+            <FontAwesomeIcon
+              icon={password.length > 7 ? faCheck : faCircle}
+              className={
+                password.length > 7 ? 'text-green-600' : 'text-gray-400'
+              }
+            />
+            &nbsp;At least 8 Characters
+          </span>
+        </li>
+      </ul>
+    </div>
         <p className="text-sm font-semibold mb-2 text-red-600">
           {error.password}
         </p>

@@ -3,10 +3,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { tokenState } from "../store/atoms/auth";
+import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+    
   const [error, setError] = useState({
     email: "",
     password: "",
@@ -75,18 +78,30 @@ const Signin = () => {
           </p>
         </div>
         <div className="mb-4">
-          <label htmlFor="password" className="block text-white">
+          <label htmlFor="password" className="block text-white relative">
             Password
-          </label>
           <input
-            type="password"
+             type={showPassword ? "text" : "password"}
             id="password"
             className="form-input mt-1 p-2 block w-full text-white rounded-lg bg-gray-700"
             placeholder="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+            required/>
+            <span
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-[38px] cursor-pointer ">
+            {showPassword ? (
+                <AiOutlineEyeInvisible
+                    fontSize={24}
+                    fill="#AFB2BF"
+                />
+            ) : (
+                <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+            )}
+                              </span>
+          </label>
+                              
           <p className="text-sm font-semibold mb-2 text-red-600">
             {error.password}
           </p>
