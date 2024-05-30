@@ -80,6 +80,7 @@ export const userSignupController = async (req: Request, res: Response) => {
         data: {
           otp: otp,
           passwordHash,
+          username: data.username,
         },
         select: {
           id: true,
@@ -93,15 +94,11 @@ export const userSignupController = async (req: Request, res: Response) => {
     // Send OTP to user's email
     await sendVerificationEmail(user!.email, otp);
 
-    const token = createJWT({
-      id: user!.id,
-      username: user!.username,
-    });
+    
 
     res.status(201).json({
       message: "User created Successfully.",
       user,
-      token: token,
     });
   } catch (error) {
     console.log(error)
@@ -119,6 +116,7 @@ export const userSignupController = async (req: Request, res: Response) => {
 const otpVerificationSchema = z.object({
   userId: z.string(),
   otp: z.number(),
+  username: z.string(),
 });
 
 export const verifyOtpController = async (req: Request, res: Response) => {
@@ -136,7 +134,7 @@ export const verifyOtpController = async (req: Request, res: Response) => {
       });
     }
 
-    const { userId, otp } = result.data;
+    const { userId, otp, username } = result.data;
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -167,7 +165,10 @@ export const verifyOtpController = async (req: Request, res: Response) => {
         error: { message: "OTP has expired." },
       });
     }
-
+    const token = createJWT({
+      id: user!.id,
+      username: username,
+    });
     await prisma.user.update({
       where: { id: userId },
       data: {
@@ -177,6 +178,7 @@ export const verifyOtpController = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       message: "Email verified successfully.",
+      token,
     });
   } catch (error) {
     console.error("OTP verification error:", error);

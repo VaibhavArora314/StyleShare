@@ -28,7 +28,7 @@ const authMiddleware = (req:UserAuthRequest, res:Response, next: NextFunction) =
     }
 
     req.userId = decodedValue.id;
-    console.log("IN JWT:'",req.userId)
+    // console.log("IN JWT:'",req.userId)
     next();
 }
 

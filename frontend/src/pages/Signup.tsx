@@ -34,7 +34,6 @@ const Signup = () => {
 
 			console.log(response);
 			setUserId(response.data?.user?.id);  // to send while verifying otp
-			setToken(response.data?.token);
 		} catch (e) {
 			const axiosError = e as AxiosError<{
 				error: {
@@ -58,9 +57,11 @@ const Signup = () => {
 			const response = await axios.post("/api/v1/user/verify", {
 				userId,
 				otp: parseInt(otpStr),
+				username: username
 			})
 			console.log(response);
-			setTokenState(token);
+			setToken(response.data?.token);
+			setTokenState(response.data?.token);
 			localStorage.setItem("token", token || "");
 			navigate('/app');
 		} catch (e) {

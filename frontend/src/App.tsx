@@ -43,9 +43,9 @@ function App() {
               <Route
                 path="/app/signup"
                 element={
-                  // <NonAuthenticatedRoute>
+                  <NonAuthenticatedRoute>
                     <Signup />
-                  // </NonAuthenticatedRoute>
+                  </NonAuthenticatedRoute>
                 }
               />
               <Route

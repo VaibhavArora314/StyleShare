@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 // nodemailer = require('nodemailer');
 
 export const sendVerificationEmail = async (email: string, otp: number) => {
-  console.log("Email: ", process.env.EMAIL_USER, process.env.EMAIL_PASS)
+//   console.log("Email: ", process.env.EMAIL_USER, process.env.EMAIL_PASS)
   let transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -89,5 +89,5 @@ export const sendVerificationEmail = async (email: string, otp: number) => {
     `
   });
 
-  console.log("Message sent: %s", info.messageId);
+//   console.log("Message sent: %s", info.messageId);
 };
