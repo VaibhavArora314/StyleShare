@@ -16,8 +16,8 @@ import Profile from "./pages/Profile";
 import OTP from "./pages/Otp.jsx";
 import React from "react";
 import Loader from "./components/Loader";
-import axios from "axios";
-axios.defaults.baseURL = "http://localhost:3001/";
+// import axios from "axios";
+// axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
   return (
