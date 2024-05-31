@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
-import { PostData } from '../types';
+import { IPost } from '../types';
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
-  const [post, setPost] = useState<PostData>({
+  const [post, setPost] = useState<IPost>({
     id: "",
     title: "",
     description: "",

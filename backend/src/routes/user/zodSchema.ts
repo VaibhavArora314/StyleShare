@@ -19,3 +19,7 @@ export const signinBodySchema = zod.object({
     .min(8, { message: "Password too short!" })
     .max(30, { message: "Password too long!" }),
 });
+
+export const otpVerificationSchema = zod.object({
+  otp: zod.number(),
+});

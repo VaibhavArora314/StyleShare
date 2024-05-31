@@ -13,15 +13,34 @@ export const createPostController = async (
 
     if (!userId) {
       return res.status(403).json({
-        error: "Invalid user",
+        error: { message: "Invalid user" },
+      });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        verified: true,
+      },
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({
+        error: { message: "User is not verified!" },
       });
     }
 
     const result = createPostSchema.safeParse(payload);
 
     if (!result.success) {
+      const formattedError: any = {};
+      result.error.errors.forEach((e) => {
+        formattedError[e.path[0]] = e.message;
+      });
       return res.status(411).json({
-        error: result.error.errors,
+        error: { ...formattedError, message: "" },
       });
     }
 
@@ -57,7 +76,9 @@ export const createPostController = async (
     });
   } catch (error) {
     return res.status(500).json({
-      error: "An unexpected exception occurred!",
+      error: {
+        message: "An unexpected exception occurred!",
+      },
     });
   }
 };
