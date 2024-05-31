@@ -129,7 +129,7 @@ const Posts = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
         {filteredPosts.map((post) => (
-          <div key={post.id} className="bg-gray-800 border border-gray-600 p-4 rounded">
+          <div key={post.id} className="bg-gray-800 border border-gray-600 p-4 rounded hover:border-blue-500 hover:-translate-y-2 transition ease-in-out">
             <h2 className="text-lg font-semibold mb-2 text-white">{post.title}</h2>
             <p className="text-gray-400 mb-2">{post.description.length > 100 ? `${post.description.slice(0, 100)}...` : post.description}</p>
             <p className="text-gray-500">By: {post.author.username}</p>
