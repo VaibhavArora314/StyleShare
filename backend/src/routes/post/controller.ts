@@ -83,28 +83,28 @@ export const createPostController = async (
   }
 };
 
-export const getPostsController = async (req: Request, res: Response) => {
-  const posts = await prisma.post.findMany({
-    select: {
-      id: true,
-      title: true,
-      codeSnippet: true,
-      description: true,
-      tags: true,
-      author: {
-        select: {
-          id: true,
-          username: true,
-          email: true,
-        },
-      },
-    },
-  });
+// export const getPostsController = async (req: Request, res: Response) => {
+//   const posts = await prisma.post.findMany({
+//     select: {
+//       id: true,
+//       title: true,
+//       codeSnippet: true,
+//       description: true,
+//       tags: true,
+//       author: {
+//         select: {
+//           id: true,
+//           username: true,
+//           email: true,
+//         },
+//       },
+//     },
+//   });
 
-  res.status(200).json({
-    posts,
-  });
-};
+//   res.status(200).json({
+//     posts,
+//   });
+// };
 
 export const getPostController = async (req: Request, res: Response) => {
   try {
@@ -142,6 +142,49 @@ export const getPostController = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(411).json({
       error: "No such post exists!",
+    });
+  }
+};
+
+export const getPostsWithPagination = async (req: Request, res: Response) => {
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const pageSize = 12; 
+
+    const totalPosts = await prisma.post.count();
+    const totalPages = Math.ceil(totalPosts / pageSize);
+
+    const posts = await prisma.post.findMany({
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      select: {
+        id: true,
+        title: true,
+        codeSnippet: true,
+        description: true,
+        tags: true,
+        author: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    res.status(200).json({
+      posts,
+      page,
+      pageSize,
+      totalPosts,
+      totalPages,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: {
+        message: "An unexpected exception occurred!",
+      },
     });
   }
 };

@@ -13,12 +13,16 @@ const Posts = () => {
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const filterRef = useRef<HTMLDivElement>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('/api/v1/posts');
+        setLoading(true);
+        const response = await axios.get(`/api/v1/posts?page=${page}`);
         setPosts(response.data.posts);
+        setTotalPages(response.data.totalPages);
         setLoading(false);
       } catch (error) {
         setError('Failed to fetch posts');
@@ -27,7 +31,7 @@ const Posts = () => {
     };
 
     fetchPosts();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -70,6 +74,22 @@ const Posts = () => {
      post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
      post.author.username.toLowerCase().includes(searchQuery.toLowerCase()))
   );
+
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
+
+  const handlePageClick = (pageNumber: number) => {
+    setPage(pageNumber);
+  };
 
   if (loading) {
     return <Loader />;
@@ -138,10 +158,37 @@ const Posts = () => {
           className="p-2 w-full max-w-xs rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 w-full lg:grid-cols-3 ">
         {filteredPosts.map((post, index) => (
           <PostCard key={index} post={post} />
         ))}
+      </div>
+      <div className="flex justify-center items-center mt-4 w-full">
+        <button
+          onClick={handlePreviousPage}
+          disabled={page === 1}
+          className={`text-white px-4 py-2 rounded ${page === 1 ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+        >
+          Previous
+        </button>
+        <div className="flex mx-2 space-x-2">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageClick(index + 1)}
+              className={`text-white px-4 py-2 rounded ${page === index + 1 ? 'bg-blue-500 text-white' : 'bg-blue-600 hover:bg-blue-700'}`}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={handleNextPage}
+          disabled={page === totalPages}
+          className={`text-white px-6 py-2 rounded ${page === totalPages ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
