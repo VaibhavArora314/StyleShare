@@ -110,7 +110,13 @@ const Profile = () => {
         </div>
       )}
 
+      <div className="mt-4">
+        <h4 className="font-semibold">Posts</h4>
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
+
       {user?.posts.map(post => <PostCard key={post.id} post={post} />)}
+        </div>
+      </div>
     </div>
   );
 };

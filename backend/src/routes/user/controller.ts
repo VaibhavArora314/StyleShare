@@ -162,7 +162,20 @@ export const userProfileController = async (
       id: true,
       email: true,
       username: true,
-      posts: true,
+      posts: {
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          tags: true,
+          author: {
+            select: {
+              id: true,
+              username: true,
+            }
+          }
+        }
+      },
       verified: true,
     },
   });
