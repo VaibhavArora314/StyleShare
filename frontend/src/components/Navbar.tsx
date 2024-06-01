@@ -80,14 +80,14 @@ const Navbar = () => {
                 Home
               </Link>
             </li>
-            <li className="mb-2">
+            <li >
               <Link to="/app/posts" className={getNavLinkClass("/app/posts")}>
                 Posts
               </Link>
             </li>
             {!isLoggedIn ? (
               <>
-                <li className="">
+                <li >
                   <Link
                     to="/app/signin"
                     className={`py-2 px-3  rounded-full text-white   bg-gradient-to-l from-blue-400 to-pink-500 hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500`}
@@ -95,7 +95,7 @@ const Navbar = () => {
                     Sign in
                   </Link>
                 </li>
-                <li className="">
+                <li >
                   <Link 
                     to="/app/signup"
                     className={`py-2 px-3  rounded-full text-white  bg-gradient-to-l from-blue-400 to-pink-500 hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500`}
