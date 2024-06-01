@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 #root {
-    @apply min-h-screen bg-[#000435]
+  @apply min-h-screen bg-[#000435];
 }

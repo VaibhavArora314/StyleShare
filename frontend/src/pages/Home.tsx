@@ -1,22 +1,40 @@
 import { Link } from "react-router-dom";
+import hero from "../assets/hero.png";
+import bgHero from "../assets/bgHero.png";
+import '../styles/hero.css'
 
 function Home() {
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-8 text-white">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-center">
-        <div>
-          <h1 className="text-6xl font-bold mb-4">Welcome to Style Share</h1>
-          <p className="text-xl  mb-6">
-            A simple web based platform where users can easily create, explore,
-            and share Tailwind CSS components and designs with fellow users.
-          </p>
-          <button className="bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-600">
-            <Link to="/app/posts">Explore</Link>
-          </button>
-        </div>
-        {/* <div className="h-58 w-45 bg-red"></div> */}
-        <div className="hidden md:block">
-          <img src={"https://img.freepik.com/free-vector/hand-drawn-web-developers_23-2148819604.jpg?w=996&t=st=1717153877~exp=1717154477~hmac=e1058df089e7d3f064f8e2a261e53f09f5aac845bf99095fcd7bf80767d31fa1"} alt="Code" className="rounded-lg shadow-lg shadow-blue-500/50 w-144" />
+    <div className="min-h-screen bg-[#000435] text-white" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <div className="max-w-screen-xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-center">
+          <div>
+            <h1 className="text-6xl font-extrabold mb-4 leading-tight">👋 Welcome to Style Share</h1>
+            <h6 className="text-xl mb-3 text-gray-400">
+              A simple web-based platform where users can easily <br/>
+            </h6>
+            <div className="text-xl mb-3 text-gray-400">
+              <span > ✅ create</span><br/>
+              <span> ✅ explore</span><br/>
+              <span> ✅ share</span><br/>
+            </div>
+            <h6 className="text-xl mb-6 text-gray-400">
+            Tailwind CSS components and designs with fellow users.<br/>
+            </h6>
+            <Link
+              to="/app/posts"
+              className="inline-block bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-600 hover:to-blue-400 text-white py-3 px-6 rounded-md shadow-md transition-transform transform hover:-translate-y-1 hover:shadow-lg"
+            >
+              Explore Now
+            </Link>
+          </div>
+          <div className="md:block">
+            <img
+              src={hero}
+              alt="Code"
+              className="imgAnimate w-full"
+            />
+          </div>
         </div>
       </div>
     </div>
