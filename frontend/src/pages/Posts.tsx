@@ -13,12 +13,16 @@ const Posts = () => {
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const filterRef = useRef<HTMLDivElement>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('/api/v1/posts');
+        setLoading(true);
+        const response = await axios.get(`/api/v1/posts?page=${page}&pageSize=12`);
         setPosts(response.data.posts);
+        setTotalPages(response.data.totalPages);
         setLoading(false);
       } catch (error) {
         setError('Failed to fetch posts');
@@ -27,7 +31,7 @@ const Posts = () => {
     };
 
     fetchPosts();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -70,6 +74,22 @@ const Posts = () => {
      post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
      post.author.username.toLowerCase().includes(searchQuery.toLowerCase()))
   );
+
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
+
+  const handlePageClick = (pageNumber: number) => {
+    setPage(pageNumber);
+  };
 
   if (loading) {
     return <Loader />;
@@ -142,6 +162,28 @@ const Posts = () => {
         {filteredPosts.map((post, index) => (
           <PostCard key={index} post={post} />
         ))}
+      </div>
+      <div className="flex justify-center items-center mt-4 w-full space-x-2">
+        <button
+          onClick={handlePreviousPage}
+          disabled={page === 1}
+          className={`text-white px-4 py-2 rounded ${page === 1 ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}        >
+          Previous
+        </button>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i}
+            onClick={() => handlePageClick(i + 1)}
+            className={`text-white px-4 py-2 rounded ${page === i + 1 ? 'bg-blue-500 text-white' : 'bg-blue-600 hover:bg-blue-700'}`}          >
+            {i + 1}
+          </button>
+        ))}
+        <button
+          onClick={handleNextPage}
+          disabled={page === totalPages}
+          className={`text-white px-6 py-2 rounded ${page === totalPages ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}        >
+          Next
+        </button>
       </div>
     </div>
   );
