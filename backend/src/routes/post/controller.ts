@@ -148,8 +148,8 @@ export const getPostController = async (req: Request, res: Response) => {
 
 export const getPostsWithPagination = async (req: Request, res: Response) => {
   try {
-    const page = parseInt(req.query.page as string) || 1;
-    const pageSize = 12; 
+    const page = parseInt(req.query.page as string);
+    const pageSize = parseInt(req.query.pageSize as string); 
 
     const totalPosts = await prisma.post.count();
     const totalPages = Math.ceil(totalPosts / pageSize);
@@ -175,16 +175,9 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
 
     res.status(200).json({
       posts,
-      page,
-      pageSize,
-      totalPosts,
       totalPages,
     });
   } catch (error) {
-    return res.status(500).json({
-      error: {
-        message: "An unexpected exception occurred!",
-      },
-    });
+    res.status(500).json({ error: 'Failed to fetch posts' });
   }
 };
