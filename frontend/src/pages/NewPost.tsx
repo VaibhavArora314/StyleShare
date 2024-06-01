@@ -12,13 +12,14 @@ const NewPost = () => {
   const [tagInput, setTagInput] = useState("");
   const token = useRecoilValue(tokenState);
   const navigate = useNavigate();
-  const [error, setError] = useState({
-    title: "",
-    description: "",
-    codeSnippet: "",
-    tags: "",
-    message: "",
-  });
+  // const [error, setError] = useState({
+  //   title: "",
+  //   description: "",
+  //   codeSnippet: "",
+  //   tags: "",
+  //   message: "",
+  // });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleAddTag = () => {
     if (tagInput.length > 0 && !tags.includes(tagInput)) {
@@ -56,24 +57,17 @@ const NewPost = () => {
           message: string;
         };
       }>;
-      if (axiosError.response && axiosError.response.data) {
-        setError((e) => {
-          e.message = axiosError?.response?.data.error.message || "An unexpected error occurred.";
-          return e;
-        });
-      } else {
-        setError((e) => {
-          e.message = "An unexpected error occurred.";
-          return e;
-        });
-      }
+      setErrorMessage(
+        axiosError?.response?.data?.error.message ||
+          "An unexpected error occurred."
+      );
     }
   };
 
   return (
     <div className="p-6 text-white max-w-screen-xl mx-auto">
       <h2 className="text-2xl font-semibold mb-4">Create New Post</h2>
-      <p className="mt-4">{error.message}</p>
+      <p className="mt-4">{errorMessage}</p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="title" className="block text-sm font-medium">

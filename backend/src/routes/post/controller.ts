@@ -40,7 +40,7 @@ export const createPostController = async (
         formattedError[e.path[0]] = e.message;
       });
       return res.status(411).json({
-        error: { ...formattedError, message: "" },
+        error: { ...formattedError, message: "Invalid Inputs" },
       });
     }
 
