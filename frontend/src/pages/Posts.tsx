@@ -12,6 +12,7 @@ const Posts = () => {
   const [tagInput, setTagInput] = useState('');
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const filterRef = useRef<HTMLDivElement>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -64,11 +65,14 @@ const Posts = () => {
   };
 
   const filteredPosts = posts.filter(post =>
-    filterTags.every(tag => post.tags.map(t => t.toLowerCase()).includes(tag))
+    filterTags.every(tag => post.tags.map(t => t.toLowerCase()).includes(tag)) &&
+    (post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+     post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+     post.author.username.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   if (loading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   if (error) {
@@ -126,10 +130,17 @@ const Posts = () => {
             </div>
           </div>
         )}
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="🔍 Search anything"
+          className="p-2 w-full max-w-xs rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
-        {filteredPosts.map((post) => (
-          <PostCard post={post} />
+        {filteredPosts.map((post, index) => (
+          <PostCard key={index} post={post} />
         ))}
       </div>
     </div>
