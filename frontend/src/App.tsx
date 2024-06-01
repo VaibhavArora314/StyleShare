@@ -14,10 +14,20 @@ import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import Profile from "./pages/Profile";
 import React from "react";
 import Loader from "./components/Loader";
+import BookmarkList from './components/BookmarkList';
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
+  const [bookmarks, setBookmarks] = useState<string[]>([]);
+
+  const handleBookmark = (item: string) => {
+    setBookmarks((prevBookmarks) =>
+      prevBookmarks.includes(item)
+        ? prevBookmarks.filter((bookmark) => bookmark !== item)
+        : [...prevBookmarks, item]
+    );
+  };
   return (
     <BrowserRouter>
       <RecoilRoot>

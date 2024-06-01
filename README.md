@@ -27,7 +27,7 @@ Style Share is a collaborative platform designed to streamline the process of cr
 2. Run the following commands in the backend folder
 
    ```sh
-   npm install
+   npm install 
    npm run build
    npm run dev
    ```

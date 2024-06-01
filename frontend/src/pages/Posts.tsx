@@ -3,8 +3,15 @@ import axios from 'axios';
 import { IPost } from '../types';
 import Loader from '../components/Loader';
 import PostCard from '../components/PostCard';
+import BookmarkButton from '../components/BookmarkButton';
+import React from 'react';
 
-const Posts = () => {
+interface PostsProps {
+  onBookmark: (item: string) => void;
+  bookmarks: string[];
+}
+
+const Posts: React.FC<PostsProps> = ({ onBookmark, bookmarks }) => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -68,7 +75,7 @@ const Posts = () => {
   );
 
   if (loading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   if (error) {
@@ -129,7 +136,13 @@ const Posts = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
         {filteredPosts.map((post) => (
-          <PostCard post={post} />
+          <PostCard key={post.id} post={post}>
+            <BookmarkButton
+              item={post.id}
+              onBookmark={onBookmark}
+              isBookmarked={bookmarks.includes(post.id)}
+            />
+          </PostCard>
         ))}
       </div>
     </div>
