@@ -14,6 +14,9 @@ import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import Profile from "./pages/Profile";
 import React from "react";
 import Loader from "./components/Loader";
+import ContactUs from "./pages/ContactUs";
+import About from "./pages/About";
+import Policy from "./pages/Policy";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -59,6 +62,24 @@ function App() {
                   <AuthenticatedRoute>
                     <Profile />
                   </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/app/contact-us"
+                element={
+                  <ContactUs />
+                }
+              />
+              <Route
+                path="/app/about"
+                element={
+                  <About />
+                }
+              />
+              <Route
+                path="/app/policy"
+                element={
+                  <Policy />
                 }
               />
               <Route path="*" element={<Navigate to="/app" />} />
