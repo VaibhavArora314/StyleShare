@@ -24,19 +24,11 @@ const Navbar = () => {
       : "block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent";
   };
 
-  return (
-    <nav className="border-gray-200 bg-gray-800 fixed top-0 left-0 w-full z-100 py-1 bg-gradient-to-r from-pink-900 to-gray-800">
+   return (
+    <nav className="border-gray-200 bg-gray-800 fixed top-0 left-0 w-full z-10 py-1 bg-gradient-to-r from-pink-900 to-gray-800">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link
-          to="/app"
-          className="flex items-center space-x-3 rtl:space-x-reverse"
-        >
-          {/* <img
-            src=""
-            className="h-8"
-            alt="Logo"
-          /> */}
-          <span className="self-center text-3xl leading-6 font-semibold whitespace-nowrap text-white font-teko ">
+        <Link to="/app" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <span className="self-center text-3xl leading-6 font-semibold whitespace-nowrap text-white font-teko">
             Style Share
           </span>
         </Link>
@@ -67,58 +59,48 @@ const Navbar = () => {
         <div
           className={`${
             isMenuOpen ? "block" : "hidden"
-          } w-full md:block md:w-auto transition-all duration-1000 ease-in-out`}
+          } w-full md:block md:w-auto transition-all duration-300 ease-in-out`}
           id="navbar-default"
         >
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
-            <li className="mb-2">
-              <Link
-                to="/app"
-                className={getNavLinkClass("/app")}
-                aria-current="page"
-              >
+          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
+            <li className="mt-2 md:mb-0">
+              <Link to="/app" className={getNavLinkClass("/app")} aria-current="page">
                 Home
               </Link>
             </li>
-            <li >
+            <li className="mt-2">
               <Link to="/app/posts" className={getNavLinkClass("/app/posts")}>
                 Posts
               </Link>
             </li>
             {!isLoggedIn ? (
-              <>
-                <li >
+              <div className="flex flex-col md:flex-row md:space-x-4">
+                <li className="mb-2 md:mb-0">
                   <Link
                     to="/app/signin"
-                    className={`py-2 px-3  rounded-full text-white   bg-gradient-to-l from-blue-400 to-pink-500 hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500`}
-                    >
+                    className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                  >
                     Sign in
                   </Link>
                 </li>
-                <li >
-                  <Link 
+                <li>
+                  <Link
                     to="/app/signup"
-                    className={`py-2 px-3  rounded-full text-white  bg-gradient-to-l from-blue-400 to-pink-500 hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500`}
+                    className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                   >
                     Sign up
                   </Link>
                 </li>
-              </>
+              </div>
             ) : (
               <>
                 <li>
-                  <Link
-                    to="/app/new-post"
-                    className={getNavLinkClass("/app/new-post")}
-                  >
+                  <Link to="/app/new-post" className={getNavLinkClass("/app/new-post")}>
                     New Post
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/app/profile"
-                    className={getNavLinkClass("/app/profile")}
-                  >
+                  <Link to="/app/profile" className={getNavLinkClass("/app/profile")}>
                     Profile
                   </Link>
                 </li>
