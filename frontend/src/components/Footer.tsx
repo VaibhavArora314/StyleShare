@@ -34,7 +34,7 @@ const Footer = () => {
             <a href="https://github.com/VaibhavArora314/StyleShare"><img src={github} alt="github" className='pointer w-14 h-14'/></a>
             </div>
         </div>
-        <div className='mt-20 text-gray-300 xl:flex justify-center text-md lg:text-xl xl:text-md'>Copyright @ Style Share</div>
+        <div className='mt-20 text-gray-300 xl:flex justify-center text-md lg:text-xl xl:text-md'>Copyright {new Date().getFullYear()} @ Style Share</div>
     </div>
   )
 }
