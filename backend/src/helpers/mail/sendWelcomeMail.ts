@@ -1,3 +1,5 @@
+// import nodemailer from "nodemailer";
+// @ts-ignore
 import nodemailer from "nodemailer";
 
 export const sendWelcomeEmail = async (email: string, username: string) => {

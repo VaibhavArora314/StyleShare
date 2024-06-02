@@ -1,7 +1,11 @@
+// @ts-nocheck
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { IPost } from '../types';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+// import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
@@ -59,9 +63,9 @@ const Post = () => {
           <h2 className="text-2xl font-semibold mb-4">{post.title}</h2>
           <p className="mb-4">{post.description}</p>
           <div className="relative mb-4">
-            <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto">
-              <code>{post.codeSnippet}</code>
-            </pre>
+            <SyntaxHighlighter language="html" style={a11yDark} className="bg-black">
+              {post.codeSnippet}
+            </SyntaxHighlighter>
             <button
               onClick={handleCopy}
               className="absolute top-2 right-2 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"

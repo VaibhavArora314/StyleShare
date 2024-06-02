@@ -51,6 +51,7 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("YOOO")
     try {
       const response = await axios.post("/api/v1/user/signup", {
         username,
