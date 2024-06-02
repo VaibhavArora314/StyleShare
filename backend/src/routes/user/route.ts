@@ -1,13 +1,23 @@
 import { Router } from "express";
-import { userProfileController, userSigninController, userSignupController } from "./controller";
-import authMiddleware from "../../middleware/auth"
+import {
+  generateOtpController,
+  userProfileController,
+  userSigninController,
+  userSignupController,
+  verifyOtpController,
+} from "./controller";
+import authMiddleware from "../../middleware/auth";
 
 const userRouter = Router();
 
-userRouter.post('/signup', userSignupController)
+userRouter.post("/signup", userSignupController);
 
-userRouter.post('/signin', userSigninController)
+userRouter.post("/signin", userSigninController);
 
-userRouter.get('/me', authMiddleware, userProfileController);
+userRouter.post("/generate-otp", authMiddleware, generateOtpController);
+
+userRouter.post("/verify-otp", authMiddleware, verifyOtpController);
+
+userRouter.get("/me", authMiddleware, userProfileController);
 
 export default userRouter;

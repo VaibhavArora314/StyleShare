@@ -1,10 +1,10 @@
 import { Router } from "express";
 import authMiddleware from "../../middleware/auth"
-import { createPostController, getPostController, getPostsController } from "./controller";
+import { createPostController, getPostController, getPostsWithPagination } from "./controller";
 
 const postRouter = Router();
 
-postRouter.get('/', getPostsController)
+postRouter.get('/', getPostsWithPagination);
 
 postRouter.post('/', authMiddleware, createPostController)
 

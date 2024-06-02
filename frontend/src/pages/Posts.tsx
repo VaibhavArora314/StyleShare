@@ -1,23 +1,28 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { PostData } from '../types';
+import { IPost } from '../types';
 import Loader from '../components/Loader';
+import PostCard from '../components/PostCard';
 
 const Posts = () => {
-  const [posts, setPosts] = useState<PostData[]>([]);
+  const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showFilterDialog, setShowFilterDialog] = useState(false);
   const [tagInput, setTagInput] = useState('');
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const filterRef = useRef<HTMLDivElement>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('/api/v1/posts');
+        setLoading(true);
+        const response = await axios.get(`/api/v1/posts?page=${page}&pageSize=12`);
         setPosts(response.data.posts);
+        setTotalPages(response.data.totalPages);
         setLoading(false);
       } catch (error) {
         setError('Failed to fetch posts');
@@ -26,7 +31,7 @@ const Posts = () => {
     };
 
     fetchPosts();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -64,11 +69,30 @@ const Posts = () => {
   };
 
   const filteredPosts = posts.filter(post =>
-    filterTags.every(tag => post.tags.map(t => t.toLowerCase()).includes(tag))
+    filterTags.every(tag => post.tags.map(t => t.toLowerCase()).includes(tag)) &&
+    (post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+     post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+     post.author.username.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
+
+  const handlePageClick = (pageNumber: number) => {
+    setPage(pageNumber);
+  };
+
   if (loading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   if (error) {
@@ -126,21 +150,40 @@ const Posts = () => {
             </div>
           </div>
         )}
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="🔍 Search anything"
+          className="p-2 w-full max-w-xs rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
-        {filteredPosts.map((post) => (
-          <div key={post.id} className="bg-gray-800 border border-gray-600 p-4 rounded">
-            <h2 className="text-lg font-semibold mb-2 text-white">{post.title}</h2>
-            <p className="text-gray-400 mb-2">{post.description.length > 100 ? `${post.description.slice(0, 100)}...` : post.description}</p>
-            <p className="text-gray-500">By: {post.author.username}</p>
-            <div className="mt-2 flex flex-wrap">
-              {post.tags.map((tag, index) => (
-                <span key={index} className="text-sm bg-gray-700 text-white px-2 py-1 rounded mr-2 mb-2">{tag}</span>
-              ))}
-            </div>
-            <Link to={`/app/posts/${post.id}`} className="text-blue-400 hover:text-blue-300">Read more</Link>
-          </div>
+        {filteredPosts.map((post, index) => (
+          <PostCard key={index} post={post} />
         ))}
+      </div>
+      <div className="flex justify-center items-center mt-4 w-full space-x-2">
+        <button
+          onClick={handlePreviousPage}
+          disabled={page === 1}
+          className={`text-white px-4 py-2 rounded ${page === 1 ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}        >
+          Previous
+        </button>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i}
+            onClick={() => handlePageClick(i + 1)}
+            className={`text-white px-4 py-2 rounded ${page === i + 1 ? 'bg-blue-500 text-white' : 'bg-blue-600 hover:bg-blue-700'}`}          >
+            {i + 1}
+          </button>
+        ))}
+        <button
+          onClick={handleNextPage}
+          disabled={page === totalPages}
+          className={`text-white px-6 py-2 rounded ${page === totalPages ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}        >
+          Next
+        </button>
       </div>
     </div>
   );

@@ -1,9 +1,16 @@
 import { Request, Response } from "express";
 import prisma from "../../db";
-import { signinBodySchema, signupBodySchema } from "./zodSchema";
+import {
+  otpVerificationSchema,
+  signinBodySchema,
+  signupBodySchema,
+} from "./zodSchema";
 import { createHash, validatePassword } from "../../helpers/hash";
 import { createJWT } from "../../helpers/jwt";
 import { UserAuthRequest } from "../../helpers/types";
+import crypto from "crypto";
+import { sendVerificationEmail } from "../../helpers/mail/sendOtpMail";
+import { sendWelcomeEmail } from "../../helpers/mail/sendWelcomeMail";
 
 export const userSignupController = async (req: Request, res: Response) => {
   try {
@@ -24,21 +31,14 @@ export const userSignupController = async (req: Request, res: Response) => {
 
     const existingUser = await prisma.user.findFirst({
       where: {
-        OR: [
-          {
-            email: data.email,
-          },
-          {
-            username: data.username,
-          },
-        ],
+        email: data.email,
       },
     });
 
     if (existingUser) {
       return res.status(411).json({
         error: {
-          message: "Username or email already in use.",
+          message: "Email already in use.",
         },
       });
     }
@@ -58,6 +58,8 @@ export const userSignupController = async (req: Request, res: Response) => {
       },
     });
 
+    await sendWelcomeEmail(user.email, user.username);
+
     const token = createJWT({
       id: user.id,
       username: user.username,
@@ -66,9 +68,10 @@ export const userSignupController = async (req: Request, res: Response) => {
     res.status(201).json({
       message: "User created Successfully.",
       user,
-      token: token,
+      token,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       error: {
         message: "An unexpected exception occurred!",
@@ -122,7 +125,7 @@ export const userSigninController = async (req: Request, res: Response) => {
     if (!matchPassword) {
       return res.status(411).json({
         error: {
-          message: "No such user exists",
+          message: "Wrong Password",
         },
       });
     }
@@ -159,7 +162,21 @@ export const userProfileController = async (
       id: true,
       email: true,
       username: true,
-      posts: true,
+      posts: {
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          tags: true,
+          author: {
+            select: {
+              id: true,
+              username: true,
+            }
+          }
+        }
+      },
+      verified: true,
     },
   });
 
@@ -172,4 +189,129 @@ export const userProfileController = async (
   res.status(200).json({
     user,
   });
+};
+
+export const generateOtpController = async (
+  req: UserAuthRequest,
+  res: Response
+) => {
+  try {
+    const userId = req.userId;
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        posts: true,
+        verified: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(411).json({
+        error: "Invalid token",
+      });
+    }
+
+    if (user.verified) {
+      return res.status(411).json({
+        message: "User already verified",
+      });
+    }
+
+    const otp = crypto.randomInt(100000, 999999); // Generate a 6-digit OTP
+
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        otp: otp,
+      }
+    });
+
+    await sendVerificationEmail(user.email, otp);
+
+    res.status(201).json({
+      message: "OTP sent Successfully.",
+    });
+  } catch (error) {
+    console.error("OTP generation error:", error);
+    return res.status(500).json({
+      error: { message: "An unexpected error occurred." },
+    });
+  }
+};
+
+export const verifyOtpController = async (
+  req: UserAuthRequest,
+  res: Response
+) => {
+  try {
+    const payload = req.body;
+    const result = otpVerificationSchema.safeParse(payload);
+
+    if (!result.success) {
+      const formattedError: any = {};
+      result.error.errors.forEach((e) => {
+        formattedError[e.path[0]] = e.message;
+      });
+      return res.status(400).json({
+        error: { ...formattedError, message: "Validation error." },
+      });
+    }
+
+    const { otp } = result.data;
+    const usedId = req.userId;
+
+    const user = await prisma.user.findUnique({
+      where: { id: usedId },
+      select: {
+        id: true,
+        otp: true,
+        createdAt: true,
+        updatedAt: true
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        error: { message: "User not found." },
+      });
+    }
+
+    if (user.otp !== otp) {
+      return res.status(400).json({
+        error: { message: "Invalid OTP." },
+      });
+    }
+
+    const otpAge = Date.now() - new Date(user.updatedAt).getTime();
+    const otpExpiry = 10 * 60 * 1000; // 10 minutes
+
+    if (otpAge > otpExpiry) {
+      return res.status(400).json({
+        error: { message: "OTP has expired." },
+      });
+    }
+    await prisma.user.update({
+      where: { id: usedId },
+      data: {
+        otp: null,
+        verified: true
+      },
+    });
+
+    return res.status(200).json({
+    });
+  } catch (error) {
+    console.error("OTP verification error:", error);
+    return res.status(500).json({
+      error: { message: "An unexpected error occurred." },
+    });
+  }
 };
