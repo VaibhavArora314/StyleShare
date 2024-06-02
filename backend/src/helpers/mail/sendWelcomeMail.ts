@@ -1,6 +1,11 @@
 import nodemailer from "nodemailer";
 
 export const sendWelcomeEmail = async (email: string, username: string) => {
+  if (!process.env.SEND_EMAIL) {
+    console.log("SEND_EMAIL environment variable is not set. Email not sent.");
+    return;
+  }
+
   let transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
