@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { IPost } from '../types';
 import Loader from '../components/Loader';
+import PostCard from '../components/PostCard';
 
 const Posts = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -157,37 +158,30 @@ const Posts = () => {
           className="p-2 w-full max-w-xs rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
         {filteredPosts.map((post, index) => (
-          <div key={index} className="bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-            <h2 className="text-xl font-semibold text-white mb-2">{post.title}</h2>
-            <p className="text-gray-400 mb-4">{post.description}</p>
-            <div className="text-gray-500 text-sm">By {post.author.username}</div>
-          </div>
+          <PostCard key={index} post={post} />
         ))}
       </div>
       <div className="flex justify-center items-center mt-4 w-full space-x-2">
         <button
           onClick={handlePreviousPage}
           disabled={page === 1}
-          className={`text-white px-4 py-2 rounded ${page === 1 ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
-        >
+          className={`text-white px-4 py-2 rounded ${page === 1 ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}        >
           Previous
         </button>
         {Array.from({ length: totalPages }, (_, i) => (
           <button
             key={i}
             onClick={() => handlePageClick(i + 1)}
-            className={`text-white px-4 py-2 rounded ${page === i + 1 ? 'bg-blue-500 text-white' : 'bg-blue-600 hover:bg-blue-700'}`}
-          >
+            className={`text-white px-4 py-2 rounded ${page === i + 1 ? 'bg-blue-500 text-white' : 'bg-blue-600 hover:bg-blue-700'}`}          >
             {i + 1}
           </button>
         ))}
         <button
           onClick={handleNextPage}
           disabled={page === totalPages}
-          className={`text-white px-6 py-2 rounded ${page === totalPages ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
-        >
+          className={`text-white px-6 py-2 rounded ${page === totalPages ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}        >
           Next
         </button>
       </div>
