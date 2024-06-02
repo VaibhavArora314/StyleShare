@@ -1,21 +1,66 @@
 import { useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { loggedInState, tokenState } from "../store/atoms/auth";
+// import { useRecoilValue, useSetRecoilState } from "recoil";
+// import { loggedInState, tokenState } from "../store/atoms/auth";
 import { Link, useLocation } from "react-router-dom";
+import {useKindeAuth} from "@kinde-oss/kinde-auth-react";
+// import axios from "axios";
 
 const Navbar = () => {
+  const { login, register, logout, user, isAuthenticated} = useKindeAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const setTokenState = useSetRecoilState(tokenState);
-  const isLoggedIn = useRecoilValue(loggedInState);
   const location = useLocation();
+  // const setTokenState = useSetRecoilState(tokenState);
+  // const isLoggedIn = useRecoilValue(loggedInState);
+  // const [username, setUsername] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const authRegister = async() => {
+    await register();
+    // setEmail(user?.email || "");
+    // setUsername(user?.given_name || "");
+    // setPassword(user?.id || "");
+    // try {
+    //   const response = await axios.post("/api/v1/user/signup", {
+    //     username,
+    //     email,
+    //     password,
+    //   });
+    //   console.log(response);
+    //   setTokenState(response.data?.token);
+    //   localStorage.setItem("token", response.data?.token || "");
+    // } catch (e) {
+    //   console.log(e);
+    // }
+  }
+  
+  const authLogin = async() => {
+    await login();
+    // setEmail(user?.email || "");
+    // setUsername(user?.given_name || "");
+    // setPassword(user?.id || "");
+    // try {
+    //   const response = await axios.post("/api/v1/user/signin", {
+    //     email,
+    //     password,
+    //   });
+
+    //   console.log(response);
+    //   setTokenState(response.data?.token);
+    //   localStorage.setItem("token", response.data?.token || "");
+    // } catch (e) {
+    //   console.log(e);
+    // }
+  }
+
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setTokenState("");
+    // localStorage.removeItem("token");
+    // setTokenState("");
+    logout();
   };
 
   const getNavLinkClass = (path: string) => {
@@ -85,13 +130,29 @@ const Navbar = () => {
                 Posts
               </Link>
             </li>
-            {!isLoggedIn ? (
+            {!isAuthenticated ? (
               <>
                 <li>
+                  <button
+                    onClick={authRegister}
+                    className={getNavLinkClass("/app/signup")}
+                  >
+                    Sign In
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={authLogin}
+                    className={getNavLinkClass("/app/signin")}
+                  >
+                    Log In
+                  </button>
+                </li>
+                {/* <li>
                   <Link
                     to="/app/signin"
                     className={getNavLinkClass("/app/signin")}
-                  >
+                    >
                     Sign in
                   </Link>
                 </li>
@@ -102,7 +163,7 @@ const Navbar = () => {
                   >
                     Sign up
                   </Link>
-                </li>
+                </li> */}
               </>
             ) : (
               <>
@@ -122,14 +183,39 @@ const Navbar = () => {
                     Profile
                   </Link>
                 </li>
+
                 <li>
+                {isAuthenticated && (<div className="profile-blob">
+                  {user?.picture !== "" ? (
+                        <img
+                          className="avatar"
+                          src={user?.picture || ""}
+                          alt="user profile avatar"
+                        />
+                      ) : (
+                        <div className="avatar">
+                          {user?.given_name?.[0]}
+                          {user?.family_name?.[1]}
+                        </div>
+                      )}
+                      <div>
+                        <p className={getNavLinkClass("/app/profile")}>
+                          {user?.given_name} {user?.family_name}
+                        </p>
+                        <button className={getNavLinkClass("/app/profile")} onClick={handleLogout}>
+                        Logout
+                        </button>
+                      </div>
+                  </div>)}
+                </li>
+                {/* <li>
                   <button
                     className="block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
                     onClick={handleLogout}
                   >
                     Logout
                   </button>
-                </li>
+                </li> */}
               </>
             )}
           </ul>

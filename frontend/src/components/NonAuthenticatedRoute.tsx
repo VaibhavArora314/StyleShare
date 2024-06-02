@@ -1,19 +1,24 @@
 import { ReactElement, useEffect } from "react";
-import { useRecoilValue } from "recoil";
-import { loggedInState } from "../store/atoms/auth";
+// import { useRecoilValue } from "recoil";
+// import { loggedInState } from "../store/atoms/auth";
 import { useNavigate } from "react-router-dom";
+import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 
 type Props = {
   children: ReactElement;
 };
 
 const NonAuthenticatedRoute = ({ children }: Props) => {
-  const isLoggedIn = useRecoilValue(loggedInState);
+  // const isLoggedIn = useRecoilValue(loggedInState);
+  const {isAuthenticated} = useKindeAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoggedIn) navigate("/app");
-  }, [isLoggedIn, navigate]);
+    if (isAuthenticated) navigate("/app");
+  }, [isAuthenticated, navigate]);
+  // useEffect(() => {
+  //   if (isLoggedIn) navigate("/app");
+  // }, [isLoggedIn, navigate]);
 
   return <>{children}</>;
 };

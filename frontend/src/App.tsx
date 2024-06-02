@@ -14,61 +14,70 @@ import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import Profile from "./pages/Profile";
 import React from "react";
 import Loader from "./components/Loader";
+import {KindeProvider} from "@kinde-oss/kinde-auth-react";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
   return (
-    <BrowserRouter>
-      <RecoilRoot>
-        <React.Suspense fallback={<Loader/>}>
-          <Navbar />
+    <KindeProvider
+      clientId="fd0346341fcd415ba68732813029eaec"
+      domain="https://styleshare.kinde.com"
+      redirectUri="http://localhost:3001/app"
+      logoutUri="http://localhost:3001/app"
+	  >
+      <BrowserRouter>
+        <RecoilRoot>
+          <React.Suspense fallback={<Loader/>}>
+            <Navbar />
 
-          <div className="min-h-[80vh]">
-            <Routes>
-              <Route path="/app" element={<Home />} />
-              <Route path="/app/posts/:id" element={<Post />} />
-              <Route path="/app/posts" element={<Posts />} />
-              <Route
-                path="/app/signin"
-                element={
-                  <NonAuthenticatedRoute>
-                    <Signin />
-                  </NonAuthenticatedRoute>
-                }
-              />
-              <Route
-                path="/app/signup"
-                element={
-                  <NonAuthenticatedRoute>
-                    <Signup />
-                  </NonAuthenticatedRoute>
-                }
-              />
-              <Route
-                path="/app/new-post"
-                element={
-                  <AuthenticatedRoute>
-                    <NewPost />
-                  </AuthenticatedRoute>
-                }
-              />
-              <Route
-                path="/app/profile"
-                element={
-                  <AuthenticatedRoute>
-                    <Profile />
-                  </AuthenticatedRoute>
-                }
-              />
-              <Route path="*" element={<Navigate to="/app" />} />
-            </Routes>
-          </div>
+            <div className="min-h-[80vh]">
+              <Routes>
+                <Route path="/app" element={<Home />} />
+                <Route path="/app/posts/:id" element={<Post />} />
+                <Route path="/app/posts" element={<Posts />} />
+                <Route
+                  path="/app/signin"
+                  element={
+                    <NonAuthenticatedRoute>
+                      <Signin />
+                    </NonAuthenticatedRoute>
+                  }
+                />
+                <Route
+                  path="/app/signup"
+                  element={
+                    <NonAuthenticatedRoute>
+                      <Signup />
+                    </NonAuthenticatedRoute>
+                  }
+                />
+                <Route
+                  path="/app/new-post"
+                  element={
+                    <AuthenticatedRoute>
+                      <NewPost />
+                    </AuthenticatedRoute>
+                  }
+                />
+                <Route
+                  path="/app/profile"
+                  element={
+                    <AuthenticatedRoute>
+                      <Profile />
+                    </AuthenticatedRoute>
+                  }
+                />
+                <Route path="*" element={<Navigate to="/app" />} />
+              </Routes>
+            </div>
 
-          <Footer />
-        </React.Suspense>
-      </RecoilRoot>
-    </BrowserRouter>
+            <Footer />
+          </React.Suspense>
+        </RecoilRoot>
+      </BrowserRouter>
+    </KindeProvider>
+    
   );
 }
 
