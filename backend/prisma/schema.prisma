@@ -18,6 +18,8 @@ model User {
   username     String
   email        String
   passwordHash String
+  verified     Boolean  @default(false)
+  otp          Int?
   posts        Post[]   @relation("authorPosts")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

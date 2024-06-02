@@ -1,4 +1,4 @@
-export interface PostData {
+export interface IPost {
   id: string;
   title: string;
   description: string;
@@ -9,4 +9,12 @@ export interface PostData {
     username: string;
     email: string;
   };
+}
+
+export interface IUser {
+  id: string;
+  username: string;
+  email: string;
+  verified: boolean;
+  posts: IPost[];
 }

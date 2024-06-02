@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
@@ -12,6 +12,14 @@ const NewPost = () => {
   const [tagInput, setTagInput] = useState("");
   const token = useRecoilValue(tokenState);
   const navigate = useNavigate();
+  // const [error, setError] = useState({
+  //   title: "",
+  //   description: "",
+  //   codeSnippet: "",
+  //   tags: "",
+  //   message: "",
+  // });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleAddTag = () => {
     if (tagInput.length > 0 && !tags.includes(tagInput)) {
@@ -37,20 +45,29 @@ const NewPost = () => {
     try {
       const response = await axios.post("/api/v1/posts", newPost, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       console.log(response);
-      navigate(`/app/posts/${response.data?.post?.id}`)
-    } catch (error) {
-      console.log(error);
+      navigate(`/app/posts/${response.data?.post?.id}`);
+    } catch (e) {
+      const axiosError = e as AxiosError<{
+        error: {
+          message: string;
+        };
+      }>;
+      setErrorMessage(
+        axiosError?.response?.data?.error.message ||
+          "An unexpected error occurred."
+      );
     }
   };
 
   return (
     <div className="p-6 text-white max-w-screen-xl mx-auto">
       <h2 className="text-2xl font-semibold mb-4">Create New Post</h2>
+      <p className="mt-4">{errorMessage}</p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="title" className="block text-sm font-medium">
@@ -109,7 +126,6 @@ const NewPost = () => {
               </span>
             ))}
           </div>
-          {/* <form onSubmit={handleAddTag} className="flex items-center"> */}
           <input
             type="text"
             id="tagInput"
@@ -124,7 +140,6 @@ const NewPost = () => {
           >
             Add Tag
           </button>
-          {/* </form> */}
         </div>
         <button
           type="submit"

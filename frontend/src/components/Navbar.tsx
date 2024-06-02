@@ -115,6 +115,14 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link
+                    to="/app/profile"
+                    className={getNavLinkClass("/app/profile")}
+                  >
+                    Profile
+                  </Link>
+                </li>
+                <li>
                   <button
                     className="block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
                     onClick={handleLogout}

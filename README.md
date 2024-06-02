@@ -23,12 +23,7 @@ Style Share is a collaborative platform designed to streamline the process of cr
 
 ## Setting Up on your machine
 
-1. Go to the backend folder and create a .env file
-   ```plaintext
-   DATABASE_URL="Mongodb Connection String here"
-   JWT_SECRET="secret"
-   PORT=3001
-   ```
+1. Go to the backend folder and create a .env file similar to [.env.example](https://github.com/VaibhavArora314/StyleShare/blob/main/backend/.env.example)
 2. Run the following commands in the backend folder
 
    ```sh
