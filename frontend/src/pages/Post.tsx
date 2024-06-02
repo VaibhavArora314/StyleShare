@@ -103,7 +103,6 @@ const Post = () => {
                     `<html class='flex w-full h-full'>
                       <head>
                         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-                        // <link rel="stylesheet" href="https://flowbite.com/docs/flowbite.css?v=2.3.0a"> // Uncomment this line to use components from Flowbite website
                         <script>
                           document.addEventListener('DOMContentLoaded', function() {
                             document.querySelectorAll('a[href="#"]').forEach(function(anchor) {
