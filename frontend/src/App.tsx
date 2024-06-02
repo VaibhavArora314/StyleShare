@@ -14,8 +14,8 @@ import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import Profile from "./pages/Profile";
 import React from "react";
 import Loader from "./components/Loader";
-// import axios from "axios";
-// axios.defaults.baseURL = "http://localhost:3001/";
+import axios from "axios";
+axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
         <React.Suspense fallback={<Loader/>}>
           <Navbar />
 
-          <div className="min-h-[80vh]">
+          <div className="min-h-[80vh] mt-12 pt-12" >
             <Routes>
               <Route path="/app" element={<Home />} />
               <Route path="/app/posts/:id" element={<Post />} />
