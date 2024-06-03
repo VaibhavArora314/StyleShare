@@ -5,6 +5,7 @@ import '../styles/hero.css'
 import About from "./About";
 import HomePagePost from "./HomePagePosts";
 import { TypewriterEffectSmoothDemo } from "../components/HeroText";
+import MagicButton from "../components/ui/MagicButton";
 
 function Home() {
   return (
@@ -24,8 +25,8 @@ function Home() {
             </p>
             <Link
               to="/app/posts"
-              className=' bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-600 hover:to-blue-400 text-white py-3 px-6 rounded-md shadow-md transition-transform transform hover:-translate-y-1 hover:shadow-lg w-[150px] text-center font-medium my-6 mx-auto md:mx-0'            >
-              Explore Now
+              className=' text-white mt-9'            >
+             <MagicButton title="Explore Now"/>
             </Link>
         </div>
         <img className="w-[600px] imgAnimate" src={hero} alt="About Us" />
