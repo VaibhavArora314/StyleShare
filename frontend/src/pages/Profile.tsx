@@ -5,11 +5,15 @@ import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import Loader from "../components/Loader";
 import PostCard from "../components/PostCard";
+import { GoUnverified } from "react-icons/go";
+import { GoVerified } from "react-icons/go";
+import { MdOutlineMailOutline } from "react-icons/md";
+import { AiTwotoneInfoCircle } from "react-icons/ai";
 
 const Profile = () => {
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
   const [verificationError, setVerificationError] = useState("");
@@ -26,7 +30,7 @@ const Profile = () => {
         setUser(response.data.user);
         setLoading(false);
       } catch (error) {
-        setError('Failed to fetch user details');
+        setErrorMessage('Failed to fetch user details');
         setLoading(false);
       }
     };
@@ -42,15 +46,16 @@ const Profile = () => {
         }
       });
       setOtpSent(true);
-      setVerificationError("");
-    } catch (error) {
-      setVerificationError('Failed to generate OTP');
+      setVerificationError("OTP sent to your mail");
+    } catch (error:any) {
+      console.log(error)
+      setVerificationError(error.response.data.error.message||'Failed to generate OTP');
     }
   };
 
   const handleVerifyOtp = async () => {
     try {
-      await axios.post('/api/v1/user/verify-otp', { otp:Number(otp) }, {
+      await axios.post('/api/v1/user/verify-otp', { otp: Number(otp) }, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -65,8 +70,9 @@ const Profile = () => {
       setOtpSent(false);
       setOtp("");
       setVerificationError("");
-    } catch (error) {
-      setVerificationError('Failed to verify OTP');
+    } catch (error:any) {
+      console.log(error)
+      setVerificationError(error.response.data.error.message||'Failed to generate OTP');
     }
   };
 
@@ -74,50 +80,63 @@ const Profile = () => {
     return <Loader />;
   }
 
-  if (error) {
-    return <div className='text-red-500 font-semibold text-lg text-center'>{error}</div>;
+  if (errorMessage) {
+    return <div className='text-red-500 font-semibold text-lg text-center'>{errorMessage}</div>;
   }
 
   return (
-    <div className="max-w-screen-xl mx-auto p-4 text-white">
-      <p>Username: {user?.username}</p>
-      <p>Email: {user?.email}</p>
-
-      <p>{user?.verified ? "Verified" : "User is not verified"}</p>
-
-      {!user?.verified && (
-        <div>
-          <button onClick={handleGenerateOtp} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            {otpSent ? "Regenerate OTP" : "Verify Email"}
-          </button>
-          {otpSent && (
-            <div>
-              <input
-                type="number"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                placeholder="Enter OTP"
-                className="mt-2 p-2 border rounded text-gray-800"
-              />
-              <button onClick={handleVerifyOtp} className="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                Verify OTP
-              </button>
-            </div>
-          )}
-          {verificationError && (
-            <div className='text-red-500 mt-2'>{verificationError}</div>
-          )}
+    <>
+      <div className="max-w-screen-xl mx-auto p-4 text-white flex flex-col items-center">
+        <div className="w-80 bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500">
+          <div className="p-2 flex justify-end mr-2">
+            {
+              user?.verified ?
+                <GoVerified className="text-2xl text-white" title="Verified" />
+                :
+                <GoUnverified className="text-2xl text-white" title="Unverified" />
+            }
+          </div>
+          <div className="flex flex-col items-center mb-3">
+            <img src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} width={60} alt="profile-pic" />
+            <p className="p-4 text-xl">{user?.username}</p>
+            <p className="text-sky-400 flex items-center"><MdOutlineMailOutline className="text-xl" /> <span className="ml-2 text-sm">{user?.email}</span></p>
+          </div>
         </div>
-      )}
+        {
+          !user?.verified && (
+            <div className="w-80 mt-6 bg-red-950 backdrop-blur-sm rounded-sm p-3 border border-dashed border-red-500">
+              <div className="flex justify-between items-center">
+                <p className="font-sans text-sm text-white">Please verify your account</p>
+                <button className="bg-red-500 py-2 px-3 rounded-md text-sm hover:bg-red-600" onClick={handleGenerateOtp}>{otpSent ? "Resend OTP" : "Verify"}</button>
+              </div>
+              {
+                otpSent && (
+                  <form method="post" action="#" className="flex justify-around items-center mt-5 mb-4" onSubmit={(e)=>{
+                    e.preventDefault()
+                    handleVerifyOtp()
+                  }}>
+                    <input className="outline-none py-2 px-8 text-black text-md box-content" placeholder="Enter OTP" type="number" name="otp" id="otp" onChange={(e) => { setOtp(e.target.value) }} value={otp} min={100000} max={999999} required />
+                    <button className="bg-blue-500 py-2 px-5 rounded-md text-xs hover:bg-blue-600">Verify OTP</button>
+                  </form>
+                )
+              }
+              {
+                verificationError && (
+                  <div className="py-2 text-sm text-red-300 flex justify-start flex-wrap items-center font-mono"><AiTwotoneInfoCircle className="text-red-500 text-lg me-2" />{verificationError}</div>
+                )
+              }
+            </div>
+          )
+        }
+        <div className="mt-8">
+          <h4 className="font-semibold">Posts ( {user?.posts.length} )</h4>
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
 
-      <div className="mt-4">
-        <h4 className="font-semibold">Posts</h4>
-        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
-
-      {user?.posts.map(post => <PostCard key={post.id} post={post} />)}
+            {user?.posts.map(post => <PostCard key={post.id} post={post} />)}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
