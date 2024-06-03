@@ -6,19 +6,19 @@ export function TypewriterEffectSmoothDemo() {
   const words = [
     {
       text: "👋Welcome",
-      className:"md:text-5xl text-3xl text-white"
+      className:"md:text-3xl lg:text-5xl text-3xl text-white"
     },
     {
       text: "To",
-      className:"text-white md:text-5xl text-3xl"
+      className:"text-white lg:text-5xl md:text-3xl text-3xl"
     },
     {
       text: "Style",
-      className: "text-blue-500 md:text-5xl text-3xl",
+      className: "text-blue-500 lg:text-5xl  md:text-3xl text-3xl",
     },
     {
       text: "Share",
-      className: "text-blue-500 md:text-5xl text-3xl",
+      className: "text-blue-500 lg:text-5xl  md:text-3xl text-3xl",
     },
     
   ];
