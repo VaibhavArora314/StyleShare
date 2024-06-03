@@ -5,7 +5,7 @@ import { TypewriterEffectSmooth } from "./ui/TypeWriter";
 export function TypewriterEffectSmoothDemo() {
   const words = [
     {
-      text: "Welcome",
+      text: "👋Welcome",
       className:"md:text-5xl text-3xl text-white"
     },
     {
