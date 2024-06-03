@@ -71,8 +71,8 @@ const Posts = () => {
   const filteredPosts = posts.filter(post =>
     filterTags.every(tag => post.tags.map(t => t.toLowerCase()).includes(tag)) &&
     (post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-     post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-     post.author.username.toLowerCase().includes(searchQuery.toLowerCase()))
+      post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.author.username.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   const handlePreviousPage = () => {

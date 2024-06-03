@@ -14,6 +14,9 @@ import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import Profile from "./pages/Profile";
 import React from "react";
 import Loader from "./components/Loader";
+import ContactUs from "./pages/ContactUs";
+import About from "./pages/About";
+import Policy from "./pages/Policy";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -21,10 +24,10 @@ function App() {
   return (
     <BrowserRouter>
       <RecoilRoot>
-        <React.Suspense fallback={<Loader/>}>
+        <React.Suspense fallback={<Loader />}>
           <Navbar />
 
-          <div className="min-h-[80vh] mt-12 pt-12" >
+          <div className="min-h-[80vh] mt-12 pt-12">
             <Routes>
               <Route path="/app" element={<Home />} />
               <Route path="/app/posts/:id" element={<Post />} />
@@ -59,6 +62,24 @@ function App() {
                   <AuthenticatedRoute>
                     <Profile />
                   </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/app/contact-us"
+                element={
+                  <ContactUs />
+                }
+              />
+              <Route
+                path="/app/about"
+                element={
+                  <About />
+                }
+              />
+              <Route
+                path="/app/policy"
+                element={
+                  <Policy />
                 }
               />
               <Route path="*" element={<Navigate to="/app" />} />

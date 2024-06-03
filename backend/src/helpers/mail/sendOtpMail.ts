@@ -2,6 +2,11 @@ import nodemailer from "nodemailer";
 import getOtpMailBody from "./otpMailBody";
 
 export const sendVerificationEmail = async (email: string, otp: number) => {
+  if (!process.env.SEND_EMAIL) {
+    console.log("SEND_EMAIL environment variable is not set. Email not sent.");
+    return;
+  }
+
   let transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {

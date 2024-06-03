@@ -1,31 +1,35 @@
 import { Link } from "react-router-dom";
-import { TypewriterEffectSmoothDemo } from "../components/HeroText";
-import MagicButton from "../components/ui/MagicButton";
+import hero from "../assets/hero.png";
+import bgHero from "../assets/bgHero.png";
+import '../styles/hero.css'
+import About from "./About";
+import HomePagePost from "./HomePagePosts";
 
 function Home() {
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-8 text-white">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-center">
-        <div>
-          <h1 className="text-6xl font-bold mb-4">
-            {/* Welcome to Style Share */}
-            <TypewriterEffectSmoothDemo/>
-            </h1>
-          <p className="md:text-[1.3rem] text-[1.1rem]  mb-6 text-gray-300">
-            A simple web based platform where users can easily create, explore,
-            and share Tailwind CSS components and designs with fellow users.
-          </p>
-          <div className=" text-white py-2 rounded-md">
-            <Link to="/app/posts">
-            <MagicButton title="Explore" ></MagicButton>
+    <div className="min-h-screen bg-[#000435] text-white" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <div className="w-full bg-[#000435] py-16 px-4" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <div className="max-w-[1240px] mx-auto grid md:grid-cols-2">
+        <div className="flex flex-col justify-center">
+        <h1 className="text-6xl font-extrabold leading-tight pb-3">👋 Welcome to <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-white inline-block text-transparent bg-clip-text">Style Share !</span></h1>
+          <h1 className='md:text-3xl sm:text-3xl font-medium py-2'>A simple web-based platform where users can easily</h1>
+          <p className="text-lg text-gray-300 font-semibold" >
+          <span> ✅ Contribute</span><br/>
+              <span> ✅ Create</span><br/>
+              <span> ✅ Explore</span><br/>
+              <span> ✅ Share</span><br/>
+            </p>
+            <Link
+              to="/app/posts"
+              className=' bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-600 hover:to-blue-400 text-white py-3 px-6 rounded-md shadow-md transition-transform transform hover:-translate-y-1 hover:shadow-lg w-[150px] text-center font-medium my-6 mx-auto md:mx-0'            >
+              Explore Now
             </Link>
-          </div>
-         </div>
-        {/* <div className="h-58 w-45 bg-red"></div> */}
-        <div className="hidden md:block">
-          <img src={"https://img.freepik.com/free-vector/hand-drawn-web-developers_23-2148819604.jpg?w=996&t=st=1717153877~exp=1717154477~hmac=e1058df089e7d3f064f8e2a261e53f09f5aac845bf99095fcd7bf80767d31fa1"} alt="Code" className="rounded-lg shadow-lg shadow-blue-500/50 w-144" />
         </div>
+        <img className="w-[600px] imgAnimate" src={hero} alt="About Us" />
       </div>
+    </div>
+      <About/>
+      <HomePagePost/>
     </div>
   );
 }
