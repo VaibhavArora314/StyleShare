@@ -23,7 +23,7 @@ const Navbar = () => {
     closeMenu();
   };
 
-  const getNavLinkClass = (path) => {
+  const getNavLinkClass = (path: string) => {
     return location.pathname === path
       ? "block py-2 px-3 bg-blue-700 rounded md:bg-transparent md:p-0 text-white md:text-blue-500"
       : "block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent";
@@ -37,7 +37,7 @@ const Navbar = () => {
             Style Share
           </span>
         </Link>
-        <button
+       <button
           onClick={toggleMenu}
           type="button"
           className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 text-gray-400 hover:bg-gray-700 focus:ring-gray-600"
