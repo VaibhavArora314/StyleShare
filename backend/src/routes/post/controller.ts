@@ -124,7 +124,6 @@ export const getPostController = async (req: Request, res: Response) => {
           select: {
             id: true,
             username: true,
-            email: true,
           },
         },
       },
@@ -167,7 +166,6 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
           select: {
             id: true,
             username: true,
-            email: true,
           },
         },
       },

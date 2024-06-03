@@ -96,6 +96,11 @@ const Post = () => {
     <div className="p-6 text-white max-w-screen-xl mx-auto">
       {post && (
         <>
+        <button onClick={() => window.history.back()} className="mb-4 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg> 
+          </button> 
           <h2 className="text-2xl font-semibold mb-4">{post.title}</h2>
           <p className="mb-4">{post.description}</p>
           <div className="relative mb-4">
@@ -174,7 +179,6 @@ const Post = () => {
           <div className="mb-4">
             <h3 className="text-xl font-semibold mb-2">Author</h3>
             <p>Username: {post.author.username}</p>
-            <p>Email: {post.author.email}</p>
           </div>
         </>
       )}
