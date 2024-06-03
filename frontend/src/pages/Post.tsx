@@ -4,6 +4,7 @@ import axios, { AxiosError } from 'axios';
 import { IPost } from '../types';
 import DOMPurify from 'dompurify';
 import { BiDislike,BiLike,BiSolidDislike,BiSolidLike } from "react-icons/bi";
+import Loader from '../components/Loader'
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
