@@ -24,10 +24,10 @@ function App() {
   return (
     <BrowserRouter>
       <RecoilRoot>
-        <React.Suspense fallback={<Loader/>}>
+        <React.Suspense fallback={<Loader />}>
           <Navbar />
 
-          <div className="min-h-[80vh] mt-12 pt-12" >
+          <div className="min-h-[80vh] mt-12 pt-12">
             <Routes>
               <Route path="/app" element={<Home />} />
               <Route path="/app/posts/:id" element={<Post />} />

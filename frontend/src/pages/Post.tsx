@@ -1,8 +1,9 @@
-import { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import axios, { AxiosError } from 'axios';
-import { IPost } from '../types';
-import DOMPurify from 'dompurify';
+import { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
+import axios, { AxiosError } from "axios";
+import { IPost } from "../types";
+import DOMPurify from "dompurify";
+import Loader from "../components/Loader";
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,17 +16,17 @@ const Post = () => {
     author: {
       id: "",
       username: "",
-      email: ""
-    }
+      email: "",
+    },
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isPreview, setIsPreview] = useState(false);
   const ref = useRef<HTMLIFrameElement>(null);
-  const [height, setHeight] = useState('0px');
+  const [height, setHeight] = useState("0px");
 
   const onLoad = () => {
-    setHeight(ref.current?.contentWindow?.document.body.scrollHeight + 'px');
+    setHeight(ref.current?.contentWindow?.document.body.scrollHeight + "px");
     console.log(ref.current?.contentWindow?.document.body.scrollHeight);
   };
 
@@ -40,7 +41,7 @@ const Post = () => {
           error: string;
         }>;
 
-        setError(axiosError.response?.data.error || 'Failed to fetch the post');
+        setError(axiosError.response?.data.error || "Failed to fetch the post");
         setLoading(false);
       }
     };
@@ -54,7 +55,7 @@ const Post = () => {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(post.codeSnippet);
-    alert('Code snippet copied to clipboard');
+    alert("Code snippet copied to clipboard");
   };
 
   const togglePreview = () => {
@@ -62,28 +63,32 @@ const Post = () => {
   };
 
   if (loading) {
-    return <div className="text-white">Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {
-    return <div className="text-red-500 text-lg w-full text-center mt-5">{error}</div>;
+    return (
+      <div className="text-red-500 text-lg w-full text-center mt-5">
+        {error}
+      </div>
+    );
   }
 
-  DOMPurify.addHook('uponSanitizeElement', (node, data) => {
-    if (data.tagName === 'img' || data.tagName === 'div') {
-      const src = node.getAttribute('src');
-      const style = node.getAttribute('style');
-      if (src && src.startsWith('http')) {
-        node.setAttribute('src', src);
+  DOMPurify.addHook("uponSanitizeElement", (node, data) => {
+    if (data.tagName === "img" || data.tagName === "div") {
+      const src = node.getAttribute("src");
+      const style = node.getAttribute("style");
+      if (src && src.startsWith("http")) {
+        node.setAttribute("src", src);
       }
-      if (style && style.includes('url(')) {
-        node.setAttribute('style', style);
+      if (style && style.includes("url(")) {
+        node.setAttribute("style", style);
       }
     }
   });
 
-  const sanitizedSnippet = DOMPurify.sanitize(post?.codeSnippet || '', {
-    ADD_ATTR: ['style', 'background'],
+  const sanitizedSnippet = DOMPurify.sanitize(post?.codeSnippet || "", {
+    ADD_ATTR: ["style", "background"],
   });
 
   return (
@@ -104,8 +109,7 @@ const Post = () => {
                   ref={ref}
                   onLoad={onLoad}
                   className="w-full h-full border-0"
-                  srcDoc={
-                    `<html class='flex w-full h-full'>
+                  srcDoc={`<html class='flex w-full h-full'>
                       <head>
                         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
                         <script>
@@ -125,7 +129,7 @@ const Post = () => {
                     </html>`}
                   title="Preview"
                   sandbox="allow-scripts allow-same-origin"
-                  style={{ minHeight: height, maxWidth: '100%' }}
+                  style={{ minHeight: height, maxWidth: "100%" }}
                 />
               </div>
             ) : (
@@ -134,18 +138,19 @@ const Post = () => {
               </pre>
             )}
             <div className="absolute top-2 right-3 flex space-x-2">
-              {isPreview ? null :
+              {isPreview ? null : (
                 <button
                   onClick={handleCopy}
                   className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
                 >
                   Copy
-                </button>}
+                </button>
+              )}
               <button
                 onClick={togglePreview}
                 className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
               >
-                {isPreview ? 'Show Code' : 'Preview'}
+                {isPreview ? "Show Code" : "Preview"}
               </button>
             </div>
           </div>
@@ -153,7 +158,10 @@ const Post = () => {
             <h3 className="text-xl font-semibold mb-2">Tags</h3>
             <div className="flex flex-wrap gap-2">
               {post.tags.map((tag, index) => (
-                <span key={index} className="inline-flex items-center px-2 py-1 bg-gray-700 text-sm rounded">
+                <span
+                  key={index}
+                  className="inline-flex items-center px-2 py-1 bg-gray-700 text-sm rounded"
+                >
                   {tag}
                 </span>
               ))}
