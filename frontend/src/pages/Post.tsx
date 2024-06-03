@@ -1,9 +1,10 @@
-// @ts-nocheck
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { IPost } from '../types';
+// @ts-expect-error
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+// @ts-expect-error
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 // import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
