@@ -17,6 +17,8 @@ import Loader from "./components/Loader";
 import ContactUs from "./pages/ContactUs";
 import About from "./pages/About";
 import Policy from "./pages/Policy";
+import ScrollToTopButton from "./components/ScrollToTopButton";
+
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -26,6 +28,7 @@ function App() {
       <RecoilRoot>
         <React.Suspense fallback={<Loader/>}>
           <Navbar />
+          <ScrollToTopButton />
 
           <div className="min-h-[80vh] mt-12 pt-12" >
             <Routes>
