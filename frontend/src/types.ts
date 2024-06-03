@@ -8,7 +8,9 @@ export interface IPost {
     id: string;
     username: string;
     email: string;
-  };
+  },
+  likes: number,
+  dislikes: number,
 }
 
 export interface IUser {

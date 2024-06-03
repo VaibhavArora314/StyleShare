@@ -120,6 +120,8 @@ export const getPostController = async (req: Request, res: Response) => {
         codeSnippet: true,
         description: true,
         tags: true,
+        likes:true,
+        dislikes:true,
         author: {
           select: {
             id: true,
@@ -177,5 +179,137 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch posts' });
+  }
+};
+
+export const likePostController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required." });
+    }
+
+    const interaction = await prisma.userPostInteraction.findUnique({
+      where: {
+        userId_postId: {
+          userId,
+          postId
+        }
+      }
+    });
+
+    if (interaction) {
+      if (interaction.liked) {
+        return res.status(400).json({ error: "You have already liked this post." });
+      } else {
+        await prisma.userPostInteraction.update({
+          where: { id: interaction.id },
+          data: { liked: true, disliked: false }
+        });
+        await prisma.post.update({
+          where: { id: postId },
+          data: {
+            likes: { increment: 1 },
+            dislikes: interaction.disliked ? { decrement: 1 } : undefined
+          }
+        });
+      }
+    } else {
+      await prisma.userPostInteraction.create({
+        data: {
+          userId,
+          postId,
+          liked: true,
+          disliked: false
+        }
+      });
+      await prisma.post.update({
+        where: { id: postId },
+        data: { likes: { increment: 1 } }
+      });
+    }
+
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      select: { likes: true, dislikes: true }
+    });
+
+    res.status(200).json({
+      message: "Post liked successfully!",
+      likes: post?.likes,
+      dislikes: post?.dislikes
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to like the post."
+    });
+  }
+};
+
+export const dislikePostController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required." });
+    }
+
+    const interaction = await prisma.userPostInteraction.findUnique({
+      where: {
+        userId_postId: {
+          userId,
+          postId
+        }
+      }
+    });
+
+    if (interaction) {
+      if (interaction.disliked) {
+        return res.status(400).json({ error: "You have already disliked this post." });
+      } else {
+        await prisma.userPostInteraction.update({
+          where: { id: interaction.id },
+          data: { liked: false, disliked: true }
+        });
+        await prisma.post.update({
+          where: { id: postId },
+          data: {
+            dislikes: { increment: 1 },
+            likes: interaction.liked ? { decrement: 1 } : undefined
+          }
+        });
+      }
+    } else {
+      await prisma.userPostInteraction.create({
+        data: {
+          userId,
+          postId,
+          liked: false,
+          disliked: true
+        }
+      });
+      await prisma.post.update({
+        where: { id: postId },
+        data: { dislikes: { increment: 1 } }
+      });
+    }
+
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      select: { dislikes: true, likes: true }
+    });
+
+    res.status(200).json({
+      message: "Post disliked successfully!",
+      dislikes: post?.dislikes,
+      likes: post?.likes
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to dislike the post."
+    });
   }
 };

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { IPost } from '../types';
 import DOMPurify from 'dompurify';
+import { BiDislike,BiLike,BiSolidDislike,BiSolidLike } from "react-icons/bi";
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,17 +17,20 @@ const Post = () => {
       id: "",
       username: "",
       email: ""
-    }
-  });
+    },
+    likes: 0,
+    dislikes: 0
+  });  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isPreview, setIsPreview] = useState(false);
   const ref = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState('0px');
+  const [userLiked, setUserLiked] = useState(false);
+  const [userDisliked, setUserDisliked] = useState(false);
 
   const onLoad = () => {
     setHeight(ref.current?.contentWindow?.document.body.scrollHeight + 'px');
-    console.log(ref.current?.contentWindow?.document.body.scrollHeight);
   };
 
   useEffect(() => {
@@ -36,10 +40,7 @@ const Post = () => {
         setPost(response.data.post);
         setLoading(false);
       } catch (error) {
-        const axiosError = error as AxiosError<{
-          error: string;
-        }>;
-
+        const axiosError = error as AxiosError<{ error: string }>;
         setError(axiosError.response?.data.error || 'Failed to fetch the post');
         setLoading(false);
       }
@@ -50,17 +51,91 @@ const Post = () => {
 
   useEffect(() => {
     onLoad();
-  }, [isPreview, post.codeSnippet]);
+  }, [isPreview, post?.codeSnippet]);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(post.codeSnippet);
-    alert('Code snippet copied to clipboard');
+    if (post) {
+      navigator.clipboard.writeText(post.codeSnippet);
+      alert('Code snippet copied to clipboard');
+    }
   };
 
   const togglePreview = () => {
     setIsPreview(!isPreview);
   };
 
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const response = await axios.get(`/api/v1/posts/${id}`);
+        setPost(response.data.post);
+        setLoading(false);
+      } catch (error) {
+        const axiosError = error as AxiosError<{ error: string }>;
+        setError(axiosError.response?.data.error || 'Failed to fetch the post');
+        setLoading(false);
+      }
+    };
+
+    fetchPost();
+  }, [id]);
+
+  useEffect(() => {
+    onLoad();
+  }, [isPreview, post?.codeSnippet]);
+
+  useEffect(() => {
+    const userLikedStatus = localStorage.getItem(`post-${id}-liked`);
+    const userDislikedStatus = localStorage.getItem(`post-${id}-disliked`);
+    setUserLiked(userLikedStatus === 'true');
+    setUserDisliked(userDislikedStatus === 'true');
+  }, [id]);
+
+  const handleLike = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('You need to be logged in to like a post');
+        return;
+      }
+      const response = await axios.post(`/api/v1/posts/${id}/like`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setPost(prevPost => ({ ...prevPost, likes: response.data.likes, dislikes: response.data.dislikes }));
+      setUserLiked(true);
+      setUserDisliked(false);
+      localStorage.setItem(`post-${id}-liked`, 'true');
+      localStorage.removeItem(`post-${id}-disliked`);
+    } catch (error) {
+      alert('like is done only once, no spam 😊');
+    }
+  };
+  
+  const handleDislike = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('You need to be logged in to dislike a post');
+        return;
+      }
+      const response = await axios.post(`/api/v1/posts/${id}/dislike`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setPost(prevPost => ({ ...prevPost, dislikes: response.data.dislikes, likes: response.data.likes }));
+      setUserLiked(false);
+      setUserDisliked(true);
+      localStorage.setItem(`post-${id}-disliked`, 'true');
+      localStorage.removeItem(`post-${id}-liked`);
+    } catch (error) {
+      alert('Dislike is done only once, no spam 😊');
+    }
+  };
+  
+  
   if (loading) {
     return <div className="text-white">Loading...</div>;
   }
@@ -90,10 +165,10 @@ const Post = () => {
     <div className="p-6 text-white max-w-screen-xl mx-auto">
       {post && (
         <>
-        <button onClick={() => window.history.back()} className="mb-4 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg> 
+          <button onClick={() => window.history.back()} className="mb-4 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg> 
           </button> 
           <h2 className="text-2xl font-semibold mb-4">{post.title}</h2>
           <p className="mb-4">{post.description}</p>
@@ -163,6 +238,20 @@ const Post = () => {
             <h3 className="text-xl font-semibold mb-2">Author</h3>
             <p>Username: {post.author.username}</p>
           </div>
+          <div className="mb-4">
+          <button
+              onClick={handleLike}
+              className="px-4 py-2 rounded-md border border-[#000435] bg-green-600 hover:bg-green-700 text-white text-sm mr-2"
+            >
+              {userLiked ? <BiSolidLike size={30} /> : <BiLike size={30} />} {post.likes}
+            </button>
+            <button
+              onClick={handleDislike}
+              className="px-4 py-2 rounded-md border border-[#000435] bg-red-600 hover:bg-red-700 text-white text-sm"
+            >
+              {userDisliked ? <BiSolidDislike size={30} /> : <BiDislike size={30} />} {post.dislikes}
+            </button>
+        </div>
         </>
       )}
     </div>

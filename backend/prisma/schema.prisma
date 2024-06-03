@@ -23,6 +23,7 @@ model User {
   posts        Post[]   @relation("authorPosts")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  interactions UserPostInteraction[]
 }
 
 model Post {
@@ -35,4 +36,19 @@ model Post {
   author      User     @relation("authorPosts", fields: [authorId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  likes       Int      @default(0)
+  dislikes    Int      @default(0)
+  interactions UserPostInteraction[]
+}
+
+model UserPostInteraction {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String @db.ObjectId
+  postId    String @db.ObjectId
+  liked     Boolean
+  disliked  Boolean
+  user      User   @relation(fields: [userId], references: [id])
+  post      Post   @relation(fields: [postId], references: [id])
+
+  @@unique([userId, postId])
 }
