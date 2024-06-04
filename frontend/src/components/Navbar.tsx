@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loggedInState, tokenState } from "../store/atoms/auth";
 import { Link, useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,6 +22,7 @@ const Navbar = () => {
     localStorage.removeItem("token");
     setTokenState("");
     closeMenu();
+    toast.success('Logged out successfully')
   };
 
   const getNavLinkClass = (path: string) => {

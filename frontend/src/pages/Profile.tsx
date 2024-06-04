@@ -5,6 +5,7 @@ import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import Loader from "../components/Loader";
 import PostCard from "../components/PostCard";
+import toast from "react-hot-toast";
 
 const Profile = () => {
   const [user, setUser] = useState<IUser | null>(null);
@@ -36,37 +37,39 @@ const Profile = () => {
 
   const handleGenerateOtp = async () => {
     try {
-      await axios.post('/api/v1/user/generate-otp', {}, {
+      const response = await axios.post('/api/v1/user/generate-otp', {}, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       setOtpSent(true);
+      toast.success(response.data.message);
       setVerificationError("");
     } catch (error) {
-      setVerificationError('Failed to generate OTP');
+      toast.error('Failed to generate OTP');
     }
   };
 
   const handleVerifyOtp = async () => {
     try {
-      await axios.post('/api/v1/user/verify-otp', { otp:Number(otp) }, {
+      await axios.post('/api/v1/user/verify-otp', { otp: Number(otp) }, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
 
-      setUser(u => {
+      setUser((u) => {
         if (!u) return u;
 
         u.verified = true;
-        return u
+        return u;
       });
       setOtpSent(false);
       setOtp("");
       setVerificationError("");
+      toast.success('OTP verified successfully');
     } catch (error) {
-      setVerificationError('Failed to verify OTP');
+      toast.error('Failed to verify OTP');
     }
   };
 
@@ -74,12 +77,9 @@ const Profile = () => {
     return <Loader />;
   }
 
-  if (error) {
-    return <div className='text-red-500 font-semibold text-lg text-center'>{error}</div>;
-  }
-
   return (
     <div className="max-w-screen-xl mx-auto p-4 text-white">
+      {error && toast.error(error)}
       <p>Username: {user?.username}</p>
       <p>Email: {user?.email}</p>
 
@@ -113,8 +113,7 @@ const Profile = () => {
       <div className="mt-4">
         <h4 className="font-semibold">Posts</h4>
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
-
-      {user?.posts.map(post => <PostCard key={post.id} post={post} />)}
+          {user?.posts.map(post => <PostCard key={post.id} post={post} />)}
         </div>
       </div>
     </div>

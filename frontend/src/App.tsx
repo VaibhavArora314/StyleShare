@@ -17,6 +17,7 @@ import Loader from "./components/Loader";
 import ContactUs from "./pages/ContactUs";
 import About from "./pages/About";
 import Policy from "./pages/Policy";
+import { Toaster } from 'react-hot-toast';
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -89,6 +90,7 @@ function App() {
           <Footer />
         </React.Suspense>
       </RecoilRoot>
+      <Toaster/>
     </BrowserRouter>
   );
 }

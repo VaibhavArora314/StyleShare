@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import { useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
 
 const NewPost = () => {
   const [title, setTitle] = useState("");
@@ -40,7 +41,6 @@ const NewPost = () => {
       codeSnippet,
       tags,
     };
-    console.log(newPost);
 
     try {
       const response = await axios.post("/api/v1/posts", newPost, {
@@ -49,7 +49,7 @@ const NewPost = () => {
         },
       });
 
-      console.log(response);
+      toast.success(response.data.message)
       navigate(`/app/posts/${response.data?.post?.id}`);
     } catch (e) {
       const axiosError = e as AxiosError<{
