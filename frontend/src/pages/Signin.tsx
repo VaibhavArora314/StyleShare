@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
+import toast from "react-hot-toast";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
@@ -27,24 +28,26 @@ const Signin = () => {
         password,
       });
 
-      console.log(response);
       setTokenState(response.data?.token);
       localStorage.setItem("token", response.data?.token || "");
       navigate('/app');
+      toast.success('Login successfully')
     } catch (e) {
       const axiosError = e as AxiosError<{
         error: {
           message: string;
         };
       }>;
-      // console.log(e);
-      setError((e) => {
-        if (axiosError?.response?.data?.error)
-          return axiosError?.response?.data?.error as typeof e;
-
-        e.message = "An unexpected error occurred";
-        return e;
-      });
+      if (axiosError?.response?.data?.error) {
+        const errorMessage = axiosError.response.data.error.message;
+        toast.error(errorMessage);
+        setError({
+          ...error,
+          message: errorMessage,
+        });
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     }
   };
 
@@ -56,9 +59,6 @@ const Signin = () => {
       <h2 className="text-3xl font-bold mb-4 text-white text-center">
         Sign In
       </h2>
-      <p className="text-lg font-semibold mb-2 text-red-600 text-center">
-        {error.message}
-      </p>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="email" className="block text-white">

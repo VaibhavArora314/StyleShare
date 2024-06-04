@@ -9,6 +9,7 @@ import { GoUnverified } from "react-icons/go";
 import { GoVerified } from "react-icons/go";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { AiTwotoneInfoCircle } from "react-icons/ai";
+import toast from "react-hot-toast";
 
 const Profile = () => {
   const [user, setUser] = useState<IUser | null>(null);
@@ -40,15 +41,16 @@ const Profile = () => {
 
   const handleGenerateOtp = async () => {
     try {
-      await axios.post('/api/v1/user/generate-otp', {}, {
+      const response = await axios.post('/api/v1/user/generate-otp', {}, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       setOtpSent(true);
+      toast.success(response.data.message);
       setVerificationError("OTP sent to your mail");
     } catch (error:any) {
-      console.log(error)
+      toast.error('Failed to generate OTP');
       setVerificationError(error.response.data.error.message||'Failed to generate OTP');
     }
   };
@@ -61,17 +63,18 @@ const Profile = () => {
         }
       });
 
-      setUser(u => {
+      setUser((u) => {
         if (!u) return u;
 
         u.verified = true;
-        return u
+        return u;
       });
       setOtpSent(false);
       setOtp("");
       setVerificationError("");
+      toast.success('OTP verified successfully');
     } catch (error:any) {
-      console.log(error)
+      toast.error('Failed to verify OTP');
       setVerificationError(error.response.data.error.message||'Failed to generate OTP');
     }
   };

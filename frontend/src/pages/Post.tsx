@@ -5,6 +5,7 @@ import { IPost } from '../types';
 import DOMPurify from 'dompurify';
 import { BiDislike,BiLike,BiSolidDislike,BiSolidLike } from "react-icons/bi";
 import Loader from '../components/Loader'
+import toast from 'react-hot-toast';
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
@@ -96,7 +97,7 @@ const Post = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        alert('You need to be logged in to like a post');
+        toast.error('Please login to like a post');
         return;
       }
       const response = await axios.post(`/api/v1/posts/${id}/like`, {}, {
@@ -109,8 +110,9 @@ const Post = () => {
       setUserDisliked(false);
       localStorage.setItem(`post-${id}-liked`, 'true');
       localStorage.removeItem(`post-${id}-disliked`);
+      toast.success(response.data.message)
     } catch (error) {
-      alert('like is done only once, no spam 😊');
+      toast.success('Like is done only once, no spam 😊');
     }
   };
   
@@ -118,7 +120,7 @@ const Post = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        alert('You need to be logged in to dislike a post');
+        toast.error('Please login to dislike a post');
         return;
       }
       const response = await axios.post(`/api/v1/posts/${id}/dislike`, {}, {
@@ -131,8 +133,9 @@ const Post = () => {
       setUserDisliked(true);
       localStorage.setItem(`post-${id}-disliked`, 'true');
       localStorage.removeItem(`post-${id}-liked`);
+      toast.success(response.data.message)
     } catch (error) {
-      alert('Dislike is done only once, no spam 😊');
+      toast.success('Dislike is done only once, no spam 😊');
     }
   };
   

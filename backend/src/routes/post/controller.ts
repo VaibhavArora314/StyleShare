@@ -237,7 +237,7 @@ export const likePostController = async (req: UserAuthRequest, res: Response) =>
     });
 
     res.status(200).json({
-      message: "Post liked successfully!",
+      message: "Post liked successful",
       likes: post?.likes,
       dislikes: post?.dislikes
     });
@@ -303,7 +303,7 @@ export const dislikePostController = async (req: UserAuthRequest, res: Response)
     });
 
     res.status(200).json({
-      message: "Post disliked successfully!",
+      message: "Post disliked successful",
       dislikes: post?.dislikes,
       likes: post?.likes
     });

@@ -7,6 +7,7 @@ import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import zxcvbn, { ZXCVBNResult } from "zxcvbn";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCircle } from "@fortawesome/free-solid-svg-icons";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -61,6 +62,7 @@ const Signup = () => {
       setTokenState(response.data?.token);
       localStorage.setItem("token", response.data?.token || "");
       navigate("/app");
+      toast.success("Signup successfull")
     } catch (e) {
       const axiosError = e as AxiosError<{
         error: {
@@ -72,7 +74,7 @@ const Signup = () => {
         if (axiosError?.response?.data?.error)
           return axiosError?.response?.data?.error as typeof e;
 
-        e.message = "An unexpected error occurred";
+        toast.error("An unexpected error occurred");
         return e;
       });
     }
