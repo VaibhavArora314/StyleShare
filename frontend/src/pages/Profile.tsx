@@ -14,7 +14,6 @@ import toast from "react-hot-toast";
 const Profile = () => {
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
   const [verificationError, setVerificationError] = useState("");
@@ -31,7 +30,7 @@ const Profile = () => {
         setUser(response.data.user);
         setLoading(false);
       } catch (error) {
-        setErrorMessage('Failed to fetch user details');
+        console.log('Failed to fetch user details');
         setLoading(false);
       }
     };
