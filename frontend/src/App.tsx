@@ -17,6 +17,7 @@ import Loader from "./components/Loader";
 import ContactUs from "./pages/ContactUs";
 import About from "./pages/About";
 import Policy from "./pages/Policy";
+import GoTop from "./components/GoTop";
 import { Toaster } from 'react-hot-toast';
 import PageNotFound from "./pages/PageNotFound";
 // import axios from "axios";
@@ -28,7 +29,7 @@ function App() {
       <RecoilRoot>
         <React.Suspense fallback={<Loader />}>
           <Navbar />
-
+          <GoTop/>
           <div className="min-h-[80vh] mt-12 pt-12">
             <Routes>
               <Route path="/app" element={<Home />} />
