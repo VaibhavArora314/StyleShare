@@ -175,7 +175,19 @@ const Post = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg> 
           </button> 
-          <h2 className="text-2xl font-semibold mb-4">{post.title}</h2>
+            <h2 className="text-2xl font-semibold mr-4">{post.title}</h2>
+            <button
+              onClick={handleLike}
+              className="px-4 py-2 my-3 rounded-md border-2 text-white text-sm mr-2"
+            >
+              {userLiked ? <BiSolidLike size={25} /> : <BiLike size={25} />} {post.likes}
+            </button>
+            <button
+              onClick={handleDislike}
+              className="px-4 py-2 rounded-md border-2 text-white text-sm"
+            >
+              {userDisliked ? <BiSolidDislike size={25} /> : <BiDislike size={25} />} {post.dislikes}
+            </button>
           <p className="mb-4">{post.description}</p>
           <div className="relative mb-4">
             {isPreview ? (
@@ -246,20 +258,6 @@ const Post = () => {
             <h3 className="text-xl font-semibold mb-2">Author</h3>
             <p>Username: {post.author.username}</p>
           </div>
-          <div className="mb-4">
-          <button
-              onClick={handleLike}
-              className="px-4 py-2 rounded-md border border-[#000435] bg-green-600 hover:bg-green-700 text-white text-sm mr-2"
-            >
-              {userLiked ? <BiSolidLike size={30} /> : <BiLike size={30} />} {post.likes}
-            </button>
-            <button
-              onClick={handleDislike}
-              className="px-4 py-2 rounded-md border border-[#000435] bg-red-600 hover:bg-red-700 text-white text-sm"
-            >
-              {userDisliked ? <BiSolidDislike size={30} /> : <BiDislike size={30} />} {post.dislikes}
-            </button>
-        </div>
         </>
       )}
     </div>
