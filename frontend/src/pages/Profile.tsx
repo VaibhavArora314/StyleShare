@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 const Profile = () => {
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
   const [verificationError, setVerificationError] = useState("");
@@ -30,7 +31,7 @@ const Profile = () => {
         setUser(response.data.user);
         setLoading(false);
       } catch (error) {
-        console.log('Failed to fetch user details');
+        setErrorMessage('Failed to fetch user details');
         setLoading(false);
       }
     };
@@ -47,9 +48,10 @@ const Profile = () => {
       });
       setOtpSent(true);
       toast.success(response.data.message);
-      setVerificationError("");
-    } catch (error) {
+      setVerificationError("OTP sent to your mail");
+    } catch (error:any) {
       toast.error('Failed to generate OTP');
+      setVerificationError(error.response.data.error.message||'Failed to generate OTP');
     }
   };
 
@@ -71,13 +73,18 @@ const Profile = () => {
       setOtp("");
       setVerificationError("");
       toast.success('OTP verified successfully');
-    } catch (error) {
+    } catch (error:any) {
       toast.error('Failed to verify OTP');
+      setVerificationError(error.response.data.error.message||'Failed to generate OTP');
     }
   };
 
   if (loading) {
     return <Loader />;
+  }
+
+  if (errorMessage) {
+    return <div className='text-red-500 font-semibold text-lg text-center'>{errorMessage}</div>;
   }
 
   return (
