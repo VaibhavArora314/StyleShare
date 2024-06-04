@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -18,6 +18,7 @@ import ContactUs from "./pages/ContactUs";
 import About from "./pages/About";
 import Policy from "./pages/Policy";
 import { Toaster } from 'react-hot-toast';
+import PageNotFound from "./pages/PageNotFound";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -83,7 +84,7 @@ function App() {
                   <Policy />
                 }
               />
-              <Route path="*" element={<Navigate to="/app" />} />
+              <Route path="*" element={<PageNotFound/>} />
             </Routes>
           </div>
 
