@@ -14,10 +14,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "axios": "^1.7.2",
-<<<<<<< Updated upstream
-=======
     "clsx": "^2.1.1",
->>>>>>> Stashed changes
     "dompurify": "^3.1.4",
     "framer-motion": "^11.2.10",
     "react": "^18.2.0",
