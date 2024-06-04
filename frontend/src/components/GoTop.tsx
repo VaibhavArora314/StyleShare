@@ -1,8 +1,7 @@
-// src/ScrollToTopButton.tsx
-import React, { useState, useEffect } from 'react';
-import './ScrollToTopButton.css';
 
-const ScrollToTopButton: React.FC = () => {
+import React, { useState, useEffect } from 'react';
+
+const GoTop: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => {
@@ -28,9 +27,12 @@ const ScrollToTopButton: React.FC = () => {
   }, []);
 
   return (
-    <div className="scroll-to-top">
+    <div className="fixed bottom-5 right-5 z-50">
       {isVisible && (
-        <button onClick={scrollToTop} className="scroll-to-top-button">
+        <button
+          onClick={scrollToTop}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full shadow-md transition-all duration-300"
+        >
           ↑
         </button>
       )}
@@ -38,4 +40,4 @@ const ScrollToTopButton: React.FC = () => {
   );
 };
 
-export default ScrollToTopButton;
+export default GoTop;
