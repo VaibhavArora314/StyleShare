@@ -1,88 +1,136 @@
-## Contributing 📝
-Raise and issue; Get assigned and then work on fixing the issue.
-We welcome contributions to College.ai! Follow these steps to contribute:
+# Contributing to CONTRIBUTING.md
 
-1. **Fork the Repository**: Create your own copy of the repository on your GitHub account.
-![image](https://github.com/debangi29/StyleShare/assets/117537653/b33a38b0-ea03-4adf-88ac-b1ea8f177b84)
+First off, thanks for taking the time to contribute! ❤️
 
+All types of contributions are encouraged and valued. See the [Table of Contents](#table-of-contents) for different ways to help and details about how this project handles them. Please make sure to read the relevant section before making your contribution. It will make it a lot easier for us maintainers and smooth out the experience for all involved. The community looks forward to your contributions. 🎉
 
-2. **Clone the Repository** : Clone the repository for making commits.
-   ```bash
-   git clone https://github.com/VaibhavArora314/StyleShare.git
-   ```
-      <br>
-   
-![image](https://github.com/debangi29/StyleShare/assets/117537653/162abab4-04eb-4e41-99f2-da702bac656b)
+> And if you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your appreciation, which we would also be very happy about:
+> - Star the project
+> - Tweet about it
+> - Refer this project in your project's readme
+> - Mention the project at local meetups and tell your friends/colleagues
 
 
-3. **Create a New Branch** for your feature or bug fix: Make a separate branch to work on specific features or fixes and switch to the correct branch.
-```bash
-git checkout -b <new-branch-name>
-```
-4. **Make Changes** and commit them: Implement your changes and save them with a descriptive commit message.
-```bash
-git add .
-git commit -m "Describe your changes"
-```
-5. **Push Your Changes** to your fork: Upload your committed changes to your GitHub fork.
-   ```bash
-   git push origin <branch_name>
-   ```
-6. **Create a Pull Request ✅**: Propose your changes to be merged into the original repository.
-   <br>
-   
-![image](https://github.com/debangi29/StyleShare/assets/117537653/5ff97d14-0145-45fe-ac44-9cb187624815)
+## Table of Contents
 
-### Development Workflow
-- Always work on a new branch for each issue or feature.
-- Keep your branch up to date with the main repository's master branch.
-- Write clear and descriptive commit messages.
-- Test your changes thoroughly before submitting a pull request.
+- [Code of Conduct](#code-of-conduct)
+- [I Have a Question](#i-have-a-question)
+- [I Want To Contribute](#i-want-to-contribute)
+- [Reporting Bugs](#reporting-bugs)
+- [Suggesting Enhancements](#suggesting-enhancements)
+- [Your First Code Contribution](#your-first-code-contribution)
+- [Improving The Documentation](#improving-the-documentation)
+- [Styleguides](#styleguides)
+- [Commit Messages](#commit-messages)
+- [Join The Project Team](#join-the-project-team)
 
-### Issue Report Process
-1. Go to the project's issues section.
-2. Select the appropriate template for your issue.
-3. Provide a detailed description of the issue.
-4. Wait for the issue to be assigned before starting to work on it.
 
-### **Pull Request Process 🚀**
+## Code of Conduct
 
-1. Ensure that you have self reviewed your code.
-2. Make sure you have added the proper description for the functionality of the code.
-3. I have commented my code, particularly in hard-to-understand areas.
-4. Add screenshot it help in review.
-5. Submit your PR by giving the necesarry information in PR template and hang tight we will review it really soon.
+This project and everyone participating in it is governed by the
+[CONTRIBUTING.md Code of Conduct](blob/master/CODE_OF_CONDUCT.md).
+By participating, you are expected to uphold this code. Please report unacceptable behavior
+to <>.
 
-# Setting Up on your machine ⚙️
-1. Go to the backend folder and create a .env file
-    ```
-    DATABASE_URL="Mongodb Connection String here"
-    JWT_SECRET="secret"
-    PORT=3001
-    ```
-2. Run the following commands in the backend folder
-    ```
-    npm install
-    npm run build
-    npm run dev
-    ```
-    The npm run build cmd will handle the Prisma migrations, and also build the frontend folder which will be served by the express server.
-    
-    Possible Problems:
-    - Prisma may give error for MongoDB replica set, in such case use Mongodb atlas for the database instead of the local database or start a Mongo docker container with the replica set.
-3. In case you are modifying the frontend and you want hot module reloading, then run the following commands in the frontend directory
-    ```
-    npm install
-    npm run dev
-    ```
-    Also, set the default base URL of the backend (don't push this to GitHub) or simply uncomment the following:
-    https://github.com/VaibhavArora314/StyleShare/blob/ffb31d5bd3f68fbd76b300a736d56c2a0f1f77ac/frontend/src/App.tsx#L17-L18
 
-## Resources for Beginners 📚
-### Basics of Git and GitHub 📂
-- [Forking a Repo](https://help.github.com/en/articles/fork-a-repo)
-- [Cloning a Repo](https://help.github.com/en/articles/cloning-a-repository)
-- [Creating a Pull Request](https://help.github.com/en/articles/creating-a-pull-request)
-- [Getting Started with Git and GitHub](https://guides.github.com/introduction/git-handbook/)
-- [Learn GitHub from Scratch](https://www.youtube.com/watch?v=w3jLJU7DT5E)
+## I Have a Question
+
+> If you want to ask a question, we assume that you have read the available [Documentation]().
+
+Before you ask a question, it is best to search for existing [Issues](/issues) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue. It is also advisable to search the internet for answers first.
+
+If you then still feel the need to ask a question and need clarification, we recommend the following:
+
+- Open an [Issue](/issues/new).
+- Provide as much context as you can about what you're running into.
+- Provide project and platform versions (nodejs, npm, etc), depending on what seems relevant.
+
+We will then take care of the issue as soon as possible.
+
+
+
+## I Want To Contribute
+
+> ### Legal Notice 
+> When contributing to this project, you must agree that you have authored 100% of the content, that you have the necessary rights to the content and that the content you contribute may be provided under the project license.
+
+### Reporting Bugs
+
+
+#### Before Submitting a Bug Report
+
+A good bug report shouldn't leave others needing to chase you up for more information. Therefore, we ask you to investigate carefully, collect information and describe the issue in detail in your report. Please complete the following steps in advance to help us fix any potential bug as fast as possible.
+
+- Make sure that you are using the latest version.
+- Determine if your bug is really a bug and not an error on your side e.g. using incompatible environment components/versions (Make sure that you have read the [documentation](). If you are looking for support, you might want to check [this section](#i-have-a-question)).
+- To see if other users have experienced (and potentially already solved) the same issue you are having, check if there is not already a bug report existing for your bug or error in the [bug tracker](issues?q=label%3Abug).
+- Also make sure to search the internet (including Stack Overflow) to see if users outside of the GitHub community have discussed the issue.
+- Collect information about the bug:
+- Stack trace (Traceback)
+- OS, Platform and Version (Windows, Linux, macOS, x86, ARM)
+- Version of the interpreter, compiler, SDK, runtime environment, package manager, depending on what seems relevant.
+- Possibly your input and the output
+- Can you reliably reproduce the issue? And can you also reproduce it with older versions?
+
+
+#### How Do I Submit a Good Bug Report?
+
+> You must never report security related issues, vulnerabilities or bugs including sensitive information to the issue tracker, or elsewhere in public. Instead sensitive bugs must be sent by email to <>.
+
+
+We use GitHub issues to track bugs and errors. If you run into an issue with the project:
+
+- Open an [Issue](/issues/new). (Since we can't be sure at this point whether it is a bug or not, we ask you not to talk about a bug yet and not to label the issue.)
+- Explain the behavior you would expect and the actual behavior.
+- Please provide as much context as possible and describe the *reproduction steps* that someone else can follow to recreate the issue on their own. This usually includes your code. For good bug reports you should isolate the problem and create a reduced test case.
+- Provide the information you collected in the previous section.
+
+Once it's filed:
+
+- The project team will label the issue accordingly.
+- A team member will try to reproduce the issue with your provided steps. If there are no reproduction steps or no obvious way to reproduce the issue, the team will ask you for those steps and mark the issue as `needs-repro`. Bugs with the `needs-repro` tag will not be addressed until they are reproduced.
+- If the team is able to reproduce the issue, it will be marked `needs-fix`, as well as possibly other tags (such as `critical`), and the issue will be left to be [implemented by someone](#your-first-code-contribution).
+
+
+
+
+### Suggesting Enhancements
+
+This section guides you through submitting an enhancement suggestion for CONTRIBUTING.md, **including completely new features and minor improvements to existing functionality**. Following these guidelines will help maintainers and the community to understand your suggestion and find related suggestions.
+
+
+#### Before Submitting an Enhancement
+
+- Make sure that you are using the latest version.
+- Read the [documentation]() carefully and find out if the functionality is already covered, maybe by an individual configuration.
+- Perform a [search](/issues) to see if the enhancement has already been suggested. If it has, add a comment to the existing issue instead of opening a new one.
+- Find out whether your idea fits with the scope and aims of the project. It's up to you to make a strong case to convince the project's developers of the merits of this feature. Keep in mind that we want features that will be useful to the majority of our users and not just a small subset. If you're just targeting a minority of users, consider writing an add-on/plugin library.
+
+
+#### How Do I Submit a Good Enhancement Suggestion?
+
+Enhancement suggestions are tracked as [GitHub issues](/issues).
+
+- Use a **clear and descriptive title** for the issue to identify the suggestion.
+- Provide a **step-by-step description of the suggested enhancement** in as many details as possible.
+- **Describe the current behavior** and **explain which behavior you expected to see instead** and why. At this point you can also tell which alternatives do not work for you.
+- You may want to **include screenshots and animated GIFs** which help you demonstrate the steps or point out the part which the suggestion is related to. You can use [this tool](https://www.cockos.com/licecap/) to record GIFs on macOS and Windows, and [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux. 
+- **Explain why this enhancement would be useful** to most CONTRIBUTING.md users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
+
+
+
+### Your First Code Contribution
+
+
+### Improving The Documentation
+
+
+## Styleguides
+### Commit Messages
+
+
+## Join The Project Team
+
+
+
 
