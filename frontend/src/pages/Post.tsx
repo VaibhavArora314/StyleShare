@@ -196,7 +196,7 @@ const Post = () => {
             </button>
           <p className="mb-4">{post.description}</p>
           <div className="relative mb-4">
-            <SyntaxHighlighter language="html" style={a11yDark} className="bg-black">
+            <SyntaxHighlighter language="html" style={a11yDark} className={`bg-black ${isPreview?'hidden':'visible'}`}>
               {post.codeSnippet}
             </SyntaxHighlighter>
             

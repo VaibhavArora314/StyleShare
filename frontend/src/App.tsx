@@ -17,8 +17,8 @@ import Loader from "./components/Loader";
 import ContactUs from "./pages/ContactUs";
 import About from "./pages/About";
 import Policy from "./pages/Policy";
-// import axios from "axios";
-// axios.defaults.baseURL = "http://localhost:3001/";
+import axios from "axios";
+axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
   return (
