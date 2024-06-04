@@ -112,12 +112,7 @@ const Post = () => {
             <SyntaxHighlighter language="html" style={a11yDark} className="bg-black">
               {post.codeSnippet}
             </SyntaxHighlighter>
-            <button
-              onClick={handleCopy}
-              className="absolute top-2 right-2 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
-            >
-              Copy
-            </button>
+            
             {isPreview ? (
               <div className="p-4 bg-gray-800 z-0 h-full overflow-hidden rounded border border-gray-700">
                 <iframe
@@ -128,7 +123,6 @@ const Post = () => {
                       <head>
                         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
                         <script>
-                          alert('Hello')
                           document.addEventListener('DOMContentLoaded', function() {
                             document.querySelectorAll('a[href="#"]').forEach(function(anchor) {
                               anchor.addEventListener('click', function(e) {
@@ -140,7 +134,7 @@ const Post = () => {
                         </script>
                         </head>
                       <body class='w-full h-full flex items-center justify-center minw-full min-h-full'>
-                        <div class='w-full h-full p-6'>${sanitizedSnippet}</div>
+                        <div class='w-full h-full p-6'> ${sanitizedSnippet}</div>
                         
                       </body>
                     </html>`}
@@ -150,9 +144,10 @@ const Post = () => {
                 />
               </div>
             ) : (
-              <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96 line-numbers language-html">
-                <code>{post.codeSnippet}</code>
-              </pre>
+              // <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96 line-numbers language-html">
+              //   <code>{post.codeSnippet}</code>
+              // </pre>
+              ''
             )}
             <div className="absolute top-2 right-3 flex space-x-2">
               {isPreview ? null : (
