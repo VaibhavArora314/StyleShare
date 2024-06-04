@@ -13,9 +13,14 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     setTokenState("");
+    closeMenu();
   };
 
   const getNavLinkClass = (path: string) => {
@@ -24,15 +29,15 @@ const Navbar = () => {
       : "block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent";
   };
 
-   return (
+  return (
     <nav className="border-gray-200 bg-gray-800 fixed top-0 left-0 w-full z-10 py-1 bg-gradient-to-r from-pink-900 to-gray-800">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link to="/app" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <Link to="/app" className="flex items-center space-x-3 rtl:space-x-reverse" onClick={closeMenu}>
           <span className="self-center text-3xl leading-6 font-semibold whitespace-nowrap text-white font-teko">
             Style Share
           </span>
         </Link>
-        <button
+       <button
           onClick={toggleMenu}
           type="button"
           className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 text-gray-400 hover:bg-gray-700 focus:ring-gray-600"
@@ -64,12 +69,12 @@ const Navbar = () => {
         >
           <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
             <li className="mt-2 md:mb-0">
-              <Link to="/app" className={getNavLinkClass("/app")} aria-current="page">
+              <Link to="/app" className={getNavLinkClass("/app")} aria-current="page" onClick={closeMenu}>
                 Home
               </Link>
             </li>
             <li className="mt-2">
-              <Link to="/app/posts" className={getNavLinkClass("/app/posts")}>
+              <Link to="/app/posts" className={getNavLinkClass("/app/posts")} onClick={closeMenu}>
                 Posts
               </Link>
             </li>
@@ -79,6 +84,7 @@ const Navbar = () => {
                   <Link
                     to="/app/signin"
                     className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                    onClick={closeMenu}
                   >
                     Sign in
                   </Link>
@@ -87,6 +93,7 @@ const Navbar = () => {
                   <Link
                     to="/app/signup"
                     className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                    onClick={closeMenu}
                   >
                     Sign up
                   </Link>
@@ -95,12 +102,12 @@ const Navbar = () => {
             ) : (
               <>
                 <li className="mt-2">
-                  <Link to="/app/new-post" className={getNavLinkClass("/app/new-post")}>
+                  <Link to="/app/new-post" className={getNavLinkClass("/app/new-post")} onClick={closeMenu}>
                     New Post
                   </Link>
                 </li>
                 <li className="mt-2">
-                  <Link to="/app/profile" className={getNavLinkClass("/app/profile")}>
+                  <Link to="/app/profile" className={getNavLinkClass("/app/profile")} onClick={closeMenu}>
                     Profile
                   </Link>
                 </li>
