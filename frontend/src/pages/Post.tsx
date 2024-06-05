@@ -3,6 +3,10 @@ import { useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { IPost } from '../types';
 import DOMPurify from 'dompurify';
+import { BiDislike,BiLike,BiSolidDislike,BiSolidLike } from "react-icons/bi";
+import Loader from '../components/Loader'
+import toast from 'react-hot-toast';
+import { TwitterShareButton, LinkedinShareButton, FacebookShareButton, TelegramShareButton, LinkedinIcon, FacebookIcon, TelegramIcon, XIcon, WhatsappShareButton, WhatsappIcon } from 'react-share';
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,17 +20,22 @@ const Post = () => {
       id: "",
       username: "",
       email: ""
-    }
-  });
+    },
+    likes: 0,
+    dislikes: 0
+  });  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isPreview, setIsPreview] = useState(false);
   const ref = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState('0px');
+  const [userLiked, setUserLiked] = useState(false);
+  const [userDisliked, setUserDisliked] = useState(false);
+  const shareUrl=`http://style-share.vercel.app/app/posts/${post.id}`
+  const title= `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`
 
   const onLoad = () => {
     setHeight(ref.current?.contentWindow?.document.body.scrollHeight + 'px');
-    console.log(ref.current?.contentWindow?.document.body.scrollHeight);
   };
 
   useEffect(() => {
@@ -36,10 +45,7 @@ const Post = () => {
         setPost(response.data.post);
         setLoading(false);
       } catch (error) {
-        const axiosError = error as AxiosError<{
-          error: string;
-        }>;
-
+        const axiosError = error as AxiosError<{ error: string }>;
         setError(axiosError.response?.data.error || 'Failed to fetch the post');
         setLoading(false);
       }
@@ -50,47 +56,144 @@ const Post = () => {
 
   useEffect(() => {
     onLoad();
-  }, [isPreview, post.codeSnippet]);
+  }, [isPreview, post?.codeSnippet]);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(post.codeSnippet);
-    alert('Code snippet copied to clipboard');
+    if (post) {
+      navigator.clipboard.writeText(post.codeSnippet);
+      alert('Code snippet copied to clipboard');
+    }
   };
 
   const togglePreview = () => {
     setIsPreview(!isPreview);
   };
 
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const response = await axios.get(`/api/v1/posts/${id}`);
+        setPost(response.data.post);
+        setLoading(false);
+      } catch (error) {
+        const axiosError = error as AxiosError<{ error: string }>;
+        setError(axiosError.response?.data.error || 'Failed to fetch the post');
+        setLoading(false);
+      }
+    };
+
+    fetchPost();
+  }, [id]);
+
+  useEffect(() => {
+    onLoad();
+  }, [isPreview, post?.codeSnippet]);
+
+  useEffect(() => {
+    const userLikedStatus = localStorage.getItem(`post-${id}-liked`);
+    const userDislikedStatus = localStorage.getItem(`post-${id}-disliked`);
+    setUserLiked(userLikedStatus === 'true');
+    setUserDisliked(userDislikedStatus === 'true');
+  }, [id]);
+
+  const handleLike = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please login to like a post');
+        return;
+      }
+      const response = await axios.post(`/api/v1/posts/${id}/like`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setPost(prevPost => ({ ...prevPost, likes: response.data.likes, dislikes: response.data.dislikes }));
+      setUserLiked(true);
+      setUserDisliked(false);
+      localStorage.setItem(`post-${id}-liked`, 'true');
+      localStorage.removeItem(`post-${id}-disliked`);
+      toast.success(response.data.message)
+    } catch (error) {
+      toast.success('Like is done only once, no spam 😊');
+    }
+  };
+  
+  const handleDislike = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please login to dislike a post');
+        return;
+      }
+      const response = await axios.post(`/api/v1/posts/${id}/dislike`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setPost(prevPost => ({ ...prevPost, dislikes: response.data.dislikes, likes: response.data.likes }));
+      setUserLiked(false);
+      setUserDisliked(true);
+      localStorage.setItem(`post-${id}-disliked`, 'true');
+      localStorage.removeItem(`post-${id}-liked`);
+      toast.success(response.data.message)
+    } catch (error) {
+      toast.success('Dislike is done only once, no spam 😊');
+    }
+  };
+  
+  
   if (loading) {
-    return <div className="text-white">Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {
-    return <div className="text-red-500 text-lg w-full text-center mt-5">{error}</div>;
+    return (
+      <div className="text-red-500 text-lg w-full text-center mt-5">
+        {error}
+      </div>
+    );
   }
 
-  DOMPurify.addHook('uponSanitizeElement', (node, data) => {
-    if (data.tagName === 'img' || data.tagName === 'div') {
-      const src = node.getAttribute('src');
-      const style = node.getAttribute('style');
-      if (src && src.startsWith('http')) {
-        node.setAttribute('src', src);
+  DOMPurify.addHook("uponSanitizeElement", (node, data) => {
+    if (data.tagName === "img" || data.tagName === "div") {
+      const src = node.getAttribute("src");
+      const style = node.getAttribute("style");
+      if (src && src.startsWith("http")) {
+        node.setAttribute("src", src);
       }
-      if (style && style.includes('url(')) {
-        node.setAttribute('style', style);
+      if (style && style.includes("url(")) {
+        node.setAttribute("style", style);
       }
     }
   });
 
-  const sanitizedSnippet = DOMPurify.sanitize(post?.codeSnippet || '', {
-    ADD_ATTR: ['style', 'background'],
+  const sanitizedSnippet = DOMPurify.sanitize(post?.codeSnippet || "", {
+    ADD_ATTR: ["style", "background"],
   });
 
   return (
     <div className="p-6 text-white max-w-screen-xl mx-auto">
       {post && (
         <>
-          <h2 className="text-2xl font-semibold mb-4">{post.title}</h2>
+          <button onClick={() => window.history.back()} className="mb-4 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg> 
+          </button> 
+            <h2 className="text-2xl font-semibold mr-4">{post.title}</h2>
+            <button
+              onClick={handleLike}
+              className="px-4 py-2 my-3 rounded-md border-2 text-white text-sm mr-2"
+            >
+              {userLiked ? <BiSolidLike size={25} /> : <BiLike size={25} />} {post.likes}
+            </button>
+            <button
+              onClick={handleDislike}
+              className="px-4 py-2 rounded-md border-2 text-white text-sm"
+            >
+              {userDisliked ? <BiSolidDislike size={25} /> : <BiDislike size={25} />} {post.dislikes}
+            </button>
           <p className="mb-4">{post.description}</p>
           <div className="relative mb-4">
             {isPreview ? (
@@ -99,11 +202,9 @@ const Post = () => {
                   ref={ref}
                   onLoad={onLoad}
                   className="w-full h-full border-0"
-                  srcDoc={
-                    `<html class='flex w-full h-full'>
+                  srcDoc={`<html class='flex w-full h-full'>
                       <head>
                         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-                        // <link rel="stylesheet" href="https://flowbite.com/docs/flowbite.css?v=2.3.0a"> // Uncomment this line to use components from Flowbite website
                         <script>
                           document.addEventListener('DOMContentLoaded', function() {
                             document.querySelectorAll('a[href="#"]').forEach(function(anchor) {
@@ -121,7 +222,7 @@ const Post = () => {
                     </html>`}
                   title="Preview"
                   sandbox="allow-scripts allow-same-origin"
-                  style={{ minHeight: height, maxWidth: '100%' }}
+                  style={{ minHeight: height, maxWidth: "100%" }}
                 />
               </div>
             ) : (
@@ -130,18 +231,19 @@ const Post = () => {
               </pre>
             )}
             <div className="absolute top-2 right-3 flex space-x-2">
-              {isPreview ? null :
+              {isPreview ? null : (
                 <button
                   onClick={handleCopy}
                   className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
                 >
                   Copy
-                </button>}
+                </button>
+              )}
               <button
                 onClick={togglePreview}
                 className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
               >
-                {isPreview ? 'Show Code' : 'Preview'}
+                {isPreview ? "Show Code" : "Preview"}
               </button>
             </div>
           </div>
@@ -149,16 +251,35 @@ const Post = () => {
             <h3 className="text-xl font-semibold mb-2">Tags</h3>
             <div className="flex flex-wrap gap-2">
               {post.tags.map((tag, index) => (
-                <span key={index} className="inline-flex items-center px-2 py-1 bg-gray-700 text-sm rounded">
+                <span
+                  key={index}
+                  className="inline-flex items-center px-2 py-1 bg-gray-700 text-sm rounded"
+                >
                   {tag}
                 </span>
               ))}
             </div>
           </div>
-          <div className="mb-4">
+          <div className="mb-3">
             <h3 className="text-xl font-semibold mb-2">Author</h3>
-            <p>Username: {post.author.username}</p>
-            <p>Email: {post.author.email}</p>
+            <p className='text-base'>Username: {post.author.username}</p>
+          </div>
+          <div className="flex space-x-2">
+          <TelegramShareButton url={shareUrl} title={title}>
+              <TelegramIcon size={35} round />
+            </TelegramShareButton>
+            <TwitterShareButton url={shareUrl} title={title}>
+              <XIcon size={35} round />
+            </TwitterShareButton>
+            <WhatsappShareButton url={shareUrl} title={title}>
+              <WhatsappIcon size={35} round />
+            </WhatsappShareButton>
+            <LinkedinShareButton url={shareUrl} title={title} summary={title}> 
+              <LinkedinIcon size={35} round />
+            </LinkedinShareButton>
+            <FacebookShareButton url={shareUrl} title={title} >
+              <FacebookIcon size={35} round />
+            </FacebookShareButton>
           </div>
         </>
       )}
