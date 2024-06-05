@@ -7,6 +7,7 @@ import { BiDislike,BiLike,BiSolidDislike,BiSolidLike } from "react-icons/bi";
 import Loader from '../components/Loader'
 import toast from 'react-hot-toast';
 import { TwitterShareButton, LinkedinShareButton, FacebookShareButton, TelegramShareButton, LinkedinIcon, FacebookIcon, TelegramIcon, XIcon, WhatsappShareButton, WhatsappIcon } from 'react-share';
+import Comment from './Comment';
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,7 +23,8 @@ const Post = () => {
       email: ""
     },
     likes: 0,
-    dislikes: 0
+    dislikes: 0,
+    comments:[]
   });  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -31,6 +33,7 @@ const Post = () => {
   const [height, setHeight] = useState('0px');
   const [userLiked, setUserLiked] = useState(false);
   const [userDisliked, setUserDisliked] = useState(false);
+
   const shareUrl=`http://style-share.vercel.app/app/posts/${post.id}`
   const title= `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`
 
@@ -142,7 +145,6 @@ const Post = () => {
     }
   };
   
-  
   if (loading) {
     return <Loader />;
   }
@@ -195,7 +197,7 @@ const Post = () => {
               {userDisliked ? <BiSolidDislike size={25} /> : <BiDislike size={25} />} {post.dislikes}
             </button>
           <p className="mb-4">{post.description}</p>
-          <div className="relative mb-4">
+          <div className="relative my-4">
             {isPreview ? (
               <div className="p-4 bg-gray-800 z-0 h-full overflow-hidden rounded border border-gray-700">
                 <iframe
@@ -248,7 +250,7 @@ const Post = () => {
             </div>
           </div>
           <div className="mb-4">
-            <h3 className="text-xl font-semibold mb-2">Tags</h3>
+            <h3 className="text-xl font-semibold my-2">Tags</h3>
             <div className="flex flex-wrap gap-2">
               {post.tags.map((tag, index) => (
                 <span
@@ -260,11 +262,11 @@ const Post = () => {
               ))}
             </div>
           </div>
-          <div className="mb-3">
-            <h3 className="text-xl font-semibold mb-2">Author</h3>
-            <p className='text-base'>Username: {post.author.username}</p>
+          <div className="my-5">
+            <h3 className="text-xl font-semibold my-2">Author</h3>
+            <p className='text-lg'>User: @{post.author.username}</p>
           </div>
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 my-4">
           <TelegramShareButton url={shareUrl} title={title}>
               <TelegramIcon size={35} round />
             </TelegramShareButton>
@@ -281,6 +283,7 @@ const Post = () => {
               <FacebookIcon size={35} round />
             </FacebookShareButton>
           </div>
+          <Comment/>
         </>
       )}
     </div>

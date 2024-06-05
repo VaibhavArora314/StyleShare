@@ -83,29 +83,6 @@ export const createPostController = async (
   }
 };
 
-// export const getPostsController = async (req: Request, res: Response) => {
-//   const posts = await prisma.post.findMany({
-//     select: {
-//       id: true,
-//       title: true,
-//       codeSnippet: true,
-//       description: true,
-//       tags: true,
-//       author: {
-//         select: {
-//           id: true,
-//           username: true,
-//           email: true,
-//         },
-//       },
-//     },
-//   });
-
-//   res.status(200).json({
-//     posts,
-//   });
-// };
-
 export const getPostController = async (req: Request, res: Response) => {
   try {
     const postId = req.params.id;
@@ -128,6 +105,7 @@ export const getPostController = async (req: Request, res: Response) => {
             username: true,
           },
         },
+        comments:true
       },
     });
 
@@ -310,6 +288,78 @@ export const dislikePostController = async (req: UserAuthRequest, res: Response)
   } catch (error) {
     res.status(500).json({
       error: "Failed to dislike the post."
+    });
+  }
+};
+
+export const createCommentController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const { postId } = req.params;
+    const { content } = req.body;
+
+    if (!userId) {
+      return res.status(403).json({ error: "Invalid user" });
+    }
+
+    const comment = await prisma.comment.create({
+      data: {
+        content,
+        userId,
+        postId
+      },
+      select: {
+        id: true,
+        content: true,
+        user: {
+          select: {
+            id: true,
+            username: true,
+          }
+        },
+        createdAt: true
+      }
+    });
+
+    res.status(201).json({
+      message: "Successfully created comment!",
+      comment,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const getCommentsController = async (req: Request, res: Response) => {
+  try {
+    const { postId } = req.params;
+
+    const comments = await prisma.comment.findMany({
+      where: { postId },
+      select: {
+        id: true,
+        content: true,
+        user: {
+          select: {
+            id: true,
+            username: true,
+          }
+        },
+        createdAt: true
+      },
+      orderBy: {
+        createdAt: 'desc',
+      }
+    });
+
+    res.status(200).json({
+      comments,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to fetch comments",
     });
   }
 };

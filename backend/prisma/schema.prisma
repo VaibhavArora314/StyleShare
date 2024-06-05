@@ -24,6 +24,7 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   interactions UserPostInteraction[]
+  comments     Comment[] @relation("userComments")
 }
 
 model Post {
@@ -39,6 +40,7 @@ model Post {
   likes       Int      @default(0)
   dislikes    Int      @default(0)
   interactions UserPostInteraction[]
+  comments    Comment[] @relation("postComments")
 }
 
 model UserPostInteraction {
@@ -51,4 +53,15 @@ model UserPostInteraction {
   post      Post   @relation(fields: [postId], references: [id])
 
   @@unique([userId, postId])
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  userId    String   @db.ObjectId
+  postId    String   @db.ObjectId
+  user      User     @relation("userComments", fields: [userId], references: [id])
+  post      Post     @relation("postComments", fields: [postId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
