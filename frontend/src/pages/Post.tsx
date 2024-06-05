@@ -6,6 +6,7 @@ import DOMPurify from 'dompurify';
 import { BiDislike,BiLike,BiSolidDislike,BiSolidLike } from "react-icons/bi";
 import Loader from '../components/Loader'
 import toast from 'react-hot-toast';
+import { TwitterShareButton, LinkedinShareButton, FacebookShareButton, TelegramShareButton, LinkedinIcon, FacebookIcon, TelegramIcon, XIcon, WhatsappShareButton, WhatsappIcon } from 'react-share';
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
@@ -30,6 +31,8 @@ const Post = () => {
   const [height, setHeight] = useState('0px');
   const [userLiked, setUserLiked] = useState(false);
   const [userDisliked, setUserDisliked] = useState(false);
+  const shareUrl=`http://style-share.vercel.app/app/posts/${post.id}`
+  const title= `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`
 
   const onLoad = () => {
     setHeight(ref.current?.contentWindow?.document.body.scrollHeight + 'px');
@@ -257,9 +260,26 @@ const Post = () => {
               ))}
             </div>
           </div>
-          <div className="mb-4">
+          <div className="mb-3">
             <h3 className="text-xl font-semibold mb-2">Author</h3>
-            <p>Username: {post.author.username}</p>
+            <p className='text-base'>Username: {post.author.username}</p>
+          </div>
+          <div className="flex space-x-2">
+          <TelegramShareButton url={shareUrl} title={title}>
+              <TelegramIcon size={35} round />
+            </TelegramShareButton>
+            <TwitterShareButton url={shareUrl} title={title}>
+              <XIcon size={35} round />
+            </TwitterShareButton>
+            <WhatsappShareButton url={shareUrl} title={title}>
+              <WhatsappIcon size={35} round />
+            </WhatsappShareButton>
+            <LinkedinShareButton url={shareUrl} title={title} summary={title}> 
+              <LinkedinIcon size={35} round />
+            </LinkedinShareButton>
+            <FacebookShareButton url={shareUrl} title={title} >
+              <FacebookIcon size={35} round />
+            </FacebookShareButton>
           </div>
         </>
       )}
