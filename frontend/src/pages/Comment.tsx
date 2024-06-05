@@ -47,12 +47,17 @@ const Comment = () => {
       fetchComments();
       setCommentContent('');
       toast.success(response.data.message);
-    } catch (error) {
-      toast.error('Failed to add comment');
+    } catch (error:any) {
+      if (error.response && error.response.status === 403) {
+        toast.error(error.response.data.error.message || 'User is not verified!');
+      } else {
+        toast.error('Failed to submit comment. Please try again later.');
+      }
     } finally {
       setSubmitting(false);
     }
   };
+  
 
   if (loading) {
     return <Loader />;

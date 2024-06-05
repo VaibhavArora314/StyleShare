@@ -302,6 +302,21 @@ export const createCommentController = async (req: UserAuthRequest, res: Respons
       return res.status(403).json({ error: "Invalid user" });
     }
 
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        verified: true,
+      },
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({
+        error: { message: "User is not verified!" },
+      });
+    }
+
     const comment = await prisma.comment.create({
       data: {
         content,
