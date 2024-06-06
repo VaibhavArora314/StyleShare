@@ -20,6 +20,7 @@ import Policy from "./pages/Policy";
 import GoTop from "./components/GoTop";
 import { Toaster } from 'react-hot-toast';
 import PageNotFound from "./pages/PageNotFound";
+import Favorite from "./pages/Favorite";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -68,6 +69,14 @@ function App() {
                 }
               />
               <Route
+                path="/app/fav"
+                element={
+                  <AuthenticatedRoute>
+                    <Favorite />
+                  </AuthenticatedRoute>
+                }
+              />
+              <Route
                 path="/app/contact-us"
                 element={
                   <ContactUs />
@@ -88,7 +97,6 @@ function App() {
               <Route path="*" element={<PageNotFound/>} />
             </Routes>
           </div>
-
           <Footer />
         </React.Suspense>
       </RecoilRoot>
