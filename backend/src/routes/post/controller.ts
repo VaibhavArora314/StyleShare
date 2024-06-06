@@ -378,3 +378,139 @@ export const getCommentsController = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const favoritePostController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required." });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: { id: userId },
+      select: { verified: true }
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({ error: "User is not verified!" });
+    }
+
+    const favorite = await prisma.favorite.findUnique({
+      where: {
+        userId_postId: {
+          userId,
+          postId
+        }
+      }
+    });
+
+    if (favorite) {
+      return res.status(400).json({ error: "You have already favorited this post." });
+    }
+
+    await prisma.favorite.create({
+      data: {
+        userId,
+        postId
+      }
+    });
+
+    res.status(200).json({ message: "Post favorited successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to favorite the post." });
+  }
+};
+
+export const unfavoritePostController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required." });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: { id: userId },
+      select: { verified: true }
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({ error: "User is not verified!" });
+    }
+
+    const favorite = await prisma.favorite.findUnique({
+      where: {
+        userId_postId: {
+          userId,
+          postId
+        }
+      }
+    });
+
+    if (!favorite) {
+      return res.status(400).json({ error: "You have not favorited this post." });
+    }
+
+    await prisma.favorite.delete({
+      where: {
+        userId_postId: {
+          userId,
+          postId
+        }
+      }
+    });
+
+    res.status(200).json({ message: "Post unfavorited successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to unfavorite the post." });
+  }
+};
+
+export const getFavoritePostsController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID is required.' });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: { id: userId },
+      select: { verified: true },
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({ error: 'User is not verified!' });
+    }
+
+    const favorites = await prisma.favorite.findMany({
+      where: { userId },
+      include: {
+        post: {
+          select: {
+            id: true,
+            title: true,
+            codeSnippet: true,
+            description: true,
+            tags: true,
+            author: {
+              select: {
+                id: true,
+                username: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const favoritePosts = favorites.map((fav) => fav.post);
+
+    res.status(200).json({ favoritePosts });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch favorite posts.' });
+  }
+};

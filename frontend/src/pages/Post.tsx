@@ -8,6 +8,9 @@ import Loader from '../components/Loader'
 import toast from 'react-hot-toast';
 import { TwitterShareButton, LinkedinShareButton, FacebookShareButton, TelegramShareButton, LinkedinIcon, FacebookIcon, TelegramIcon, XIcon, WhatsappShareButton, WhatsappIcon } from 'react-share';
 import Comment from './Comment';
+import { MdFavorite } from "react-icons/md";
+import { MdFavoriteBorder } from "react-icons/md";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,7 +27,8 @@ const Post = () => {
     },
     likes: 0,
     dislikes: 0,
-    comments:[]
+    comments:[],
+    favoritePosts: []
   });  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -33,6 +37,7 @@ const Post = () => {
   const [height, setHeight] = useState('0px');
   const [userLiked, setUserLiked] = useState(false);
   const [userDisliked, setUserDisliked] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const shareUrl=`http://style-share.vercel.app/app/posts/${post.id}`
   const title= `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`
@@ -144,6 +149,59 @@ const Post = () => {
       toast.success('Dislike is done only once, no spam 😊');
     }
   };
+
+  const handleAddToFavorite = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please login to add a post to favorites');
+        return;
+      }
+      await axios.post(`/api/v1/posts/${id}/favorite`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setIsFavorite(true);
+      localStorage.setItem(`post-${id}-favorite`, 'true');
+      toast.success('Post added to favorites');
+    } catch (error:any) {
+      if (error.response && error.response.status === 403) {
+        toast.error(error.response.data.error.message || 'User is not verified!');
+      } else {
+        toast.error('Failed to submit comment. Please try again later.');
+      }
+    }
+  };
+
+  const handleRemoveFromFavorite = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please login to remove a post from favorites');
+        return;
+      }
+      await axios.post(`/api/v1/posts/${id}/unfavorite`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setIsFavorite(false);
+      localStorage.removeItem(`post-${id}-favorite`);
+      toast.success('Post removed from favorites');
+    } catch (error:any) {
+      if (error.response && error.response.status === 403) {
+        toast.error(error.response.data.error.message || 'User is not verified!');
+      } else {
+        toast.error('Failed to submit comment. Please try again later.');
+      }
+    }
+  };
+  
+  useEffect(() => {
+    const favoriteStatus = localStorage.getItem(`post-${id}-favorite`);
+    setIsFavorite(favoriteStatus === 'true');
+  }, [id]);
   
   if (loading) {
     return <Loader />;
@@ -179,11 +237,16 @@ const Post = () => {
       {post && (
         <>
           <button onClick={() => window.history.back()} className="mb-4 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg> 
+          <IoMdArrowRoundBack size={20}/>
           </button> 
-            <h2 className="text-2xl font-semibold mr-4">{post.title}</h2>
+          <div className='flex flex-row content-center mb-1'>
+          <h2 className="text-2xl font-semibold mr-3">{post.title}</h2>
+          {isFavorite ? (
+            <MdFavorite onClick={handleRemoveFromFavorite} size={33} className="cursor-pointer text-blue-600 " />
+          ) : (
+            <MdFavoriteBorder onClick={handleAddToFavorite} size={33} className="cursor-pointer text-white" />
+          )}
+        </div>
             <button
               onClick={handleLike}
               className="px-4 py-2 my-3 rounded-md border-2 text-white text-sm mr-2"
