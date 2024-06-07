@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { IUser } from "../types";
+import { IPost, IUser } from "../types";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
-import { tokenState } from "../store/atoms/auth";
+import { tokenState, userState } from "../store/atoms/auth";
 import Loader from "../components/Loader";
 import PostCard from "../components/PostCard";
 import { GoUnverified } from "react-icons/go";
@@ -12,6 +12,7 @@ import { AiTwotoneInfoCircle } from "react-icons/ai";
 import toast from "react-hot-toast";
 
 const Profile = () => {
+  const [posts, setPosts] = useState<IPost[]>([]);
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -19,6 +20,7 @@ const Profile = () => {
   const [otp, setOtp] = useState("");
   const [verificationError, setVerificationError] = useState("");
   const token = useRecoilValue(tokenState);
+  const currentUser = useRecoilValue(userState);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -37,7 +39,7 @@ const Profile = () => {
     };
 
     fetchUser();
-  }, [token]);
+  }, [token,posts]);
 
   const handleGenerateOtp = async () => {
     try {
@@ -87,6 +89,10 @@ const Profile = () => {
     return <div className='text-red-500 font-semibold text-lg text-center'>{errorMessage}</div>;
   }
 
+  const handleDelete = (id: string) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+  };
+
   return (
     <>
       <div className="max-w-screen-xl mx-auto p-4 text-white flex flex-col items-center">
@@ -135,7 +141,7 @@ const Profile = () => {
           <h4 className="font-semibold">Posts ( {user?.posts.length} )</h4>
           <div className="mt-6 mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
 
-            {user?.posts.map(post => <PostCard key={post.id} post={post} />)}
+            {user?.posts.map(post => <PostCard key={post.id} post={post} onDelete={handleDelete} currentUser={currentUser} />)}
           </div>
         </div>
       </div>

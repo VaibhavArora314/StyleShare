@@ -3,6 +3,8 @@ import axios from 'axios';
 import { IPost } from '../types';
 import Loader from '../components/Loader';
 import PostCard from '../components/PostCard';
+import { userState } from '../store/atoms/auth';
+import { useRecoilValue } from 'recoil';
 
 const Posts = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -15,6 +17,8 @@ const Posts = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  const currentUser = useRecoilValue(userState);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -99,6 +103,10 @@ const Posts = () => {
     return <div className='text-red-500 font-semibold text-lg text-center'>{error}</div>;
   }
 
+  const handleDelete = (id: string) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+  };
+
   return (
     <div className='max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4'>
       <h1 className="text-2xl font-semibold mb-4 text-white">Posts</h1>
@@ -160,7 +168,7 @@ const Posts = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
         {filteredPosts.map((post, index) => (
-          <PostCard key={index} post={post} />
+          <PostCard key={index} post={post} onDelete={handleDelete} currentUser={currentUser} />
         ))}
       </div>
       <div className="flex justify-center items-center mt-4 w-full space-x-2">
