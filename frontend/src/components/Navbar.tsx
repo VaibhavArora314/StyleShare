@@ -119,6 +119,11 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li className="mt-2">
+                  <Link to="/app/leaderboard" className={getNavLinkClass("/app/leaderboard")} onClick={closeMenu}>
+                    Leaderboard
+                  </Link>
+                </li>
+                <li className="mt-2">
                   <button
                     className="block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent w-full text-left"
                     onClick={handleLogout}
