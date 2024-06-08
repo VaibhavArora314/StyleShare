@@ -76,14 +76,28 @@ const Comment = () => {
       <div>
         <h3 className="text-xl font-semibold mb-4">{comments.length} Comments</h3>
         {comments.length > 0 ? (
-          <ul className="space-y-4">
-            {comments.map((comment: IComment) => (
-              <li key={comment.id} className="border-b border-gray-700 pb-2">
-                <p className="text-base"><strong>@{comment.user.username} <span className='text-xs text-gray-500'> {new Date(comment.createdAt).toLocaleString()}</span></strong></p>
+          <ul className="space-y-3">
+          {comments.map((comment: IComment) => (
+            <li key={comment.id} className="border-b border-gray-700 pb-3 flex items-start space-x-3">
+              <img
+                src={`https://ui-avatars.com/api/?name=${comment.user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`}
+                width={40}
+                alt="profile-pic"
+                className="flex-shrink-0"
+              />
+              <div>
+                <p className="text-base">
+                  <strong>
+                    @{comment.user.username}{' '}
+                    <span className="text-xs text-gray-500">{new Date(comment.createdAt).toLocaleString()}</span>
+                  </strong>
+                </p>
                 <p className="text-sm text-white">{comment.content}</p>
-              </li>
-            ))}
-          </ul>
+              </div>
+            </li>
+          ))}
+        </ul>
+        
         ) : (
           <p className="text-gray-300">Be the first one to comment...</p>
         )}

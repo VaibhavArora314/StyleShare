@@ -19,6 +19,7 @@ export interface IPost {
   likes: number;
   dislikes: number;
   comments: IComment[];
+  favoritePosts: []
 }
 
 export interface IUser {
@@ -27,5 +28,13 @@ export interface IUser {
   email: string;
   verified: boolean;
   posts: IPost[];
+  favoritePosts?: IPost[]; 
 }
 
+export interface ILeaderboardUser {
+  rank: number;
+  userId: string;
+  username: string;
+  postCount: number;
+  totalLikes:number;
+}

@@ -25,6 +25,7 @@ model User {
   updatedAt    DateTime @updatedAt
   interactions UserPostInteraction[]
   comments     Comment[] @relation("userComments")
+  favorites    Favorite[] @relation("userFavorites")
 }
 
 model Post {
@@ -41,6 +42,7 @@ model Post {
   dislikes    Int      @default(0)
   interactions UserPostInteraction[]
   comments    Comment[] @relation("postComments")
+  favorites   Favorite[] @relation("postFavorites")
 }
 
 model UserPostInteraction {
@@ -64,4 +66,14 @@ model Comment {
   post      Post     @relation("postComments", fields: [postId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Favorite {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String @db.ObjectId
+  postId    String @db.ObjectId
+  user      User   @relation("userFavorites", fields: [userId], references: [id])
+  post      Post   @relation("postFavorites", fields: [postId], references: [id])
+
+  @@unique([userId, postId])
 }
