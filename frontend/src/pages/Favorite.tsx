@@ -12,6 +12,7 @@ const Favorite = () => {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const token = useRecoilValue(tokenState);
+  const currentUser = useRecoilValue(userState);
 
   const fetchFavoritePosts = async (user: IUser): Promise<IPost[]> => {
     try {
@@ -47,6 +48,11 @@ const Favorite = () => {
     getFavoritePosts();
   }, [user]);
 
+  const handleDelete = (id: string) => {
+    setFavoritePosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+  };
+
+
   if (loading) {
     return <Loader />;
   }
@@ -67,7 +73,7 @@ const Favorite = () => {
             <h4 className="font-semibold">Favorite Posts ( {favoritePosts.length} )</h4>
             <div className="mt-6 mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
               {favoritePosts.map(post => (
-                <PostCard key={post.id} post={post} />
+                <PostCard key={post.id} post={post} onDelete={handleDelete} currentUser={currentUser}/>
               ))}
             </div>
           </>

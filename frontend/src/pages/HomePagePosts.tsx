@@ -3,11 +3,14 @@ import axios from 'axios';
 import { IPost } from '../types';
 import Loader from '../components/Loader';
 import PostCard from '../components/PostCard';
+import { userState } from '../store/atoms/auth';
+import { useRecoilValue } from 'recoil';
 
 const HomePagePost = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const currentUser = useRecoilValue(userState);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -25,6 +28,10 @@ const HomePagePost = () => {
     fetchPosts();
   }, []);
 
+  const handleDelete = (id: string) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -38,7 +45,7 @@ const HomePagePost = () => {
       <h1 className="text-3xl font-semibold my-4 text-white">📃 Recent Posts Added</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full my-10">
         {posts.map((post, index) => (
-          <PostCard key={index} post={post} />
+          <PostCard key={index} post={post} onDelete={handleDelete} currentUser={currentUser} />
         ))}
       </div>
     </div>

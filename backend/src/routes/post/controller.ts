@@ -581,3 +581,45 @@ export const getLeaderboardController = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const deletePostController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+
+    if (!userId) {
+      return res.status(403).json({ error: { message: "Invalid user" } });
+    }
+
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+
+    if (!post) {
+      return res.status(404).json({ error: { message: "Post not found" } });
+    }
+
+    if (post.authorId !== userId) {
+      return res.status(403).json({ error: { message: "You are not authorized to delete this post" } });
+    }
+
+    await prisma.userPostInteraction.deleteMany({
+      where: { postId }
+    });
+    await prisma.comment.deleteMany({
+      where: { postId }
+    });
+    await prisma.favorite.deleteMany({
+      where: { postId }
+    });
+
+    await prisma.post.delete({
+      where: { id: postId },
+    });
+
+    res.status(200).json({ message: "Post deleted successfully" });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: { message: "An unexpected error occurred" } });
+  }
+};
