@@ -79,7 +79,7 @@ function App() {
                 }
               />
               <Route
-                path="/app/leaderboard"
+               path="/app/leaderboard"
                 element={
                     <LeaderBoard />
                 }
