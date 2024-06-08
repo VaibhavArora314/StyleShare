@@ -81,9 +81,7 @@ function App() {
               <Route
                 path="/app/leaderboard"
                 element={
-                  <AuthenticatedRoute>
                     <LeaderBoard />
-                  </AuthenticatedRoute>
                 }
               />
               <Route

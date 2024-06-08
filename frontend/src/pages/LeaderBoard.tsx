@@ -5,7 +5,6 @@ import { ILeaderboardUser } from '../types';
 import { GiTrophyCup } from "react-icons/gi";
 import { useRecoilValue } from 'recoil';
 import { userState } from '../store/atoms/auth';
-import { Navigate } from 'react-router-dom';
 
 const LeaderBoard = () => {
   const [loading, setLoading] = useState(true);
@@ -26,10 +25,6 @@ const LeaderBoard = () => {
 
     fetchLeaderboard();
   }, []);
-
-  if (!currentUser) {
-    return <Navigate to='/app' />
-  }
 
   return (
     <div className="p-3 mb-10">
