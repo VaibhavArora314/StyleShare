@@ -15,9 +15,9 @@
 	border-radius: 10px;
 	background-color: #FFF;
 	background-image: -webkit-gradient(linear,
-									   40% 0%,
-									   75% 84%,
-									   from(#4D9C41),
-									   to(#19911D),
-									   color-stop(.6,#54DE5D))
+                                   40% 0%,
+                                   75% 84%,
+                                   from(#333333),
+                                   to(#000000),
+                                   color-stop(.6,#666666));
 }
