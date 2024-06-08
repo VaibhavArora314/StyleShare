@@ -26,6 +26,7 @@ import LeaderBoard from "./pages/LeaderBoard";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
+
   return (
     <BrowserRouter>
       <RecoilRoot>
@@ -80,9 +81,7 @@ function App() {
               <Route
                 path="/app/leaderboard"
                 element={
-                  <AuthenticatedRoute>
                     <LeaderBoard />
-                  </AuthenticatedRoute>
                 }
               />
               <Route
