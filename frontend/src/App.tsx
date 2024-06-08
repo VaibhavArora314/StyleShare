@@ -22,6 +22,7 @@ import { Toaster } from 'react-hot-toast';
 import PageNotFound from "./pages/PageNotFound";
 import Favorite from "./pages/Favorite";
 import LeaderBoard from "./pages/LeaderBoard";
+import CustomizeWithAi from "./pages/CustomizeWithAi";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -75,6 +76,14 @@ function App() {
                 element={
                   <AuthenticatedRoute>
                     <Favorite />
+                  </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/app/customize-with-ai/:id"
+                element={
+                  <AuthenticatedRoute>
+                    <CustomizeWithAi />
                   </AuthenticatedRoute>
                 }
               />
