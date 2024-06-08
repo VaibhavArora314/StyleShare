@@ -79,6 +79,12 @@ function App() {
                 }
               />
               <Route
+               path="/app/leaderboard"
+                element={
+                    <LeaderBoard />
+                }
+              />
+              <Route
                 path="/app/contact-us"
                 element={
                   <ContactUs />

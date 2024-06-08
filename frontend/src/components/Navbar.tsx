@@ -80,12 +80,17 @@ const Navbar = () => {
                 Posts
               </Link>
             </li>
+            <li className="mt-2">
+                  <Link to="/app/leaderboard" className={getNavLinkClass("/app/leaderboard")} onClick={closeMenu}>
+                    Leaderboard
+                  </Link>
+                </li>
             {!isLoggedIn ? (
               <div className="flex flex-col md:flex-row md:space-x-4">
                 <li className="mb-2 md:mb-0">
                   <Link
                     to="/app/signin"
-                    className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                    className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 duration-300 transition-colors hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 "
                     onClick={closeMenu}
                   >
                     Sign in
@@ -94,7 +99,7 @@ const Navbar = () => {
                 <li>
                   <Link
                     to="/app/signup"
-                    className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                    className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 duration-300 transition-colors hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                     onClick={closeMenu}
                   >
                     Sign up
