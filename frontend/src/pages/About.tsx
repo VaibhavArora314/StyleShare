@@ -9,12 +9,12 @@ function About() {
         <img className="w-[550px] mx-auto my-4" src={about} alt="About Us" />
         <div className="flex flex-col justify-center">
           <p className="bg-gradient-to-r from-blue-600 via-blue-500 to-white inline-block text-transparent bg-clip-text text-4xl font-bold py-1" >👨‍💻 About Style Share</p>
-          <h1 className='md:text-4xl sm:text-3xl font-bold py-4'>Unleashing Creativity - Tailwind CSS</h1>
+          <h1 className='md:text-4xl sm:text-3xl font-bold py-4 text-white'>Unleashing Creativity - Tailwind CSS</h1>
           <p className="text-lg text-gray-300  text-justify" >
             💁‍♂️ Our mission is to make the design process more accessible and efficient for everyone. 
             Whether you are a seasoned developer looking for inspiration or a beginner taking your first steps into the world of web design, our platform offers a wealth of resources tailored to your needs.          
           </p>
-          <p className='md:text-3xl sm:text-3xl text-2xl font-bold py-4'>🤔 How it Works !</p>
+          <p className='md:text-3xl sm:text-3xl text-2xl font-bold py-4 text-white'>🤔 How it Works !</p>
           <p className="text-lg text-gray-300" >
               <span> ✅ Search any component with search bar from various developers.</span><br/>
               <span> ✅ contribute to open source for more tailwind components.</span><br/>
