@@ -564,8 +564,10 @@ export const getLeaderboardController = async (req: Request, res: Response) => {
 
     userLikes.sort((a, b) => b.totalLikes - a.totalLikes);
 
+    const top10Users = userLikes.slice(0, 10);
+
     res.status(200).json({
-      leaderboard: userLikes.map((user, index) => ({
+      leaderboard: top10Users.map((user, index) => ({
         rank: index + 1,
         userId: user.id,
         username: user.username,
