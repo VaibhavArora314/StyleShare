@@ -5,6 +5,7 @@ import { ILeaderboardUser } from '../types';
 import { GiTrophyCup } from "react-icons/gi";
 import { useRecoilValue } from 'recoil';
 import { userState } from '../store/atoms/auth';
+import { Navigate } from 'react-router-dom';
 
 const LeaderBoard = () => {
   const [loading, setLoading] = useState(true);
@@ -25,6 +26,10 @@ const LeaderBoard = () => {
 
     fetchLeaderboard();
   }, []);
+
+  if (!currentUser) {
+    return <Navigate to='/app' />
+  }
 
   return (
     <div className="p-3 mb-10">
@@ -49,7 +54,7 @@ const LeaderBoard = () => {
               {leaderboard.map((user, index) => (
                 <tr
                   key={user.userId}
-                  className={`text-center text-gray-50 border-b-2 border-sky-900 font-semibold ${currentUser && user.username === currentUser.username ? ' bg-sky-500' : ''}`}
+                  className={`text-center text-gray-50 border-b-2 border-sky-900 font-semibold ${currentUser && user.userId === currentUser.id ? ' bg-sky-500' : ''}`}
                 >
                   <td className='px-6 py-4 '>
                     {(index === 0 || index === 1 || index === 2) ? (
@@ -66,7 +71,7 @@ const LeaderBoard = () => {
                     </div>
                   </td>
                   <td className='px-6 py-4 '>
-                    <div className={`text-sm text-gray-50 ${currentUser && user.username === currentUser.username ? 'font-bold' : ''}`}>@{user.username}</div>
+                    <div className={`text-sm text-gray-50 ${currentUser && user.userId === currentUser.id ? 'font-bold' : ''}`}>@{user.username}</div>
                   </td>
                   <td className='px-6 py-4 '>
                     <div className="text-sm text-gray-50">{user.postCount}</div>
