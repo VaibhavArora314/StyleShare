@@ -18,6 +18,7 @@ export const signinBodySchema = zod.object({
     .string()
     .min(8, { message: "Password too short!" })
     .max(30, { message: "Password too long!" }),
+  recaptcha_token: zod.string(),
 });
 
 export const otpVerificationSchema = zod.object({

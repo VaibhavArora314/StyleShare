@@ -7,6 +7,7 @@ import {
 } from "./zodSchema";
 import { createHash, validatePassword } from "../../helpers/hash";
 import { createJWT } from "../../helpers/jwt";
+import { verifyRecaptcha } from "../../helpers/verifyRecaptcha";
 import { UserAuthRequest } from "../../helpers/types";
 import crypto from "crypto";
 import { sendVerificationEmail } from "../../helpers/mail/sendOtpMail";
@@ -96,6 +97,15 @@ export const userSigninController = async (req: Request, res: Response) => {
     }
 
     const data = result.data;
+
+    const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY || "6LeG1PMpAAAAAB0zfbeqWMbAjtRYs1FgnPBojCFK";
+    const isRecaptchaValid = await verifyRecaptcha(data.recaptcha_token, recaptchaSecretKey);
+
+    if (!isRecaptchaValid) {
+      return res.status(400).json({
+        error: { message: "Invalid reCAPTCHA" },
+      });
+    }
 
     const user = await prisma.user.findFirst({
       where: {
