@@ -80,6 +80,11 @@ const Navbar = () => {
                 Posts
               </Link>
             </li>
+            <li className="mt-2">
+                  <Link to="/app/leaderboard" className={getNavLinkClass("/app/leaderboard")} onClick={closeMenu}>
+                    Leaderboard
+                  </Link>
+                </li>
             {!isLoggedIn ? (
               <div className="flex flex-col md:flex-row md:space-x-4">
                 <li className="mb-2 md:mb-0">

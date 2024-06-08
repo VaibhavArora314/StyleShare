@@ -21,10 +21,12 @@ import GoTop from "./components/GoTop";
 import { Toaster } from 'react-hot-toast';
 import PageNotFound from "./pages/PageNotFound";
 import Favorite from "./pages/Favorite";
+import LeaderBoard from "./pages/LeaderBoard";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
+
   return (
     <BrowserRouter>
       <RecoilRoot>
@@ -74,6 +76,12 @@ function App() {
                   <AuthenticatedRoute>
                     <Favorite />
                   </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/app/leaderboard"
+                element={
+                    <LeaderBoard />
                 }
               />
               <Route

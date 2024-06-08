@@ -30,3 +30,11 @@ export interface IUser {
   posts: IPost[];
   favoritePosts?: IPost[]; 
 }
+
+export interface ILeaderboardUser {
+  rank: number;
+  userId: string;
+  username: string;
+  postCount: number;
+  totalLikes:number;
+}
