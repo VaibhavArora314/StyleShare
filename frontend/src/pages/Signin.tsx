@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { tokenState } from "../store/atoms/auth";
@@ -10,6 +10,9 @@ const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
     
   const [error, setError] = useState({
     email: "",
