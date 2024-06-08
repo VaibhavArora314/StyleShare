@@ -83,29 +83,6 @@ export const createPostController = async (
   }
 };
 
-// export const getPostsController = async (req: Request, res: Response) => {
-//   const posts = await prisma.post.findMany({
-//     select: {
-//       id: true,
-//       title: true,
-//       codeSnippet: true,
-//       description: true,
-//       tags: true,
-//       author: {
-//         select: {
-//           id: true,
-//           username: true,
-//           email: true,
-//         },
-//       },
-//     },
-//   });
-
-//   res.status(200).json({
-//     posts,
-//   });
-// };
-
 export const getPostController = async (req: Request, res: Response) => {
   try {
     const postId = req.params.id;
@@ -128,6 +105,7 @@ export const getPostController = async (req: Request, res: Response) => {
             username: true,
           },
         },
+        comments:true
       },
     });
 
@@ -311,5 +289,228 @@ export const dislikePostController = async (req: UserAuthRequest, res: Response)
     res.status(500).json({
       error: "Failed to dislike the post."
     });
+  }
+};
+
+export const createCommentController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const { postId } = req.params;
+    const { content } = req.body;
+
+    if (!userId) {
+      return res.status(403).json({ error: "Invalid user" });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        verified: true,
+      },
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({
+        error: { message: "User is not verified!" },
+      });
+    }
+
+    const comment = await prisma.comment.create({
+      data: {
+        content,
+        userId,
+        postId
+      },
+      select: {
+        id: true,
+        content: true,
+        user: {
+          select: {
+            id: true,
+            username: true,
+          }
+        },
+        createdAt: true
+      }
+    });
+
+    res.status(201).json({
+      message: "Successfully created comment!",
+      comment,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const getCommentsController = async (req: Request, res: Response) => {
+  try {
+    const { postId } = req.params;
+
+    const comments = await prisma.comment.findMany({
+      where: { postId },
+      select: {
+        id: true,
+        content: true,
+        user: {
+          select: {
+            id: true,
+            username: true,
+          }
+        },
+        createdAt: true
+      },
+      orderBy: {
+        createdAt: 'desc',
+      }
+    });
+
+    res.status(200).json({
+      comments,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to fetch comments",
+    });
+  }
+};
+
+export const favoritePostController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required." });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: { id: userId },
+      select: { verified: true }
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({ error: "User is not verified!" });
+    }
+
+    const favorite = await prisma.favorite.findUnique({
+      where: {
+        userId_postId: {
+          userId,
+          postId
+        }
+      }
+    });
+
+    if (favorite) {
+      return res.status(400).json({ error: "You have already favorited this post." });
+    }
+
+    await prisma.favorite.create({
+      data: {
+        userId,
+        postId
+      }
+    });
+
+    res.status(200).json({ message: "Post favorited successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to favorite the post." });
+  }
+};
+
+export const unfavoritePostController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required." });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: { id: userId },
+      select: { verified: true }
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({ error: "User is not verified!" });
+    }
+
+    const favorite = await prisma.favorite.findUnique({
+      where: {
+        userId_postId: {
+          userId,
+          postId
+        }
+      }
+    });
+
+    if (!favorite) {
+      return res.status(400).json({ error: "You have not favorited this post." });
+    }
+
+    await prisma.favorite.delete({
+      where: {
+        userId_postId: {
+          userId,
+          postId
+        }
+      }
+    });
+
+    res.status(200).json({ message: "Post unfavorited successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to unfavorite the post." });
+  }
+};
+
+export const getFavoritePostsController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID is required.' });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: { id: userId },
+      select: { verified: true },
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({ error: 'User is not verified!' });
+    }
+
+    const favorites = await prisma.favorite.findMany({
+      where: { userId },
+      include: {
+        post: {
+          select: {
+            id: true,
+            title: true,
+            codeSnippet: true,
+            description: true,
+            tags: true,
+            author: {
+              select: {
+                id: true,
+                username: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const favoritePosts = favorites.map((fav) => fav.post);
+
+    res.status(200).json({ favoritePosts });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch favorite posts.' });
   }
 };
