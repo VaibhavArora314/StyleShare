@@ -18,7 +18,7 @@ import ContactUs from "./pages/ContactUs";
 import About from "./pages/About";
 import Policy from "./pages/Policy";
 import GoTop from "./components/GoTop";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 import PageNotFound from "./pages/PageNotFound";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
@@ -29,7 +29,7 @@ function App() {
       <RecoilRoot>
         <React.Suspense fallback={<Loader />}>
           <Navbar />
-          <GoTop/>
+          <GoTop />
           <div className="min-h-[80vh] mt-12 pt-12">
             <Routes>
               <Route path="/app" element={<Home />} />
@@ -67,32 +67,17 @@ function App() {
                   </AuthenticatedRoute>
                 }
               />
-              <Route
-                path="/app/contact-us"
-                element={
-                  <ContactUs />
-                }
-              />
-              <Route
-                path="/app/about"
-                element={
-                  <About />
-                }
-              />
-              <Route
-                path="/app/policy"
-                element={
-                  <Policy />
-                }
-              />
-              <Route path="*" element={<PageNotFound/>} />
+              <Route path="/app/contact-us" element={<ContactUs />} />
+              <Route path="/app/about" element={<About />} />
+              <Route path="/app/policy" element={<Policy />} />
+              <Route path="*" element={<PageNotFound />} />
             </Routes>
           </div>
 
           <Footer />
         </React.Suspense>
       </RecoilRoot>
-      <Toaster/>
+      <Toaster />
     </BrowserRouter>
   );
 }
