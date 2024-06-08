@@ -81,6 +81,10 @@ const Profile = () => {
     }
   };
 
+  const handleDelete = (id: string) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -88,10 +92,6 @@ const Profile = () => {
   if (errorMessage) {
     return <div className='text-red-500 font-semibold text-lg text-center'>{errorMessage}</div>;
   }
-
-  const handleDelete = (id: string) => {
-    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
-  };
 
   return (
     <>
