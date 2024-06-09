@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { IPost } from '../types';
 import DOMPurify from 'dompurify';
@@ -14,6 +14,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [post, setPost] = useState<IPost>({
     id: "",
     title: "",
@@ -69,7 +70,7 @@ const Post = () => {
   const handleCopy = () => {
     if (post) {
       navigator.clipboard.writeText(post.codeSnippet);
-      alert('Code snippet copied to clipboard');
+      toast.success('Code snippet copied to clipboard');
     }
   };
 
@@ -232,6 +233,15 @@ const Post = () => {
     ADD_ATTR: ["style", "background"],
   });
 
+  const handleNavigation = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      toast.error('Please login for 🤖 customization');
+      return;
+    }
+    navigate(`/app/customize-with-ai/${post.id}`,{state: { post}});
+  };
+
   return (
     <div className="p-6 text-white max-w-screen-xl mx-auto">
       {post && (
@@ -295,7 +305,7 @@ const Post = () => {
                 <code>{post.codeSnippet}</code>
               </pre>
             )}
-            <div className="absolute top-2 right-3 flex space-x-2">
+            <div className="absolute top-2 right-2 flex space-x-2 ">
               {isPreview ? null : (
                 <button
                   onClick={handleCopy}
@@ -309,6 +319,12 @@ const Post = () => {
                 className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
               >
                 {isPreview ? "Show Code" : "Preview"}
+              </button>
+              <button
+                  onClick={handleNavigation}
+                  className="px-2 py-1 rounded-md text-white bg-green-600 hover:bg-green-700 text-sm"
+                >
+                  Customize with AI
               </button>
             </div>
           </div>
