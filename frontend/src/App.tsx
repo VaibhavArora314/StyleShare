@@ -22,7 +22,7 @@ import { Toaster } from 'react-hot-toast';
 import PageNotFound from "./pages/PageNotFound";
 import Favorite from "./pages/Favorite";
 import LeaderBoard from "./pages/LeaderBoard";
-import ScrollToTop from "./components/ScrollToTop";
+import ScrollToTopWhenRouteChanges from "./components/ScrollToTopWhenRouteChanges";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -34,7 +34,7 @@ function App() {
         <React.Suspense fallback={<Loader />}>
           <Navbar />
           <GoTop/>
-          <ScrollToTop/>
+          <ScrollToTopWhenRouteChanges/>
           <div className="min-h-[80vh] mt-12 pt-12">
             <Routes>
               <Route path="/app" element={<Home />} />
