@@ -5,6 +5,7 @@ import Loader from '../components/Loader';
 import PostCard from '../components/PostCard';
 import { userState } from '../store/atoms/auth';
 import { useRecoilValue } from 'recoil';
+import { useTranslation } from 'react-i18next';
 
 const Posts = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -17,6 +18,7 @@ const Posts = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const { t } = useTranslation();
 
   const currentUser = useRecoilValue(userState);
 
@@ -109,13 +111,13 @@ const Posts = () => {
 
   return (
     <div className='max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4'>
-      <h1 className="text-2xl font-semibold mb-4 text-white">Posts</h1>
+      <h1 className="text-2xl font-semibold mb-4 text-white">{t("allPosts.Posts")}</h1>
       <div className="w-full flex justify-between mb-4 relative">
         <button
           onClick={toggleFilterDialog}
           className="flex items-center text-white hover:text-gray-400"
         >
-          Filter
+          {t("allPosts.filter")}
           <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
           </svg>
@@ -131,7 +133,7 @@ const Posts = () => {
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Add tag"
+                placeholder={t("allPosts.tag")}
                 className="p-2 w-full rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-gray-500"
               />
             </div>
@@ -139,7 +141,7 @@ const Posts = () => {
               onClick={addTag}
               className="px-4 py-2 text-white border border-gray-600 rounded hover:bg-gray-700"
             >
-              Add Tag
+              {t("allPosts.tag")}
             </button>
             <div className="mt-2 flex flex-wrap">
               {filterTags.map((tag, index) => (
@@ -162,7 +164,7 @@ const Posts = () => {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="🔍 Search anything"
+          placeholder={t("allPosts.search")}
           className="p-2 w-full max-w-xs rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
@@ -176,7 +178,7 @@ const Posts = () => {
           onClick={handlePreviousPage}
           disabled={page === 1}
           className={`text-white px-4 py-2 rounded ${page === 1 ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}        >
-          Previous
+          {t("allPosts.pre")}
         </button>
         {Array.from({ length: totalPages }, (_, i) => (
           <button
@@ -190,7 +192,7 @@ const Posts = () => {
           onClick={handleNextPage}
           disabled={page === totalPages}
           className={`text-white px-6 py-2 rounded ${page === totalPages ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}        >
-          Next
+          {t("allPosts.next")}
         </button>
       </div>
     </div>
