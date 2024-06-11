@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  contactUsController,
   generateOtpController,
   userProfileController,
   userSigninController,
@@ -19,5 +20,7 @@ userRouter.post("/generate-otp", authMiddleware, generateOtpController);
 userRouter.post("/verify-otp", authMiddleware, verifyOtpController);
 
 userRouter.get("/me", authMiddleware, userProfileController);
+
+userRouter.post("/contact-us", authMiddleware, contactUsController);
 
 export default userRouter;

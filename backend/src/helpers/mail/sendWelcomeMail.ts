@@ -1,30 +1,30 @@
 import nodemailer from "nodemailer";
 
 export const sendWelcomeEmail = async (email: string, username: string) => {
-  if (!process.env.SEND_EMAIL) {
-    console.log("SEND_EMAIL environment variable is not set. Email not sent.");
-    return;
-  }
+    if (!process.env.SEND_EMAIL) {
+        console.log("SEND_EMAIL environment variable is not set. Email not sent.");
+        return;
+    }
 
-  let transporter = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
+    let transporter = nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+        },
+    });
 
-  let info = await transporter.sendMail({
-    from: '"Style Share" <yourapp@example.com>',
-    to: email,
-    subject: "Welcome to Style Share!",
-    text: `Welcome to Style Share, ${username}!`,
-    html: getWelcomeMailBody(username),
-  });
+    let info = await transporter.sendMail({
+        from: '"Style Share" <yourapp@example.com>',
+        to: email,
+        subject: "Welcome to Style Share!",
+        text: `Welcome to Style Share, ${username}!`,
+        html: getWelcomeMailBody(username),
+    });
 };
 
 const getWelcomeMailBody = (username: string) => {
-  return `
+    return `
       <!DOCTYPE html>
       <html lang="en">
           <head>
