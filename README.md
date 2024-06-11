@@ -17,9 +17,18 @@ Style Share is a collaborative platform designed to streamline the process of cr
 
 ## Screenshots
 
-![alt text](./screenshots/image.png)
-![alt text](./screenshots/image-1.png)
-![alt text](./screenshots/image-2.png)
+![alt text](./screenshots/Screenshot_home.png)
+![alt text](./screenshots/Screenshot_about.png)
+![alt text](./screenshots/Screenshot_login.png)
+![alt text](./screenshots/Screenshot_sign.png)
+![alt text](./screenshots/Screenshot_post.png)
+![alt text](./screenshots/Screenshot_code.png)
+![alt text](./screenshots/Screenshot_create_post.png)
+![alt text](./screenshots/Screenshot_leaderboard.png)
+
+## Video
+
+![Watch the video](./screenshots/preview.mp4)
 
 ## Setting Up on your machine
 
