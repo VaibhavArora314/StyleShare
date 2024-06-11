@@ -28,8 +28,8 @@ const Navbar = () => {
 
   const getNavLinkClass = (path: string) => {
     return location.pathname === path
-      ? "block py-2 px-3 bg-blue-600 rounded md:bg-transparent md:p-0 text-white md:text-blue-500"
-      : "block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-blue-400 hover:text-white md:hover:bg-transparent";
+      ? "block py-2 px-3 bg-blue-600 rounded md:bg-transparent md:p-0 text-white md:text-blue-300"
+      : "block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-300 hover:bg-blue-400 hover:text-white md:hover:bg-transparent";
   };
 
   return (
