@@ -11,6 +11,7 @@ import Comment from './Comment';
 import { MdFavorite } from "react-icons/md";
 import { MdFavoriteBorder } from "react-icons/md";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { useTranslation } from 'react-i18next';
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
@@ -39,6 +40,7 @@ const Post = () => {
   const [userLiked, setUserLiked] = useState(false);
   const [userDisliked, setUserDisliked] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const { t } = useTranslation();
 
   const shareUrl=`http://style-share.vercel.app/app/posts/${post.id}`
   const title= `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`
@@ -246,7 +248,7 @@ const Post = () => {
     <div className="p-6 text-white max-w-screen-xl mx-auto">
       {post && (
         <>
-          <button onClick={() => window.history.back()} className="mb-4 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
+          <button onClick={() => window.history.back()} className="mb-2 mt-2 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
           <IoMdArrowRoundBack size={20}/>
           </button> 
           <div className='flex flex-row content-center mb-1'>
@@ -311,25 +313,25 @@ const Post = () => {
                   onClick={handleCopy}
                   className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
                 >
-                  Copy
+                  {t("postdet.copy")}
                 </button>
               )}
               <button
                 onClick={togglePreview}
                 className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
               >
-                {isPreview ? "Show Code" : "Preview"}
+                {isPreview ? t("postdet.show") : t("postdet.preview")}
               </button>
               <button
                   onClick={handleNavigation}
                   className="px-2 py-1 rounded-md text-white bg-green-600 hover:bg-green-700 text-sm"
                 >
-                  Customize with AI
+                  {t("postdet.cus")}
               </button>
             </div>
           </div>
           <div className="mb-4">
-            <h3 className="text-xl font-semibold my-2">Tags</h3>
+            <h3 className="text-xl font-semibold my-2">{t("newPost.tags")}</h3>
             <div className="flex flex-wrap gap-2">
               {post.tags.map((tag, index) => (
                 <span
@@ -342,8 +344,8 @@ const Post = () => {
             </div>
           </div>
           <div className="my-5">
-            <h3 className="text-xl font-semibold my-2">Author</h3>
-            <p className='text-lg'>User: @{post.author.username}</p>
+            <h3 className="text-xl font-semibold my-2">{t("postdet.author")}</h3>
+            <p className='text-lg'>{t("postdet.user")}: @{post.author.username}</p>
           </div>
           <div className="flex space-x-2 my-4">
           <TelegramShareButton url={shareUrl} title={title}>
