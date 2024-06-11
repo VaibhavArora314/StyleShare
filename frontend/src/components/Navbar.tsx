@@ -4,12 +4,14 @@ import { loggedInState, tokenState } from "../store/atoms/auth";
 import { Link, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import logo from '../assets/favicon.png';
+import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const setTokenState = useSetRecoilState(tokenState);
   const isLoggedIn = useRecoilValue(loggedInState);
   const location = useLocation();
+  const { t } = useTranslation();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -38,7 +40,7 @@ const Navbar = () => {
         <Link to="/app" className="flex items-center space-x-3 rtl:space-x-reverse" onClick={closeMenu}>
         <img src={logo} className="h-8" alt="Styleshare Logo" />
           <span className="self-center justify-between text-2xl font-bold whitespace-nowrap text-white font-mono">
-            Style Share
+          {t("navbar.logo")}
           </span>
         </Link>
        <button
@@ -74,17 +76,17 @@ const Navbar = () => {
           <ul className="font-medium flex flex-col p-4 text-lg md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
             <li className="mt-2 md:mb-0">
               <Link to="/app" className={getNavLinkClass("/app")} aria-current="page" onClick={closeMenu}>
-                Home
+              {t("navbar.links.home")}
               </Link>
             </li>
             <li className="mt-2">
               <Link to="/app/posts" className={getNavLinkClass("/app/posts")} onClick={closeMenu}>
-                Posts
+              {t("navbar.links.posts")}
               </Link>
             </li>
             <li className="mt-2">
                   <Link to="/app/leaderboard" className={getNavLinkClass("/app/leaderboard")} onClick={closeMenu}>
-                    Leaderboard
+                  {t("navbar.links.leaderboard")}
                   </Link>
                 </li>
             {!isLoggedIn ? (
@@ -95,7 +97,7 @@ const Navbar = () => {
                     className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 duration-300 transition-colors hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 "
                     onClick={closeMenu}
                   >
-                    Sign in
+                    {t("navbar.links.signin")}
                   </Link>
                 </li>
                 <li>
@@ -104,7 +106,7 @@ const Navbar = () => {
                     className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 duration-300 transition-colors hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                     onClick={closeMenu}
                   >
-                    Sign up
+                    {t("navbar.links.signup")}
                   </Link>
                 </li>
               </div>
@@ -112,17 +114,17 @@ const Navbar = () => {
               <>
                 <li className="mt-2">
                   <Link to="/app/new-post" className={getNavLinkClass("/app/new-post")} onClick={closeMenu}>
-                    New Post
+                  {t("navbar.links.newpost")}
                   </Link>
                 </li>
                 <li className="mt-2">
                   <Link to="/app/profile" className={getNavLinkClass("/app/profile")} onClick={closeMenu}>
-                    Profile
+                  {t("navbar.links.profile")}
                   </Link>
                 </li>
                 <li className="mt-2">
                   <Link to="/app/fav" className={getNavLinkClass("/app/fav")} onClick={closeMenu}>
-                    Favorite
+                  {t("navbar.links.favorite")}
                   </Link>
                 </li>
                 <li className="mt-2">
@@ -130,7 +132,7 @@ const Navbar = () => {
                     className="block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent w-full text-left"
                     onClick={handleLogout}
                   >
-                    Logout
+                    {t("navbar.links.logout")}
                   </button>
                 </li>
               </>

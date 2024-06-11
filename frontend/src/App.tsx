@@ -24,6 +24,8 @@ import Favorite from "./pages/Favorite";
 import LeaderBoard from "./pages/LeaderBoard";
 import CustomizeWithAi from "./pages/CustomizeWithAi";
 import ScrollToTopWhenRouteChanges from "./components/ScrollToTopWhenRouteChanges";
+import './i18n';
+import LanguageDropdown from "./components/LanguageDropdown";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -37,6 +39,7 @@ function App() {
           <GoTop/>
           <ScrollToTopWhenRouteChanges/>
           <div className="min-h-[80vh] mt-12 pt-12">
+            <LanguageDropdown/>
             <Routes>
               <Route path="/app" element={<Home />} />
               <Route path="/app/posts/:id" element={<Post />} />
