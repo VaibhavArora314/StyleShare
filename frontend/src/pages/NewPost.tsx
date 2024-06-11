@@ -65,8 +65,8 @@ const NewPost = () => {
   };
 
   return (
-    <div className="p-6 text-white max-w-screen-xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">Create New Post</h2>
+    <div className="border rounded p-6 text-white max-w-screen-xl mx-auto">
+      <h2 className="text-2xl font-semibold mb-4 text-center">Create New Post</h2>
       <p className="mt-4">{errorMessage}</p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -79,7 +79,7 @@ const NewPost = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="mt-1 p-2 w-full bg-gray-800 border border-gray-700 rounded"
+            className="mt-1 p-2 w-full bg-gray-600 border border-gray-600 rounded"
           />
         </div>
         <div>
@@ -91,7 +91,7 @@ const NewPost = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
-            className="mt-1 p-2 w-full bg-gray-800 border border-gray-700 rounded"
+            className="mt-1 p-2 w-full bg-gray-600 border border-gray-600 rounded"
           ></textarea>
         </div>
         <div>
@@ -102,7 +102,7 @@ const NewPost = () => {
             id="codeSnippet"
             value={codeSnippet}
             onChange={(e) => setCodeSnippet(e.target.value)}
-            className="mt-1 p-2 w-full bg-gray-800 border border-gray-700 rounded"
+            className="mt-1 p-2 w-full bg-gray-600 border border-gray-600 rounded"
           ></textarea>
         </div>
         <div>
@@ -131,19 +131,19 @@ const NewPost = () => {
             id="tagInput"
             value={tagInput}
             onChange={(e) => setTagInput(e.target.value)}
-            className="p-2 bg-gray-800 border border-gray-700 rounded"
+            className="p-2 bg-gray-600 border border-gray-600 rounded w-full"
           />
           <button
             type="button"
             onClick={handleAddTag}
-            className="ml-2 p-2 bg-blue-600 hover:bg-blue-700 rounded text-white"
+            className="mt-2 p-2 bg-blue-600 hover:bg-blue-700 rounded text-white w-full"
           >
             Add Tag
           </button>
         </div>
         <button
           type="submit"
-          className="mt-4 p-2 bg-green-600 hover:bg-green-700 rounded text-white"
+          className="mt-4 m-2 p-2 w-full bg-green-600 hover:bg-green-700 rounded text-white"
         >
           Submit
         </button>
