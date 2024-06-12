@@ -40,16 +40,12 @@ const Signin = () => {
           message: string;
         };
       }>;
-      if (axiosError?.response?.data?.error) {
-        const errorMessage = axiosError.response.data.error.message;
-        toast.error(errorMessage);
-        setError({
-          ...error,
-          message: errorMessage,
-        });
-      } else {
-        toast.error("An unexpected error occurred");
-      }
+      const errorMessage = axiosError?.response?.data?.error?.message || "Invalid credentials. Please try again.";
+      toast.error(errorMessage);
+      setError({
+        ...error,
+        message: errorMessage,
+      });
     }
   };
 
