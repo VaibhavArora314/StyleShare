@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import { useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
+import { useTranslation } from "react-i18next";
 
 const NewPost = () => {
   const [title, setTitle] = useState("");
@@ -21,6 +22,7 @@ const NewPost = () => {
   //   message: "",
   // });
   const [errorMessage, setErrorMessage] = useState("");
+  const { t } = useTranslation();
 
   const handleAddTag = () => {
     if (tagInput.length > 0 && !tags.includes(tagInput)) {
@@ -71,7 +73,7 @@ const NewPost = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="title" className="block text-sm font-medium">
-            Title
+          {t("newPost.createPost")}
           </label>
           <input
             type="text"
@@ -84,7 +86,7 @@ const NewPost = () => {
         </div>
         <div>
           <label htmlFor="description" className="block text-sm font-medium">
-            Description
+          {t("newPost.description")}
           </label>
           <textarea
             id="description"
@@ -96,7 +98,7 @@ const NewPost = () => {
         </div>
         <div>
           <label htmlFor="codeSnippet" className="block text-sm font-medium">
-            Code Snippet
+          {t("newPost.codeSnippet")}
           </label>
           <textarea
             id="codeSnippet"
@@ -107,7 +109,7 @@ const NewPost = () => {
         </div>
         <div>
           <label htmlFor="tags" className="block text-sm font-medium">
-            Tags
+          {t("newPost.tags")}
           </label>
           <div className="mt-1 mb-2 flex flex-wrap gap-2">
             {tags.map((tag) => (
@@ -139,7 +141,7 @@ const NewPost = () => {
             onClick={handleAddTag}
             className="p-2 bg-white hover:bg-gray-200 duration-300 rounded text-black w-full"
           >
-            Add Tag
+            {t("allPosts.tag")}
           </button>
           
             
@@ -149,7 +151,7 @@ const NewPost = () => {
           type="submit"
           className="mt-4 p-2 w-full bg-green-600 hover:bg-green-700 duration-300 rounded text-white"
         >
-          Submit
+          {t("newPost.submit")}
         </button>
       </form>
     </div>

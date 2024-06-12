@@ -6,6 +6,7 @@ import { tokenState, userState } from '../store/atoms/auth';
 import { useRecoilValue } from 'recoil';
 import DOMPurify from 'dompurify';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 const CustomizeWithAi = () => {
   const user = useRecoilValue(userState);
@@ -22,6 +23,7 @@ const CustomizeWithAi = () => {
   const [originalHeight, setOriginalHeight] = useState('0px');
   const [customHeight, setCustomHeight] = useState('0px');
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const handleCustomize = async () => {
     if (!user.verified) {
@@ -113,9 +115,9 @@ const CustomizeWithAi = () => {
 
   return (
     <div className="customize-page p-6 text-white max-w-screen-xl mx-auto">
-      <h1 className="text-3xl font-bold mb-5">✨ Customize Component with AI ✨</h1>
+      <h1 className="text-3xl font-bold mb-5">✨ {t("postdet.cus")} ✨</h1>
       <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">😀 Original Code Snippet</h2>
+        <h2 className="text-xl font-semibold mb-2">😀 {t("custom.og")}</h2>
         <div className="relative my-4">
           {isOriginalPreview ? (
             <div className="p-4 bg-gray-800 z-0 h-full overflow-hidden rounded border border-sky-500">
@@ -158,14 +160,14 @@ const CustomizeWithAi = () => {
                 onClick={() => handleCopy(post.codeSnippet)}
                 className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
               >
-                Copy
+                {t("postdet.copy")} 
               </button>
             )}
             <button
               onClick={toggleOriginalPreview}
               className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
             >
-              {isOriginalPreview ? "Show Code" : "Preview"}
+              {isOriginalPreview ? t("postdet.show") : t("postdet.preview")}
             </button>
           </div>
         </div>
@@ -174,7 +176,7 @@ const CustomizeWithAi = () => {
         className="w-full p-3 mb-5 rounded bg-blue-950 backdrop-blur-sm "
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="📝 Describe your customization here..."
+        placeholder={t("custom.des")}
         required
       />
       {loading ? (
@@ -189,7 +191,7 @@ const CustomizeWithAi = () => {
           className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded mb-4"
           onClick={handleCustomize}
         >
-          Submit
+          {t("newPost.submit")}
         </button>
       )}
       {customCode && (
@@ -237,14 +239,14 @@ const CustomizeWithAi = () => {
                   onClick={() => handleCopy(customCode)}
                   className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
                 >
-                  Copy
+                  {t("postdet.copy")}
                 </button>
               )}
               <button
                 onClick={toggleCustomPreview}
                 className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
               >
-                {isCustomPreview ? "Show Code" : "Preview"}
+                {isCustomPreview ? t("postdet.show") : t("postdet.preview")}
               </button>
             </div>
           </div>
