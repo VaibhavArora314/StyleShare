@@ -1,13 +1,15 @@
 
 import { Router } from "express";
 import authMiddleware from "../../middleware/auth"
-import { createCommentController, createPostController, dislikePostController, favoritePostController, getCommentsController, getFavoritePostsController, getPostController, getPostsWithPagination, likePostController, unfavoritePostController } from "./controller";
+import { createCommentController, createPostController, dislikePostController, favoritePostController, getCommentsController, getFavoritePostsController, getPostController, getPostsWithPagination, likePostController, unfavoritePostController, updatePostController } from "./controller";
 
 const postRouter = Router();
 
 postRouter.get('/', getPostsWithPagination);
 
 postRouter.post('/', authMiddleware, createPostController)
+
+postRouter.put('/:id', authMiddleware, updatePostController);
 
 postRouter.get('/:id', getPostController);
 
