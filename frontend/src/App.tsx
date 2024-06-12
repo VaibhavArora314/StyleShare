@@ -21,17 +21,25 @@ import GoTop from "./components/GoTop";
 import { Toaster } from 'react-hot-toast';
 import PageNotFound from "./pages/PageNotFound";
 import Favorite from "./pages/Favorite";
+import LeaderBoard from "./pages/LeaderBoard";
+import CustomizeWithAi from "./pages/CustomizeWithAi";
+import ScrollToTopWhenRouteChanges from "./components/ScrollToTopWhenRouteChanges";
+import './i18n';
+import LanguageDropdown from "./components/LanguageDropdown";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
+
   return (
     <BrowserRouter>
       <RecoilRoot>
         <React.Suspense fallback={<Loader />}>
           <Navbar />
           <GoTop/>
+          <ScrollToTopWhenRouteChanges/>
           <div className="min-h-[80vh] mt-12 pt-12">
+            <LanguageDropdown/>
             <Routes>
               <Route path="/app" element={<Home />} />
               <Route path="/app/posts/:id" element={<Post />} />
@@ -74,6 +82,20 @@ function App() {
                   <AuthenticatedRoute>
                     <Favorite />
                   </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/app/customize-with-ai/:id"
+                element={
+                  <AuthenticatedRoute>
+                    <CustomizeWithAi />
+                  </AuthenticatedRoute>
+                }
+              />
+              <Route
+               path="/app/leaderboard"
+                element={
+                    <LeaderBoard />
                 }
               />
               <Route
