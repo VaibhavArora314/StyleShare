@@ -4,6 +4,7 @@ import axios, { AxiosError } from 'axios';
 import { IComment } from '../types';
 import Loader from '../components/Loader';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 const Comment = () => {
   const { id } = useParams<{ id: string }>();
@@ -12,6 +13,7 @@ const Comment = () => {
   const [error, setError] = useState<string | null>(null);
   const [commentContent, setCommentContent] = useState("");
   const [comments, setComments] = useState<IComment[]>([]);
+  const { t } = useTranslation();
 
   const fetchComments = async () => {
     setLoading(true);
@@ -74,18 +76,32 @@ const Comment = () => {
   return (
     <div className="">
       <div>
-        <h3 className="text-xl font-semibold mb-4">{comments.length} Comments</h3>
+        <h3 className="text-xl font-semibold mb-4">{comments.length} {t("postdet.comments")}</h3>
         {comments.length > 0 ? (
-          <ul className="space-y-4">
-            {comments.map((comment: IComment) => (
-              <li key={comment.id} className="border-b border-gray-700 pb-2">
-                <p className="text-base"><strong>@{comment.user.username} <span className='text-xs text-gray-500'> {new Date(comment.createdAt).toLocaleString()}</span></strong></p>
+          <ul className="space-y-3">
+          {comments.map((comment: IComment) => (
+            <li key={comment.id} className="border-b border-gray-700 pb-3 flex items-start space-x-3">
+              <img
+                src={`https://ui-avatars.com/api/?name=${comment.user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`}
+                width={40}
+                alt="profile-pic"
+                className="flex-shrink-0"
+              />
+              <div>
+                <p className="text-base">
+                  <strong>
+                    @{comment.user.username}{' '}
+                    <span className="text-xs text-gray-500">{new Date(comment.createdAt).toLocaleString()}</span>
+                  </strong>
+                </p>
                 <p className="text-sm text-white">{comment.content}</p>
-              </li>
-            ))}
-          </ul>
+              </div>
+            </li>
+          ))}
+        </ul>
+        
         ) : (
-          <p className="text-gray-300">Be the first one to comment...</p>
+          <p className="text-gray-300">{t("postdet.firstcomment")}</p>
         )}
       </div>
       <form onSubmit={handleCommentSubmit} className="mt-5">
@@ -94,7 +110,7 @@ const Comment = () => {
           onChange={(e) => setCommentContent(e.target.value)}
           className="w-full p-2 bg-gray-800 border border-gray-700 rounded mb-2"
           rows={2}
-          placeholder="Add a comment..."
+          placeholder={t("postdet.addcomment")}
           disabled={submitting}
           required
         />
@@ -103,7 +119,7 @@ const Comment = () => {
           className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white"
           disabled={submitting}
         >
-          {submitting ? 'Submitting...' : 'Comment'}
+          {submitting ? t("postdet.submitting") : t("postdet.comment")}
         </button>
       </form>
       {submitting && <Loader />}
