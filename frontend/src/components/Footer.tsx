@@ -67,10 +67,8 @@ const Footer = () => {
             </div>
             <div className='block w-3/4 m-auto mt-10'>
                 <div className='flex gap-4 justify-center md:justify-end'>
-                    <a href="https://github.com/VaibhavArora314/StyleShare"><img src={github} alt="github" className='pointer w-14 h-14' /></a>
-                    <Link to='/app'
-                        className="flex items-center justify-center p-2 text-white rounded-full focus:outline-none"
-                    >
+                    <a href="https://github.com/VaibhavArora314/StyleShare" className="icon-hover"><img src={github} alt="github" className='pointer w-14 h-14' /></a>
+                    <Link to='/app' className="icon-hover flex items-center justify-center p-2 text-white rounded-full focus:outline-none">
                         <FaHome size={35} />
                     </Link>
                 </div>

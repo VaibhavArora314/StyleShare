@@ -21,3 +21,14 @@
                                    to(#000000),
                                    color-stop(.6,#666666));
 }
+.icon-hover:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px 2px blue;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.icon-hover img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px 2px blue;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
