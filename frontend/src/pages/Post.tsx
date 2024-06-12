@@ -14,7 +14,6 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { useTranslation } from 'react-i18next';
 import { useRecoilValue } from 'recoil';
 import { userState, tokenState } from '../store/atoms/auth';
-import { useNavigate } from 'react-router-dom';
 
 const Post = () => {
   const user = useRecoilValue(userState);
@@ -49,7 +48,6 @@ const Post = () => {
   const [isOwner, setIsOwner] = useState(false);
   const [isEditing, setisEditing] = useState(false);
   const [tagInput, setTagInput] = useState("");
-  const navigate = useNavigate();
 
   const shareUrl = `http://style-share.vercel.app/app/posts/${post.id}`
   const title = `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`
