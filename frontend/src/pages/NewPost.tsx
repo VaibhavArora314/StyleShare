@@ -65,7 +65,7 @@ const NewPost = () => {
   };
 
   return (
-    <div className="border rounded p-6 text-white max-w-screen-xl mx-auto">
+    <div className="border border-blue-900 rounded-lg p-6 text-white sm:max-w-[80vh] max-w-[50vh] mx-auto m-10">
       <h2 className="text-2xl font-semibold mb-4 text-center">Create New Post</h2>
       <p className="mt-4">{errorMessage}</p>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -79,7 +79,7 @@ const NewPost = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="mt-1 p-2 w-full bg-gray-600 border border-gray-600 rounded"
+            className="mt-1 p-2 w-full bg-[#151569] border border-blue-900 rounded"
           />
         </div>
         <div>
@@ -91,7 +91,7 @@ const NewPost = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
-            className="mt-1 p-2 w-full bg-gray-600 border border-gray-600 rounded"
+            className="mt-1 p-2 w-full bg-[#151569] border border-blue-900 rounded"
           ></textarea>
         </div>
         <div>
@@ -102,7 +102,7 @@ const NewPost = () => {
             id="codeSnippet"
             value={codeSnippet}
             onChange={(e) => setCodeSnippet(e.target.value)}
-            className="mt-1 p-2 w-full bg-gray-600 border border-gray-600 rounded"
+            className="mt-1 p-2 w-full bg-[#151569] border border-blue-900 rounded"
           ></textarea>
         </div>
         <div>
@@ -113,7 +113,7 @@ const NewPost = () => {
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center px-2 py-1 bg-gray-700 text-sm rounded"
+                className="inline-flex items-center px-2 py-1 bg-red-500 border border-red-900 text-sm rounded"
               >
                 {tag}
                 <button
@@ -126,24 +126,28 @@ const NewPost = () => {
               </span>
             ))}
           </div>
+          <div className="flex flex-col sm:flex-row gap-4">
           <input
             type="text"
             id="tagInput"
             value={tagInput}
             onChange={(e) => setTagInput(e.target.value)}
-            className="p-2 bg-gray-600 border border-gray-600 rounded w-full"
+            className="p-2 bg-[#151569] border-blue-900 border rounded w-full"
           />
           <button
             type="button"
             onClick={handleAddTag}
-            className="mt-2 p-2 bg-blue-600 hover:bg-blue-700 rounded text-white w-full"
+            className="p-2 bg-white hover:bg-gray-200 duration-300 rounded text-black w-full"
           >
             Add Tag
           </button>
+          
+            
+          </div>
         </div>
         <button
           type="submit"
-          className="mt-4 m-2 p-2 w-full bg-green-600 hover:bg-green-700 rounded text-white"
+          className="mt-4 p-2 w-full bg-green-600 hover:bg-green-700 duration-300 rounded text-white"
         >
           Submit
         </button>
