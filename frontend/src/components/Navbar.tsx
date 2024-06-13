@@ -118,6 +118,11 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li className="mt-2">
+                  <Link to="/app/code" className={getNavLinkClass("/app/code")} onClick={closeMenu}>
+                    {t("code")}
+                  </Link>
+                </li> 
+                <li className="mt-2">
                   <Link to="/app/profile" className={getNavLinkClass("/app/profile")} onClick={closeMenu}>
                   {t("navbar.links.profile")}
                   </Link>

@@ -121,5 +121,7 @@
     "custom":{
         "og":"Original Code Snippet",
         "des":"📝 Describe your customization here..."
-    }
+    },
+    "code":"Code Editor",
+    "share":"Share Your Masterpiece"
 } 
