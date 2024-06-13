@@ -7,7 +7,7 @@ export function TypewriterEffectSmoothDemo() {
   const words = [
     {
       text: t("hero.h1"),
-      className: "md:text-3xl lg:text-5xl text-3xl text-white"
+      className: "md:text-3xl lg:text-5xl text-3xl  text-white"
     },
     {
       text: t("hero.h2"),
