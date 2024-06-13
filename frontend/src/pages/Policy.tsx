@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import privacy from "../assets/privacy.png";
 import terms from "../assets/terms.png";
@@ -8,17 +8,17 @@ function Policy() {
   const location = useLocation();
 
   useEffect(() => {
+    const scrollToHash = () => {
+      if (location.hash) {
+        const element = document.getElementById(location.hash.substring(1));
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    };
+
     scrollToHash();
   }, [location]);
-
-  const scrollToHash = () => {
-    if (location.hash) {
-      const element = document.getElementById(location.hash.substring(1));
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
 
   return (
     <div className="w-full bg-[#000435] py-16 px-4 text-white">
@@ -28,7 +28,6 @@ function Policy() {
           <div className="flex flex-col">
             <h1 id="privacy-policy" className="text-3xl font-bold mb-4 scroll-margin-top">Privacy Policy</h1>
             <section>
-
               <p>Your privacy is important to us. This privacy policy explains how we collect, use, and protect your personal information when you use our website.</p>
               <h3 className="text-xl font-semibold mt-4">1. Information We Collect</h3>
               <ul className="list-disc list-inside ml-4">
@@ -54,7 +53,6 @@ function Policy() {
               <p>You have the right to access, correct, or delete your personal information. You can also object to or restrict our processing of your personal information.</p>
               <h3 className="text-xl font-semibold mt-4">6. Changes to This Privacy Policy</h3>
               <p>We may update our privacy policy from time to time. We will notify you of any changes by posting the new privacy policy on this page. You are advised to review this privacy policy periodically for any changes.</p>
-              
             </section>
           </div>
         </div>
@@ -119,7 +117,6 @@ function Policy() {
               <p>You can control and/or delete cookies as you wish. For more information on how to manage cookies, please visit <a href="https://www.aboutcookies.org" className="text-blue-500">aboutcookies.org</a>. Note that if you choose to disable cookies, some parts of our website may not function properly.</p>
               <h3 className="text-xl font-semibold mt-4">5.Changes to This Cookie Policy</h3>
               <p>We may update our cookie policy from time to time. We will notify you of any changes by posting the new cookie policy on this page. You are advised to review this policy periodically for any changes.</p>
-              
             </section>
           </div>
         </div>
