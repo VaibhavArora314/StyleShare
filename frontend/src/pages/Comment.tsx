@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { IComment } from '../types';
 import Loader from '../components/Loader';
@@ -88,12 +88,12 @@ const Comment = () => {
                 className="flex-shrink-0"
               />
               <div>
-                <p className="text-base">
+                <Link to={`/app/profile/${comment.user.id}`} data-tooltip-content={`View ${comment.user.username} profile 👀`} data-tooltip-id="my-tooltip" className="text-base">
                   <strong>
                     @{comment.user.username}{' '}
                     <span className="text-xs text-gray-500">{new Date(comment.createdAt).toLocaleString()}</span>
                   </strong>
-                </p>
+                </Link>
                 <p className="text-sm text-white">{comment.content}</p>
               </div>
             </li>
