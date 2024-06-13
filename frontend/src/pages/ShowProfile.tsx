@@ -24,6 +24,7 @@ const ShowProfile = () => {
         const response = await axios.get(`/api/v1/user/profile/${id}`)
         setUser(response.data.user);
       } catch (error) {
+        console.log(posts)
         setErrorMessage('Failed to fetch user details');
       } finally {
         setLoading(false);
