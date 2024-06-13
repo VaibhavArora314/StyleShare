@@ -5,25 +5,24 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 
 const CodeEditor = () => {
-  const initialCode = `<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
-    <div class="absolute inset-0 bg-[url(/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
-    <div class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
-      <div class="mx-auto max-w-md">
+  const initialCode = `<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-blue-400 py-6 sm:py-12">
+    <div class="relative px-6 pt-10 pb-8 shadow-2xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
+      <div class="mx-auto max-w-md text-white">
       <h1 class="text-3xl font-semibold">💅 Style Share</h1>
         <div class="divide-y divide-gray-300/50">
-          <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
+          <div class="space-y-6 py-8 text-base leading-7">
             <p>An advanced online playground for Tailwind CSS, including support for things like:</p>
             <ul class="space-y-4">
               <li class="flex items-center">
                 <p class="ml-4">
                   🤜 Customizing your
-                  <code class="text-sm font-bold text-gray-900">tailwind.config.js</code> file
+                  <code class="text-sm font-bold">tailwind.config.js</code> file
                 </p>
               </li>
               <li class="flex items-center">
                 <p class="ml-4">
                   🤜 Extracting classes with
-                  <code class="text-sm font-bold text-gray-900">@apply</code>
+                  <code class="text-sm font-bold">@apply</code>
                 </p>
               </li>
               <li class="flex items-center">
@@ -33,9 +32,9 @@ const CodeEditor = () => {
             <p>Perfect for learning how the framework works, prototyping a new idea, or creating a demo to share online.</p>
           </div>
           <div class="pt-8 text-base font-semibold leading-7">
-            <p class="text-gray-900">Want to dig deeper into Tailwind?</p>
+            <p class="mb-3">Want to dig deeper into Tailwind?</p>
             <p>
-              <a href="https://tailwindcss.com/docs" class="text-sky-500 hover:text-sky-600">Read the docs &rarr;</a>
+              <a href="https://tailwindcss.com/docs" class="text-blue-500 p-2 bg-white rounded-lg hover:text-blue-600">Read the docs &rarr;</a>
             </p>
           </div>
         </div>
@@ -44,7 +43,7 @@ const CodeEditor = () => {
   </div>`;
   const [code, setCode] = useState(initialCode);
   const [theme, setTheme] = useState<'light' | 'dark'>(
-    () => localStorage.getItem('theme') as 'light' | 'dark' || 'light'
+    () => (localStorage.getItem('theme') as 'light' | 'dark') || 'dark'
   );
   const outputRef = useRef<HTMLIFrameElement>(null);
   const navigate = useNavigate();
