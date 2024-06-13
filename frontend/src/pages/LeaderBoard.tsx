@@ -5,11 +5,13 @@ import { ILeaderboardUser } from '../types';
 import { GiTrophyCup } from "react-icons/gi";
 import { useRecoilValue } from 'recoil';
 import { userState } from '../store/atoms/auth';
+import { useTranslation } from 'react-i18next';
 
 const LeaderBoard = () => {
   const [loading, setLoading] = useState(true);
   const [leaderboard, setLeaderboard] = useState<ILeaderboardUser[]>([]);
   const currentUser = useRecoilValue(userState);
+  const {t} = useTranslation();
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -28,7 +30,7 @@ const LeaderBoard = () => {
 
   return (
     <div className="p-3 mb-10">
-      <h2 className="text-3xl font-bold text-center mb-8 text-gray-50">Leaderboard 🥳</h2>
+      <h2 className="text-3xl font-bold text-center mb-8 text-gray-50">{t("navbar.links.leaderboard")} 🥳</h2>
       <div className="shadow-md bg-blue-950 backdrop-blur-sm rounded-lg p-4 border-2 border-sky-500 lg:mx-52 md:mx-20 overflow-x-auto">
         {loading ? (
           <div className="flex justify-center">
@@ -38,11 +40,11 @@ const LeaderBoard = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className='text-center text-sm font-medium text-gray-100 border-b-2 border-sky-600 '>
               <tr>
-                <th scope="col" className='px-6 py-3 text-gray-100 uppercase tracking-wider'>Rank</th>
-                <th scope="col" className='px-6 py-3 text-gray-100 uppercase tracking-wider'>Profile</th>
-                <th scope="col" className='px-6 py-3 text-gray-100 uppercase tracking-wider'>Username</th>
-                <th scope="col" className='px-6 py-3 text-gray-100 uppercase tracking-wider'>Posts</th>
-                <th scope="col" className='px-6 py-3 text-gray-100 uppercase tracking-wider'>Likes</th>
+                <th scope="col" className='px-6 py-3 text-gray-100 uppercase tracking-wider'>{t("leaderboard.rank")}</th>
+                <th scope="col" className='px-6 py-3 text-gray-100 uppercase tracking-wider'>{t("leaderboard.profile")}</th>
+                <th scope="col" className='px-6 py-3 text-gray-100 uppercase tracking-wider'>{t("leaderboard.username")}</th>
+                <th scope="col" className='px-6 py-3 text-gray-100 uppercase tracking-wider'>{t("leaderboard.posts")}</th>
+                <th scope="col" className='px-6 py-3 text-gray-100 uppercase tracking-wider'>{t("leaderboard.likes")}</th>
               </tr>
             </thead>
             <tbody>

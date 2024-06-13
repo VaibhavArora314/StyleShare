@@ -4,6 +4,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   post: IPost;
@@ -14,6 +15,7 @@ type Props = {
 const PostCard = ({ post,onDelete,currentUser }: Props) => {
 
   const [isDeleting, setIsDeleting] = useState(false);
+  const { t } = useTranslation();
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -64,7 +66,7 @@ const PostCard = ({ post,onDelete,currentUser }: Props) => {
         to={`/app/posts/${post.id}`}
         className="inline-block mt-4 text-blue-400 hover:text-blue-300 transition-colors duration-200 rounded-3xl border-2 border-blue-500 hover:border-blue-300 px-4 py-2"
       >
-        Read more
+        {t("readMore")}
       </Link>
       {currentUser && currentUser.id === post.author.id && (
         <button
