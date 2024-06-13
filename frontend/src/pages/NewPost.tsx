@@ -1,8 +1,8 @@
 import axios, { AxiosError } from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import toast from 'react-hot-toast';
 import { useTranslation } from "react-i18next";
 
@@ -14,15 +14,15 @@ const NewPost = () => {
   const [tagInput, setTagInput] = useState("");
   const token = useRecoilValue(tokenState);
   const navigate = useNavigate();
-  // const [error, setError] = useState({
-  //   title: "",
-  //   description: "",
-  //   codeSnippet: "",
-  //   tags: "",
-  //   message: "",
-  // });
+  const location = useLocation();
   const [errorMessage, setErrorMessage] = useState("");
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (location.state && location.state.codeSnippet) {
+      setCodeSnippet(location.state.codeSnippet);
+    }
+  }, [location.state]);
 
   const handleAddTag = () => {
     if (tagInput.length > 0 && !tags.includes(tagInput)) {

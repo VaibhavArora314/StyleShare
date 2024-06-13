@@ -53,13 +53,13 @@ const Footer = () => {
                         <p className='text-gray-200 font-bold'>{t('footer.legal')}</p>
                         <ul className='text-gray-300 py-4 cursor-pointer'>
                             <li className='py-1 cursor-pointer'>
-                                <Link to='/app/policy'>{t('footer.l.le1')}</Link>
+                                <Link to='/app/policy#privacy-policy'>{t('footer.l.le1')}</Link>
                             </li>
                             <li className='py-1 cursor-pointer'>
-                                <Link to='/app/policy'>{t('footer.l.le2')}</Link>
+                                <Link to='/app/policy#terms-and-conditions'>{t('footer.l.le2')}</Link>
                             </li>
                             <li className='py-1 cursor-pointer'>
-                                <Link to='/app/policy'>{t('footer.l.le3')}</Link>
+                                <Link to='/app/policy#cookie-policy'>{t('footer.l.le3')}</Link>
                             </li>
                         </ul>
                     </div>
