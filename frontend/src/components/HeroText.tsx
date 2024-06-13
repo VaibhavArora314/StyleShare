@@ -7,19 +7,19 @@ export function TypewriterEffectSmoothDemo() {
   const words = [
     {
       text: t("hero.h1"),
-      className: "md:text-3xl lg:text-5xl text-xl text-white",
+      className: "md:text-3xl lg:text-5xl text-white text-typing ",
     },
     {
       text: t("hero.h2"),
-      className: "text-white lg:text-5xl md:text-3xl text-xl",
+      className: "text-white lg:text-5xl md:text-3xl text-typing",
     },
     {
       text: t("hero.h3"),
-      className: "text-blue-500 lg:text-5xl md:text-3xl text-xl",
+      className: "text-blue-500 lg:text-5xl md:text-3xl  text-typing ",
     },
     {
       text: t("hero.h4"),
-      className: "text-blue-500 lg:text-5xl md:text-3xl text-xl",
+      className: "text-blue-500 lg:text-5xl md:text-3xl text-typing",
     },
   ];
 
