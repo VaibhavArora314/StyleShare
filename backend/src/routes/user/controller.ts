@@ -315,3 +315,51 @@ export const verifyOtpController = async (
     });
   }
 };
+
+export const showUserProfileController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+      select: {
+        id: true,
+        email: false,
+        username: true,
+        createdAt:true,
+        posts: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            tags: true,
+            author: {
+              select: {
+                id: true,
+                username: true,
+              }
+            }
+          }
+        },
+        verified: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        error: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      user,
+    });
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).json({
+      error: "An unexpected error occurred!",
+    });
+  }
+};
