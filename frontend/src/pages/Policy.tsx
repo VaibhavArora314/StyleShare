@@ -115,7 +115,7 @@ function Policy() {
               </ul>
               <h3 className="text-xl font-semibold mt-4">4. Managing Cookies</h3>
               <p>You can control and/or delete cookies as you wish. For more information on how to manage cookies, please visit <a href="https://www.aboutcookies.org" className="text-blue-500">aboutcookies.org</a>. Note that if you choose to disable cookies, some parts of our website may not function properly.</p>
-              <h3 className="text-xl font-semibold mt-4">5.Changes to This Cookie Policy</h3>
+              <h3 className="text-xl font-semibold mt-4">5. Changes to This Cookie Policy</h3>
               <p>We may update our cookie policy from time to time. We will notify you of any changes by posting the new cookie policy on this page. You are advised to review this policy periodically for any changes.</p>
             </section>
           </div>
