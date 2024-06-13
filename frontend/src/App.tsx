@@ -26,7 +26,6 @@ import CustomizeWithAi from "./pages/CustomizeWithAi";
 import ScrollToTopWhenRouteChanges from "./components/ScrollToTopWhenRouteChanges";
 import './i18n';
 import LanguageDropdown from "./components/LanguageDropdown";
-import TestimonialSlider from "./components/TestimonialSlider";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -120,7 +119,6 @@ function App() {
               <Route path="*" element={<PageNotFound/>} />
             </Routes>
           </div>
-          <TestimonialSlider />
           <Footer />
         </React.Suspense>
       </RecoilRoot>
