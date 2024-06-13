@@ -65,7 +65,7 @@ const NewPost = () => {
   };
 
   return (
-    <div className="border border-blue-900 rounded-lg p-6 text-white sm:max-w-[80vh] max-w-[50vh] mx-auto m-10">
+    <div className="border border-blue-900 rounded-lg p-6 text-white sm:max-w-[70%] max-w-[50vh] mx-auto m-10">
       <h2 className="text-2xl font-semibold mb-4 text-center">Create New Post</h2>
       <p className="mt-4">{errorMessage}</p>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -137,7 +137,7 @@ const NewPost = () => {
           <button
             type="button"
             onClick={handleAddTag}
-            className="p-2 bg-white hover:bg-gray-200 duration-300 rounded text-black w-full"
+            className="p-2 bg-white hover:bg-gray-200 duration-300 rounded text-black w-1/3"
           >
             Add Tag
           </button>
@@ -145,12 +145,15 @@ const NewPost = () => {
             
           </div>
         </div>
+        <div className="flex justify-center items-center">
         <button
           type="submit"
-          className="mt-4 p-2 w-full bg-green-600 hover:bg-green-700 duration-300 rounded text-white"
+          className="mt-4 py-2 px-24 w-full sm:w-fit bg-green-600 hover:bg-green-700 duration-300 rounded text-white"
         >
           Submit
         </button>
+        
+        </div>
       </form>
     </div>
   );
