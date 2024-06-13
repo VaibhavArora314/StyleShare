@@ -113,7 +113,7 @@ const TestimonialSlider: React.FC = () => {
 
   return (
     <div className=" bg-[#000435] testimonial-slider py-10 mx-10 max-w-70 px-4 md:px-10" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-      <h2 className="text-3xl md:text-4xl font-extrabold text-center text-white mb-8 " >What Our Users Say</h2>
+      <h2 className="text-3xl md:text-4xl font-extrabold text-center text-white mb-8 " >⭐ What Our Users Say ⭐</h2>
       <Slider {...settings}>
         {testimonials.map((testimonial, index) => (
           <div key={index} className="  testimonial  p-6 md:p-20 rounded-lg shadow-lg    text-white flex flex-col items-center justify-center" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
