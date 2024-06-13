@@ -79,7 +79,7 @@ const Footer = () => {
                 {t('footer.copy1')} {currentYear} {t('footer.copy2')}
             </div>
         </div>
-    );
+    )
 }
 
 export default Footer;
