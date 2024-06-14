@@ -7,6 +7,7 @@ import HomePagePost from "./HomePagePosts";
 import { TypewriterEffectSmoothDemo } from "../components/HeroText";
 import MagicButton from "../components/ui/MagicButton";
 import { useTranslation } from 'react-i18next';
+import TestimonialSlider from "../components/TestimonialSlider";
 
 function Home() {
   const { t } = useTranslation();
@@ -37,6 +38,7 @@ function Home() {
         </div>
         <About />
         <HomePagePost />
+        <TestimonialSlider/>
       </div>
   );
 }
