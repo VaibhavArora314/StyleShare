@@ -27,6 +27,7 @@ export interface IUser {
   username: string;
   email: string;
   verified: boolean;
+  createdAt:string;
   posts: IPost[];
   favoritePosts?: IPost[]; 
 }

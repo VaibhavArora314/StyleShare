@@ -27,6 +27,8 @@ import ScrollToTopWhenRouteChanges from "./components/ScrollToTopWhenRouteChange
 import './i18n';
 import LanguageDropdown from "./components/LanguageDropdown";
 import CodeEditor from "./components/CodeEditor";
+import ShowProfile from "./pages/ShowProfile";
+import { Tooltip } from 'react-tooltip'
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -45,6 +47,7 @@ function App() {
               <Route path="/app" element={<Home />} />
               <Route path="/app/posts/:id" element={<Post />} />
               <Route path="/app/posts" element={<Posts />} />
+              <Route path="/app/profile/:id" element={<ShowProfile/>} />
               <Route
                 path="/app/signin"
                 element={
@@ -131,6 +134,7 @@ function App() {
           <Footer />
         </React.Suspense>
       </RecoilRoot>
+      <Tooltip id="my-tooltip" place='right' style={{backgroundColor:"#00AAFF",color:'#fff',fontSize:'15px'}} />
       <Toaster/>
     </BrowserRouter>
   );

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Loader from '../components/Loader';
 import { ILeaderboardUser } from '../types';
@@ -27,6 +28,7 @@ const LeaderBoard = () => {
 
     fetchLeaderboard();
   }, []);
+
 
   return (
     <div className="p-3 mb-10">
@@ -68,7 +70,7 @@ const LeaderBoard = () => {
                     </div>
                   </td>
                   <td className='px-6 py-4 '>
-                    <div className={`text-sm text-gray-50 ${currentUser && user.userId === currentUser.id ? 'font-bold' : ''}`}>@{user.username}</div>
+                    <Link to={`/app/profile/${user.userId}`} data-tooltip-content={`View ${user.username} profile 👀`} data-tooltip-id="my-tooltip" className={`text-sm text-gray-50 ${currentUser && user.userId === currentUser.id ? 'font-bold' : ''}`}>@{user.username}</Link>
                   </td>
                   <td className='px-6 py-4 '>
                     <div className="text-sm text-gray-50">{user.postCount}</div>

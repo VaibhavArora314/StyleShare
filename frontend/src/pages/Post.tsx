@@ -48,7 +48,7 @@ const Post = () => {
   const [isOwner, setIsOwner] = useState(false);
   const [isEditing, setisEditing] = useState(false);
   const [tagInput, setTagInput] = useState("");
-
+  
   const shareUrl = `http://style-share.vercel.app/app/posts/${post.id}`
   const title = `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`
 
@@ -280,6 +280,10 @@ const Post = () => {
     );
   }
 
+  const handleProfileNavigation = () =>{
+    navigate(`/app/profile/${post.author.id}`);
+  }
+
   return (
     <div className="p-6 text-white max-w-screen-xl mx-auto">
       {(post && isEditing) ? (
@@ -479,7 +483,7 @@ const Post = () => {
           </div>
           <div className="my-5">
             <h3 className="text-xl font-semibold my-2">{t("postdet.author")}</h3>
-            <p className='text-lg'>{t("postdet.user")}: @{post.author.username}</p>
+            <button onClick={handleProfileNavigation} data-tooltip-content={`View ${post.author.username} profile 👀`} data-tooltip-id="my-tooltip" className='text-lg font-semibold cursor-pointer'>{t("postdet.user")}: @{post.author.username}</button>
           </div>
           <div className="flex space-x-2 my-4">
             <TelegramShareButton url={shareUrl} title={title}>
