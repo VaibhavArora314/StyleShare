@@ -15,32 +15,32 @@ const testimonials: Testimonial[] = [
   {
     quote: "StyleShare's Tailwind CSS platform has revolutionized my workflow! With its intuitive utility-first approach, I can create stylish and responsive designs in a fraction of the time.",
     author: "Ravi Kiran, Front-end Developer",
-    image: "https://avatars.githubusercontent.com/u/73741938?v=4" 
+    image: "https://avatars.githubusercontent.com/u/84830429?v=4" 
   },
   {
     quote: "I've been using StyleShare's Tailwind CSS platform for my personal projects, and I'm amazed by its flexibility and efficiency. It's truly a game-changer in the world of web development!",
     author: "Yash Goyal ,     Front-end Developer",
-    image: "https://avatars.githubusercontent.com/u/99606580?v=4"
+    image: "https://avatars.githubusercontent.com/u/84830429?v=4"
   },
   {
     quote: "Thanks to StyleShare's Tailwind CSS platform, I've been able to speed up my design process significantly. Its modular approach and customizable components have made styling a breeze!",
     author: "Manoj Kumar,Front-end Developer",
-    image: "https://avatars.githubusercontent.com/u/75559082?v=4"
+    image: "https://avatars.githubusercontent.com/u/84830429?v=4"
   },
   {
     quote: "StyleShare's Tailwind CSS platform has transformed the way I collaborate with my team. Its consistent and scalable design system ensures seamless integration across projects, fostering productivity and creativity",
     author: "Surya Teja, Front-end Developer",
-    image: "https://avatars.githubusercontent.com/u/93720428?v=4" 
+    image: "https://avatars.githubusercontent.com/u/84830429?v=4" 
   },
   {
     quote: "I can't imagine working on web projects without StyleShare's Tailwind CSS platform. Its simplicity and power have elevated my skills as a developer and enabled me to deliver top-notch designs to my clients.",
     author: "Sivaram, Front-end Developer",
-    image: "https://avatars.githubusercontent.com/u/65810355?v=4"
+    image: "https://avatars.githubusercontent.com/u/84830429?v=4"
   },
   {
     quote: "StyleShare's Tailwind CSS platform has transformed the way I collaborate with my team. Its consistent and scalable design system ensures seamless integration across projects, fostering productivity and creativity.",
     author: "Bharath, Front-end Developer",
-    image: "https://avatars.githubusercontent.com/u/151961588?v=4"
+    image: "https://avatars.githubusercontent.com/u/84830429?v=4"
   },
 ];
 
