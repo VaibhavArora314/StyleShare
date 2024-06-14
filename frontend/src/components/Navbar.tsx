@@ -25,28 +25,28 @@ const Navbar = () => {
     localStorage.removeItem("token");
     setTokenState("");
     closeMenu();
-    toast.success('Logged out successfully')
+    toast.success('Logged out successfully');
   };
 
-  const getNavLinkClass = (path: string) => {
+  const getNavLinkClass = (path:string) => {
     return location.pathname === path
-      ? "block py-2 px-3 bg-blue-600 rounded md:bg-transparent md:p-0 text-white md:text-blue-300"
-      : "block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-300 hover:bg-blue-400 hover:text-white md:hover:bg-transparent";
+      ? "block py-2 px-3 bg-blue-600 rounded lg:bg-transparent lg:p-0 text-white lg:text-blue-300"
+      : "block py-2 px-3 rounded lg:border-0 lg:p-0 text-white lg:hover:text-blue-300 hover:bg-blue-400 hover:text-white lg:hover:bg-transparent";
   };
 
   return (
-    <nav className="bg-gradient-to-r from-pink-900 to-sky-600 fixed w-full z-20 top-0 start-0 ">
+    <nav className="bg-gradient-to-r from-pink-900 to-sky-600 fixed w-full z-20 top-0 start-0">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link to="/app" className="flex items-center space-x-3 rtl:space-x-reverse" onClick={closeMenu}>
-        <img src={logo} className="h-8" alt="Styleshare Logo" />
+          <img src={logo} className="h-8" alt="Styleshare Logo" />
           <span className="self-center justify-between text-2xl font-bold whitespace-nowrap text-white font-mono">
-          {t("navbar.logo")}
+            {t("navbar.logo")}
           </span>
         </Link>
-       <button
+        <button
           onClick={toggleMenu}
           type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-100 rounded-lg md:hidden hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-100 rounded-lg lg:hidden hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-200"
           aria-controls="navbar-default"
           aria-expanded={isMenuOpen ? "true" : "false"}
         >
@@ -70,31 +70,31 @@ const Navbar = () => {
         <div
           className={`${
             isMenuOpen ? "block" : "hidden"
-          } w-full md:block md:w-auto transition-all duration-300 ease-in-out`}
+          } w-full lg:block lg:w-auto transition-all duration-300 ease-in-out`}
           id="navbar-default"
         >
-          <ul className="font-medium flex flex-col p-4 text-lg md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
-            <li className="mt-2 md:mb-0">
+          <ul className="font-medium flex flex-col p-4 text-lg lg:p-0 mt-4 border rounded-lg lg:flex-row lg:space-x-8 rtl:space-x-reverse lg:mt-0 lg:border-0">
+            <li className="mt-2 lg:mb-0">
               <Link to="/app" className={getNavLinkClass("/app")} aria-current="page" onClick={closeMenu}>
-              {t("navbar.links.home")}
+                {t("navbar.links.home")}
               </Link>
             </li>
             <li className="mt-2">
               <Link to="/app/posts" className={getNavLinkClass("/app/posts")} onClick={closeMenu}>
-              {t("navbar.links.posts")}
+                {t("navbar.links.posts")}
               </Link>
             </li>
             <li className="mt-2">
-                  <Link to="/app/leaderboard" className={getNavLinkClass("/app/leaderboard")} onClick={closeMenu}>
-                  {t("navbar.links.leaderboard")}
-                  </Link>
-                </li>
+              <Link to="/app/leaderboard" className={getNavLinkClass("/app/leaderboard")} onClick={closeMenu}>
+                {t("navbar.links.leaderboard")}
+              </Link>
+            </li>
             {!isLoggedIn ? (
-              <div className="flex flex-col md:flex-row md:space-x-4">
-                <li className="mb-2 md:mb-0">
+              <div className="flex flex-col lg:flex-row lg:space-x-4">
+                <li className="mb-2 lg:mb-0">
                   <Link
                     to="/app/signin"
-                    className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 duration-300 transition-colors hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 "
+                    className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 duration-300 transition-colors hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                     onClick={closeMenu}
                   >
                     {t("navbar.links.signin")}
@@ -114,27 +114,27 @@ const Navbar = () => {
               <>
                 <li className="mt-2">
                   <Link to="/app/new-post" className={getNavLinkClass("/app/new-post")} onClick={closeMenu}>
-                  {t("navbar.links.newpost")}
+                    {t("navbar.links.newpost")}
                   </Link>
                 </li>
                 <li className="mt-2">
                   <Link to="/app/code" className={getNavLinkClass("/app/code")} onClick={closeMenu}>
                     {t("code")}
                   </Link>
-                </li> 
+                </li>
                 <li className="mt-2">
                   <Link to="/app/profile" className={getNavLinkClass("/app/profile")} onClick={closeMenu}>
-                  {t("navbar.links.profile")}
+                    {t("navbar.links.profile")}
                   </Link>
                 </li>
                 <li className="mt-2">
                   <Link to="/app/fav" className={getNavLinkClass("/app/fav")} onClick={closeMenu}>
-                  {t("navbar.links.favorite")}
+                    {t("navbar.links.favorite")}
                   </Link>
                 </li>
                 <li className="mt-2">
                   <button
-                    className="block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent w-full text-left"
+                    className="block py-2 px-3 rounded lg:border-0 lg:p-0 text-white lg:hover:text-blue-500 hover:bg-gray-700 hover:text-white lg:hover:bg-transparent w-full text-left"
                     onClick={handleLogout}
                   >
                     {t("navbar.links.logout")}
