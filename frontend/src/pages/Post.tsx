@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { IPost } from '../types';
 import DOMPurify from 'dompurify';
-import { BiDislike,BiLike,BiSolidDislike,BiSolidLike } from "react-icons/bi";
+import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from "react-icons/bi";
 import Loader from '../components/Loader'
 import toast from 'react-hot-toast';
 import { TwitterShareButton, LinkedinShareButton, FacebookShareButton, TelegramShareButton, LinkedinIcon, FacebookIcon, TelegramIcon, XIcon, WhatsappShareButton, WhatsappIcon } from 'react-share';
@@ -12,8 +12,12 @@ import { MdFavorite } from "react-icons/md";
 import { MdFavoriteBorder } from "react-icons/md";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useTranslation } from 'react-i18next';
+import { useRecoilValue } from 'recoil';
+import { userState, tokenState } from '../store/atoms/auth';
 
 const Post = () => {
+  const user = useRecoilValue(userState);
+  const token = useRecoilValue(tokenState);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [post, setPost] = useState<IPost>({
@@ -29,9 +33,9 @@ const Post = () => {
     },
     likes: 0,
     dislikes: 0,
-    comments:[],
+    comments: [],
     favoritePosts: []
-  });  
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isPreview, setIsPreview] = useState(false);
@@ -41,9 +45,12 @@ const Post = () => {
   const [userDisliked, setUserDisliked] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const { t } = useTranslation();
-
-  const shareUrl=`http://style-share.vercel.app/app/posts/${post.id}`
-  const title= `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`
+  const [isOwner, setIsOwner] = useState(false);
+  const [isEditing, setisEditing] = useState(false);
+  const [tagInput, setTagInput] = useState("");
+  
+  const shareUrl = `http://style-share.vercel.app/app/posts/${post.id}`
+  const title = `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`
 
   const onLoad = () => {
     setHeight(ref.current?.contentWindow?.document.body.scrollHeight + 'px');
@@ -54,6 +61,9 @@ const Post = () => {
       try {
         const response = await axios.get(`/api/v1/posts/${id}`);
         setPost(response.data.post);
+        if (user && user.id === response.data.post.author.id) {
+          setIsOwner(true);
+        }
         setLoading(false);
       } catch (error) {
         const axiosError = error as AxiosError<{ error: string }>;
@@ -79,23 +89,7 @@ const Post = () => {
   const togglePreview = () => {
     setIsPreview(!isPreview);
   };
-
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const response = await axios.get(`/api/v1/posts/${id}`);
-        setPost(response.data.post);
-        setLoading(false);
-      } catch (error) {
-        const axiosError = error as AxiosError<{ error: string }>;
-        setError(axiosError.response?.data.error || 'Failed to fetch the post');
-        setLoading(false);
-      }
-    };
-
-    fetchPost();
-  }, [id]);
-
+  
   useEffect(() => {
     onLoad();
   }, [isPreview, post?.codeSnippet]);
@@ -129,7 +123,7 @@ const Post = () => {
       toast.success('Like is done only once, no spam 😊');
     }
   };
-  
+
   const handleDislike = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -168,7 +162,7 @@ const Post = () => {
       setIsFavorite(true);
       localStorage.setItem(`post-${id}-favorite`, 'true');
       toast.success('Post added to favorites');
-    } catch (error:any) {
+    } catch (error: any) {
       if (error.response && error.response.status === 403) {
         toast.error(error.response.data.error.message || 'User is not verified!');
       } else {
@@ -192,7 +186,7 @@ const Post = () => {
       setIsFavorite(false);
       localStorage.removeItem(`post-${id}-favorite`);
       toast.success('Post removed from favorites');
-    } catch (error:any) {
+    } catch (error: any) {
       if (error.response && error.response.status === 403) {
         toast.error(error.response.data.error.message || 'User is not verified!');
       } else {
@@ -200,23 +194,16 @@ const Post = () => {
       }
     }
   };
-  
+
+  const handleEdit = () => {
+    setisEditing(true);
+  };
+
   useEffect(() => {
     const favoriteStatus = localStorage.getItem(`post-${id}-favorite`);
     setIsFavorite(favoriteStatus === 'true');
   }, [id]);
-  
-  if (loading) {
-    return <Loader />;
-  }
 
-  if (error) {
-    return (
-      <div className="text-red-500 text-lg w-full text-center mt-5">
-        {error}
-      </div>
-    );
-  }
 
   DOMPurify.addHook("uponSanitizeElement", (node, data) => {
     if (data.tagName === "img" || data.tagName === "div") {
@@ -244,33 +231,178 @@ const Post = () => {
     navigate(`/app/customize-with-ai/${post.id}`,{state: { post}});
   };
 
+  const handleAddTag = () => {
+    if (tagInput.length > 0 && !post.tags.includes(tagInput)) {
+      setPost({ ...post, tags: [...post.tags, tagInput] });
+      setTagInput("");
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setPost({ ...post, tags: post.tags.filter((tag) => tag !== tagToRemove) });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const updatedPost = {
+      title: post.title,
+      description: post.description,
+      codeSnippet: post.codeSnippet,
+      tags: post.tags,
+    };
+    console.log('inside update');
+    try {
+      const response = await axios.put(`/api/v1/posts/${post.id}`, updatedPost, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      toast.success(response.data.message)
+      setisEditing(false);
+      navigate(`/app/posts/${response.data?.post?.id}`);
+    } catch (e) {
+      const axiosError = e as AxiosError<{ error: string }>;
+      console.log(axiosError.response?.data.error);
+      setError(axiosError.response?.data.error || 'Failed to update the post');
+    }
+  };
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <div className="text-red-500 text-lg w-full text-center mt-5">
+        {error}
+      </div>
+    );
+  }
+
+  const handleProfileNavigation = () =>{
+    navigate(`/app/profile/${post.author.id}`);
+  }
+
   return (
     <div className="p-6 text-white max-w-screen-xl mx-auto">
-      {post && (
+      {(post && isEditing) ? (
+        <div>
+          <h2 className="text-2xl font-semibold mb-4">Edit Post</h2>
+          <p className="mt-4">{error}</p>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="mb-4">
+              <label htmlFor="title" className="block text-sm font-medium mb-2">
+                Title
+              </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                value={post.title}
+                onChange={(e) => setPost({ ...post, title: e.target.value })}
+                className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="description" className="block text-sm font-medium mb-2">
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                value={post.description}
+                onChange={(e) => setPost({ ...post, description: e.target.value })}
+                className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="codeSnippet" className="block text-sm font-medium mb-2">
+                Code Snippet
+              </label>
+              <textarea
+                id="codeSnippet"
+                name="codeSnippet"
+                value={post.codeSnippet}
+                onChange={(e) => setPost({ ...post, codeSnippet: e.target.value })}
+                className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded"
+              />
+            </div>
+            <div>
+              <label htmlFor="tags" className="block text-sm font-medium">
+                Tags
+              </label>
+              <div className="mt-1 mb-2 flex flex-wrap gap-2">
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center px-2 py-1 bg-gray-700 text-sm rounded"
+                  >
+                    {tag}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveTag(tag)}
+                      className="ml-2 text-gray-300 hover:text-white"
+                    >
+                      &times;
+                    </button>
+                  </span>
+                ))}
+              </div>
+              <input
+                type="text"
+                id="tagInput"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                className="p-2 bg-gray-800 border border-gray-700 rounded"
+              />
+              <button
+                type="button"
+                onClick={handleAddTag}
+                className="ml-2 p-2 bg-blue-600 hover:bg-blue-700 rounded text-white"
+              >
+                Add Tag
+              </button>
+            </div>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+            >
+              Save
+            </button>
+            <button
+              onClick={() => setisEditing(false)}
+              className="ml-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded"
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
+      ) : (
         <>
           <button onClick={() => window.history.back()} className="mb-2 mt-2 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
-          <IoMdArrowRoundBack size={20}/>
-          </button> 
+            <IoMdArrowRoundBack size={20} />
+          </button>
           <div className='flex flex-row content-center mb-1'>
-          <h2 className="text-2xl font-semibold mr-3">{post.title}</h2>
-          {isFavorite ? (
-            <MdFavorite onClick={handleRemoveFromFavorite} size={33} className="cursor-pointer text-blue-600 " />
-          ) : (
-            <MdFavoriteBorder onClick={handleAddToFavorite} size={33} className="cursor-pointer text-white" />
-          )}
-        </div>
-            <button
-              onClick={handleLike}
-              className="px-4 py-2 my-3 rounded-md border-2 text-white text-sm mr-2"
-            >
-              {userLiked ? <BiSolidLike size={25} /> : <BiLike size={25} />} {post.likes}
-            </button>
-            <button
-              onClick={handleDislike}
-              className="px-4 py-2 rounded-md border-2 text-white text-sm"
-            >
-              {userDisliked ? <BiSolidDislike size={25} /> : <BiDislike size={25} />} {post.dislikes}
-            </button>
+            <h2 className="text-2xl font-semibold mr-3">{post.title}</h2>
+            {isFavorite ? (
+              <MdFavorite onClick={handleRemoveFromFavorite} size={33} className="cursor-pointer text-blue-600 " />
+            ) : (
+              <MdFavoriteBorder onClick={handleAddToFavorite} size={33} className="cursor-pointer text-white" />
+            )}
+          </div>
+          <button
+            onClick={handleLike}
+            className="px-4 py-2 my-3 rounded-md border-2 text-white text-sm mr-2"
+          >
+            {userLiked ? <BiSolidLike size={25} /> : <BiLike size={25} />} {post.likes}
+          </button>
+          <button
+            onClick={handleDislike}
+            className="px-4 py-2 rounded-md border-2 text-white text-sm"
+          >
+            {userDisliked ? <BiSolidDislike size={25} /> : <BiDislike size={25} />} {post.dislikes}
+          </button>
           <p className="mb-4">{post.description}</p>
           <div className="relative my-4">
             {isPreview ? (
@@ -307,7 +439,13 @@ const Post = () => {
                 <code>{post.codeSnippet}</code>
               </pre>
             )}
-            <div className="absolute top-2 right-2 flex space-x-2 ">
+            <div className="absolute top-2 right-3 flex space-x-2">
+              {(isOwner && !isPreview) ? (
+                <button onClick={handleEdit}
+                  className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
+                  Edit
+                </button>
+              ) : null}
               {isPreview ? null : (
                 <button
                   onClick={handleCopy}
@@ -345,10 +483,10 @@ const Post = () => {
           </div>
           <div className="my-5">
             <h3 className="text-xl font-semibold my-2">{t("postdet.author")}</h3>
-            <p className='text-lg'>{t("postdet.user")}: @{post.author.username}</p>
+            <button onClick={handleProfileNavigation} data-tooltip-content={`View ${post.author.username} profile 👀`} data-tooltip-id="my-tooltip" className='text-lg font-semibold cursor-pointer'>{t("postdet.user")}: @{post.author.username}</button>
           </div>
           <div className="flex space-x-2 my-4">
-          <TelegramShareButton url={shareUrl} title={title}>
+            <TelegramShareButton url={shareUrl} title={title}>
               <TelegramIcon size={35} round />
             </TelegramShareButton>
             <TwitterShareButton url={shareUrl} title={title}>
@@ -357,14 +495,14 @@ const Post = () => {
             <WhatsappShareButton url={shareUrl} title={title}>
               <WhatsappIcon size={35} round />
             </WhatsappShareButton>
-            <LinkedinShareButton url={shareUrl} title={title} summary={title}> 
+            <LinkedinShareButton url={shareUrl} title={title} summary={title}>
               <LinkedinIcon size={35} round />
             </LinkedinShareButton>
             <FacebookShareButton url={shareUrl} title={title} >
               <FacebookIcon size={35} round />
             </FacebookShareButton>
           </div>
-          <Comment/>
+          <Comment />
         </>
       )}
     </div>
