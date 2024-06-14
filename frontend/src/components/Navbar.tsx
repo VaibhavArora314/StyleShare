@@ -111,7 +111,6 @@ const Navbar = () => {
                 <li className="mb-2 md:mb-0">
                   <Link
                     to="/app/signin"
-                    // className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 duration-300 transition-colors hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 "
                     onClick={closeMenu}
                   >
                     <button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
@@ -125,7 +124,6 @@ const Navbar = () => {
                 <li>
                   <Link
                     to="/app/signup"
-                    // className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 duration-300 transition-colors hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                     onClick={closeMenu}
                   >
                     <button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
@@ -149,11 +147,6 @@ const Navbar = () => {
                     {t("navbar.links.newpost")}
                   </Link>
                 </li>
-                <li className="mt-2">
-                  <Link to="/app/code" className={getNavLinkClass("/app/code")} onClick={closeMenu}>
-                    {t("code")}
-                  </Link>
-                </li> 
                 <li className="mt-2">
                   <Link
                     to="/app/profile"
