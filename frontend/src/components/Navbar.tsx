@@ -145,7 +145,7 @@ const Navbar = () => {
                   >
                     {t("navbar.links.newpost")}
                   </Link>
-
+                </li>
                   <li className="mt-2">
                   <Link
                     to="/app/code"
@@ -154,16 +154,6 @@ const Navbar = () => {
                   >
                     {t("code")}
                   </Link>
-                {/* <li className="mt-2">
-                  <Link 
-                    to="/app/code" 
-                    className={getNavLinkClass("/app/code")} 
-                    onClick={closeMenu}
-                    >
-                    {t("navbar.links.code")}
-                  </Link>
-                </li> */}
-
                 </li>
                 <li className="mt-2">
                   <Link
