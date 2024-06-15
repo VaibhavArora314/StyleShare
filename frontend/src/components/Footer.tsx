@@ -6,7 +6,6 @@ import { CgProfile } from 'react-icons/cg';
 import { BsFilePost } from 'react-icons/bs';
 import { FaHome } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
-import logo from "../assets/favicon.png";
 
 const Footer = () => {
     const { t } = useTranslation();
@@ -17,12 +16,9 @@ const Footer = () => {
         <div className='bg-black text-white p-10'>
             <div className='md:flex'>
                 <div className='md:w-1/2'>
-                <div className="flex items-center">
-                    <img src={logo} className="h-8 mr-2" alt="Styleshare Logo" />
-                    <span className="ml-2 text-2xl font-semibold whitespace-nowrap text-white">
+                    <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
                         {t('footer.heading')}
                     </span>
-                </div>
                 </div>
                 <div className='md:w-3/4 md:flex'>
                     <div className='md:w-1/3'>
