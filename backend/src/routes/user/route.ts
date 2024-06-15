@@ -21,6 +21,6 @@ userRouter.post("/verify-otp", authMiddleware, verifyOtpController);
 
 userRouter.get("/me", authMiddleware, userProfileController);
 
-userRouter.post("/contact-us", authMiddleware, contactUsController);
+userRouter.post("/contact-us", contactUsController);
 
 export default userRouter;
