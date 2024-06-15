@@ -154,7 +154,6 @@ const Navbar = () => {
                   >
                     {t("navbar.links.code")}
                   </Link>
-
                 {/* <li className="mt-2">
                   <Link 
                     to="/app/code" 
