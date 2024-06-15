@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import logo from "../assets/favicon.png";
 import { useTranslation } from "react-i18next";
+import LanguageDropdown from "./LanguageDropdown";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -47,6 +48,9 @@ const Navbar = () => {
             {t("navbar.logo")}
           </span>
         </Link>
+        <div className="flex-grow  text-center">
+              <LanguageDropdown />
+        </div>
         <button
           onClick={toggleMenu}
           type="button"
