@@ -152,7 +152,7 @@ const Navbar = () => {
                     className={getNavLinkClass("/app/code")} 
                     onClick={closeMenu}
                     >
-                    {t("navbar.links.code")}
+                    {t("code")}
                   </Link>
                 </li>
 
