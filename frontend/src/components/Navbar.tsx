@@ -153,7 +153,7 @@ const Navbar = () => {
                     className={getNavLinkClass("/app/code")}
                     onClick={closeMenu}
                   >
-                    {t("coder")}
+                    {t("CodeEditor")}
                   </Link>
                 </li>
                 <li className="mt-2">
