@@ -18,7 +18,7 @@ const Footer = () => {
             <div className='md:flex'>
                 <div className='md:w-1/2'>
                 <div className="flex items-center">
-                    <img src={logo} className="h-8" alt="Styleshare Logo" />
+                    <img src={logo} className="h-8 mr-2" alt="Styleshare Logo" />
                     <span className="ml-2 text-2xl font-semibold whitespace-nowrap text-white">
                         {t('footer.heading')}
                     </span>
