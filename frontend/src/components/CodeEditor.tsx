@@ -3,6 +3,7 @@ import MonacoEditor from '@monaco-editor/react';
 import { CiLight, CiDark } from 'react-icons/ci';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
+import toast, { Toaster } from 'react-hot-toast';
 
 const CodeEditor = () => {
   const initialCode = `<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-blue-400 py-6 sm:py-12">
@@ -78,14 +79,30 @@ const CodeEditor = () => {
     navigate('/app/new-post', { state: { codeSnippet: code } });
   };
 
+  const handleCopyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      toast.success('Code copied to clipboard!');
+    } catch (err) {
+      toast.error('Failed to copy code!');
+      console.error('Failed to copy code: ', err);
+    }
+  };
+
   return (
     <div className='flex flex-col h-screen -mt-28 sm:-mt-8'>
+      <Toaster />
       <nav className={`bg-${theme === 'dark' ? 'gray-900' : 'white'} text-white p-16 sm:p-5 mt-20 sm:mt-1`}>
         <div className="flex justify-between items-center">
           <div className="flex-1"></div>
           <button 
+            onClick={handleCopyToClipboard}
+            className='p-2 rounded cursor-pointer mr-2 border-2 font-mono border-red-100 focus:outline-none bg-[#000435] text-white hover:bg-[#801fc4] '>
+            {t("copy")}
+          </button>
+          <button 
             onClick={handlePublish}
-            className='p-2 rounded cursor-pointer focus:outline-none bg-sky-500 hover:bg-sky-600 mr-1'>
+            className='p-2 rounded cursor-pointer  border-2 font-mono border-red-100 focus:outline-none bg-[#000435] text-white hover:bg-[#801fc4]'>
             {t("share")}
           </button>
           <div className="flex-1 flex justify-end">
