@@ -31,22 +31,24 @@ const Navbar = () => {
 
   const getNavLinkClass = (path:string) => {
     return location.pathname === path
-      ? "block py-2 px-3 bg-blue-600 rounded lg:bg-transparent lg:p-0 text-white lg:text-blue-300"
-      : "block py-2 px-3 rounded lg:border-0 lg:p-0 text-white lg:hover:text-blue-300 hover:bg-blue-400 hover:text-white lg:hover:bg-transparent";
+      ? "block py-2 px-3 bg-blue-600 rounded lg:bg-transparent lg:p-0 text-white lg:text-blue-800"
+      : "block py-2 px-3 rounded lg:border-0 lg:p-0 text-white lg:hover:text-blue-900 hover:bg-blue-400 hover:text-white lg:hover:bg-transparent";
   };
 
   return (
-    <nav className="bg-gradient-to-r from-pink-900 to-sky-600 fixed w-full z-20 top-0 start-0">
+    <nav className="bg-gradient-to-r from-blue-900 via-sky-300 to-blue-900 fixed w-full z-20 top-0 start-0">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link to="/app" className="flex items-center space-x-3 rtl:space-x-reverse" onClick={closeMenu}>
-          <img src={logo} className="h-8" alt="Styleshare Logo" />
-          <span className="self-center justify-between text-2xl font-bold whitespace-nowrap text-white font-mono">
-            {t("navbar.logo")}
-          </span>
-        </Link>
-        <div className="flex-grow  text-center">
+        <Link to="/app" className="flex items-center justify-between space-x-3 rtl:space-x-reverse" onClick={closeMenu}>
+            <div className="flex items-center space-x-3 rtl:space-x-reverse">
+              <img src={logo} className="h-8" alt="Styleshare Logo" />
+              <span className="self-center text-2xl font-bold whitespace-nowrap text-white font-mono">
+                {t("navbar.logo")}
+              </span>
+            </div>
+            <div className=" ">
               <LanguageDropdown />
-        </div>
+            </div>
+        </Link>
         <button
           onClick={toggleMenu}
           type="button"
@@ -98,7 +100,9 @@ const Navbar = () => {
                 <li className="mb-2 lg:mb-0">
                   <Link
                     to="/app/signin"
-                    className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 duration-300 transition-colors hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                    className="block py-2 px-3 rounded-full text-white border-2 border-blue-100 
+                       transform hover:scale-100 bg-gradient-to-r from-blue-500 via-sky-900 to-blue-500 duration-300 transition-colors hover:from-blue-700
+                       hover:via-sky-500 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-100 "
                     onClick={closeMenu}
                   >
                     {t("navbar.links.signin")}
@@ -107,7 +111,10 @@ const Navbar = () => {
                 <li>
                   <Link
                     to="/app/signup"
-                    className="block py-2 px-3 rounded-full text-white bg-gradient-to-l from-blue-400 to-pink-500 duration-300 transition-colors hover:from-pink-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                    className="block py-2 px-3 rounded-full text-white border-2 border-blue-100 
+                     transform hover:scale-100  bg-gradient-to-r from-blue-500 via-sky-900
+                     to-blue-500 duration-300 transition-colors hover:from-blue-700
+                     hover:via-sky-500 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-100"
                     onClick={closeMenu}
                   >
                     {t("navbar.links.signup")}
