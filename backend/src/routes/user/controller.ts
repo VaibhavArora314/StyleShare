@@ -337,9 +337,9 @@ export const contactUsController = async (req: Request, res: Response) => {
 
     const contactMessage = await prisma.contactMessage.create({
       data: {
-        name: data.name, 
-        email: data.email, 
-        subject: data.subject, 
+        name: data.name,
+        email: data.email,
+        subject: data.subject,
         message: data.message,
       }
     });
@@ -354,8 +354,8 @@ export const contactUsController = async (req: Request, res: Response) => {
       error: "An unexpected error occurred!",
     });
   }
-      
-      
+};
+
 export const showUserProfileController = async (req: UserAuthRequest, res: Response) => {
   try {
     const { id } = req.params;
@@ -368,7 +368,7 @@ export const showUserProfileController = async (req: UserAuthRequest, res: Respo
         id: true,
         email: false,
         username: true,
-        createdAt:true,
+        createdAt: true,
         posts: {
           select: {
             id: true,
