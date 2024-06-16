@@ -33,7 +33,8 @@ const Post = () => {
     likes: 0,
     dislikes: 0,
     comments: [],
-    favoritePosts: []
+    favoritePosts: [],
+    reactions: []
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
