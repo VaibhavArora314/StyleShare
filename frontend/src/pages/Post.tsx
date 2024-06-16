@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { IPost } from '../types';
 import DOMPurify from 'dompurify';
@@ -13,11 +13,10 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useTranslation } from 'react-i18next';
 import { useRecoilValue } from 'recoil';
-import { userState, tokenState } from '../store/atoms/auth';
+import { userState } from '../store/atoms/auth';
 
 const Post = () => {
   const user = useRecoilValue(userState);
-  const token = useRecoilValue(tokenState);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [post, setPost] = useState<IPost>({
@@ -46,8 +45,6 @@ const Post = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const { t } = useTranslation();
   const [isOwner, setIsOwner] = useState(false);
-  const [isEditing, setisEditing] = useState(false);
-  const [tagInput, setTagInput] = useState("");
   
   const shareUrl = `http://style-share.vercel.app/app/posts/${post.id}`
   const title = `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`
@@ -195,10 +192,6 @@ const Post = () => {
     }
   };
 
-  const handleEdit = () => {
-    setisEditing(true);
-  };
-
   useEffect(() => {
     const favoriteStatus = localStorage.getItem(`post-${id}-favorite`);
     setIsFavorite(favoriteStatus === 'true');
@@ -231,43 +224,6 @@ const Post = () => {
     navigate(`/app/customize-with-ai/${post.id}`,{state: { post}});
   };
 
-  const handleAddTag = () => {
-    if (tagInput.length > 0 && !post.tags.includes(tagInput)) {
-      setPost({ ...post, tags: [...post.tags, tagInput] });
-      setTagInput("");
-    }
-  };
-
-  const handleRemoveTag = (tagToRemove: string) => {
-    setPost({ ...post, tags: post.tags.filter((tag) => tag !== tagToRemove) });
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const updatedPost = {
-      title: post.title,
-      description: post.description,
-      codeSnippet: post.codeSnippet,
-      tags: post.tags,
-    };
-    console.log('inside update');
-    try {
-      const response = await axios.put(`/api/v1/posts/${post.id}`, updatedPost, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      toast.success(response.data.message)
-      setisEditing(false);
-      navigate(`/app/posts/${response.data?.post?.id}`);
-    } catch (e) {
-      const axiosError = e as AxiosError<{ error: string }>;
-      console.log(axiosError.response?.data.error);
-      setError(axiosError.response?.data.error || 'Failed to update the post');
-    }
-  };
-
   if (loading) {
     return <Loader />;
   }
@@ -286,99 +242,6 @@ const Post = () => {
 
   return (
     <div className="p-6 text-white max-w-screen-xl mx-auto">
-      {(post && isEditing) ? (
-        <div>
-          <h2 className="text-2xl font-semibold mb-4">Edit Post</h2>
-          <p className="mt-4">{error}</p>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="mb-4">
-              <label htmlFor="title" className="block text-sm font-medium mb-2">
-                Title
-              </label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={post.title}
-                onChange={(e) => setPost({ ...post, title: e.target.value })}
-                className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="description" className="block text-sm font-medium mb-2">
-                Description
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                value={post.description}
-                onChange={(e) => setPost({ ...post, description: e.target.value })}
-                className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="codeSnippet" className="block text-sm font-medium mb-2">
-                Code Snippet
-              </label>
-              <textarea
-                id="codeSnippet"
-                name="codeSnippet"
-                value={post.codeSnippet}
-                onChange={(e) => setPost({ ...post, codeSnippet: e.target.value })}
-                className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded"
-              />
-            </div>
-            <div>
-              <label htmlFor="tags" className="block text-sm font-medium">
-                Tags
-              </label>
-              <div className="mt-1 mb-2 flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center px-2 py-1 bg-gray-700 text-sm rounded"
-                  >
-                    {tag}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveTag(tag)}
-                      className="ml-2 text-gray-300 hover:text-white"
-                    >
-                      &times;
-                    </button>
-                  </span>
-                ))}
-              </div>
-              <input
-                type="text"
-                id="tagInput"
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                className="p-2 bg-gray-800 border border-gray-700 rounded"
-              />
-              <button
-                type="button"
-                onClick={handleAddTag}
-                className="ml-2 p-2 bg-blue-600 hover:bg-blue-700 rounded text-white"
-              >
-                Add Tag
-              </button>
-            </div>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
-            >
-              Save
-            </button>
-            <button
-              onClick={() => setisEditing(false)}
-              className="ml-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded"
-            >
-              Cancel
-            </button>
-          </form>
-        </div>
-      ) : (
         <>
           <button onClick={() => window.history.back()} className="mb-2 mt-2 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
             <IoMdArrowRoundBack size={20} />
@@ -441,10 +304,10 @@ const Post = () => {
             )}
             <div className="absolute top-2 right-3 flex space-x-2">
               {(isOwner && !isPreview) ? (
-                <button onClick={handleEdit}
+                <Link to={`/app/posts/edit/${post.id}`}
                   className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
                   Edit
-                </button>
+                </Link>
               ) : null}
               {isPreview ? null : (
                 <button
@@ -504,7 +367,6 @@ const Post = () => {
           </div>
           <Comment />
         </>
-      )}
     </div>
   );
 };
