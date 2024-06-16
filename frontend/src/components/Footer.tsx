@@ -2,9 +2,9 @@ import { useRecoilValue } from 'recoil';
 import github from '../assets/github.png';
 import { Link } from 'react-router-dom';
 import { loggedInState } from '../store/atoms/auth';
-import { CgProfile } from 'react-icons/cg';
+import {CgBoard , CgProfile} from 'react-icons/cg';
 import { BsFilePost } from 'react-icons/bs';
-import { FaHome } from 'react-icons/fa';
+import {FaEnvelope , FaHome , FaPortrait} from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import logo from "../assets/favicon.png";
 
@@ -16,15 +16,27 @@ const Footer = () => {
     return (
         <div className='bg-black text-white p-10'>
             <div className='md:flex'>
-                <div className='md:w-1/2'>
-                    <div className="flex items-center">
-                        <img src={logo} className="h-8" alt="Styleshare Logo" />
-                        <span className="ml-4 text-2xl font-semibold whitespace-nowrap text-white">
-                            {t('footer.heading')}
-                        </span>
+                <div className='md:w-1/4'>
+                    <div className="flex items-center flex-col">
+                        <div className="flex">
+                            <img src={logo} className="h-8" alt="Styleshare Logo" />
+                            <span className="ml-4 text-2xl font-semibold whitespace-nowrap text-white">
+                                {t('footer.heading')}
+                            </span>
+                        </div>
+                        <div className='block  m-auto mt-10'>
+                            <div className='flex gap-4 justify-center md:justify-end'>
+                                <a href="https://github.com/VaibhavArora314/StyleShare" className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease">
+                                    <img src={github} alt="github" className='pointer w-14 h-14' />
+                                </a>
+                                <Link to='/app' className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease flex items-center justify-center p-2 text-white rounded-full focus:outline-none">
+                                    <FaHome size={35} />
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className='md:w-3/4 md:flex'>
+                <div className='md:w-2/4 md:flex'>
                     <div className='md:w-1/3'>
                         <p className='text-gray-200 font-bold mt-8 md:mt-0'>{t('footer.company')}</p>
                         <ul className='text-gray-300 py-4'>
@@ -51,6 +63,12 @@ const Footer = () => {
                                     <CgProfile size={20} />
                                 </Link>
                             </li>
+                            <li className='py-1 cursor-pointer'>
+                                <Link className='flex items-center gap-1' to='/app/leaderboard'>
+                                    {t('footer.q.q3')}
+                                    <CgBoard size={20} />
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                     <div className='md:w-1/3'>
@@ -68,19 +86,28 @@ const Footer = () => {
                         </ul>
                     </div>
                 </div>
+                <div className='md:w-4/4 md:flex flex-col'>
+                    <div className="m-2 font-bold mb-5">Subscribe to get latest update</div>
+                    <form className="md:flex flex-col gap-3">
+                        <div className="flex">
+                            <label className="p-2  border-2 border-white text-2xl"><FaPortrait/></label>
+                            <input className="p-2 " placeholder="Full Name"/>
+                        </div>
+                        <div className="flex">
+                            <label className="p-2  border-2 border-white text-2xl"><FaEnvelope/></label>
+                            <input className="p-2" placeholder="Email"/>
+                        </div>
+                        <button className="border-2 p-2 hover:text-black hover:bg-white border-white">Get Updated</button>
+                    </form>
+                </div>
             </div>
-           <div className='block w-3/4 m-auto mt-10'>
-                    <div className='flex gap-4 justify-center md:justify-end'>
-                  <a href="https://github.com/VaibhavArora314/StyleShare" className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease">
-                   <img src={github} alt="github" className='pointer w-14 h-14' />
-                   </a>
-                 <Link to='/app' className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease flex items-center justify-center p-2 text-white rounded-full focus:outline-none">
-                   <FaHome size={35} />
-                  </Link>
-                   </div>
-          </div>
 
-            <div className='mt-10 text-gray-300 xl:flex justify-center text-md lg:text-xl xl:text-md'>{t('footer.copy1')} {currentYear}{t('footer.copy2')}</div>
+            <hr className="mt-10"/>
+            <div className='mt-5 text-gray-300 xl:flex justify-center text-md lg:text-xl xl:text-md gap-5'>
+                <div>Accessibility Statement </div>|
+                <div>{t('footer.copy1')} {currentYear}{t('footer.copy2')} </div> |
+                <div>Supplier Code of Conduct</div> |
+            </div>
         </div>
     )
 }

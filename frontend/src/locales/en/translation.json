@@ -41,7 +41,8 @@
         "quick":"Quick Links",
         "q":{
             "q1":"All Posts",
-            "q2":"User profile"
+            "q2":"User profile",
+            "q3": "Leader Board"
         },
         "legal":"Legal Pages",
         "l":{
