@@ -8,6 +8,9 @@ import { TypewriterEffectSmoothDemo } from "../components/HeroText";
 import MagicButton from "../components/ui/MagicButton";
 import { useTranslation } from 'react-i18next';
 import TestimonialSlider from "../components/TestimonialSlider";
+import FAQ from "../components/FAQ";
+import Showcase from "../components/Showcase";
+import Features from "../components/Features";
 
 function Home() {
   const { t } = useTranslation();
@@ -36,9 +39,12 @@ function Home() {
             <img className="w-[600px] imgAnimate" src={hero} alt="About Us" />
           </div>
         </div>
+        <Features/>
         <About />
+        <Showcase/>
         <HomePagePost />
         <TestimonialSlider/>
+        <FAQ/>
       </div>
   );
 }
