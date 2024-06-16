@@ -176,6 +176,7 @@ const EditPost = () => {
           Save
         </button>
         <button
+        type='button'
           onClick={() => navigate(-1)}
           className="ml-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded"
         >
