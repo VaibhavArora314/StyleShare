@@ -5,12 +5,14 @@ import { useSetRecoilState } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-    
+  const { t } = useTranslation();
+
   const [error, setError] = useState({
     email: "",
     password: "",
@@ -38,16 +40,12 @@ const Signin = () => {
           message: string;
         };
       }>;
-      if (axiosError?.response?.data?.error) {
-        const errorMessage = axiosError.response.data.error.message;
-        toast.error(errorMessage);
-        setError({
-          ...error,
-          message: errorMessage,
-        });
-      } else {
-        toast.error("An unexpected error occurred");
-      }
+      const errorMessage = axiosError?.response?.data?.error?.message || "Invalid credentials. Please try again.";
+      toast.error(errorMessage);
+      setError({
+        ...error,
+        message: errorMessage,
+      });
     }
   };
 
@@ -57,12 +55,12 @@ const Signin = () => {
 
     <div className="max-w-md mx-auto mt-8 p-6  rounded-lg shadow-md">
       <h2 className="text-3xl font-bold mb-4 text-white text-center">
-        Sign In
+      {t("login.sigin")}
       </h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="email" className="block text-white">
-            Email
+          {t("login.email")}
           </label>
           <input
             type="email"
@@ -79,7 +77,7 @@ const Signin = () => {
         </div>
         <div className="mb-4">
           <label htmlFor="password" className="block text-white relative">
-            Password
+          {t("login.password")}
           <input
              type={showPassword ? "text" : "password"}
             id="password"
@@ -99,7 +97,7 @@ const Signin = () => {
             ) : (
                 <AiOutlineEye fontSize={24} fill="#AFB2BF" />
             )}
-                              </span>
+            </span>
           </label>
                               
           <p className="text-sm font-semibold mb-2 text-red-600">
@@ -111,14 +109,14 @@ const Signin = () => {
           type="submit"
           className=" bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
         >
-          Sign In
+          {t("login.sigin")}
         </button>
         </div>
       </form>
       <p className=" mt-4 text-md text-white">
-        Don't have an account? -
+      {t("login.noAccount")} -
         <Link to="/app/signup" className="text-blue-500 text-lg p-2">
-          Sign Up
+        {t("register.signup")}
         </Link>
       </p>
     </div>

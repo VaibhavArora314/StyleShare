@@ -1,7 +1,7 @@
 
 import { Router } from "express";
 import authMiddleware from "../../middleware/auth"
-import { createCommentController, createPostController, deletePostController, dislikePostController, favoritePostController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostsWithPagination, likePostController, unfavoritePostController } from "./controller";
+import { aiCustomization, createCommentController, createPostController, deletePostController, dislikePostController, favoritePostController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostsWithPagination, likePostController, unfavoritePostController, updatePostController } from "./controller";
 
 const postRouter = Router();
 
@@ -10,6 +10,8 @@ postRouter.get('/', getPostsWithPagination);
 postRouter.get('/lead', getPostController);
 
 postRouter.post('/', authMiddleware, createPostController)
+
+postRouter.put('/:id', authMiddleware, updatePostController);
 
 postRouter.get('/:id', getPostController);
 
@@ -30,5 +32,7 @@ postRouter.get('/:id/favorites', authMiddleware, getFavoritePostsController);
 postRouter.get('/all/leaderboard', getLeaderboardController);
 
 postRouter.delete('/delete/:id', authMiddleware, deletePostController); 
+
+postRouter.post('/customize',aiCustomization)
 
 export default postRouter;

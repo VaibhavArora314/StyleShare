@@ -1,0 +1,127 @@
+{
+    "hero":{
+        "h1":"👋 Welcome",
+        "h2":"To",
+        "h3":"Style",
+        "h4":"Share",
+        "subheading": "A simple web-based platform where users can easily",
+        "list":{
+            "first":"Contribute",
+            "second":"Create",
+            "third":"Explore",
+            "fourth":"Share"
+        },
+        "button":"Explore Now"
+    },
+    "about":{
+        "aboutHeading":"About Style Share",
+        "head1":{
+            "heading":"Unleashing Creativity - Tailwind CSS",
+            "paragraph":"Our mission is to make the design process more accessible and efficient for everyone. Whether you are a seasoned developer looking for inspiration or a beginner taking your first steps into the world of web design, our platform offers a wealth of resources tailored to your needs."
+        },
+        "head2":{
+            "heading":"How it Works !",
+            "list":{
+                "l1":"Search any component with search bar from various developers.",
+                "l2":"contribute to open source for more tailwind components.",
+                "l3":"Create your own component to help other developers.",
+                "l4":"Create posts from New Posts section.",
+                "l5":"And that's it you are ready to go.",
+                "l6":"Other features coming soon."
+            }
+        }
+    },
+    "footer":{
+        "heading":"Style Share",
+        "company":"Company",
+        "c":{
+            "l1":"About Us",
+            "l2":"Contact Us"
+        },
+        "quick":"Quick Links",
+        "q":{
+            "q1":"All Posts",
+            "q2":"User profile"
+        },
+        "legal":"Legal Pages",
+        "l":{
+            "le1":"Privacy Policy",
+            "le2":"Terms and Conditions",
+            "le3":"Cookie Policy"
+        },
+        "copy1":"Copyright ",
+        "copy2":" @ Style Share"
+    },
+    "PostHeading":"Recent Posts Added",
+    "allPosts":{
+        "Posts":"Posts",
+        "search":"🔍 Search anything",
+        "filter":"Filter",
+        "tag":"Add Tag",
+        "pre":"Previous",
+        "next":"Next"
+    },
+    "readMore":"Read More",
+    "navbar": {
+    "logo": "Style Share",
+    "links": {
+        "home": "Home",
+        "posts": "Posts",
+        "leaderboard": "Leaderboard",
+        "signin": "Sign in",
+        "signup": "Sign up",
+        "newpost": "New Post",
+        "profile": "Profile",
+        "favorite": "Favorite",
+        "logout": "Logout"
+    }
+},
+    "leaderboard": {
+        "rank": "Rank",
+        "profile": "Profile",
+        "username": "Username",
+        "posts": "Posts",
+        "likes": "Likes"
+    },
+    "newPost":{
+        "createPost": "Create New Post",
+        "description": "Description",
+        "codeSnippet": "Code Snippet",
+        "tags": "Tags",
+        "submit": "Submit"
+    },
+    "favpost":"Favorite Posts",
+    "myfavpost":"My Favorite Posts",
+    "nofav":"No favorite post yet",
+    "notfound":"Page Not Found",
+    "postdet":{
+        "copy":"Copy",
+        "show":"Show Code",
+        "preview":"Preview",
+        "cus":"Customize with AI",
+        "author":"Author",
+        "user":"User",
+        "comments":"Comments",
+        "firstcomment":"Be the first one to comment...",
+        "addcomment":"Add a comment...",
+        "submitting":"Submitting...",
+        "comment":"Comment"
+    },
+    "login":{
+        "sigin":"Sign In",
+        "email":"Email",
+        "password":"Password",
+        "noAccount":"Don't have an account? "
+    },
+    "register":{
+        "signup":"Sign Up",
+        "username":"Username",
+        "alAccount":"Already have an account?"
+    },
+    "custom":{
+        "og":"Original Code Snippet",
+        "des":"📝 Describe your customization here..."
+    },
+    "code":"Code Editor",
+    "share":"Share Your Masterpiece"
+} 

@@ -5,12 +5,14 @@ import Loader from '../components/Loader';
 import PostCard from '../components/PostCard';
 import { userState } from '../store/atoms/auth';
 import { useRecoilValue } from 'recoil';
+import { useTranslation } from 'react-i18next';
 
 const HomePagePost = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const currentUser = useRecoilValue(userState);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -42,7 +44,7 @@ const HomePagePost = () => {
 
   return (
     <div className='max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4'>
-      <h1 className="text-3xl font-semibold my-4 text-white">📃 Recent Posts Added</h1>
+      <h1 className="text-3xl font-semibold my-4 text-white">📃 {t("PostHeading")}</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full my-10">
         {posts.map((post, index) => (
           <PostCard key={index} post={post} onDelete={handleDelete} currentUser={currentUser} />

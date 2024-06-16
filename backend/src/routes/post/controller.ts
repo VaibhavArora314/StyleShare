@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { UserAuthRequest } from "../../helpers/types";
 import { createPostSchema } from "./zodSchema";
 import prisma from "../../db";
+import axios from "axios";
+import {GoogleGenerativeAI} from '@google/generative-ai'
 
 export const createPostController = async (
   req: UserAuthRequest,
@@ -83,6 +85,83 @@ export const createPostController = async (
   }
 };
 
+export const updatePostController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+    const { title, codeSnippet, description, tags } = req.body;
+
+    if (!userId) {
+      return res.status(403).json({ error: "Invalid user" });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        verified: true,
+      },
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({
+        error: "User is not verified!",
+      });
+    }
+
+    const post = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+      select: {
+        id: true,
+        authorId: true,
+      },
+    });
+
+    if (!post) {
+      return res.status(404).json({
+        error: "Post not found!",
+      });
+    }
+
+    if (post.authorId !== userId) {
+      return res.status(403).json({
+        error: "You are not authorized to update this post!",
+      });
+    }
+
+    const updatedPost = await prisma.post.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        title,
+        codeSnippet,
+        description,
+        tags,
+      },
+      select: {
+        id: true,
+        title: true,
+        codeSnippet: true,
+        description: true,
+        tags: true,
+      },
+    });
+
+    res.status(200).json({
+      message: "Post updated successfully!",
+      post: updatedPost,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
 export const getPostController = async (req: Request, res: Response) => {
   try {
     const postId = req.params.id;
@@ -97,15 +176,15 @@ export const getPostController = async (req: Request, res: Response) => {
         codeSnippet: true,
         description: true,
         tags: true,
-        likes:true,
-        dislikes:true,
+        likes: true,
+        dislikes: true,
         author: {
           select: {
             id: true,
             username: true,
           },
         },
-        comments:true
+        comments: true
       },
     });
 
@@ -151,7 +230,7 @@ export const getPostsController = async (req: Request, res: Response) => {
 export const getPostsWithPagination = async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string);
-    const pageSize = parseInt(req.query.pageSize as string); 
+    const pageSize = parseInt(req.query.pageSize as string);
 
     const totalPosts = await prisma.post.count();
     const totalPages = Math.ceil(totalPosts / pageSize);
@@ -621,5 +700,55 @@ export const deletePostController = async (req: UserAuthRequest, res: Response) 
   } catch (error) {
     console.log(error)
     res.status(500).json({ error: { message: "An unexpected error occurred" } });
+  }
+};
+
+const getCodeSnippetById = async (id: string) => {
+  const post = await prisma.post.findUnique({
+    where: { id },
+    select: { codeSnippet: true },
+  });
+  return post?.codeSnippet || "";
+};
+
+export const aiCustomization = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const { id, query } = req.body;
+
+    if (!id || !query) {
+      console.error("ID and query are required", { id, query });
+      return res.status(400).json({ error: "ID and query are required" });
+    }
+
+    const originalCodeSnippet = await getCodeSnippetById(id);
+
+    if (!originalCodeSnippet) {
+      console.error("Code snippet not found for id:", id);
+      return res.status(404).json({ error: "Code snippet not found" });
+    }
+
+    let key = process.env.API_KEY
+
+    if (!key) {
+      throw new Error("API_KEY is not defined in the environment variables.");
+    }
+
+    const genAI = new GoogleGenerativeAI(key);
+
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+    
+    const prompt = `This is my tailwind css code: ${originalCodeSnippet}\n\n I want you to modify it and put ${query}\n\n and also write the code in vs code format like one below other tag and just give me code don't explain it.`
+    
+    const result = await model.generateContent(prompt);
+
+    const response = await result.response;
+
+    const text = response.text();
+
+    res.json({ customCode: text });
+
+  } catch (error) {
+    console.error('Failed to customize the code', error);
+    res.status(500).json({ error: "Failed to customize the code" });
   }
 };

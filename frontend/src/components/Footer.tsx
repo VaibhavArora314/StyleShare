@@ -5,78 +5,84 @@ import { loggedInState } from '../store/atoms/auth';
 import { CgProfile } from 'react-icons/cg';
 import { BsFilePost } from 'react-icons/bs';
 import { FaHome } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
+import logo from "../assets/favicon.png";
 
 const Footer = () => {
-
+    const { t } = useTranslation();
     const isLoggedIn = useRecoilValue(loggedInState);
     const currentYear = new Date().getFullYear();
 
-  return (
-    <div className='bg-black text-white p-10'>
-        <div className='md:flex'>
-            <div className='md:w-1/2'>
-            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
-            Style Share
-          </span>
+    return (
+        <div className='bg-black text-white p-10'>
+            <div className='md:flex'>
+                <div className='md:w-1/2'>
+                    <div className="flex items-center">
+                        <img src={logo} className="h-8" alt="Styleshare Logo" />
+                        <span className="ml-4 text-2xl font-semibold whitespace-nowrap text-white">
+                            {t('footer.heading')}
+                        </span>
+                    </div>
+                </div>
+                <div className='md:w-3/4 md:flex'>
+                    <div className='md:w-1/3'>
+                        <p className='text-gray-200 font-bold mt-8 md:mt-0'>{t('footer.company')}</p>
+                        <ul className='text-gray-300 py-4'>
+                            <li className='py-1 cursor-pointer'>
+                                <Link to='/app/about'>{t('footer.c.l1')}</Link>
+                            </li>
+                            <li className='py-1 cursor-pointer'>
+                                <Link to='/app/contact-us'>{t('footer.c.l2')}</Link>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className='md:w-1/3'>
+                        <p className='text-gray-200 font-bold'>{t('footer.quick')}</p>
+                        <ul className='text-gray-300 py-4 cursor-pointer'>
+                            <li className='py-1 cursor-pointer'>
+                                <Link className='flex items-center gap-1' to='/app/posts'>
+                                    {t('footer.q.q1')}
+                                    <BsFilePost size={20} />
+                                </Link>
+                            </li>
+                            <li className='py-1 cursor-pointer'>
+                                <Link className='flex items-center gap-1' to={isLoggedIn ? '/app/profile' : '/app/signin'}>
+                                    {t('footer.q.q2')}
+                                    <CgProfile size={20} />
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className='md:w-1/3'>
+                        <p className='text-gray-200 font-bold'>{t('footer.legal')}</p>
+                        <ul className='text-gray-300 py-4 cursor-pointer'>
+                            <li className='py-1 cursor-pointer'>
+                                <Link to='/app/policy#privacy-policy'>{t('footer.l.le1')}</Link>
+                            </li>
+                            <li className='py-1 cursor-pointer'>
+                                <Link to='/app/policy#terms-and-conditions'>{t('footer.l.le2')}</Link>
+                            </li>
+                            <li className='py-1 cursor-pointer'>
+                                <Link to='/app/policy#cookie-policy'>{t('footer.l.le3')}</Link>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div className='md:w-3/4 md:flex'>
-                <div className='md:w-1/3'>
-                    <p className='text-gray-200 font-bold mt-8 md:mt-0'>Company</p>
-                    <ul className='text-gray-300 py-4'>
-                        <li className='py-1 cursor-pointer'>
-                            <Link to='/app/about'>About Us</Link>
-                        </li>
-                        <li className='py-1 cursor-pointer'>
-                            <Link to='/app/contact-us'>Contact Us</Link>
-                        </li>
-                    </ul>
-                </div>
-                <div className='md:w-1/3'>
-                <p className='text-gray-200 font-bold'>Quick Links</p>
-                    <ul className='text-gray-300 py-4 cursor-pointer'>
-                        <li className='py-1 cursor-pointer'>
-                            <Link className='flex items-center gap-1' to='/app/posts'>
-                                All Posts
-                                <BsFilePost size={20} />
-                            </Link>
-                        </li>
-                        <li className='py-1 cursor-pointer'>
-                            <Link className='flex items-center gap-1' to={isLoggedIn ? '/app/profile' : '/app/signin'}>
-                                User profile
-                                <CgProfile size={20} />
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
-                <div className='md:w-1/3'>
-                <p className='text-gray-200 font-bold'>Legal Pages</p>
-                    <ul className='text-gray-300 py-4 cursor-pointer'>
-                        <li className='py-1 cursor-pointer'>
-                            <Link to='/app/policy'>Privacy Policy</Link> 
-                        </li>
-                        <li className='py-1 cursor-pointer'>
-                            <Link to='/app/policy'>Terms and Conditions</Link> 
-                        </li>
-                        <li className='py-1 cursor-pointer'>
-                            <Link to='/app/policy'>Cookie Policy</Link> 
-                        </li>
-                    </ul>
-                </div>
-            </div>
+           <div className='block w-3/4 m-auto mt-10'>
+                    <div className='flex gap-4 justify-center md:justify-end'>
+                  <a href="https://github.com/VaibhavArora314/StyleShare" className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease">
+                   <img src={github} alt="github" className='pointer w-14 h-14' />
+                   </a>
+                 <Link to='/app' className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease flex items-center justify-center p-2 text-white rounded-full focus:outline-none">
+                   <FaHome size={35} />
+                  </Link>
+                   </div>
+          </div>
+
+            <div className='mt-10 text-gray-300 xl:flex justify-center text-md lg:text-xl xl:text-md'>{t('footer.copy1')} {currentYear}{t('footer.copy2')}</div>
         </div>
-        <div className='block w-3/4 m-auto mt-10'>
-            <div className='flex gap-4 justify-center md:justify-end'>
-            <a href="https://github.com/VaibhavArora314/StyleShare"><img src={github} alt="github" className='pointer w-14 h-14'/></a>
-            <Link to='/app'
-            className="flex items-center justify-center p-2 text-white rounded-full focus:outline-none"
-            >
-            <FaHome size={35} />
-          </Link>
-            </div>
-        </div>
-        <div className='mt-10 text-gray-300 xl:flex justify-center text-md lg:text-xl xl:text-md'>Copyright {currentYear} @ Style Share</div>
-    </div>
-  )
+    )
 }
 
-export default Footer
+export default Footer;

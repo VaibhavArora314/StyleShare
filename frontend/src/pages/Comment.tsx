@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { IComment } from '../types';
 import Loader from '../components/Loader';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 const Comment = () => {
   const { id } = useParams<{ id: string }>();
@@ -12,6 +13,7 @@ const Comment = () => {
   const [error, setError] = useState<string | null>(null);
   const [commentContent, setCommentContent] = useState("");
   const [comments, setComments] = useState<IComment[]>([]);
+  const { t } = useTranslation();
 
   const fetchComments = async () => {
     setLoading(true);
@@ -74,7 +76,7 @@ const Comment = () => {
   return (
     <div className="">
       <div>
-        <h3 className="text-xl font-semibold mb-4">{comments.length} Comments</h3>
+        <h3 className="text-xl font-semibold mb-4">{comments.length} {t("postdet.comments")}</h3>
         {comments.length > 0 ? (
           <ul className="space-y-3">
           {comments.map((comment: IComment) => (
@@ -86,12 +88,12 @@ const Comment = () => {
                 className="flex-shrink-0"
               />
               <div>
-                <p className="text-base">
+                <Link to={`/app/profile/${comment.user.id}`} data-tooltip-content={`View ${comment.user.username} profile 👀`} data-tooltip-id="my-tooltip" className="text-base">
                   <strong>
                     @{comment.user.username}{' '}
                     <span className="text-xs text-gray-500">{new Date(comment.createdAt).toLocaleString()}</span>
                   </strong>
-                </p>
+                </Link>
                 <p className="text-sm text-white">{comment.content}</p>
               </div>
             </li>
@@ -99,7 +101,7 @@ const Comment = () => {
         </ul>
         
         ) : (
-          <p className="text-gray-300">Be the first one to comment...</p>
+          <p className="text-gray-300">{t("postdet.firstcomment")}</p>
         )}
       </div>
       <form onSubmit={handleCommentSubmit} className="mt-5">
@@ -108,7 +110,7 @@ const Comment = () => {
           onChange={(e) => setCommentContent(e.target.value)}
           className="w-full p-2 bg-gray-800 border border-gray-700 rounded mb-2"
           rows={2}
-          placeholder="Add a comment..."
+          placeholder={t("postdet.addcomment")}
           disabled={submitting}
           required
         />
@@ -117,7 +119,7 @@ const Comment = () => {
           className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white"
           disabled={submitting}
         >
-          {submitting ? 'Submitting...' : 'Comment'}
+          {submitting ? t("postdet.submitting") : t("postdet.comment")}
         </button>
       </form>
       {submitting && <Loader />}
