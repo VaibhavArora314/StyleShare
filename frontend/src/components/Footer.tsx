@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { loggedInState } from '../store/atoms/auth';
 import {CgBoard , CgProfile} from 'react-icons/cg';
 import { BsFilePost } from 'react-icons/bs';
-import {FaEnvelope , FaHome , FaPortrait} from 'react-icons/fa';
+import { FaHome } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import logo from "../assets/favicon.png";
 
