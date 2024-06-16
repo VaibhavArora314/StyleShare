@@ -136,7 +136,6 @@ const Navbar = () => {
                       {t("navbar.links.signup")}
                       </span>
                     </button>
-                    
                   </Link>
                 </li>
               </div>
@@ -149,6 +148,15 @@ const Navbar = () => {
                     onClick={closeMenu}
                   >
                     {t("navbar.links.newpost")}
+                  </Link>
+                </li>
+                  <li className="mt-2">
+                  <Link
+                    to="/app/code"
+                    className={getNavLinkClass("/app/code")}
+                    onClick={closeMenu}
+                  >
+                    {t("code")}
                   </Link>
                 </li>
                 <li className="mt-2">

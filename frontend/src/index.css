@@ -5,4 +5,26 @@
 
 #root {
     @apply min-h-screen bg-[#000435]
+    cursor-none
 }
+
+body {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: white;
+    overflow: auto;
+  }
+  
+  .custom-cursor {
+    width: 30px;
+    height: 30px;
+    background: rgb(232, 74, 195);
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
+  }
+  
