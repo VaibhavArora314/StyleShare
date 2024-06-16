@@ -34,10 +34,6 @@
     "footer":{
         "heading":"Style Share",
         "company":"Company",
-        "button" : "Get Updated",
-        "code_of_conduct" : "Supplier Code of Conduct",
-        "Accessibility_Statement" : "Accessibility Statement",
-        "subscribe" : "Subscribe for any updated",
         "c":{
             "l1":"About Us",
             "l2":"Contact Us"
@@ -45,8 +41,7 @@
         "quick":"Quick Links",
         "q":{
             "q1":"All Posts",
-            "q2":"User profile",
-            "q3": "Leader Board"
+            "q2":"User profile"
         },
         "legal":"Legal Pages",
         "l":{
