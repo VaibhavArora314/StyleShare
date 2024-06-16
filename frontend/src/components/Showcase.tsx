@@ -16,10 +16,6 @@ const Showcase: React.FC = () => {
     {
       title: "Auto-Completion",
       description: "Speed up your coding with intelligent auto-completion suggestions for tags, attributes, and more."
-    },
-    {
-      title: "Built-in Terminal",
-      description: "Run your commands and scripts directly from the built-in terminal, without leaving the editor."
     }
   ];
 
