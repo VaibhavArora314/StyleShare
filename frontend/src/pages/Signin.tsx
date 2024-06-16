@@ -6,6 +6,7 @@ import { tokenState } from "../store/atoms/auth";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import OAuth from "../components/OAuth";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
@@ -104,13 +105,14 @@ const Signin = () => {
             {error.password}
           </p>
         </div>
-        <div className="flex justify-center">
+        <div className="flex flex-col justify-center">
         <button
           type="submit"
           className=" bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
         >
           {t("login.sigin")}
         </button>
+        <OAuth/>
         </div>
       </form>
       <p className=" mt-4 text-md text-white">

@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCircle } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import OAuth from "../components/OAuth";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -236,13 +237,14 @@ const Signup = () => {
             <p className="text-sm font-semibold mb-2 text-red-600">
               {error.password}
             </p>
-            <div className="flex justify-center">
+            <div className="flex flex-col justify-center">
               <button
                 type="submit"
                 className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full"
               >
                 {t("register.signup")}
               </button>
+              <OAuth/>
             </div>
           </form>
           <p className="mt-4 text-sm text-white">
