@@ -17,7 +17,7 @@ function Home() {
         <div className="w-full bg-[#000435] py-16 px-4" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="max-w-[1240px] mx-auto grid md:grid-cols-2">
             <div className="flex flex-col justify-center">
-              <h1 className="" >
+              <h1>
                 <TypewriterEffectSmoothDemo />
               </h1>
               <h1 className='md:text-3xl sm:text-3xl font-medium py-2'>{t("hero.subheading")}</h1>
