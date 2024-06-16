@@ -691,6 +691,9 @@ export const deletePostController = async (req: UserAuthRequest, res: Response) 
     await prisma.favorite.deleteMany({
       where: { postId }
     });
+    await prisma.reaction.deleteMany({
+      where: { postId }
+    });
 
     await prisma.post.delete({
       where: { id: postId },
@@ -750,5 +753,110 @@ export const aiCustomization = async (req: UserAuthRequest, res: Response) => {
   } catch (error) {
     console.error('Failed to customize the code', error);
     res.status(500).json({ error: "Failed to customize the code" });
+  }
+};
+
+export const addReactionController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+    const { type } = req.body;
+
+    if (!userId || !type) {
+      return res.status(400).json({ error: "User ID and reaction type are required." });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: { id: userId },
+      select: { verified: true }
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({ error: "User is not verified!" });
+    }
+
+    const validReactions = ["😄", "👍", "🎉", "💖", "👏", "💡"];
+    if (!validReactions.includes(type)) {
+      return res.status(400).json({ error: "Invalid reaction type." });
+    }
+
+    await prisma.reaction.deleteMany({
+      where: {
+        userId,
+        postId
+      }
+    });
+
+    await prisma.reaction.create({
+      data: {
+        userId,
+        postId,
+        type
+      }
+    });
+
+    res.status(200).json({ message: "Reaction added successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to add reaction." });
+  }
+};
+
+
+export const removeReactionController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+    const type = req.params.type;
+
+    if (!userId || !type) {
+      return res.status(400).json({ error: "User ID and reaction type are required." });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: { id: userId },
+      select: { verified: true }
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({ error: "User is not verified!" });
+    }
+
+    await prisma.reaction.deleteMany({
+      where: {
+        userId,
+        postId,
+        type
+      }
+    });
+
+    res.status(200).json({ message: "Reaction removed successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to remove reaction." });
+  }
+};
+
+export const getReactionsController = async (req: Request, res: Response) => {
+  try {
+    const postId = req.params.id;
+
+    if (!postId) {
+      return res.status(400).json({ error: "Post ID is required." });
+    }
+
+    const reactions = await prisma.reaction.findMany({
+      where: {
+        postId,
+      },
+      select: {
+        id: true,
+        type: true,
+        userId: true,
+      },
+    });
+
+    res.status(200).json({ reactions });
+  } catch (error) {
+    console.error("Failed to fetch reactions:", error);
+    res.status(500).json({ error: "Failed to fetch reactions." });
   }
 };
