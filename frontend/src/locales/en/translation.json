@@ -34,6 +34,10 @@
     "footer":{
         "heading":"Style Share",
         "company":"Company",
+        "subscribe" : "Subscribe to get latest update",
+        "sub_button": "Get Updated",
+        "accessibility" : "Accessibility Statement",
+        "conduct" : "Supplier Code of Conduct",
         "c":{
             "l1":"About Us",
             "l2":"Contact Us"

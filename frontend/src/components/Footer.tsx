@@ -65,7 +65,7 @@ const Footer = () => {
                             </li>
                             <li className='py-1 cursor-pointer'>
                                 <Link className='flex items-center gap-1' to='/app/leaderboard'>
-                                    {t('footer.q.q3')}
+                                    {t('navbar.links.leaderboard')}
                                     <CgBoard size={20} />
                                 </Link>
                             </li>
@@ -87,26 +87,26 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className='md:w-4/4 md:flex flex-col'>
-                    <div className="m-2 font-bold mb-5">Subscribe to get latest update</div>
+                    <div className="m-2 font-bold mb-5">{ t('footer.subscribe') }</div>
                     <form className="md:flex flex-col gap-3">
                         <div className="flex">
                             <label className="p-2  border-2 border-white text-2xl"><FaPortrait/></label>
-                            <input className="p-2 " placeholder="Full Name"/>
+                            <input type="text" className="p-2 " placeholder="Full Name"/>
                         </div>
                         <div className="flex">
                             <label className="p-2  border-2 border-white text-2xl"><FaEnvelope/></label>
-                            <input className="p-2" placeholder="Email"/>
+                            <input type="email" className="p-2" placeholder="Email"/>
                         </div>
-                        <button className="border-2 p-2 hover:text-black hover:bg-white border-white">Get Updated</button>
+                        <button className="border-2 p-2 hover:text-black hover:bg-white border-white">{ t('footer.sub_button') }</button>
                     </form>
                 </div>
             </div>
 
             <hr className="mt-10"/>
             <div className='mt-5 text-gray-300 xl:flex justify-center text-md lg:text-xl xl:text-md gap-5'>
-                <div>Accessibility Statement </div>|
+                <div>{ t('footer.accessibility') } </div>|
                 <div>{t('footer.copy1')} {currentYear}{t('footer.copy2')} </div> |
-                <div>Supplier Code of Conduct</div> |
+                <div>{ t('footer.conduct') }</div>
             </div>
         </div>
     )
