@@ -16,7 +16,7 @@ const Footer = () => {
     return (
         <div className='bg-black text-white p-10'>
             <div className='md:flex'>
-                <div className='md:w-1/4'>
+                <div className='md:w-1/3'>
                     <div className="flex items-center flex-col">
                         <div className="flex">
                             <img src={logo} className="h-8" alt="Styleshare Logo" />
@@ -36,7 +36,7 @@ const Footer = () => {
                         </div>
                     </div>
                 </div>
-                <div className='md:w-2/4 md:flex'>
+                <div className='md:w-2/3 md:flex'>
                     <div className='md:w-1/3'>
                         <p className='text-gray-200 font-bold mt-8 md:mt-0'>{t('footer.company')}</p>
                         <ul className='text-gray-300 py-4'>
@@ -85,20 +85,6 @@ const Footer = () => {
                             </li>
                         </ul>
                     </div>
-                </div>
-                <div className='md:w-4/4 md:flex flex-col'>
-                    <div className="m-2 font-bold mb-5">{ t('footer.subscribe') }</div>
-                    <form className="md:flex flex-col gap-3">
-                        <div className="flex">
-                            <label className="p-2  border-2 border-white text-2xl"><FaPortrait/></label>
-                            <input type="text" className="p-2 " placeholder="Full Name"/>
-                        </div>
-                        <div className="flex">
-                            <label className="p-2  border-2 border-white text-2xl"><FaEnvelope/></label>
-                            <input type="email" className="p-2" placeholder="Email"/>
-                        </div>
-                        <button className="border-2 p-2 hover:text-black hover:bg-white border-white">{ t('footer.sub_button') }</button>
-                    </form>
                 </div>
             </div>
 
