@@ -96,7 +96,7 @@ const Navbar = () => {
                     to="/app/signin"
                     className="block py-2 px-3 rounded-full text-white border-2 border-blue-100 
                        transform hover:scale-100 bg-gradient-to-r from-blue-500 via-sky-900 to-blue-500 duration-300 transition-colors hover:from-blue-700
-                       hover:via-sky-500 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 "
+                       hover:via-sky-500 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-100 "
                     onClick={closeMenu}
                   >
                     {t("navbar.links.signin")}
@@ -108,7 +108,7 @@ const Navbar = () => {
                     className="block py-2 px-3 rounded-full text-white border-2 border-blue-100 
                      transform hover:scale-100  bg-gradient-to-r from-blue-500 via-sky-900
                      to-blue-500 duration-300 transition-colors hover:from-blue-700
-                     hover:via-sky-500 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                     hover:via-sky-500 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-100"
                     onClick={closeMenu}
                   >
                     {t("navbar.links.signup")}
