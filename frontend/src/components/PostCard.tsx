@@ -5,15 +5,15 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import { FaEdit } from "react-icons/fa";
 
 type Props = {
   post: IPost;
   onDelete: (id: string) => void; 
-  currentUser: IUser ;
+  currentUser: IUser;
 };
 
-const PostCard = ({ post,onDelete,currentUser }: Props) => {
-
+const PostCard = ({ post, onDelete, currentUser }: Props) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const { t } = useTranslation();
 
@@ -31,7 +31,7 @@ const PostCard = ({ post,onDelete,currentUser }: Props) => {
         }
       });
       onDelete(post.id); 
-      toast.error('Post Deleted successfully !')
+      toast.success('Post Deleted successfully!')
     } catch (error) {
       console.error("Failed to delete post", error);
     } finally {
@@ -62,23 +62,30 @@ const PostCard = ({ post,onDelete,currentUser }: Props) => {
         ))}
       </div>
       <div className="flex justify-between mt-1">
-      <Link
-        to={`/app/posts/${post.id}`}
-        className="inline-block mt-4 text-blue-400 hover:text-blue-300 transition-colors duration-200 rounded-3xl border-2 border-blue-500 hover:border-blue-300 px-4 py-2"
-      >
-        {t("readMore")}
-      </Link>
-      {currentUser && currentUser.id === post.author.id && (
-        <button
-          onClick={handleDelete}
-          disabled={isDeleting}
-          className="justify-end ml-4 mt-4 inline-block text-red-500 hover:text-red-400 transition-colors duration-200 border-2 border-red-500 hover:border-red-400 p-2 rounded-3xl"
+        <Link
+          to={`/app/posts/${post.id}`}
+          className="inline-block mt-4 text-blue-400 hover:text-blue-300 transition-colors duration-200 rounded-3xl border-2 border-blue-500 hover:border-blue-300 px-4 py-2"
         >
-          {isDeleting ? "Deleting..." : <MdDeleteOutline size={25} />}
-        </button>
-      )}
-            </div>
-
+          {t("readMore")}
+        </Link>
+        {currentUser && currentUser.id === post.author.id && (
+      <div className="flex space-x-2">
+            <Link
+              to={`/app/posts/edit/${post.id}`}
+              className="justify-end mt-4 inline-block text-blue-400 hover:text-blue-300 transition-colors duration-200 border-2 border-blue-500 hover:border-blue-300 p-2 rounded-3xl"
+            >
+              <FaEdit size={25} />
+            </Link>
+            <button
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="justify-end mt-4 inline-block text-red-500 hover:text-red-400 transition-colors duration-200 border-2 border-red-500 hover:border-red-400 p-2 rounded-3xl"
+            >
+              {isDeleting ? "Deleting..." : <MdDeleteOutline size={25} />}
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
