@@ -29,6 +29,8 @@ import LanguageDropdown from "./components/LanguageDropdown";
 import CodeEditor from "./components/CodeEditor";
 import ShowProfile from "./pages/ShowProfile";
 import { Tooltip } from 'react-tooltip'
+import { Progressbar } from "./components/Progressbar";
+
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -38,6 +40,7 @@ function App() {
     <BrowserRouter>
       <RecoilRoot>
         <React.Suspense fallback={<Loader />}>
+          <Progressbar/>
           <Navbar />
           <GoTop/>
           <ScrollToTopWhenRouteChanges/>

@@ -1,0 +1,10 @@
+.progress{
+  position:fixed;
+  height:7px;
+  top:0;
+  left:0;
+  right:0;
+  background: rgb(218, 215, 59);
+  transform-origin: 0%;
+  z-index: 100000;
+}
