@@ -29,6 +29,7 @@ import './i18n';
 import CodeEditor from "./components/CodeEditor";
 import ShowProfile from "./pages/ShowProfile";
 import { Tooltip } from 'react-tooltip'
+import EditPost from "./components/EditPost";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -69,6 +70,14 @@ function App() {
                 element={
                   <AuthenticatedRoute>
                     <NewPost />
+                  </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/app/posts/edit/:id"
+                element={
+                  <AuthenticatedRoute>
+                    <EditPost />
                   </AuthenticatedRoute>
                 }
               />
