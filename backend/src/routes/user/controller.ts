@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../../db";
 import {
+  contactUsSchema,
   otpVerificationSchema,
   signinBodySchema,
   signupBodySchema,
@@ -316,6 +317,45 @@ export const verifyOtpController = async (
   }
 };
 
+
+export const contactUsController = async (req: Request, res: Response) => {
+  try {
+    const payload = req.body;
+    const result = contactUsSchema.safeParse(payload);
+
+    if (!result.success) {
+      const formattedError: any = {};
+      result.error.errors.forEach((e) => {
+        formattedError[e.path[0]] = e.message;
+      });
+      return res.status(400).json({
+        error: { ...formattedError, message: "Validation error." },
+      });
+    }
+
+    const data = result.data;
+
+    const contactMessage = await prisma.contactMessage.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        subject: data.subject,
+        message: data.message,
+      }
+    });
+
+    res.status(201).json({
+      message: "Your message has been received. We will get back to you shortly.",
+      contactMessage,
+    });
+  } catch (error) {
+    console.log("Contact Us form submission error: ", error);
+    return res.status(500).json({
+      error: "An unexpected error occurred!",
+    });
+  }
+};
+
 export const showUserProfileController = async (req: UserAuthRequest, res: Response) => {
   try {
     const { id } = req.params;
@@ -328,7 +368,7 @@ export const showUserProfileController = async (req: UserAuthRequest, res: Respo
         id: true,
         email: false,
         username: true,
-        createdAt:true,
+        createdAt: true,
         posts: {
           select: {
             id: true,

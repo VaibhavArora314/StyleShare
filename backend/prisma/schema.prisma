@@ -77,3 +77,12 @@ model Favorite {
 
   @@unique([userId, postId])
 }
+
+model contactMessage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+}

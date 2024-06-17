@@ -23,3 +23,10 @@ export const signinBodySchema = zod.object({
 export const otpVerificationSchema = zod.object({
   otp: zod.number(),
 });
+
+export const contactUsSchema = zod.object({
+  name: zod.string().min(1, "Name is required"),
+  email: zod.string().email("Invalid email address"), 
+  subject: zod.string().min(1, "Subject is required"),
+  message: zod.string().min(1, "Message is required"),
+});
