@@ -21,7 +21,7 @@ This repository also provides one such platforms where contributers come over an
 
 ![GitHub issues](https://img.shields.io/github/issues/VaibhavArora314/StyleShare)
 ![GitHub forks](https://img.shields.io/github/forks/VaibhavArora314/StyleShare)
-![GitHub pull requests](https://img.shields.io/github/VaibhavArora314/StyleShare)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/VaibhavArora314/StyleShare)
 ![GitHub Repo stars](https://img.shields.io/github/stars/VaibhavArora314/StyleShare)
 ![GitHub contributors](https://img.shields.io/github/contributors/VaibhavArora314/StyleShare)
 
