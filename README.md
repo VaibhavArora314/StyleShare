@@ -1,6 +1,35 @@
-# Style Share
+<div style="display:none;" align="center">
+<h1><font size="10"> Style Share </font></h1>
 
-A simple web-based platform where users can easily create, explore, and share Tailwind CSS components and designs with fellow users.
+<!-- repo intro -->
+
+</div>
+<div align="center">
+
+<h3><font size="4">A simple web-based platform where users can easily create, explore, and share Tailwind CSS components and designs with fellow users.</h3>
+<br>
+Make sure you star the repository and show your love to us💗
+</font>
+<br>
+<br>
+<p>
+
+## Why to Open Source
+
+Contributing in open source increases your opportunities to work with different projects and mentors, getting to know various insights and ideas. It is a platform where contributors grow together with a construvtive and a positive attitude.
+This repository also provides one such platforms where contributers come over and put their ideas  and make our website as interactive as much they can!
+
+![GitHub issues](https://img.shields.io/github/issues/VaibhavArora314/StyleShare)
+![GitHub forks](https://img.shields.io/github/forks/VaibhavArora314/StyleShare)
+![GitHub pull requests](https://img.shields.io/github/VaibhavArora314/StyleShare)
+![GitHub Repo stars](https://img.shields.io/github/stars/VaibhavArora314/StyleShare?style=social)
+![GitHub contributors](https://img.shields.io/github/contributors/VaibhavArora314/StyleShare)
+
+
+</p>
+
+</div>
+<br>
 
 ## Project Description
 
@@ -18,13 +47,18 @@ Style Share is a collaborative platform designed to streamline the process of cr
 ## Screenshots
 
 ![alt text](./screenshots/Screenshot_home.png)
-![alt text](./screenshots/Screenshot_about.png)
-![alt text](./screenshots/Screenshot_login.png)
-![alt text](./screenshots/Screenshot_sign.png)
-![alt text](./screenshots/Screenshot_post.png)
-![alt text](./screenshots/Screenshot_code.png)
-![alt text](./screenshots/Screenshot_create_post.png)
+![alt text](./screenshots/Screenshot_aboutus.png)
+![alt text](./screenshots/Screenshot_signup.png)
+![alt text](./screenshots/Screenshot_signin.png)
+![alt text](./screenshots/Screenshot_posts.png)
+![alt text](./screenshots/Screenshot_codeeditor.png)
+![alt text](./screenshots/Screenshot_newpost.png)
 ![alt text](./screenshots/Screenshot_leaderboard.png)
+![alt text](./screenshots/Screenshot_profile.png)
+![alt text](./screenshots/Screenshot_faqs.png)
+![alt text](./screenshots/Screenshot_favourites.png)
+![alt text](./screenshots/Screenshot_footer.png)
+
 
 ## Video
 
@@ -33,6 +67,28 @@ https://github.com/VaibhavArora314/StyleShare/assets/142779809/bb8969a2-90b2-431
 ## Setting Up on your machine
 
 1. Go to the backend folder and create a .env file similar to [.env.example](https://github.com/VaibhavArora314/StyleShare/blob/main/backend/.env.example)
+
+2. # setup .env file
+
+DATABASE_URL="mongodb+srv://<username>:<password>@<cluster-name>/syleshare"
+# example
+DATABASE_URL="mongodb+srv://manikumar:Demo123@styleshare.bh8xwpr.mongodb.net/Styleshare?retryWrites=true&w=majority&appName=Styleshare"//change this with your link
+JWT_SECRET="secret" //keep it same
+PORT=3001 //keep it same
+EMAIL_USER=example@gmail.com //give your email address
+EMAIL_PASS=lmkgpafolrjudvpc  //16 digit pass key generated in google
+SEND_EMAIL=true //keep it same
+API_KEY="your google gemini api key"  //your gemini api key
+
+# EMAIL_PASS=lmkgpafolrjudvpc  //16 digit pass key generated in google
+
+- I am giving youtube link
+
+[](https://www.youtube.com/watch?v=MkLX85XU5rU&t=116s&ab_channel=HarishBhathee)
+
+- It generates 16 digit password with spaces
+- Remove space and add the password
+
 2. Run the following commands in the backend folder
 
    ```sh
