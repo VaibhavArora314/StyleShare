@@ -28,7 +28,7 @@ import './i18n';
 import CodeEditor from "./components/CodeEditor";
 import ShowProfile from "./pages/ShowProfile";
 import { Tooltip } from 'react-tooltip'
-import EditPost from "./components/EditPost";
+import EditPost from "./pages/EditPost";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 

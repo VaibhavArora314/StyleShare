@@ -1,33 +1,15 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import Loader from '../components/Loader';
-import { ILeaderboardUser } from '../types';
 import { GiTrophyCup } from "react-icons/gi";
 import { useRecoilValue } from 'recoil';
 import { userState } from '../store/atoms/auth';
 import { useTranslation } from 'react-i18next';
+import useLeaderboard from '../hooks/useLeadearboard';
 
 const LeaderBoard = () => {
-  const [loading, setLoading] = useState(true);
-  const [leaderboard, setLeaderboard] = useState<ILeaderboardUser[]>([]);
+    const {loading, leaderboard} = useLeaderboard();
   const currentUser = useRecoilValue(userState);
   const {t} = useTranslation();
-
-  useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        const response = await axios.get('/api/v1/posts/all/leaderboard');
-        setLeaderboard(response.data.leaderboard);
-      } catch (error) {
-        console.error('Failed to fetch leaderboard:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchLeaderboard();
-  }, []);
 
 
   return (

@@ -1,49 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
-import { IPost } from '../types';
 import { useRecoilValue } from 'recoil';
 import { tokenState } from '../store/atoms/auth';
+import usePost from '../hooks/usePost';
 
 const EditPost = () => {
   const token = useRecoilValue(tokenState);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [post, setPost] = useState<IPost>({
-    id: "",
-    title: "",
-    description: "",
-    codeSnippet: "",
-    tags: [],
-    author: {
-      id: "",
-      username: "",
-      email: ""
-    },
-    likes: 0,
-    dislikes: 0,
-    comments: [],
-    favoritePosts: []
-  });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {post, setPost, loading, error} = usePost(id || "");
   const [tagInput, setTagInput] = useState("");
-
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const response = await axios.get(`/api/v1/posts/${id}`);
-        setPost(response.data.post);
-        setLoading(false);
-      } catch (error) {
-        const axiosError = error as AxiosError<{ error: string }>;
-        setError(axiosError.response?.data.error || 'Failed to fetch the post');
-        setLoading(false);
-      }
-    };
-    fetchPost();
-  }, [id]);
+  const [updateError,setUpdateError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -64,7 +33,7 @@ const EditPost = () => {
       navigate(`/app/posts/${response.data?.post?.id}`);
     } catch (e) {
       const axiosError = e as AxiosError<{ error: string }>;
-      setError(axiosError.response?.data.error || 'Failed to update the post');
+      setUpdateError(axiosError.response?.data.error || 'Failed to update the post');
     }
   };
 
@@ -87,6 +56,14 @@ const EditPost = () => {
     return (
       <div className="text-red-500 text-lg w-full text-center mt-5">
         {error}
+      </div>
+    );
+  }
+
+  if (updateError) {
+    return (
+      <div className="text-red-500 text-lg w-full text-center mt-5">
+        {updateError}
       </div>
     );
   }
