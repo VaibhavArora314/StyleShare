@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { UserAuthRequest } from "../../helpers/types";
 import { createPostSchema } from "./zodSchema";
 import prisma from "../../db";
-import axios from "axios";
 import {GoogleGenerativeAI} from '@google/generative-ai'
 
 export const createPostController = async (
@@ -259,138 +258,6 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch posts' });
-  }
-};
-
-export const likePostController = async (req: UserAuthRequest, res: Response) => {
-  try {
-    const userId = req.userId;
-    const postId = req.params.id;
-
-    if (!userId) {
-      return res.status(400).json({ error: "User ID is required." });
-    }
-
-    const interaction = await prisma.userPostInteraction.findUnique({
-      where: {
-        userId_postId: {
-          userId,
-          postId
-        }
-      }
-    });
-
-    if (interaction) {
-      if (interaction.liked) {
-        return res.status(400).json({ error: "You have already liked this post." });
-      } else {
-        await prisma.userPostInteraction.update({
-          where: { id: interaction.id },
-          data: { liked: true, disliked: false }
-        });
-        await prisma.post.update({
-          where: { id: postId },
-          data: {
-            likes: { increment: 1 },
-            dislikes: interaction.disliked ? { decrement: 1 } : undefined
-          }
-        });
-      }
-    } else {
-      await prisma.userPostInteraction.create({
-        data: {
-          userId,
-          postId,
-          liked: true,
-          disliked: false
-        }
-      });
-      await prisma.post.update({
-        where: { id: postId },
-        data: { likes: { increment: 1 } }
-      });
-    }
-
-    const post = await prisma.post.findUnique({
-      where: { id: postId },
-      select: { likes: true, dislikes: true }
-    });
-
-    res.status(200).json({
-      message: "Post liked successful",
-      likes: post?.likes,
-      dislikes: post?.dislikes
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: "Failed to like the post."
-    });
-  }
-};
-
-export const dislikePostController = async (req: UserAuthRequest, res: Response) => {
-  try {
-    const userId = req.userId;
-    const postId = req.params.id;
-
-    if (!userId) {
-      return res.status(400).json({ error: "User ID is required." });
-    }
-
-    const interaction = await prisma.userPostInteraction.findUnique({
-      where: {
-        userId_postId: {
-          userId,
-          postId
-        }
-      }
-    });
-
-    if (interaction) {
-      if (interaction.disliked) {
-        return res.status(400).json({ error: "You have already disliked this post." });
-      } else {
-        await prisma.userPostInteraction.update({
-          where: { id: interaction.id },
-          data: { liked: false, disliked: true }
-        });
-        await prisma.post.update({
-          where: { id: postId },
-          data: {
-            dislikes: { increment: 1 },
-            likes: interaction.liked ? { decrement: 1 } : undefined
-          }
-        });
-      }
-    } else {
-      await prisma.userPostInteraction.create({
-        data: {
-          userId,
-          postId,
-          liked: false,
-          disliked: true
-        }
-      });
-      await prisma.post.update({
-        where: { id: postId },
-        data: { dislikes: { increment: 1 } }
-      });
-    }
-
-    const post = await prisma.post.findUnique({
-      where: { id: postId },
-      select: { dislikes: true, likes: true }
-    });
-
-    res.status(200).json({
-      message: "Post disliked successful",
-      dislikes: post?.dislikes,
-      likes: post?.likes
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: "Failed to dislike the post."
-    });
   }
 };
 
@@ -756,107 +623,155 @@ export const aiCustomization = async (req: UserAuthRequest, res: Response) => {
   }
 };
 
-export const addReactionController = async (req: UserAuthRequest, res: Response) => {
+export const reactToPostController = async (req: UserAuthRequest, res: Response) => {
   try {
     const userId = req.userId;
     const postId = req.params.id;
     const { type } = req.body;
 
-    if (!userId || !type) {
-      return res.status(400).json({ error: "User ID and reaction type are required." });
+    if (!userId) {
+      return res.status(403).json({ error: { message: "Invalid user" } });
     }
 
     const user = await prisma.user.findFirst({
-      where: { id: userId },
-      select: { verified: true }
+      where: {
+        id: userId,
+      },
+      select: {
+        verified: true,
+      },
     });
 
     if (!user?.verified) {
-      return res.status(403).json({ error: "User is not verified!" });
+      return res.status(403).json({
+        error: { message: "User is not verified!" },
+      });
     }
 
-    const validReactions = ["😄", "👍", "🎉", "💖", "👏", "💡"];
-    if (!validReactions.includes(type)) {
-      return res.status(400).json({ error: "Invalid reaction type." });
-    }
-
-    await prisma.reaction.deleteMany({
+    const existingReaction = await prisma.reaction.findUnique({
       where: {
-        userId,
-        postId
-      }
+        userId_postId: { userId, postId },
+      },
     });
 
-    await prisma.reaction.create({
-      data: {
-        userId,
-        postId,
-        type
-      }
-    });
-
-    res.status(200).json({ message: "Reaction added successfully" });
+    if (existingReaction) {
+      const updatedReaction = await prisma.reaction.update({
+        where: { id: existingReaction.id },
+        data: { type },
+      });
+      res.status(200).json({ message: "Reaction updated", reaction: updatedReaction });
+    } else {
+      const newReaction = await prisma.reaction.create({
+        data: {
+          userId,
+          postId,
+          type,
+        },
+      });
+      res.status(201).json({ message: "Reaction added", reaction: newReaction });
+    }
   } catch (error) {
-    res.status(500).json({ error: "Failed to add reaction." });
+    res.status(500).json({ error: "Failed to react to the post" });
   }
 };
-
 
 export const removeReactionController = async (req: UserAuthRequest, res: Response) => {
   try {
     const userId = req.userId;
     const postId = req.params.id;
-    const type = req.params.type;
 
-    if (!userId || !type) {
-      return res.status(400).json({ error: "User ID and reaction type are required." });
+    if (!userId) {
+      return res.status(403).json({ error: { message: "Invalid user" } });
     }
 
     const user = await prisma.user.findFirst({
-      where: { id: userId },
-      select: { verified: true }
+      where: {
+        id: userId,
+      },
+      select: {
+        verified: true,
+      },
     });
 
     if (!user?.verified) {
-      return res.status(403).json({ error: "User is not verified!" });
+      return res.status(403).json({
+        error: { message: "User is not verified!" },
+      });
     }
 
-    await prisma.reaction.deleteMany({
+    const existingReaction = await prisma.reaction.findUnique({
       where: {
-        userId,
-        postId,
-        type
-      }
+        userId_postId: { userId, postId },
+      },
     });
 
-    res.status(200).json({ message: "Reaction removed successfully" });
+    if (existingReaction) {
+      await prisma.reaction.delete({
+        where: { id: existingReaction.id },
+      });
+      res.status(200).json({ message: "Reaction removed" });
+    } else {
+      res.status(404).json({ error: "No reaction to remove" });
+    }
   } catch (error) {
-    res.status(500).json({ error: "Failed to remove reaction." });
+    res.status(500).json({ error: "Failed to remove reaction" });
   }
 };
 
-export const getReactionsController = async (req: Request, res: Response) => {
+export const getUserReactionController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+
+    if (!userId) {
+      return res.status(403).json({ error: { message: "Invalid user" } });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        verified: true,
+      },
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({
+        error: { message: "User is not verified!" },
+      });
+    }
+
+    const reaction = await prisma.reaction.findUnique({
+      where: {
+        userId_postId: { userId, postId },
+      },
+    });
+
+    if (reaction) {
+      res.status(200).json({ reaction });
+    } else {
+      res.status(404).json({ message: "No reaction found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch reaction" });
+  }
+};
+
+export const getPostReactionsController = async (req: Request, res: Response) => {
   try {
     const postId = req.params.id;
 
-    if (!postId) {
-      return res.status(400).json({ error: "Post ID is required." });
-    }
-
-    const reactions = await prisma.reaction.findMany({
-      where: {
-        postId,
-      },
-      select: {
-        id: true,
+    const reactions = await prisma.reaction.groupBy({
+      by: ['type'],
+      where: { postId },
+      _count: {
         type: true,
-        userId: true,
       },
     });
 
     res.status(200).json({ reactions });
   } catch (error) {
-    console.error("Failed to fetch reactions:", error);
-    res.status(500).json({ error: "Failed to fetch reactions." });
+    res.status(500).json({ error: "Failed to fetch reactions" });
   }
 };

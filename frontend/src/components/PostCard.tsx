@@ -1,131 +1,104 @@
-import { Link } from "react-router-dom";
-import { IPost, IUser, IReaction } from "../types";
+import { AiFillLike } from "react-icons/ai";
+import { FaHandsClapping, FaHandHoldingHeart, FaHeart, FaFaceLaughBeam } from "react-icons/fa6";
+import { RiLightbulbFlashFill } from "react-icons/ri";
+import { useEffect, useState } from "react";
+import { IPost, IUser } from "../types";
 import { MdDeleteOutline } from "react-icons/md";
 import axios from "axios";
-import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 
 type Props = {
   post: IPost;
-  onDelete: (id: string) => void; 
+  onDelete: (id: string) => void;
   currentUser: IUser | null;
 };
 
 const PostCard = ({ post, onDelete, currentUser }: Props) => {
   const [isDeleting, setIsDeleting] = useState(false);
-  const { t } = useTranslation();
-  const [reactions, setReactions] = useState<IReaction[]>([]); 
-  const [userReaction, setUserReaction] = useState<string | null>(null);
+  const [reactions, setReactions] = useState<{ type: string, count: number }[]>([]);
 
   useEffect(() => {
     const fetchReactions = async () => {
       try {
-        const response = await axios.get(`/api/v1/posts/${post.id}/reactions`);
-        setReactions(response.data.reactions);
+        const { data } = await axios.get(`/api/v1/posts/${post.id}/reactions`);
+        const formattedReactions = data.reactions.map((reaction: any) => ({
+          type: reaction.type,
+          count: reaction._count.type
+        }));
+        setReactions(formattedReactions);
       } catch (error) {
-        console.error("Failed to fetch reactions", error);
+        toast.error("Failed to fetch reactions");
       }
     };
 
     fetchReactions();
-  }, [post]);
-
-  useEffect(() => {
-    if (currentUser) {
-      const userReaction = reactions.find(reaction => reaction.userId === currentUser.id);
-      setUserReaction(userReaction ? userReaction.type : null);
-    }
-  }, [reactions, currentUser]);
+  }, [post.id]);
 
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        toast.error('Please login to remove a post from favorites');
+        toast.error('Please login to delete post');
         return;
       }
       await axios.delete(`/api/v1/posts/delete/${post.id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` }
       });
-      onDelete(post.id); 
-      toast.success('Post Deleted successfully!')
+      onDelete(post.id);
+      toast.success('Post Deleted successfully!');
     } catch (error) {
-      console.error("Failed to delete post", error);
+      toast.error('Failed to delete post!');
     } finally {
       setIsDeleting(false);
     }
   };
 
-  const handleReaction = async (type: IReaction['type']) => {
-    if (!currentUser) {
-      toast.error('Please login to react to a post');
-      return;
-    }
+  const renderReactions = () => {
+    const totalReactions = reactions.reduce((acc, reaction) => {
+      return acc + (reaction.count || 0);
+    }, 0);
 
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        toast.error('Please login to react to a post');
-        return;
-      }
-      const response = await axios.post(`/api/v1/posts/${post.id}/reaction`, { type }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      setReactions(prevReactions => [
-        ...prevReactions.filter(reaction => reaction.userId !== currentUser.id),
-        { type, userId: currentUser.id }
-      ]);
-      toast.success(response.data.message);
-    } catch (error:any) {
-      if (error.response && error.response.status === 403) {
-        toast.error(error.response.data.error.message || 'User is not verified!');
-      } else {
-        toast.error('Failed to add reaction');
-      }
-    }
+    return (
+      <div className="flex -space-x-2 rtl:space-x-reverse mt-4">
+        {reactions.map((reaction, index) => {
+          let emoji;
+          switch (reaction.type) {
+            case 'Like':
+              emoji = <AiFillLike size={20} color="#87CEEB" />;
+              break;
+            case 'Celebrate':
+              emoji = <FaHandsClapping size={20} color="#E58306" />;
+              break;
+            case 'Support':
+              emoji = <FaHandHoldingHeart size={20} color="#FABDCF" />;
+              break;
+            case 'Love':
+              emoji = <FaHeart size={20} color="#E0286D" />;
+              break;
+            case 'Insightful':
+              emoji = <RiLightbulbFlashFill size={20} color="#FFD700" />;
+              break;
+            case 'Funny':
+              emoji = <FaFaceLaughBeam size={20} color="violet" />;
+              break;
+            default:
+              emoji = null;
+          }
+          return (
+            <div key={index} className="relative w-10 h-10 border-2 rounded-full dark:border-gray-800 flex items-center justify-center bg-gray-700">
+              {emoji}
+            </div>
+          );
+        })}
+        <div className="z-50 flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2  rounded-full  dark:border-gray-800">
+          +{totalReactions}
+        </div>
+      </div>
+    );
   };
-
-  const handleRemoveReaction = async (type: IReaction['type']) => {
-    if (!currentUser) {
-      toast.error('Please login to remove a reaction');
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        toast.error('Please login to remove a reaction');
-        return;
-      }
-      const response = await axios.delete(`/api/v1/posts/${post.id}/reaction/${type}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      setReactions(reactions.filter(reaction => reaction.type !== type || reaction.userId !== currentUser.id));
-      toast.success(response.data.message);
-    } catch (error:any) {
-      if (error.response && error.response.status === 403) {
-        toast.error(error.response.data.error.message || 'User is not verified!');
-      } else {
-        toast.error('Failed to remove reaction');
-      }
-    }
-  };
-
-  const emojis: IReaction['type'][] = ["😄", "👍", "🎉", "💖", "👏", "💡"];
-
-  const aggregatedReactions = reactions.reduce<{ [key: string]: number }>((acc, reaction) => {
-    acc[reaction.type] = (acc[reaction.type] || 0) + 1;
-    return acc;
-  }, {});
 
   return (
     <div
@@ -154,7 +127,7 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
           to={`/app/posts/${post.id}`}
           className="inline-block mt-4 text-blue-400 hover:text-blue-300 transition-colors duration-200 rounded-3xl border-2 border-blue-500 hover:border-blue-300 px-4 py-2"
         >
-          {t("readMore")}
+          Read More
         </Link>
         {currentUser && currentUser.id === post.author.id && (
           <div className="flex space-x-2">
@@ -174,18 +147,7 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
           </div>
         )}
       </div>
-      <div className="mt-4 rounded-3xl flex flex-wrap justify-evenly border-2 border-sky-500 hover:border-blue-300">
-        {emojis.map((emoji) => (
-          <button
-            key={emoji}
-            onClick={() => userReaction === emoji ? handleRemoveReaction(emoji) : handleReaction(emoji)}
-            className="text-lg p-2 m-1"
-          >
-            <span className={userReaction === emoji ? 'opacity-50' : ''}>{emoji}</span>
-            <span className="text-white">{aggregatedReactions[emoji] ? `x${aggregatedReactions[emoji]}` : ''}</span>
-          </button>
-        ))}
-    </div>
+      {renderReactions()}
     </div>
   );
 };
