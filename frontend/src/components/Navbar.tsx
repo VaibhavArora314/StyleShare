@@ -47,7 +47,7 @@ const Navbar = () => {
                 {t("navbar.logo")}
               </span>
             </div>
-            <div className="mt-1 ">
+            <div className=" ">
               <LanguageDropdown />
             </div>
         </Link>
@@ -81,25 +81,25 @@ const Navbar = () => {
           } w-full lg:block lg:w-auto transition-all duration-300 ease-in-out`}
           id="navbar-default"
         >
-          <ul className="font-medium flex flex-col p-0 text-lg lg:p-0 mt-1 border rounded-lg lg:flex-row lg:space-x-5 rtl:space-x-reverse lg:mt-0 lg:border-0">
-            <li className="mt-1 lg:mb-0">
+          <ul className="font-medium flex flex-col p-0 text-lg lg:p-0 mt-4 border rounded-lg lg:flex-row lg:space-x-5 rtl:space-x-reverse lg:mt-0 lg:border-0">
+            <li className="mt-2 lg:mb-0">
               <Link to="/app" className={getNavLinkClass("/app")} aria-current="page" onClick={closeMenu}>
                 {t("navbar.links.home")}
               </Link>
             </li>
-            <li className="mt-1">
+            <li className="mt-2">
               <Link to="/app/posts" className={getNavLinkClass("/app/posts")} onClick={closeMenu}>
                 {t("navbar.links.posts")}
               </Link>
             </li>
-            <li className="mt-1">
+            <li className="mt-2">
               <Link to="/app/leaderboard" className={getNavLinkClass("/app/leaderboard")} onClick={closeMenu}>
                 {t("navbar.links.leaderboard")}
               </Link>
             </li>
             {!isLoggedIn ? (
               <div className="flex flex-col lg:flex-row lg:space-x-4">
-                <li className="mb-1 lg:mb-0">
+                <li className="mb-2 lg:mb-0">
                   <Link
                     to="/app/signin"
                     onClick={closeMenu}
@@ -128,12 +128,12 @@ const Navbar = () => {
               </div>
             ) : (
               <>
-                <li className="mt-1">
+                <li className="mt-2">
                   <Link to="/app/new-post" className={getNavLinkClass("/app/new-post")} onClick={closeMenu}>
                     {t("navbar.links.newpost")}
                   </Link>
                 </li>
-                <li className="mt-1">
+                <li className="mt-2">
                   <Link
                     to="/app/code"
                     className={getNavLinkClass("/app/code")}
@@ -142,17 +142,17 @@ const Navbar = () => {
                     {t("CodeEditor")}
                   </Link>
                 </li>
-                <li className="mt-1">
+                <li className="mt-2">
                   <Link to="/app/profile" className={getNavLinkClass("/app/profile")} onClick={closeMenu}>
                     {t("navbar.links.profile")}
                   </Link>
                 </li>
-                <li className="mt-1">
+                <li className="mt-2">
                   <Link to="/app/fav" className={getNavLinkClass("/app/fav")} onClick={closeMenu}>
                     {t("navbar.links.favorite")}
                   </Link>
                 </li>
-                <li className="mt-1">
+                <li className="mt-2">
                   <button
                     className="block py-2 px-3 rounded lg:border-0 lg:p-0 text-white lg:hover:text-blue-500 hover:bg-gray-700 hover:text-white lg:hover:bg-transparent w-full text-left"
                     onClick={handleLogout}
