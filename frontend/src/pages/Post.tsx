@@ -17,25 +17,6 @@ const Post = () => {
   const { id } = useParams<{ id: string }>();
   const { post, setPost, error, loading, isOwner } = usePost(id || "");
   const navigate = useNavigate();
-  const [post, setPost] = useState<IPost>({
-    id: "",
-    title: "",
-    description: "",
-    codeSnippet: "",
-    tags: [],
-    author: {
-      id: "",
-      username: "",
-      email: ""
-    },
-    likes: 0,
-    dislikes: 0,
-    comments: [],
-    favoritePosts: [],
-    reactions: []
-  });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [isPreview, setIsPreview] = useState(false);
   const ref = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState("0px");
