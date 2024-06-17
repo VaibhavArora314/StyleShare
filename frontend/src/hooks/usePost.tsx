@@ -21,6 +21,7 @@ const usePost = (id: string) => {
     dislikes: 0,
     comments: [],
     favoritePosts: [],
+    reactions:[]
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

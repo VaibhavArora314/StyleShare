@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { IPost, IUser } from "../types";
+import { IPost, IUser, IReaction } from "../types";
 import { MdDeleteOutline } from "react-icons/md";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { FaEdit } from "react-icons/fa";
@@ -10,12 +10,34 @@ import { FaEdit } from "react-icons/fa";
 type Props = {
   post: IPost;
   onDelete: (id: string) => void; 
-  currentUser: IUser;
+  currentUser: IUser | null;
 };
 
 const PostCard = ({ post, onDelete, currentUser }: Props) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const { t } = useTranslation();
+  const [reactions, setReactions] = useState<IReaction[]>([]); 
+  const [userReaction, setUserReaction] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchReactions = async () => {
+      try {
+        const response = await axios.get(`/api/v1/posts/${post.id}/reactions`);
+        setReactions(response.data.reactions);
+      } catch (error) {
+        console.error("Failed to fetch reactions", error);
+      }
+    };
+
+    fetchReactions();
+  }, [post]);
+
+  useEffect(() => {
+    if (currentUser) {
+      const userReaction = reactions.find(reaction => reaction.userId === currentUser.id);
+      setUserReaction(userReaction ? userReaction.type : null);
+    }
+  }, [reactions, currentUser]);
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -38,6 +60,72 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
       setIsDeleting(false);
     }
   };
+
+  const handleReaction = async (type: IReaction['type']) => {
+    if (!currentUser) {
+      toast.error('Please login to react to a post');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please login to react to a post');
+        return;
+      }
+      const response = await axios.post(`/api/v1/posts/${post.id}/reaction`, { type }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setReactions(prevReactions => [
+        ...prevReactions.filter(reaction => reaction.userId !== currentUser.id),
+        { type, userId: currentUser.id }
+      ]);
+      toast.success(response.data.message);
+    } catch (error:any) {
+      if (error.response && error.response.status === 403) {
+        toast.error(error.response.data.error.message || 'User is not verified!');
+      } else {
+        toast.error('Failed to add reaction');
+      }
+    }
+  };
+
+  const handleRemoveReaction = async (type: IReaction['type']) => {
+    if (!currentUser) {
+      toast.error('Please login to remove a reaction');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please login to remove a reaction');
+        return;
+      }
+      const response = await axios.delete(`/api/v1/posts/${post.id}/reaction/${type}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setReactions(reactions.filter(reaction => reaction.type !== type || reaction.userId !== currentUser.id));
+      toast.success(response.data.message);
+    } catch (error:any) {
+      if (error.response && error.response.status === 403) {
+        toast.error(error.response.data.error.message || 'User is not verified!');
+      } else {
+        toast.error('Failed to remove reaction');
+      }
+    }
+  };
+
+  const emojis: IReaction['type'][] = ["😄", "👍", "🎉", "💖", "👏", "💡"];
+
+  const aggregatedReactions = reactions.reduce<{ [key: string]: number }>((acc, reaction) => {
+    acc[reaction.type] = (acc[reaction.type] || 0) + 1;
+    return acc;
+  }, {});
 
   return (
     <div
@@ -69,7 +157,7 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
           {t("readMore")}
         </Link>
         {currentUser && currentUser.id === post.author.id && (
-      <div className="flex space-x-2">
+          <div className="flex space-x-2">
             <Link
               to={`/app/posts/edit/${post.id}`}
               className="justify-end mt-4 inline-block text-blue-400 hover:text-blue-300 transition-colors duration-200 border-2 border-blue-500 hover:border-blue-300 p-2 rounded-3xl"
@@ -86,6 +174,18 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
           </div>
         )}
       </div>
+      <div className="mt-4 rounded-3xl flex flex-wrap justify-evenly border-2 border-sky-500 hover:border-blue-300">
+        {emojis.map((emoji) => (
+          <button
+            key={emoji}
+            onClick={() => userReaction === emoji ? handleRemoveReaction(emoji) : handleReaction(emoji)}
+            className="text-lg p-2 m-1"
+          >
+            <span className={userReaction === emoji ? 'opacity-50' : ''}>{emoji}</span>
+            <span className="text-white">{aggregatedReactions[emoji] ? `x${aggregatedReactions[emoji]}` : ''}</span>
+          </button>
+        ))}
+    </div>
     </div>
   );
 };
