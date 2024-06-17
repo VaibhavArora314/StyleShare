@@ -80,12 +80,12 @@ https://github.com/VaibhavArora314/StyleShare/assets/142779809/bb8969a2-90b2-431
 - SEND_EMAIL=true //keep it same
 - API_KEY="your google gemini api key"  //your gemini api key
 
--for getting EMAIL_PASS
+- for getting EMAIL_PASS
 - EMAIL_PASS=lmkgpafolrjudvpc  //16 digit pass key generated in google
 
 - I am giving youtube link
 
-[EMAIL_PASS Generation video link](https://www.youtube.com/watch?v=MkLX85XU5rU&t=116s&ab_channel=HarishBhathee)
+- [EMAIL_PASS Generation video link](https://www.youtube.com/watch?v=MkLX85XU5rU&t=116s&ab_channel=HarishBhathee)
 
 - It generates 16 digit password with spaces
 - Remove space and add the password
