@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import logo from '../assets/favicon.png';
 import { useTranslation } from "react-i18next";
+import LanguageDropdown from "./LanguageDropdown";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,18 +31,25 @@ const Navbar = () => {
 
   const getNavLinkClass = (path:string) => {
     return location.pathname === path
-      ? "block py-2 px-3 bg-blue-600 rounded md:bg-transparent md:p-0 text-white md:text-blue-300"
-      : "block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-300 hover:bg-blue-400 hover:text-white md:hover:bg-transparent";
+
+    ? "block py-2 px-3 bg-blue-600 rounded md:bg-transparent md:p-0 text-white md:text-blue-300"
+    : "block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-300 hover:bg-blue-400 hover:text-white md:hover:bg-transparent";
   };
 
   return (
     <nav className="bg-gradient-to-r from-[#6a11cb] via-[#ab67df] to-[#2575fc]  fixed w-full z-20 top-0 start-0">
+
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link to="/app" className="flex items-center space-x-3 rtl:space-x-reverse" onClick={closeMenu}>
-          <img src={logo} className="h-8" alt="Styleshare Logo" />
-          <span className="self-center justify-between text-2xl font-bold whitespace-nowrap text-white font-mono">
-            {t("navbar.logo")}
-          </span>
+        <Link to="/app" className="flex items-center justify-between space-x-3 rtl:space-x-reverse" onClick={closeMenu}>
+            <div className="flex items-center space-x-3 rtl:space-x-reverse">
+              <img src={logo} className="h-8" alt="Styleshare Logo" />
+              <span className="self-center text-2xl font-bold  text-white font-mono">
+                {t("navbar.logo")}
+              </span>
+            </div>
+            <div className=" ">
+              <LanguageDropdown />
+            </div>
         </Link>
         <button
           onClick={toggleMenu}
@@ -73,7 +81,7 @@ const Navbar = () => {
           } w-full lg:block lg:w-auto transition-all duration-300 ease-in-out`}
           id="navbar-default"
         >
-          <ul className="font-medium flex flex-col p-4 text-lg lg:p-0 mt-4 border rounded-lg lg:flex-row lg:space-x-8 rtl:space-x-reverse lg:mt-0 lg:border-0">
+          <ul className="font-medium flex flex-col p-0 text-lg lg:p-0 mt-4 border rounded-lg lg:flex-row lg:space-x-5 rtl:space-x-reverse lg:mt-0 lg:border-0">
             <li className="mt-2 lg:mb-0">
               <Link to="/app" className={getNavLinkClass("/app")} aria-current="page" onClick={closeMenu}>
                 {t("navbar.links.home")}
@@ -162,3 +170,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
