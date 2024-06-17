@@ -93,7 +93,7 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
             </div>
           );
         })}
-        <div className="z-50 flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2  rounded-full  dark:border-gray-800">
+        <div className="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2  rounded-full  dark:border-gray-800">
           +{totalReactions}
         </div>
       </div>
