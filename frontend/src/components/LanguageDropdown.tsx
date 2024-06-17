@@ -29,7 +29,7 @@ const LanguageDropdown: React.FC = () => {
     <div className={`  ${isMobileOrTablet() ? 'w-10' : ''}`}>
       <select
         onChange={handleLanguageChange}
-        className={`p-1 w-20  rounded-md border-2 border-white bg-gradient-to-r from-[#6a11cb] via-[#ab67df] to-[#2575fc] bg-blue-950  text-blue-100   font-mono ${
+        className={`p-1 w-20  rounded-md border-2 border-white bg-gradient-to-r from-[#6a11cb] via-[#ab67df] to-[#6a11cb] bg-blue-950  text-blue-100   font-mono ${
           isMobileOrTablet() ? 'text-sm' : ''}`}
         value={i18n.language}
       >
