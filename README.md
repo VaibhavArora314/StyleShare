@@ -22,7 +22,7 @@ This repository also provides one such platforms where contributers come over an
 ![GitHub issues](https://img.shields.io/github/issues/VaibhavArora314/StyleShare)
 ![GitHub forks](https://img.shields.io/github/forks/VaibhavArora314/StyleShare)
 ![GitHub pull requests](https://img.shields.io/github/VaibhavArora314/StyleShare)
-![GitHub Repo stars](https://img.shields.io/github/stars/VaibhavArora314/StyleShare?style=social)
+![GitHub Repo stars](https://img.shields.io/github/stars/VaibhavArora314/StyleShare)
 ![GitHub contributors](https://img.shields.io/github/contributors/VaibhavArora314/StyleShare)
 
 
@@ -68,23 +68,24 @@ https://github.com/VaibhavArora314/StyleShare/assets/142779809/bb8969a2-90b2-431
 
 1. Go to the backend folder and create a .env file similar to [.env.example](https://github.com/VaibhavArora314/StyleShare/blob/main/backend/.env.example)
 
-2. # setup .env file
+ <h4>setup .env file</h4>
 
-DATABASE_URL="mongodb+srv://<username>:<password>@<cluster-name>/syleshare"
-# example
-DATABASE_URL="mongodb+srv://manikumar:Demo123@styleshare.bh8xwpr.mongodb.net/Styleshare?retryWrites=true&w=majority&appName=Styleshare"//change this with your link
-JWT_SECRET="secret" //keep it same
-PORT=3001 //keep it same
-EMAIL_USER=example@gmail.com //give your email address
-EMAIL_PASS=lmkgpafolrjudvpc  //16 digit pass key generated in google
-SEND_EMAIL=true //keep it same
-API_KEY="your google gemini api key"  //your gemini api key
+- DATABASE_URL="mongodb+srv://<username>:<password>@<cluster-name>/syleshare"
+- example
+- DATABASE_URL="mongodb+srv://manikumar:Demo123@styleshare.bh8xwpr.mongodb.net/Styleshare?retryWrites=true&w=majority&appName=Styleshare"//change this with your link
+- JWT_SECRET="secret" //keep it same
+- PORT=3001 //keep it same
+- EMAIL_USER=example@gmail.com //give your email address
+- EMAIL_PASS=lmkgpafolrjudvpc  //16 digit pass key generated in google
+- SEND_EMAIL=true //keep it same
+- API_KEY="your google gemini api key"  //your gemini api key
 
-# EMAIL_PASS=lmkgpafolrjudvpc  //16 digit pass key generated in google
+-for getting EMAIL_PASS
+- EMAIL_PASS=lmkgpafolrjudvpc  //16 digit pass key generated in google
 
 - I am giving youtube link
 
-[](https://www.youtube.com/watch?v=MkLX85XU5rU&t=116s&ab_channel=HarishBhathee)
+![](https://www.youtube.com/watch?v=MkLX85XU5rU&t=116s&ab_channel=HarishBhathee)
 
 - It generates 16 digit password with spaces
 - Remove space and add the password
