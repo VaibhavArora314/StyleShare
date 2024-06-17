@@ -32,6 +32,7 @@ model Post {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   codeSnippet String
+  jsCodeSnippet String @default("")
   description String
   tags        String[]
   authorId    String   @db.ObjectId

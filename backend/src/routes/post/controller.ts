@@ -3,7 +3,7 @@ import { UserAuthRequest } from "../../helpers/types";
 import { createPostSchema } from "./zodSchema";
 import prisma from "../../db";
 import axios from "axios";
-import {GoogleGenerativeAI} from '@google/generative-ai'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
 export const createPostController = async (
   req: UserAuthRequest,
@@ -52,6 +52,7 @@ export const createPostController = async (
       data: {
         title: data.title,
         codeSnippet: data.codeSnippet,
+        jsCodeSnippet: data.jsCodeSnippet,
         description: data.description,
         tags: data.tags,
         authorId: userId,
@@ -60,6 +61,7 @@ export const createPostController = async (
         id: true,
         title: true,
         codeSnippet: true,
+        jsCodeSnippet: true,
         description: true,
         tags: true,
         author: {
@@ -89,7 +91,7 @@ export const updatePostController = async (req: UserAuthRequest, res: Response) 
   try {
     const userId = req.userId;
     const postId = req.params.id;
-    const { title, codeSnippet, description, tags } = req.body;
+    const { title, codeSnippet, jsCodeSnippet, description, tags } = req.body;
 
     if (!userId) {
       return res.status(403).json({ error: "Invalid user" });
@@ -139,6 +141,7 @@ export const updatePostController = async (req: UserAuthRequest, res: Response) 
       data: {
         title,
         codeSnippet,
+        jsCodeSnippet,
         description,
         tags,
       },
@@ -146,6 +149,7 @@ export const updatePostController = async (req: UserAuthRequest, res: Response) 
         id: true,
         title: true,
         codeSnippet: true,
+        jsCodeSnippet: true,
         description: true,
         tags: true,
       },
@@ -174,6 +178,7 @@ export const getPostController = async (req: Request, res: Response) => {
         id: true,
         title: true,
         codeSnippet: true,
+        jsCodeSnippet: true,
         description: true,
         tags: true,
         likes: true,
@@ -210,6 +215,7 @@ export const getPostsController = async (req: Request, res: Response) => {
       id: true,
       title: true,
       codeSnippet: true,
+      jsCodeSnippet: true,
       description: true,
       tags: true,
       author: {
@@ -242,6 +248,7 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
         id: true,
         title: true,
         codeSnippet: true,
+        jsCodeSnippet: true,
         description: true,
         tags: true,
         author: {
@@ -596,6 +603,7 @@ export const getFavoritePostsController = async (req: UserAuthRequest, res: Resp
             id: true,
             title: true,
             codeSnippet: true,
+            jsCodeSnippet: true,
             description: true,
             tags: true,
             author: {
@@ -735,10 +743,10 @@ export const aiCustomization = async (req: UserAuthRequest, res: Response) => {
 
     const genAI = new GoogleGenerativeAI(key);
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
-    
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
     const prompt = `This is my tailwind css code: ${originalCodeSnippet}\n\n I want you to modify it and put ${query}\n\n and also write the code in vs code format like one below other tag and just give me code don't explain it.`
-    
+
     const result = await model.generateContent(prompt);
 
     const response = await result.response;

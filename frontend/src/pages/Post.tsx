@@ -24,6 +24,7 @@ const Post = () => {
     title: "",
     description: "",
     codeSnippet: "",
+    jsCodeSnippet: "",
     tags: [],
     author: {
       id: "",
@@ -45,7 +46,8 @@ const Post = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const { t } = useTranslation();
   const [isOwner, setIsOwner] = useState(false);
-  
+  const [activeTab, setActiveTab] = useState("html");
+
   const shareUrl = `http://style-share.vercel.app/app/posts/${post.id}`
   const title = `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`
 
@@ -77,16 +79,20 @@ const Post = () => {
   }, [isPreview, post?.codeSnippet]);
 
   const handleCopy = () => {
-    if (post) {
+    if (post && activeTab === "html") {
       navigator.clipboard.writeText(post.codeSnippet);
-      toast.success('Code snippet copied to clipboard');
+      toast.success('HTML Code copied to clipboard');
+    }
+    if (post && activeTab === "js") {
+      navigator.clipboard.writeText(post.jsCodeSnippet);
+      toast.success('JavaScript copied to clipboard');
     }
   };
 
   const togglePreview = () => {
     setIsPreview(!isPreview);
   };
-  
+
   useEffect(() => {
     onLoad();
   }, [isPreview, post?.codeSnippet]);
@@ -221,7 +227,7 @@ const Post = () => {
       toast.error('Please login for 🤖 customization');
       return;
     }
-    navigate(`/app/customize-with-ai/${post.id}`,{state: { post}});
+    navigate(`/app/customize-with-ai/${post.id}`, { state: { post } });
   };
 
   if (loading) {
@@ -236,45 +242,49 @@ const Post = () => {
     );
   }
 
-  const handleProfileNavigation = () =>{
+  const handleProfileNavigation = () => {
     navigate(`/app/profile/${post.author.id}`);
+  }
+
+  const handleTabSwitch = (tab: any) => {
+    setActiveTab(tab);
   }
 
   return (
     <div className="p-6 text-white max-w-screen-xl mx-auto">
-        <>
-          <button onClick={() => window.history.back()} className="mb-2 mt-2 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
-            <IoMdArrowRoundBack size={20} />
-          </button>
-          <div className='flex flex-row content-center mb-1'>
-            <h2 className="text-2xl font-semibold mr-3">{post.title}</h2>
-            {isFavorite ? (
-              <MdFavorite onClick={handleRemoveFromFavorite} size={33} className="cursor-pointer text-blue-600 " />
-            ) : (
-              <MdFavoriteBorder onClick={handleAddToFavorite} size={33} className="cursor-pointer text-white" />
-            )}
-          </div>
-          <button
-            onClick={handleLike}
-            className="px-4 py-2 my-3 rounded-md border-2 text-white text-sm mr-2"
-          >
-            {userLiked ? <BiSolidLike size={25} /> : <BiLike size={25} />} {post.likes}
-          </button>
-          <button
-            onClick={handleDislike}
-            className="px-4 py-2 rounded-md border-2 text-white text-sm"
-          >
-            {userDisliked ? <BiSolidDislike size={25} /> : <BiDislike size={25} />} {post.dislikes}
-          </button>
-          <p className="mb-4">{post.description}</p>
-          <div className="relative my-4">
-            {isPreview ? (
-              <div className="p-4 bg-gray-800 z-0 h-full overflow-hidden rounded border border-gray-700">
-                <iframe
-                  ref={ref}
-                  onLoad={onLoad}
-                  className="w-full h-full border-0"
-                  srcDoc={`<html class='flex w-full h-full'>
+      <>
+        <button onClick={() => window.history.back()} className="mb-2 mt-2 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
+          <IoMdArrowRoundBack size={20} />
+        </button>
+        <div className='flex flex-row content-center mb-1'>
+          <h2 className="text-2xl font-semibold mr-3">{post.title}</h2>
+          {isFavorite ? (
+            <MdFavorite onClick={handleRemoveFromFavorite} size={33} className="cursor-pointer text-blue-600 " />
+          ) : (
+            <MdFavoriteBorder onClick={handleAddToFavorite} size={33} className="cursor-pointer text-white" />
+          )}
+        </div>
+        <button
+          onClick={handleLike}
+          className="px-4 py-2 my-3 rounded-md border-2 text-white text-sm mr-2"
+        >
+          {userLiked ? <BiSolidLike size={25} /> : <BiLike size={25} />} {post.likes}
+        </button>
+        <button
+          onClick={handleDislike}
+          className="px-4 py-2 rounded-md border-2 text-white text-sm"
+        >
+          {userDisliked ? <BiSolidDislike size={25} /> : <BiDislike size={25} />} {post.dislikes}
+        </button>
+        <p className="mb-4">{post.description}</p>
+        <div className="relative my-4">
+          {isPreview ? (
+            <div className="p-4 bg-gray-800 z-0 h-full overflow-hidden rounded border border-gray-700">
+              <iframe
+                ref={ref}
+                onLoad={onLoad}
+                className="w-full h-full border-0"
+                srcDoc={`<html class='flex w-full h-full'>
                       <head>
                         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
                         <script>
@@ -291,82 +301,108 @@ const Post = () => {
                       <body class='w-full h-full flex items-center justify-center minw-full min-h-full'>
                         <div class='w-full h-full p-6'>${sanitizedSnippet}</div>
                       </body>
+                      ${post.jsCodeSnippet ? `${post.jsCodeSnippet}` : ""}
                     </html>`}
-                  title="Preview"
-                  sandbox="allow-scripts allow-same-origin"
-                  style={{ minHeight: height, maxWidth: "100%" }}
-                />
-              </div>
-            ) : (
-              <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96 line-numbers language-html">
-                <code>{post.codeSnippet}</code>
-              </pre>
-            )}
-            <div className="absolute top-2 right-3 flex space-x-2">
-              {(isOwner && !isPreview) ? (
-                <Link to={`/app/posts/edit/${post.id}`}
-                  className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
-                  Edit
-                </Link>
-              ) : null}
-              {isPreview ? null : (
-                <button
-                  onClick={handleCopy}
-                  className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
-                >
-                  {t("postdet.copy")}
-                </button>
-              )}
+                title="Preview"
+                sandbox="allow-scripts allow-same-origin"
+                style={{ minHeight: height, maxWidth: "100%" }}
+              />
+            </div>
+          ) : (<div>
+            <div className="flex bg-gray-800 border border-gray-700 rounded">
               <button
-                onClick={togglePreview}
+                onClick={() => handleTabSwitch("html")}
+                className={`px-4 py-2 ${activeTab === "html" ? 'bg-blue-600 text-white' : 'border border-gray-700 text-white'}`}
+              >
+                HTML
+              </button>
+              {(post.jsCodeSnippet != "") ? (
+                <button
+                  onClick={() => handleTabSwitch("js")}
+                  className={`px-4 py-2 ${activeTab === "js" ? 'bg-blue-600 text-white' : 'border border-gray-700  text-white'}`}
+                >
+                  JavaScript
+                </button>
+              ) : null}
+            </div>
+            <div className="">
+              {activeTab === "html" ? (
+                <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96">
+                  <code>{post.codeSnippet}</code>
+                </pre>
+              ) : (
+                <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96">
+                  <code>{post.jsCodeSnippet}</code>
+                </pre>
+              )}
+            </div>
+          </div>
+          )}
+          <div className="absolute top-2 right-3 flex space-x-2">
+            {(isOwner && !isPreview) ? (
+              <Link to={`/app/posts/edit/${post.id}`}
+                className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
+                Edit
+              </Link>
+            ) : null}
+            {isPreview ? null : (
+              <button
+                onClick={handleCopy}
                 className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
               >
-                {isPreview ? t("postdet.show") : t("postdet.preview")}
+                {t("postdet.copy")}
               </button>
-              <button
-                  onClick={handleNavigation}
-                  className="px-2 py-1 rounded-md text-white bg-green-600 hover:bg-green-700 text-sm"
-                >
-                  {t("postdet.cus")}
-              </button>
-            </div>
+            )}
+            <button
+              onClick={togglePreview}
+              className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+            >
+              {isPreview ? t("postdet.show") : t("postdet.preview")}
+            </button>
+            <button
+              onClick={handleNavigation}
+              className="px-2 py-1 rounded-md text-white bg-green-600 hover:bg-green-700 text-sm"
+            >
+              {t("postdet.cus")}
+            </button>
           </div>
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold my-2">{t("newPost.tags")}</h3>
-            <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className="inline-flex items-center px-2 py-1 bg-gray-700 text-sm rounded"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+        </div>
+        <div className="mb-4">
+          <h3 className="text-xl font-semibold my-2">{t("newPost.tags")}</h3>
+          <div className="flex flex-wrap gap-2">
+            {post.tags.map((tag, index) => (
+              <span
+                key={index}
+                className="inline-flex items-center px-2 py-1 bg-gray-700 text-sm rounded"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
-          <div className="my-5">
-            <h3 className="text-xl font-semibold my-2">{t("postdet.author")}</h3>
-            <button onClick={handleProfileNavigation} data-tooltip-content={`View ${post.author.username} profile 👀`} data-tooltip-id="my-tooltip" className='text-lg font-semibold cursor-pointer'>{t("postdet.user")}: @{post.author.username}</button>
-          </div>
-          <div className="flex space-x-2 my-4">
-            <TelegramShareButton url={shareUrl} title={title}>
-              <TelegramIcon size={35} round />
-            </TelegramShareButton>
-            <TwitterShareButton url={shareUrl} title={title}>
-              <XIcon size={35} round />
-            </TwitterShareButton>
-            <WhatsappShareButton url={shareUrl} title={title}>
-              <WhatsappIcon size={35} round />
-            </WhatsappShareButton>
-            <LinkedinShareButton url={shareUrl} title={title} summary={title}>
-              <LinkedinIcon size={35} round />
-            </LinkedinShareButton>
-            <FacebookShareButton url={shareUrl} title={title} >
-              <FacebookIcon size={35} round />
-            </FacebookShareButton>
-          </div>
-          <Comment />
-        </>
+        </div>
+        <div className="my-5">
+          <h3 className="text-xl font-semibold my-2">{t("postdet.author")}</h3>
+          <button onClick={handleProfileNavigation} data-tooltip-content={`View ${post.author.username} profile 👀`} data-tooltip-id="my-tooltip" className='text-lg font-semibold cursor-pointer'>{t("postdet.user")}: @{post.author.username}</button>
+        </div>
+        <div className="flex space-x-2 my-4">
+          <TelegramShareButton url={shareUrl} title={title}>
+            <TelegramIcon size={35} round />
+          </TelegramShareButton>
+          <TwitterShareButton url={shareUrl} title={title}>
+            <XIcon size={35} round />
+          </TwitterShareButton>
+          <WhatsappShareButton url={shareUrl} title={title}>
+            <WhatsappIcon size={35} round />
+          </WhatsappShareButton>
+          <LinkedinShareButton url={shareUrl} title={title} summary={title}>
+            <LinkedinIcon size={35} round />
+          </LinkedinShareButton>
+          <FacebookShareButton url={shareUrl} title={title} >
+            <FacebookIcon size={35} round />
+          </FacebookShareButton>
+        </div>
+        <Comment />
+      </>
     </div>
   );
 };

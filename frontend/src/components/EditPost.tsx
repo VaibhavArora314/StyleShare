@@ -15,6 +15,7 @@ const EditPost = () => {
     title: "",
     description: "",
     codeSnippet: "",
+    jsCodeSnippet: "",
     tags: [],
     author: {
       id: "",
@@ -51,6 +52,7 @@ const EditPost = () => {
       title: post.title,
       description: post.description,
       codeSnippet: post.codeSnippet,
+      jsCodeSnippet: post.jsCodeSnippet,
       tags: post.tags,
     };
     try {
@@ -130,6 +132,18 @@ const EditPost = () => {
             name="codeSnippet"
             value={post.codeSnippet}
             onChange={(e) => setPost({ ...post, codeSnippet: e.target.value })}
+            className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="jsCodeSnippet" className="block text-sm font-medium mb-2">
+            JavaScript Code Snippet
+          </label>
+          <textarea
+            id="jsCodeSnippet"
+            name="jsCodeSnippet"
+            value={post.jsCodeSnippet}
+            onChange={(e) => setPost({ ...post, jsCodeSnippet: e.target.value })}
             className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded"
           />
         </div>

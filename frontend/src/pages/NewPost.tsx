@@ -10,6 +10,7 @@ const NewPost = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [codeSnippet, setCodeSnippet] = useState("");
+  const [jsCodeSnippet, setJsCodeSnippet] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
   const token = useRecoilValue(tokenState);
@@ -41,6 +42,7 @@ const NewPost = () => {
       title,
       description,
       codeSnippet,
+      jsCodeSnippet,
       tags,
     };
 
@@ -105,6 +107,18 @@ const NewPost = () => {
             value={codeSnippet}
             onChange={(e) => setCodeSnippet(e.target.value)}
             className="mt-1 p-2 w-full bg-[#151569] border border-blue-900 rounded"
+          ></textarea>
+        </div>
+        <div>
+          <label htmlFor="jsCodeSnippet" className="block text-sm font-medium">
+          {t("newPost.jsCodeSnippet")}
+          </label>
+          <textarea
+            id="jsCodeSnippet"
+            value={jsCodeSnippet}
+            onChange={(e) => setJsCodeSnippet(e.target.value)}
+            className="mt-1 p-2 w-full bg-[#151569] border border-blue-900 rounded"
+            placeholder="Don't forget to include the script tags!"
           ></textarea>
         </div>
         <div>
