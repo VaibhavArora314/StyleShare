@@ -84,16 +84,11 @@ https://github.com/VaibhavArora314/StyleShare/assets/142779809/bb8969a2-90b2-431
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VII. `API_KEY="your google gemini api key"` (replace with your actual Google Gemini API key)
 
+ <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For getting EMAIL_PASS</h4>
 
-- for getting EMAIL_PASS
-- EMAIL_PASS=lmkgpafolrjudvpc  //16 digit pass key generated in google
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I.[EMAIL_PASS Generation video link](https://www.youtube.com/watch?v=MkLX85XU5rU&t=116s&ab_channel=HarishBhathee)
 
-- I am giving youtube link
-
-- [EMAIL_PASS Generation video link](https://www.youtube.com/watch?v=MkLX85XU5rU&t=116s&ab_channel=HarishBhathee)
-
-- It generates 16 digit password with spaces
-- Remove space and add the password
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; II.Remove spaces and add the password
 
 2. Run the following commands in the backend folder
 
