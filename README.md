@@ -70,19 +70,19 @@ https://github.com/VaibhavArora314/StyleShare/assets/142779809/bb8969a2-90b2-431
 
  <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; setup .env file</h4>
 
-&nbsp;&nbsp;&nbsp;&nbsp; I. `DATABASE_URL="mongodb+srv://<username>:<password>@<cluster-name>/syleshare"` (replace `<username>`, `<password>`, and `<cluster-name>` with your actual MongoDB credentials)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I. `DATABASE_URL="mongodb+srv://<username>:<password>@<cluster-name>/syleshare"` (replace `<username>`, `<password>`, and `<cluster-name>` with your actual MongoDB credentials)
 
-&nbsp;&nbsp;&nbsp;&nbsp; II. `JWT_SECRET="secret"`
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; II. `JWT_SECRET="secret"`
 
-&nbsp;&nbsp;&nbsp;&nbsp; III. `PORT=3001`
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; III. `PORT=3001`
 
-&nbsp;&nbsp;&nbsp;&nbsp; IV. `EMAIL_USER=example@gmail.com` (replace with your actual email address)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IV. `EMAIL_USER=example@gmail.com` (replace with your actual email address)
 
-&nbsp;&nbsp;&nbsp;&nbsp; V. `EMAIL_PASS=lmkgpafolrjudvpc` (16-digit password generated in Google)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; V. `EMAIL_PASS=lmkgpafolrjudvpc` (16-digit password generated in Google)
 
-&nbsp;&nbsp;&nbsp;&nbsp; VI. `SEND_EMAIL=true`
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VI. `SEND_EMAIL=true`
 
-&nbsp;&nbsp;&nbsp;&nbsp; VII. `API_KEY="your google gemini api key"` (replace with your actual Google Gemini API key)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VII. `API_KEY="your google gemini api key"` (replace with your actual Google Gemini API key)
 
 
 - for getting EMAIL_PASS
