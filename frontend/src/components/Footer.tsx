@@ -15,7 +15,7 @@ const Footer = () => {
 
     return (
         <div className='bg-black text-white p-10'>
-            <div className='md:flex'>
+            <div className='flex justify-around items-center '>
                 <div className='md:w-1/3'>
                     <div className="flex items-center flex-col">
                         <div className="flex">
@@ -89,10 +89,8 @@ const Footer = () => {
             </div>
 
             <hr className="mt-10"/>
-            <div className='mt-5 text-gray-300 xl:flex justify-center text-md lg:text-xl xl:text-md gap-5'>
-                <div>{ t('footer.accessibility') } </div>|
-                <div>{t('footer.copy1')} {currentYear}{t('footer.copy2')} </div> |
-                <div>{ t('footer.conduct') }</div>
+            <div className='mt-5 text-gray-300 flex justify-center items-center text-md lg:text-xl xl:text-md '>
+               {t('footer.copy1')} {currentYear}{t('footer.copy2')}
             </div>
         </div>
     )
