@@ -68,7 +68,7 @@ https://github.com/VaibhavArora314/StyleShare/assets/142779809/bb8969a2-90b2-431
 
 1. Go to the backend folder and create a .env file similar to [.env.example](https://github.com/VaibhavArora314/StyleShare/blob/main/backend/.env.example)
 
- <h4>  setup .env file</h4>
+ <h4>&nbsp;&nbsp; setup .env file</h4>
 
 - DATABASE_URL="mongodb+srv://<username>:<password>@<cluster-name>/syleshare"
 - example
