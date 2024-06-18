@@ -78,9 +78,9 @@ https://github.com/VaibhavArora314/StyleShare/assets/142779809/bb8969a2-90b2-431
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IV. `EMAIL_USER=example@gmail.com` (replace with your actual email address)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; V. `EMAIL_PASS=lmkgpafolrjudvpc` (16-digit password generated in Google)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; V. `EMAIL_PASS=lmkgpafolrjudvpc` (16-digit password generated in Google, change this with yours)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VI. `SEND_EMAIL=true`
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VI. `SEND_EMAIL=true` (If you set it true ,you can able to send email otherwise it wont send)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VII. `API_KEY="your google gemini api key"` (replace with your actual Google Gemini API key)
 
