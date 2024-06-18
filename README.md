@@ -70,15 +70,19 @@ https://github.com/VaibhavArora314/StyleShare/assets/142779809/bb8969a2-90b2-431
 
  <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; setup .env file</h4>
 
-- DATABASE_URL="mongodb+srv://<username>:<password>@<cluster-name>/syleshare"
-- example
-- DATABASE_URL="mongodb+srv://manikumar:Demo123@styleshare.bh8xwpr.mongodb.net/Styleshare?retryWrites=true&w=majority&appName=Styleshare"//change this with your link
-- JWT_SECRET="secret" //keep it same
-- PORT=3001 //keep it same
-- EMAIL_USER=example@gmail.com //give your email address
-- EMAIL_PASS=lmkgpafolrjudvpc  //16 digit pass key generated in google
-- SEND_EMAIL=true //keep it same
-- API_KEY="your google gemini api key"  //your gemini api key
+I. DATABASE_URL="mongodb+srv://<username>:<password>@<cluster-name>/syleshare" (replace <username>, <password>, and <cluster-name> with your actual MongoDB credentials)
+
+II. JWT_SECRET="secret"
+
+III. PORT=3001
+
+IV. EMAIL_USER=example@gmail.com (replace with your actual email address)
+
+V. EMAIL_PASS=lmkgpafolrjudvpc (16-digit password generated in Google)
+
+VI. SEND_EMAIL=true
+
+VII. API_KEY="your google gemini api key" (replace with your actual Google Gemini API key)
 
 - for getting EMAIL_PASS
 - EMAIL_PASS=lmkgpafolrjudvpc  //16 digit pass key generated in google
