@@ -549,9 +549,6 @@ export const deletePostController = async (req: UserAuthRequest, res: Response) 
       return res.status(403).json({ error: { message: "You are not authorized to delete this post" } });
     }
 
-    await prisma.userPostInteraction.deleteMany({
-      where: { postId }
-    });
     await prisma.comment.deleteMany({
       where: { postId }
     });

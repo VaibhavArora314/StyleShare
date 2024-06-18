@@ -59,7 +59,7 @@ const ReactionButton: React.FC<ReactionButtonProps> = ({ postId, initialReaction
       );
       setReaction(type);
       toast.success(`Reacted with ${type}`);
-    } catch (error:any) {
+    } catch (error: any) {
       if (error.response && error.response.status === 403) {
         toast.error(error.response.data.error.message || 'User is not verified!');
       }
@@ -85,7 +85,7 @@ const ReactionButton: React.FC<ReactionButtonProps> = ({ postId, initialReaction
       });
       setReaction(null);
       toast.success("Reaction removed");
-    } catch (error:any) {
+    } catch (error: any) {
       if (error.response && error.response.status === 403) {
         toast.error(error.response.data.error.message || 'User is not verified!');
       }
@@ -149,6 +149,10 @@ const ReactionButton: React.FC<ReactionButtonProps> = ({ postId, initialReaction
           <button onClick={() => handleReaction('Insightful')} className="focus:outline-none emoji-button"><RiLightbulbFlashFill size={30} color='#FFD700' /></button>
           <button onClick={() => handleReaction('Funny')} className="focus:outline-none emoji-button"><FaFaceLaughBeam size={29} color='violet' /></button>
         </div>
+      )}
+      <br/>
+      {reaction && (
+        <div className="mt-2 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded bg-blue-950 backdrop-blur-sm dark:text-blue-300  border border-sky-500">You reacted with {reaction}</div>
       )}
     </div>
   );
