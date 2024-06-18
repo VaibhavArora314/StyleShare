@@ -25,11 +25,10 @@ import LeaderBoard from "./pages/LeaderBoard";
 import CustomizeWithAi from "./pages/CustomizeWithAi";
 import ScrollToTopWhenRouteChanges from "./components/ScrollToTopWhenRouteChanges";
 import './i18n';
-import LanguageDropdown from "./components/LanguageDropdown";
 import CodeEditor from "./components/CodeEditor";
 import ShowProfile from "./pages/ShowProfile";
 import { Tooltip } from 'react-tooltip'
-import EditPost from "./components/EditPost";
+import EditPost from "./pages/EditPost";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -43,7 +42,6 @@ function App() {
           <GoTop/>
           <ScrollToTopWhenRouteChanges/>
           <div className="min-h-[80vh] mt-12 pt-12">
-            <LanguageDropdown/>
             <Routes>
               <Route path="/app" element={<Home />} />
               <Route path="/app/posts/:id" element={<Post />} />

@@ -26,6 +26,7 @@ model User {
   interactions UserPostInteraction[]
   comments     Comment[] @relation("userComments")
   favorites    Favorite[] @relation("userFavorites")
+  reactions    Reaction[]
 }
 
 model Post {
@@ -43,6 +44,18 @@ model Post {
   interactions UserPostInteraction[]
   comments    Comment[] @relation("postComments")
   favorites   Favorite[] @relation("postFavorites")
+  reactions   Reaction[]
+}
+
+model Reaction {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  type     String
+  userId   String @db.ObjectId
+  postId   String @db.ObjectId
+  user     User   @relation(fields: [userId], references: [id])
+  post     Post   @relation(fields: [postId], references: [id])
+
+  @@unique([userId, postId, type])
 }
 
 model UserPostInteraction {
@@ -76,4 +89,13 @@ model Favorite {
   post      Post   @relation("postFavorites", fields: [postId], references: [id])
 
   @@unique([userId, postId])
+}
+
+model contactMessage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
 }
