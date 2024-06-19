@@ -28,10 +28,10 @@ const Footer = () => {
                     <div className='md:w-1/3'>
                         <p className='text-gray-200 font-bold mt-8 md:mt-0'>{t('footer.company')}</p>
                         <ul className='text-gray-300 py-4'>
-                            <li className='py-1 cursor-pointer'>
+                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
                                 <Link to='/app/about'>{t('footer.c.l1')}</Link>
                             </li>
-                            <li className='py-1 cursor-pointer'>
+                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
                                 <Link to='/app/contact-us'>{t('footer.c.l2')}</Link>
                             </li>
                         </ul>
@@ -39,13 +39,13 @@ const Footer = () => {
                     <div className='md:w-1/3'>
                         <p className='text-gray-200 font-bold'>{t('footer.quick')}</p>
                         <ul className='text-gray-300 py-4 cursor-pointer'>
-                            <li className='py-1 cursor-pointer'>
+                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
                                 <Link className='flex items-center gap-1' to='/app/posts'>
                                     {t('footer.q.q1')}
                                     <BsFilePost size={20} />
                                 </Link>
                             </li>
-                            <li className='py-1 cursor-pointer'>
+                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
                                 <Link className='flex items-center gap-1' to={isLoggedIn ? '/app/profile' : '/app/signin'}>
                                     {t('footer.q.q2')}
                                     <CgProfile size={20} />
@@ -56,13 +56,13 @@ const Footer = () => {
                     <div className='md:w-1/3'>
                         <p className='text-gray-200 font-bold'>{t('footer.legal')}</p>
                         <ul className='text-gray-300 py-4 cursor-pointer'>
-                            <li className='py-1 cursor-pointer'>
+                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
                                 <Link to='/app/policy#privacy-policy'>{t('footer.l.le1')}</Link>
                             </li>
-                            <li className='py-1 cursor-pointer'>
+                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
                                 <Link to='/app/policy#terms-and-conditions'>{t('footer.l.le2')}</Link>
                             </li>
-                            <li className='py-1 cursor-pointer'>
+                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
                                 <Link to='/app/policy#cookie-policy'>{t('footer.l.le3')}</Link>
                             </li>
                         </ul>
