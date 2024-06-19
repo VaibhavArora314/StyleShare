@@ -17,11 +17,9 @@ const usePost = (id: string) => {
       username: "",
       email: "",
     },
-    likes: 0,
-    dislikes: 0,
     comments: [],
     favoritePosts: [],
-    reactions:[]
+    userReaction: null
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

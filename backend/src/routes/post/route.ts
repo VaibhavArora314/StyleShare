@@ -1,7 +1,7 @@
 
 import { Router } from "express";
 import authMiddleware from "../../middleware/auth"
-import { addReactionController, aiCustomization, createCommentController, createPostController, deletePostController, dislikePostController, favoritePostController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostsWithPagination, getReactionsController, likePostController, removeReactionController, unfavoritePostController, updatePostController } from "./controller";
+import { aiCustomization, createCommentController, createPostController, deletePostController, favoritePostController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostReactionsController, getPostsWithPagination, getUserReactionController, reactToPostController, removeReactionController, unfavoritePostController, updatePostController } from "./controller";
 
 const postRouter = Router();
 
@@ -14,10 +14,6 @@ postRouter.post('/', authMiddleware, createPostController)
 postRouter.put('/:id', authMiddleware, updatePostController);
 
 postRouter.get('/:id', getPostController);
-
-postRouter.post('/:id/like', authMiddleware, likePostController);
-
-postRouter.post('/:id/dislike', authMiddleware, dislikePostController);
 
 postRouter.post('/:postId/comments', authMiddleware, createCommentController);
 
@@ -35,10 +31,12 @@ postRouter.delete('/delete/:id', authMiddleware, deletePostController);
 
 postRouter.post('/customize',aiCustomization);
 
-postRouter.post('/:id/reaction', authMiddleware, addReactionController);
+postRouter.post('/:id/react', authMiddleware, reactToPostController);
 
-postRouter.delete('/:id/reaction/:type', authMiddleware, removeReactionController);
+postRouter.delete('/:id/react', authMiddleware, removeReactionController);
 
-postRouter.get('/:id/reactions', getReactionsController);
+postRouter.get('/:id/reaction', authMiddleware, getUserReactionController);
+
+postRouter.get('/:id/reactions', getPostReactionsController);
 
 export default postRouter;
