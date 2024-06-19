@@ -84,9 +84,9 @@ const Signup = () => {
 
   return (
     <section className="flex justify-center p-10 md:bg-grey-500">
-      <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+      <div className="w-full text-[#000435] bg-white dark:text-white dark:bg-[#000453] rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0  dark:border-gray-700">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h2 className="text-3xl font-bold mb-4 text-white text-center">
+          <h2 className="text-3xl font-bold mb-4 text-[#5f67de] dark:text-white text-center">
           {t("register.signup")}
           </h2>
           <p className="text-lg font-semibold mb-2 text-red-600 text-center">
@@ -94,13 +94,13 @@ const Signup = () => {
           </p>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label htmlFor="username" className="block text-gray-200">
+              <label htmlFor="username" className="block text-[#5f67de] dark:text-white">
               {t("register.username")}
               </label>
               <input
                 type="text"
                 id="username"
-                className="form-input mt-1 p-2 block w-full rounded-lg bg-gray-700 text-white"
+                className="form-input mt-1 p-2 block w-full rounded-lg text-[#000435] bg-white dark:text-white dark:bg-[#000453] border border-[#5f67de] dark:border-white"
                 value={username}
                 placeholder="John Doe"
                 onChange={(e) => setUsername(e.target.value)}
@@ -111,13 +111,13 @@ const Signup = () => {
               {error.username}
             </p>
             <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-200">
+              <label htmlFor="email" className="block text-[#5f67de] dark:text-white">
               {t("login.email")}
               </label>
               <input
                 type="email"
                 id="email"
-                className="form-input mt-1 p-2 block w-full rounded-lg text-white bg-gray-700"
+                className="form-input mt-1 p-2 block w-full rounded-lg text-[#000435] bg-white dark:text-white dark:bg-[#000453] border border-[#5f67de] dark:border-white"
                 placeholder="john@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -130,13 +130,13 @@ const Signup = () => {
             <div className="mb-4">
               <label
                 htmlFor="password"
-                className="block text-gray-200 relative"
+                className="block text-[#5f67de] dark:text-white relative"
               >
                 {t("login.password")}
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"
-                  className="form-input mt-1 p-2 block w-full rounded-lg text-white bg-gray-700"
+                  className="form-input mt-1 p-2 block w-full rounded-lg text-[#000435] bg-white dark:text-white dark:bg-[#000453] border border-[#5f67de] dark:border-white"
                   placeholder="password"
                   value={password}
                   onChange={handlePasswordChange}
@@ -155,7 +155,7 @@ const Signup = () => {
               </label>
               {passwordStrength && (
                 <div className="mt-2">
-                  <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                  <div className="w-full text-[#5f67de] dark:text-white rounded-full h-2.5 dark:bg-gray-700">
                     <div
                       className={`h-2.5 rounded-full ${strengthMeterColor(
                         passwordStrength.score
@@ -163,7 +163,7 @@ const Signup = () => {
                       style={{ width: `${(passwordStrength.score + 1) * 20}%` }}
                     ></div>
                   </div>
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-[#5f67de] dark:text-white text-sm">
                     {
                       ["Weak", "Fair", "Good", "Strong", "Very Strong"][
                         passwordStrength.score
@@ -172,7 +172,7 @@ const Signup = () => {
                   </p>
                 </div>
               )}
-              <ul className="list-none text-gray-400 text-sm mt-2">
+              <ul className="list-none text-[#5f67de] dark:text-white text-sm mt-2">
                 <li className="text-sm">
                   <span className="low-upper-case">
                     <FontAwesomeIcon
@@ -245,7 +245,7 @@ const Signup = () => {
               </button>
             </div>
           </form>
-          <p className="mt-4 text-sm text-white">
+          <p className="mt-4 text-sm text-[#000435] bg-white dark:text-white dark:bg-[#000453]">
           {t("register.alAccount")}{" "}
             <Link to="/app/signin" className="text-blue-500">
             {t("login.sigin")}

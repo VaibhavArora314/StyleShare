@@ -21,7 +21,7 @@ function Policy() {
   }, [location]);
 
   return (
-    <div className="w-full bg-[#000435] py-16 px-4 text-white">
+    <div className="w-full text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4 ">
       <div className="flex flex-col items-start">
         <div className="flex items-center mb-8 w-full">
           <img src={privacy} alt="Privacy" className="rounded-lg w-32 h-32 mr-8" />

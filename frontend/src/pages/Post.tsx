@@ -167,7 +167,7 @@ const Post = () => {
   };
 
   return (
-    <div className="p-6 text-white max-w-screen-xl mx-auto">
+    <div className="p-6  text-[#000435] bg-white dark:text-white dark:bg-[#000435] max-w-screen-xl mx-auto">
       <>
         <button
           onClick={() => window.history.back()}
@@ -261,7 +261,7 @@ const Post = () => {
         </div>
         <div className="mb-4">
           <h3 className="text-xl font-semibold my-2">{t("newPost.tags")}</h3>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 ">
             {post.tags.map((tag, index) => (
               <span
                 key={index}

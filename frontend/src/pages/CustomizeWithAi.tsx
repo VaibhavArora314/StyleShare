@@ -114,9 +114,9 @@ const CustomizeWithAi = () => {
   });
 
   return (
-    <div className="customize-page p-6 text-white max-w-screen-xl mx-auto">
-      <h1 className="text-3xl font-bold mb-5">✨ {t("postdet.cus")} ✨</h1>
-      <div className="mb-6">
+    <div className="customize-page p-6 text-[#000435] bg-white dark:text-white dark:bg-[#000435] max-w-screen-xl mx-auto">
+      <h1 className="text-3xl font-bold mb-5 ">✨ {t("postdet.cus")} ✨</h1>
+      <div className="mb-6 text-[#000435] bg-white dark:text-white dark:bg-[#000435]" >
         <h2 className="text-xl font-semibold mb-2">😀 {t("custom.og")}</h2>
         <div className="relative my-4">
           {isOriginalPreview ? (

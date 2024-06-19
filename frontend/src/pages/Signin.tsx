@@ -51,21 +51,21 @@ const Signin = () => {
 
   return (
     <section className=" flex justify-center p-12 md:bg-grey-500">
-    <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-full text-[#000435] bg-white dark:text-white dark:bg-[#000453] rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0  ">
 
     <div className="max-w-md mx-auto mt-8 p-6  rounded-lg shadow-md">
-      <h2 className="text-3xl font-bold mb-4 text-white text-center">
+      <h2 className="text-3xl font-bold mb-4 text-[#5f67de] dark:text-white text-center">
       {t("login.sigin")}
       </h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="email" className="block text-white">
+          <label htmlFor="email" className="block text-[#5f67de] dark:text-white">
           {t("login.email")}
           </label>
           <input
             type="email"
             id="email"
-            className="form-input text-white mt-1 p-2 block w-full rounded-lg bg-gray-700"
+            className="form-input text-[#000435] bg-white dark:text-white dark:bg-[#000453] border border-[#5f67de] dark:border-white mt-1 p-2 block w-full rounded-lg  "
             placeholder="john@gmail.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -76,12 +76,12 @@ const Signin = () => {
           </p>
         </div>
         <div className="mb-4">
-          <label htmlFor="password" className="block text-white relative">
+          <label htmlFor="password" className="block text-[#5f67de] dark:text-white relative">
           {t("login.password")}
           <input
              type={showPassword ? "text" : "password"}
             id="password"
-            className="form-input mt-1 p-2 block w-full text-white rounded-lg bg-gray-700"
+            className="form-input mt-1 p-2 block w-full text-[#000435] bg-white dark:text-white dark:bg-[#000453] rounded-lg border border-[#5f67de] dark:border-white "
             placeholder="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -113,7 +113,7 @@ const Signin = () => {
         </button>
         </div>
       </form>
-      <p className=" mt-4 text-md text-white">
+      <p className=" mt-4 text-md text-[#000435] bg-white dark:text-white dark:bg-[#000453]">
       {t("login.noAccount")} -
         <Link to="/app/signup" className="text-blue-500 text-lg p-2">
         {t("register.signup")}

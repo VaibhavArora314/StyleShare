@@ -88,12 +88,12 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
               emoji = null;
           }
           return (
-            <div key={index} className="relative w-10 h-10 border-2 rounded-full dark:border-gray-800 flex items-center justify-center bg-gray-700">
+            <div key={index} className="relative w-10 h-10 border-2 rounded-full dark:border-gray-800 flex items-center justify-center text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
               {emoji}
             </div>
           );
         })}
-        <div className="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2  rounded-full  dark:border-gray-800">
+        <div className="flex items-center justify-center w-10 h-10 text-xs font-mediumtext-[#000435] bg-white dark:text-white dark:bg-[#000435] border-2  rounded-full  dark:border-gray-800">
           +{totalReactions}
         </div>
       </div>
@@ -103,26 +103,26 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
   return (
     <div
       key={post.id}
-      className="bg-gray-800 border border-gray-600 p-6 rounded-lg shadow-lg hover:shadow-2xl hover:border-blue-500 hover:-translate-y-2 transition-transform duration-300 ease-in-out"
+      className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 border border-gray-600 p-6 rounded-lg shadow-lg hover:shadow-2xl hover:border-blue-500 hover:-translate-y-2 transition-transform duration-300 ease-in-out"
     >
-      <h2 className="text-xl font-bold mb-3 text-white">{post.title}</h2>
-      <p className="text-gray-300 mb-4">
+      <h2 className="text-xl font-bold mb-3 text-[#000435] bg-white dark:text-white dark:bg-blue-950">{post.title}</h2>
+      <p className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 mb-4">
         {post.description.length > 100
           ? `${post.description.slice(0, 100)}...`
           : post.description}
       </p>
-      <p className="text-gray-400 mb-4">By: {post.author.username}</p>
-      <div className="mt-2 flex flex-wrap gap-2">
+      <p className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 mb-4">By: {post.author.username}</p>
+      <div className="mt-2 flex flex-wrap gap-2  text-blue-950 bg-white dark:text-white dark:bg-blue-950 ">
         {post.tags.map((tag, index) => (
           <span
             key={index}
-            className="text-sm bg-gray-700 text-white px-3 py-1 rounded-full"
+            className="text-sm text-blue-950 bg-white dark:text-white dark:bg-blue-950 border-2 border-blue-900 dark:border-white px-3 py-1 rounded-full"
           >
             {tag}
           </span>
         ))}
       </div>
-      <div className="flex justify-between mt-1">
+      <div className="flex justify-between mt-1 ">
         <Link
           to={`/app/posts/${post.id}`}
           className="inline-block mt-4 text-blue-400 hover:text-blue-300 transition-colors duration-200 rounded-3xl border-2 border-blue-500 hover:border-blue-300 px-4 py-2"
