@@ -5,11 +5,6 @@ export interface IComment {
   createdAt: string;
 }
 
-export interface IReaction {
-  userId: string;
-  type: '😄' | '👍' | '🎉' | '💖' | '👏' | '💡';
-}
-
 export interface IPost {
   id: string;
   title: string;
@@ -21,11 +16,9 @@ export interface IPost {
     username: string;
     email: string;
   },
-  likes: number;
-  dislikes: number;
   comments: IComment[];
   favoritePosts: [];
-  reactions: IReaction[];
+  userReaction: 'Like' | 'Celebrate' | 'Support' | 'Love' | 'Insightful' | 'Funny' | null; 
 }
 
 export interface IUser {
