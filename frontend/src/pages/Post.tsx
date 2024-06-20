@@ -33,24 +33,6 @@ const Post = () => {
   const shareUrl = window.location.href;
   const title = `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`;
 
-  const onLoad = () => {
-    setHeight(ref.current?.contentWindow?.document.body.scrollHeight + "px");
-  };
-
-  useEffect(() => {
-    onLoad();
-  }, [isPreview, post?.codeSnippet]);
-
-  const handleCopy = () => {
-    if (post) {
-      navigator.clipboard.writeText(post.codeSnippet);
-      toast.success("Code snippet copied to clipboard");
-    }
-  };
-
-  const togglePreview = () => {
-    setIsPreview(!isPreview);
-  };
 
   useEffect(() => {
     const fetchFollowStatus = async () => {
@@ -68,10 +50,6 @@ const Post = () => {
 
     fetchFollowStatus();
   }, [post?.author.id, token]);
-
-  useEffect(() => {
-    onLoad();
-  }, [isPreview, post?.codeSnippet]);
 
   const handleAddToFavorite = async () => {
     try {
