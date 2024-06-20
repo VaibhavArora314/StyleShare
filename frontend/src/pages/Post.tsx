@@ -124,23 +124,6 @@ const Post = () => {
     setIsFavorite(favoriteStatus === "true");
   }, [id]);
 
-  DOMPurify.addHook("uponSanitizeElement", (node, data) => {
-    if (data.tagName === "img" || data.tagName === "div") {
-      const src = node.getAttribute("src");
-      const style = node.getAttribute("style");
-      if (src && src.startsWith("http")) {
-        node.setAttribute("src", src);
-      }
-      if (style && style.includes("url(")) {
-        node.setAttribute("style", style);
-      }
-    }
-  });
-
-  const sanitizedSnippet = DOMPurify.sanitize(post?.codeSnippet || "", {
-    ADD_ATTR: ["style", "background"],
-  });
-
   const handleFollow = async (userId: string) => {
     if (!token) {
       toast.error('Authentication token is missing');
