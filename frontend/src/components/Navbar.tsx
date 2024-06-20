@@ -7,6 +7,7 @@ import logo from '../assets/favicon.png';
 import { useTranslation } from "react-i18next";
 import LanguageDropdown from "./LanguageDropdown";
 import { FaSun, FaMoon } from 'react-icons/fa';
+
  interface NavbarProps {
   theme: 'light' | 'dark';
   toggleTheme: () => void;
