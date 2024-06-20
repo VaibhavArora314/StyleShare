@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { IPost } from '../types';
@@ -7,6 +7,7 @@ import { useRecoilValue } from 'recoil';
 import DOMPurify from 'dompurify';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import PostPreview from '../components/PostPreview';
 
 const CustomizeWithAi = () => {
   const user = useRecoilValue(userState);
@@ -18,10 +19,6 @@ const CustomizeWithAi = () => {
   const token = useRecoilValue(tokenState);
   const [isOriginalPreview, setIsOriginalPreview] = useState(false);
   const [isCustomPreview, setIsCustomPreview] = useState(false);
-  const refOriginal = useRef<HTMLIFrameElement>(null);
-  const refCustom = useRef<HTMLIFrameElement>(null);
-  const [originalHeight, setOriginalHeight] = useState('0px');
-  const [customHeight, setCustomHeight] = useState('0px');
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
 
@@ -76,22 +73,6 @@ const CustomizeWithAi = () => {
     setIsCustomPreview(!isCustomPreview);
   };
 
-  const onLoadOriginal = () => {
-    setOriginalHeight(refOriginal.current?.contentWindow?.document.body.scrollHeight + 'px');
-  };
-
-  const onLoadCustom = () => {
-    setCustomHeight(refCustom.current?.contentWindow?.document.body.scrollHeight + 'px');
-  };
-
-  useEffect(() => {
-    onLoadOriginal();
-  }, [isOriginalPreview, post.codeSnippet]);
-
-  useEffect(() => {
-    onLoadCustom();
-  }, [isCustomPreview, customCode]);
-
   DOMPurify.addHook("uponSanitizeElement", (node, data) => {
     if (data.tagName === "img" || data.tagName === "div") {
       const src = node.getAttribute("src");
@@ -120,35 +101,7 @@ const CustomizeWithAi = () => {
         <h2 className="text-xl font-semibold mb-2">😀 {t("custom.og")}</h2>
         <div className="relative my-4">
           {isOriginalPreview ? (
-            <div className="p-4 bg-gray-800 z-0 h-full overflow-hidden rounded border border-sky-500">
-              <iframe
-                ref={refOriginal}
-                onLoad={onLoadOriginal}
-                className="w-full h-full border-0"
-                srcDoc={`<!DOCTYPE html>
-                    <html class='flex w-full h-full'>
-                      <head>
-                        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-                        <script>
-                          document.addEventListener('DOMContentLoaded', function() {
-                            document.querySelectorAll('a[href="#"]').forEach(function(anchor) {
-                              anchor.addEventListener('click', function(e) {
-                                e.preventDefault();
-                                window.top.location.reload();
-                              });
-                            });
-                          });
-                        </script>
-                      </head>
-                      <body class='w-full h-full flex items-center justify-center min-w-full min-h-full'>
-                        <div class='w-full h-full p-6'>${sanitizedSnippet}</div>
-                      </body>
-                    </html>`}
-                title="Preview"
-                sandbox="allow-scripts allow-same-origin"
-                style={{ minHeight: originalHeight, maxWidth: "100%" }}
-              />
-            </div>
+            <PostPreview sanitizedSnippet={sanitizedSnippet} jsCodeSnippet=''/>
           ) : (
             <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96 line-numbers language-html">
               <code>{post.codeSnippet}</code>
@@ -199,35 +152,7 @@ const CustomizeWithAi = () => {
           <h2 className="text-xl font-semibold mb-2">🌟 Customized Code Snippet</h2>
           <div className="relative my-4">
             {isCustomPreview ? (
-              <div className="p-4 bg-gray-800 z-0 h-full overflow-hidden rounded border border-sky-500">
-                <iframe
-                  ref={refCustom}
-                  onLoad={onLoadCustom}
-                  className="w-full h-full border-0"
-                  srcDoc={`<!DOCTYPE html>
-                      <html class='flex w-full h-full'>
-                        <head>
-                          <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-                          <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                              document.querySelectorAll('a[href="#"]').forEach(function(anchor) {
-                                anchor.addEventListener('click', function(e) {
-                                  e.preventDefault();
-                                  window.top.location.reload();
-                                });
-                              });
-                            });
-                          </script>
-                        </head>
-                        <body class='w-full h-full flex items-center justify-center min-w-full min-h-full'>
-                          <div class='w-full h-full p-6'>${sanitizedCustomCode}</div>
-                        </body>
-                      </html>`}
-                  title="Preview"
-                  sandbox="allow-scripts allow-same-origin"
-                  style={{ minHeight: customHeight, maxWidth: "100%" }}
-                />
-              </div>
+              <PostPreview sanitizedSnippet={sanitizedCustomCode} jsCodeSnippet='' />
             ) : (
               <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96 line-numbers language-html">
                 <code>{customCode}</code>

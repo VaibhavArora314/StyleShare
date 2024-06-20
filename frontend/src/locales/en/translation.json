@@ -87,6 +87,7 @@
         "createPost": "Create New Post",
         "description": "Description",
         "codeSnippet": "Code Snippet",
+        "jsCodeSnippet": "JavaScript Code Snippet (Optional)",
         "tags": "Tags",
         "submit": "Submit"
     },

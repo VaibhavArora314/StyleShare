@@ -1,29 +1,27 @@
-::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
-	background-color: #F5F5F5;
-	border-radius: 10px;
+::-webkit-scrollbar-track {
+  background-image: linear-gradient(
+    to bottom,
+    #2575fc,
+    #2057c5,
+    #143b91,
+    #000435,
+    #000435
+  );
 }
-::-webkit-scrollbar
-{
-	width: 10px;
-	background-color: #F5F5F5;
+
+::-webkit-scrollbar {
+  width: 7px;
 }
-::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	background-color: #FFF;
-	background-image: -webkit-gradient(linear,
-                                   40% 0%,
-                                   75% 84%,
-                                   from(#333333),
-                                   to(#000000),
-                                   color-stop(.6,#666666));
+
+::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  background-color: #ab67df;
 }
-.scroll-margin-top 
-{
+
+.scroll-margin-top {
   scroll-margin-top: 100px;
 }
+
 @keyframes borderAnimation {
   0% {
     border-color: rgb(66, 4, 128);
