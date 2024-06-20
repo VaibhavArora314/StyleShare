@@ -7,27 +7,13 @@ import { useTranslation } from "react-i18next";
 import usePosts from "../hooks/usePosts";
 
 const Posts = () => {
-  const {
-    posts,
-    loading,
-    error,
-    page,
-    totalPages,
-    handleNextPage,
-    handlePreviousPage,
-    handlePageClick,
-    handleDelete,
-  } = usePosts({
-    initialPage: 1,
-    pageSize: 12,
-  });
   const [showFilterDialog, setShowFilterDialog] = useState(false);
   const [tagInput, setTagInput] = useState("");
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const filterRef = useRef<HTMLDivElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  
   const { t } = useTranslation();
-  const currentUser = useRecoilValue(userState);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -67,27 +53,15 @@ const Posts = () => {
     }
   };
 
-  const filteredPosts = posts.filter(
-    (post) =>
-      filterTags.every((tag) =>
-        post.tags.map((t) => t.toLowerCase()).includes(tag)
-      ) &&
-      (post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.author.username.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
-
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return (
-      <div className="text-red-500 font-semibold text-lg text-center">
-        {error}
-      </div>
-    );
-  }
+  // const filteredPosts = posts.filter(
+  //   (post) =>
+  //     filterTags.every((tag) =>
+  //       post.tags.map((t) => t.toLowerCase()).includes(tag)
+  //     ) &&
+  //     (post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       post.author.username.toLowerCase().includes(searchQuery.toLowerCase()))
+  // );
 
   return (
     <div className="max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4">
@@ -163,60 +137,104 @@ const Posts = () => {
         <input
           type="text"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+          }}
           placeholder={t("allPosts.search")}
           className="p-2 w-full max-w-xs rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
-        {filteredPosts.map((post, index) => (
-          <PostCard
-            key={index}
-            post={post}
-            onDelete={handleDelete}
-            currentUser={currentUser}
-          />
-        ))}
-      </div>
-      <div className="flex justify-center items-center mt-4 w-full space-x-2">
-        <button
-          onClick={handlePreviousPage}
-          disabled={page === 1}
-          className={`text-white px-4 py-2 rounded ${
-            page === 1
-              ? "bg-gray-600 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
-          }`}
-        >
-          {t("allPosts.pre")}
-        </button>
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button
-            key={i}
-            onClick={() => handlePageClick(i + 1)}
-            className={`text-white px-4 py-2 rounded ${
-              page === i + 1
-                ? "bg-blue-500 text-white"
-                : "bg-blue-600 hover:bg-blue-700"
-            }`}
-          >
-            {i + 1}
-          </button>
-        ))}
-        <button
-          onClick={handleNextPage}
-          disabled={page === totalPages}
-          className={`text-white px-6 py-2 rounded ${
-            page === totalPages
-              ? "bg-gray-600 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
-          }`}
-        >
-          {t("allPosts.next")}
-        </button>
-      </div>
+      <PostListWithPagination searchQuery={searchQuery} tags={filterTags} />
     </div>
   );
 };
+
+function PostListWithPagination({searchQuery = "",tags = []}: {
+  searchQuery: string,
+  tags: string[]
+}) {
+  const currentUser = useRecoilValue(userState);
+  const {
+    posts,
+    loading,
+    error,
+    page,
+    totalPages,
+    handleNextPage,
+    handlePreviousPage,
+    handlePageClick,
+    handleDelete,
+  } = usePosts({
+    initialPage: 1,
+    pageSize: 12,
+    searchQuery: searchQuery,
+    tags
+  });
+
+  const { t } = useTranslation();
+
+  const filteredPosts = posts;
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <div className="text-red-500 font-semibold text-lg text-center">
+        {error}
+      </div>
+    );
+  }
+
+  return <><div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
+  {filteredPosts.map((post, index) => (
+    <PostCard
+      key={index}
+      post={post}
+      onDelete={handleDelete}
+      currentUser={currentUser}
+    />
+  ))}
+</div>
+<div className="flex justify-center items-center mt-4 w-full space-x-2">
+  <button
+    onClick={handlePreviousPage}
+    disabled={page === 1}
+    className={`text-white px-4 py-2 rounded ${
+      page === 1
+        ? "bg-gray-600 cursor-not-allowed"
+        : "bg-blue-600 hover:bg-blue-700"
+    }`}
+  >
+    {t("allPosts.pre")}
+  </button>
+  {Array.from({ length: totalPages }, (_, i) => (
+    <button
+      key={i}
+      onClick={() => handlePageClick(i + 1)}
+      className={`text-white px-4 py-2 rounded ${
+        page === i + 1
+          ? "bg-blue-500 text-white"
+          : "bg-blue-600 hover:bg-blue-700"
+      }`}
+    >
+      {i + 1}
+    </button>
+  ))}
+  <button
+    onClick={handleNextPage}
+    disabled={page === totalPages}
+    className={`text-white px-6 py-2 rounded ${
+      page === totalPages
+        ? "bg-gray-600 cursor-not-allowed"
+        : "bg-blue-600 hover:bg-blue-700"
+    }`}
+  >
+    {t("allPosts.next")}
+  </button>
+</div>
+</>;
+}
 
 export default Posts;

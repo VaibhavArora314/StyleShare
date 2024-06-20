@@ -236,8 +236,23 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string);
     const pageSize = parseInt(req.query.pageSize as string);
+    const searchQuery = req.query.searchQuery as string || "";
+    const tags = req.query.tags ? (req.query.tags as string).split(',') : [];
+    console.log(tags)
 
-    const totalPosts = await prisma.post.count();
+     const totalPosts = await prisma.post.count({
+      where: {
+        AND: [
+          {
+            OR: [
+              { title: { contains: searchQuery, mode: 'insensitive' } },
+              { description: { contains: searchQuery, mode: 'insensitive' } }
+            ]
+          },
+          tags.length > 0 ? { tags: { hasSome: tags } } : {}
+        ]
+      }
+    });
     const totalPages = Math.ceil(totalPosts / pageSize);
 
     const posts = await prisma.post.findMany({
@@ -257,13 +272,24 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
           },
         },
       },
+      where: {
+        AND: [
+          {
+            OR: [
+              { title: { contains: searchQuery, mode: 'insensitive' } },
+              { description: { contains: searchQuery, mode: 'insensitive' } }
+            ]
+          },
+          tags.length > 0 ? { tags: { hasSome: tags } } : {}
+        ]
+      }
     });
-
     res.status(200).json({
       posts,
       totalPages,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Failed to fetch posts' });
   }
 };
