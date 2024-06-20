@@ -25,7 +25,7 @@ import LeaderBoard from "./pages/LeaderBoard";
 import CustomizeWithAi from "./pages/CustomizeWithAi";
 import ScrollToTopWhenRouteChanges from "./components/ScrollToTopWhenRouteChanges";
 import './i18n';
-import CodeEditor from "./components/CodeEditor";
+import CodeEditor from "./pages/CodeEditor";
 import ShowProfile from "./pages/ShowProfile";
 import { Tooltip } from 'react-tooltip'
 import EditPost from "./pages/EditPost";
