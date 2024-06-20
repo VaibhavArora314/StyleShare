@@ -11,6 +11,7 @@ const usePost = (id: string) => {
     title: "",
     description: "",
     codeSnippet: "",
+    jsCodeSnippet: "",
     tags: [],
     author: {
       id: "",

@@ -22,6 +22,7 @@ const Post = () => {
   const [height, setHeight] = useState("0px");
   const [isFavorite, setIsFavorite] = useState(false);
   const { t } = useTranslation();
+  const [activeTab, setActiveTab] = useState("html");
 
   const shareUrl = window.location.href;
   const title = `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`;
@@ -35,9 +36,13 @@ const Post = () => {
   }, [isPreview, post?.codeSnippet]);
 
   const handleCopy = () => {
-    if (post) {
+    if (post && activeTab === "html") {
       navigator.clipboard.writeText(post.codeSnippet);
-      toast.success("Code snippet copied to clipboard");
+      toast.success('HTML Code copied to clipboard');
+    }
+    if (post && activeTab === "js") {
+      navigator.clipboard.writeText(post.jsCodeSnippet);
+      toast.success('JavaScript copied to clipboard');
     }
   };
 
@@ -166,6 +171,10 @@ const Post = () => {
     navigate(`/app/profile/${post.author.id}`);
   };
 
+  const handleTabSwitch = (tab: any) => {
+    setActiveTab(tab);
+  }
+
   return (
     <div className="p-6 text-white max-w-screen-xl mx-auto">
       <>
@@ -217,16 +226,42 @@ const Post = () => {
                       <body class='w-full h-full flex items-center justify-center minw-full min-h-full'>
                         <div class='w-full h-full p-6'>${sanitizedSnippet}</div>
                       </body>
+                      ${post.jsCodeSnippet ? `${post.jsCodeSnippet}` : ""}
                     </html>`}
                 title="Preview"
                 sandbox="allow-scripts allow-same-origin"
                 style={{ minHeight: height, maxWidth: "100%" }}
               />
             </div>
-          ) : (
-            <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96 line-numbers language-html">
-              <code>{post.codeSnippet}</code>
-            </pre>
+          ) : (<div>
+            <div className="flex bg-gray-800 border border-gray-700 rounded">
+              <button
+                onClick={() => handleTabSwitch("html")}
+                className={`px-4 py-2 ${activeTab === "html" ? 'bg-blue-600 text-white' : 'border border-gray-700 text-white'}`}
+              >
+                HTML
+              </button>
+              {(post.jsCodeSnippet != "") ? (
+                <button
+                  onClick={() => handleTabSwitch("js")}
+                  className={`px-4 py-2 ${activeTab === "js" ? 'bg-blue-600 text-white' : 'border border-gray-700  text-white'}`}
+                >
+                  JavaScript
+                </button>
+              ) : null}
+            </div>
+            <div className="">
+              {activeTab === "html" ? (
+                <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96">
+                  <code>{post.codeSnippet}</code>
+                </pre>
+              ) : (
+                <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96">
+                  <code>{post.jsCodeSnippet}</code>
+                </pre>
+              )}
+            </div>
+          </div>
           )}
           <div className="absolute top-2 right-3 flex space-x-2">
             {isOwner && !isPreview ? (
@@ -283,7 +318,7 @@ const Post = () => {
             {t("postdet.user")}: @{post.author.username}
           </button>
         </div>
-        <SharePostButtons shareUrl={shareUrl} title={title}/>
+        <SharePostButtons shareUrl={shareUrl} title={title} />
         <Comment />
       </>
     </div>

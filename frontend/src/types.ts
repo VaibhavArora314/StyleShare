@@ -10,6 +10,7 @@ export interface IPost {
   title: string;
   description: string;
   codeSnippet: string;
+  jsCodeSnippet: string;
   tags: string[];
   author: {
     id: string;
