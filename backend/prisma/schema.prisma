@@ -23,9 +23,9 @@ model User {
   posts        Post[]   @relation("authorPosts")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  interactions UserPostInteraction[]
   comments     Comment[] @relation("userComments")
   favorites    Favorite[] @relation("userFavorites")
+  reactions    Reaction[]
 }
 
 model Post {
@@ -41,19 +41,18 @@ model Post {
   updatedAt   DateTime @updatedAt
   likes       Int      @default(0)
   dislikes    Int      @default(0)
-  interactions UserPostInteraction[]
   comments    Comment[] @relation("postComments")
   favorites   Favorite[] @relation("postFavorites")
+  reactions   Reaction[]
 }
 
-model UserPostInteraction {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String @db.ObjectId
-  postId    String @db.ObjectId
-  liked     Boolean
-  disliked  Boolean
-  user      User   @relation(fields: [userId], references: [id])
-  post      Post   @relation(fields: [postId], references: [id])
+model Reaction {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  type     String
+  userId   String @db.ObjectId
+  postId   String @db.ObjectId
+  user     User   @relation(fields: [userId], references: [id])
+  post     Post   @relation(fields: [postId], references: [id])
 
   @@unique([userId, postId])
 }
@@ -77,4 +76,13 @@ model Favorite {
   post      Post   @relation("postFavorites", fields: [postId], references: [id])
 
   @@unique([userId, postId])
+}
+
+model contactMessage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
 }

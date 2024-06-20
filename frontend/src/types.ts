@@ -17,10 +17,9 @@ export interface IPost {
     username: string;
     email: string;
   },
-  likes: number;
-  dislikes: number;
   comments: IComment[];
-  favoritePosts: []
+  favoritePosts: [];
+  userReaction: 'Like' | 'Celebrate' | 'Support' | 'Love' | 'Insightful' | 'Funny' | null; 
 }
 
 export interface IUser {

@@ -1,42 +1,103 @@
-import { Link } from "react-router-dom";
+import { AiFillLike } from "react-icons/ai";
+import { FaHandsClapping, FaHandHoldingHeart, FaHeart, FaFaceLaughBeam } from "react-icons/fa6";
+import { RiLightbulbFlashFill } from "react-icons/ri";
+import { useEffect, useState } from "react";
 import { IPost, IUser } from "../types";
 import { MdDeleteOutline } from "react-icons/md";
 import axios from "axios";
-import { useState } from "react";
 import toast from "react-hot-toast";
-import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 
 type Props = {
   post: IPost;
-  onDelete: (id: string) => void; 
-  currentUser: IUser;
+  onDelete: (id: string) => void;
+  currentUser: IUser | null;
 };
 
 const PostCard = ({ post, onDelete, currentUser }: Props) => {
   const [isDeleting, setIsDeleting] = useState(false);
-  const { t } = useTranslation();
+  const [reactions, setReactions] = useState<{ type: string, count: number }[]>([]);
+
+  useEffect(() => {
+    const fetchReactions = async () => {
+      try {
+        const { data } = await axios.get(`/api/v1/posts/${post.id}/reactions`);
+        const formattedReactions = data.reactions.map((reaction: any) => ({
+          type: reaction.type,
+          count: reaction._count.type
+        }));
+        setReactions(formattedReactions);
+      } catch (error) {
+        toast.error("Failed to fetch reactions");
+      }
+    };
+
+    fetchReactions();
+  }, [post.id]);
 
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        toast.error('Please login to remove a post from favorites');
+        toast.error('Please login to delete post');
         return;
       }
       await axios.delete(`/api/v1/posts/delete/${post.id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` }
       });
-      onDelete(post.id); 
-      toast.success('Post Deleted successfully!')
+      onDelete(post.id);
+      toast.success('Post Deleted successfully!');
     } catch (error) {
-      console.error("Failed to delete post", error);
+      toast.error('Failed to delete post!');
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  const renderReactions = () => {
+    const totalReactions = reactions.reduce((acc, reaction) => {
+      return acc + (reaction.count || 0);
+    }, 0);
+
+    return (
+      <div className="flex -space-x-2 rtl:space-x-reverse mt-4">
+        {reactions.map((reaction, index) => {
+          let emoji;
+          switch (reaction.type) {
+            case 'Like':
+              emoji = <AiFillLike size={20} color="#87CEEB" />;
+              break;
+            case 'Celebrate':
+              emoji = <FaHandsClapping size={20} color="#E58306" />;
+              break;
+            case 'Support':
+              emoji = <FaHandHoldingHeart size={20} color="#FABDCF" />;
+              break;
+            case 'Love':
+              emoji = <FaHeart size={20} color="#E0286D" />;
+              break;
+            case 'Insightful':
+              emoji = <RiLightbulbFlashFill size={20} color="#FFD700" />;
+              break;
+            case 'Funny':
+              emoji = <FaFaceLaughBeam size={20} color="violet" />;
+              break;
+            default:
+              emoji = null;
+          }
+          return (
+            <div key={index} className="relative w-10 h-10 border-2 rounded-full dark:border-gray-800 flex items-center justify-center bg-gray-700">
+              {emoji}
+            </div>
+          );
+        })}
+        <div className="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2  rounded-full  dark:border-gray-800">
+          +{totalReactions}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -66,10 +127,10 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
           to={`/app/posts/${post.id}`}
           className="inline-block mt-4 text-blue-400 hover:text-blue-300 transition-colors duration-200 rounded-3xl border-2 border-blue-500 hover:border-blue-300 px-4 py-2"
         >
-          {t("readMore")}
+          Read More
         </Link>
         {currentUser && currentUser.id === post.author.id && (
-      <div className="flex space-x-2">
+          <div className="flex space-x-2">
             <Link
               to={`/app/posts/edit/${post.id}`}
               className="justify-end mt-4 inline-block text-blue-400 hover:text-blue-300 transition-colors duration-200 border-2 border-blue-500 hover:border-blue-300 p-2 rounded-3xl"
@@ -86,6 +147,7 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
           </div>
         )}
       </div>
+      {renderReactions()}
     </div>
   );
 };

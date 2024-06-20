@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import DOMPurify from "dompurify";
-import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from "react-icons/bi";
 import Loader from "../components/Loader";
 import toast from "react-hot-toast";
 import Comment from "./Comment";
@@ -12,16 +11,15 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { useTranslation } from "react-i18next";
 import usePost from "../hooks/usePost";
 import SharePostButtons from "../components/SharePostButtons";
+import ReactionButton from "../components/ReactionButtons";
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
-  const { post, setPost, error, loading, isOwner } = usePost(id || "");
+  const { post, error, loading, isOwner } = usePost(id || "");
   const navigate = useNavigate();
   const [isPreview, setIsPreview] = useState(false);
   const ref = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState("0px");
-  const [userLiked, setUserLiked] = useState(false);
-  const [userDisliked, setUserDisliked] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("html");
@@ -55,75 +53,6 @@ const Post = () => {
   useEffect(() => {
     onLoad();
   }, [isPreview, post?.codeSnippet]);
-
-  useEffect(() => {
-    const userLikedStatus = localStorage.getItem(`post-${id}-liked`);
-    const userDislikedStatus = localStorage.getItem(`post-${id}-disliked`);
-    setUserLiked(userLikedStatus === "true");
-    setUserDisliked(userDislikedStatus === "true");
-  }, [id]);
-
-  const handleLike = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        toast.error("Please login to like a post");
-        return;
-      }
-      const response = await axios.post(
-        `/api/v1/posts/${id}/like`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setPost((prevPost) => ({
-        ...prevPost,
-        likes: response.data.likes,
-        dislikes: response.data.dislikes,
-      }));
-      setUserLiked(true);
-      setUserDisliked(false);
-      localStorage.setItem(`post-${id}-liked`, "true");
-      localStorage.removeItem(`post-${id}-disliked`);
-      toast.success(response.data.message);
-    } catch (error) {
-      toast.success("Like is done only once, no spam 😊");
-    }
-  };
-
-  const handleDislike = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        toast.error("Please login to dislike a post");
-        return;
-      }
-      const response = await axios.post(
-        `/api/v1/posts/${id}/dislike`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setPost((prevPost) => ({
-        ...prevPost,
-        dislikes: response.data.dislikes,
-        likes: response.data.likes,
-      }));
-      setUserLiked(false);
-      setUserDisliked(true);
-      localStorage.setItem(`post-${id}-disliked`, "true");
-      localStorage.removeItem(`post-${id}-liked`);
-      toast.success(response.data.message);
-    } catch (error) {
-      toast.success("Dislike is done only once, no spam 😊");
-    }
-  };
 
   const handleAddToFavorite = async () => {
     try {
@@ -271,24 +200,7 @@ const Post = () => {
             />
           )}
         </div>
-        <button
-          onClick={handleLike}
-          className="px-4 py-2 my-3 rounded-md border-2 text-white text-sm mr-2"
-        >
-          {userLiked ? <BiSolidLike size={25} /> : <BiLike size={25} />}{" "}
-          {post.likes}
-        </button>
-        <button
-          onClick={handleDislike}
-          className="px-4 py-2 rounded-md border-2 text-white text-sm"
-        >
-          {userDisliked ? (
-            <BiSolidDislike size={25} />
-          ) : (
-            <BiDislike size={25} />
-          )}{" "}
-          {post.dislikes}
-        </button>
+        <ReactionButton postId={post.id} initialReaction={post.userReaction} />
         <p className="mb-4">{post.description}</p>
         <div className="relative my-4">
           {isPreview ? (
