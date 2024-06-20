@@ -36,6 +36,7 @@ const ShowProfile = () => {
         }
         const followStatusResponse = await getFollowStatus(id!, token!);
         setIsFollowing(followStatusResponse.isFollowing);
+        console.log(posts);
       } catch (error) {
         setErrorMessage('Failed to fetch user details');
       } finally {
