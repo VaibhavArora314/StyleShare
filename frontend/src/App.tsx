@@ -181,8 +181,8 @@ import ShowProfile from "./pages/ShowProfile";
 import { Tooltip } from 'react-tooltip'
 import EditPost from "./pages/EditPost";
 import useTheme from './hooks/useTheme';
-import axios from "axios";
-axios.defaults.baseURL = "http://localhost:3001/";
+// import axios from "axios";
+// axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
   const { theme, toggleTheme } = useTheme();
@@ -199,7 +199,7 @@ function App() {
               <Routes>
                 <Route path="/app" element={<Home />} />
                 <Route path="/app/posts/:id" element={<Post />} />
-                <Route path="/app/posts" element={<Posts theme={theme === 'light' ? 'light' : 'dark'}   />} />
+                <Route path="/app/posts" element={<Posts    />} />
                 <Route path="/app/profile/:id" element={<ShowProfile/>} />
                 <Route
                   path="/app/signin"
@@ -237,7 +237,7 @@ function App() {
                   path="/app/profile"
                   element={
                     <AuthenticatedRoute>
-                      <Profile   theme={theme === 'light' ? 'light' : 'dark'}/>
+                      <Profile  />
                     </AuthenticatedRoute>
                   }
                 />
@@ -260,7 +260,7 @@ function App() {
                 <Route
                 path="/app/leaderboard"
                   element={
-                      <LeaderBoard theme={theme === 'light' ? 'light' : 'dark'}  />
+                      <LeaderBoard   />
                   }
                 />
                 <Route

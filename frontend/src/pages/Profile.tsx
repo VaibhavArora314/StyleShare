@@ -167,11 +167,9 @@ import { AiTwotoneInfoCircle } from "react-icons/ai";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
-interface ProfileProps {
-  theme: 'light' | 'dark';
-}
 
-const Profile: React.FC<ProfileProps> = ({ theme})=> {
+
+const Profile = ()=> {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
