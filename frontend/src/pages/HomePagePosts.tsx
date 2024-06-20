@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import usePosts from "../hooks/usePosts";
 
 const HomePagePost = () => {
-  const {posts, error, loading, handleDelete} = usePosts({ initialPage: 1, pageSize: -6 });
+  const {posts, error, loading, handleDelete} = usePosts({ initialPage: 1, pageSize: -6 ,searchQuery: "", tags: []});
   const currentUser = useRecoilValue(userState);
   const { t } = useTranslation();
 
