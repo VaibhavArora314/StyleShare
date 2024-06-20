@@ -80,6 +80,7 @@ import { useRecoilValue } from 'recoil';
 import { userState } from '../store/atoms/auth';
 import { useTranslation } from 'react-i18next';
 import useLeaderboard from '../hooks/useLeadearboard';
+import bgHero from "../assets/bgHero.png";
 
 
 const LeaderBoard  = () => {
@@ -89,22 +90,22 @@ const LeaderBoard  = () => {
 
 
   return (
-    <div className="p-3 mb-10 text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
-      <h2 className={`text-3xl text-[#000435] bg-white dark:text-white dark:bg-[#000435] font-bold text-center mb-8`}>{t("navbar.links.leaderboard")} 🥳</h2>
-      <div className="shadow-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] backdrop-blur-sm rounded-lg p-4 border-2 border-sky-500 lg:mx-52 md:mx-20 overflow-x-auto">
+    <div className="p-3 mb-10 text-[#000435] bg-white dark:text-white dark:bg-[#000435]"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <h2 className={`text-3xl text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] font-bold text-center mb-8`}>{t("navbar.links.leaderboard")} 🥳</h2>
+      <div className="shadow-md text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] backdrop-blur-sm rounded-lg p-4 border-2 border-sky-500 lg:mx-52 md:mx-20 overflow-x-auto">
         {loading ? (
           <div className="flex justify-center">
             <Loader />
           </div>
         ) : (
           <table className="min-w-full divide-y divide-gray-200 ">
-            <thead className='text-center text-sm font-medium text-[#000435] bg-white dark:text-white dark:bg-[#000435] border-b-2 border-sky-600 '>
+            <thead className='text-center text-sm font-medium text-[#000435] bg-white dark:text-white dark:bg-[#5f67de] border-b-2 border-sky-600 '>
               <tr>
-                <th scope="col" className='px-6 py-3 text-[#000435] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider'>{t("leaderboard.rank")}</th>
-                <th scope="col" className='px-6 py-3 text-[#000435] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider'>{t("leaderboard.profile")}</th>
-                <th scope="col" className='px-6 py-3 text-[#000435] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider'>{t("leaderboard.username")}</th>
-                <th scope="col" className='px-6 py-3 text-[#000435] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider'>{t("leaderboard.posts")}</th>
-                <th scope="col" className='px-6 py-3 text-[#000435] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider'>{t("leaderboard.likes")}</th>
+                <th scope="col" className='px-6 py-3 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider'>{t("leaderboard.rank")}</th>
+                <th scope="col" className='px-6 py-3 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider'>{t("leaderboard.profile")}</th>
+                <th scope="col" className='px-6 py-3 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider'>{t("leaderboard.username")}</th>
+                <th scope="col" className='px-6 py-3 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider'>{t("leaderboard.posts")}</th>
+                <th scope="col" className='px-6 py-3 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider'>{t("leaderboard.likes")}</th>
               </tr>
             </thead>
             <tbody>

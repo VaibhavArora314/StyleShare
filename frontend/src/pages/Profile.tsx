@@ -166,7 +166,7 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import { AiTwotoneInfoCircle } from "react-icons/ai";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-
+import bgHero from "../assets/bgHero.png";
 
 
 const Profile = ()=> {
@@ -180,6 +180,7 @@ const Profile = ()=> {
   const token = useRecoilValue(tokenState);
   const currentUser = useRecoilValue(userState);
   const { t } = useTranslation();
+  
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -254,7 +255,7 @@ const Profile = ()=> {
 
   return (
     <>
-      <div className="max-w-screen-xl mx-auto p-4  flex flex-col items-center  text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
+      <div className="max-w-screen-xl mx-auto p-4  flex flex-col items-center  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="w-80   text-[#000435] bg-white dark:text-white dark:bg-[#000435] backdrop-blur-sm rounded-xl p-3 border border-sky-500">
           <div className="p-2 flex justify-end mr-2 ">
             {

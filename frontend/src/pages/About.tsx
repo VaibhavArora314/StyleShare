@@ -47,14 +47,14 @@
 
 import { Link } from "react-router-dom";
 import about from '../assets/about.png'
-// import bgHero from "../assets/bgHero.png";
+import bgHero from "../assets/bgHero.png";
 import { useTranslation } from 'react-i18next';
 
 function About() {
   const { t } = useTranslation();
 
   return (
-    <div className="w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4" >
+    <div className="w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
       <div className="max-w-[1240px] mx-auto grid md:grid-cols-2">
         <img className="w-[550px] mx-auto my-4" src={about} alt="About Us" />
         <div className="flex flex-col justify-center">

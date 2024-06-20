@@ -139,7 +139,7 @@ import React from 'react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// import bgHero from "../assets/bgHero.png";
+import bgHero from "../assets/bgHero.png";
 
 interface Testimonial {
   quote: string;
@@ -250,7 +250,7 @@ const TestimonialSlider: React.FC = () => {
   };
 
   return (
-    <div className="  text-[#000435] bg-white dark:text-white dark:bg-[#000435] testimonial-slider py-10  max-w-70 px-4 md:px-10" >
+    <div className="  text-[#000435] bg-white dark:text-white dark:bg-[#000435] testimonial-slider py-10  max-w-70 px-4 md:px-10"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
       <h2 className="text-3xl md:text-4xl font-extrabold text-center text-[#000435] bg-white dark:text-white dark:bg-[#000435] mb-8 " >⭐ What Our Users Say ⭐</h2>
       <Slider {...settings}>
         {testimonials.map((testimonial, index) => (

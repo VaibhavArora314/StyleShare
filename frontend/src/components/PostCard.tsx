@@ -262,7 +262,7 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
       key={post.id}
       className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 border border-gray-600 p-6 rounded-lg shadow-lg hover:shadow-2xl hover:border-blue-500 hover:-translate-y-2 transition-transform duration-300 ease-in-out"
     >
-      <h2 className="text-xl font-bold mb-3 text-[#000435] bg-white dark:text-white dark:bg-blue-950">{post.title}</h2>
+      <h2 className="text-xl font-bold mb-3 text-[#5f67de] bg-white dark:text-white dark:bg-blue-950">{post.title}</h2>
       <p className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 mb-4">
         {post.description.length > 100
           ? `${post.description.slice(0, 100)}...`
@@ -299,7 +299,7 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
               disabled={isDeleting}
               className="" 
             > <Link className="justify-end mt-4 inline-block text-red-500 hover:text-red-400 transition-colors duration-200 border-2 border-red-500 dark:border-red-500 hover:border-red-400 p-2 rounded-3xl" to={""}>
-                {isDeleting ? "Deleting..." : <MdDeleteOutline  size={25} />}
+                {isDeleting ? "Deleting..." : <MdDeleteOutline  size={20} />}
                 </Link>
             </button>
           </div>

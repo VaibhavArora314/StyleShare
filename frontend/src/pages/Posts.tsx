@@ -228,7 +228,7 @@ import { userState } from "../store/atoms/auth";
 import { useRecoilValue } from "recoil";
 import { useTranslation } from "react-i18next";
 import usePosts from "../hooks/usePosts";
-
+import bgHero from "../assets/bgHero.png";
 
 const Posts = ()=> {
   const {
@@ -314,8 +314,8 @@ const Posts = ()=> {
   }
 
   return (
-    <div className="max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4  text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
-      <h1 className={` text-[#000435] bg-white dark:text-white dark:bg-[#000435]  text-2xl font-semibold mb-4`}>
+    <div className="max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4  text-[#000435] bg-white dark:text-white dark:bg-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <h1 className={` text-[#5f67de] bg-white dark:text-white dark:bg-[#000435]  text-2xl font-semibold mb-4`}>
         {t("allPosts.Posts")}
       </h1>
       <div className="w-full flex justify-between mb-4 relative">

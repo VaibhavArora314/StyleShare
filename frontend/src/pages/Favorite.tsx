@@ -6,7 +6,7 @@ import { tokenState, userState } from "../store/atoms/auth";
 import Loader from "../components/Loader";
 import PostCard from "../components/PostCard";
 import { useTranslation } from "react-i18next";
-
+import bgHero from "../assets/bgHero.png";
 const Favorite = () => {
   const user = useRecoilValue(userState);
   const [favoritePosts, setFavoritePosts] = useState<IPost[]>([]);
@@ -15,6 +15,7 @@ const Favorite = () => {
   const token = useRecoilValue(tokenState);
   const currentUser = useRecoilValue(userState);
   const { t } = useTranslation();
+  
 
   const fetchFavoritePosts = async (user: IUser): Promise<IPost[]> => {
     try {
@@ -65,11 +66,11 @@ const Favorite = () => {
 
   return (
     <>
-      <div className="max-w-screen-xl mx-auto p-4 text-white flex flex-col items-center">
-      <div className="w-80 text-[#000435] bg-white  backdrop-blur-sm rounded-xl p-3 border border-sky-500 text-center text-xl font-semibold dark:text-white dark:bg-[#000435]">
+      <div className="max-w-screen-xl mx-auto p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] flex flex-col items-center">
+      <div className="w-80 text-[#000435] bg-white  backdrop-blur-sm rounded-xl p-3 border border-sky-500 text-center text-xl font-semibold dark:text-white dark:bg-[#000435]"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       {t("myfavpost")} 😍
       </div>
-      <div className="mt-8 w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
+      <div className="mt-8 w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
         {favoritePosts.length > 0 ? (
           <>
             <h4 className="font-semibold ">{t("favpost")} ( {favoritePosts.length} )</h4>

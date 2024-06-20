@@ -167,10 +167,10 @@ import axios, { AxiosError } from "axios";
 import React, { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import toast from 'react-hot-toast';
 import { useTranslation } from "react-i18next";
-
+import bgHero from "../assets/bgHero.png";
 
 const NewPost = () => {
   const [title, setTitle] = useState("");
@@ -183,6 +183,7 @@ const NewPost = () => {
   const location = useLocation();
   const [errorMessage, setErrorMessage] = useState("");
   const { t } = useTranslation();
+ 
 
 
   useEffect(() => {
@@ -234,7 +235,7 @@ const NewPost = () => {
   };
 
   return (
-      <div className="border  text-[#000435] bg-white dark:text-white dark:bg-[#000435] rounded-lg p-6 sm:max-w-[70%] max-w-[50vh] mx-auto m-10">
+      <div className="border  text-[#000435] bg-white dark:text-white dark:bg-[#000435] rounded-lg p-6 sm:max-w-[70%] max-w-[50vh] mx-auto m-10"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <h2 className="text-2xl font-semibold mb-4 text-center ">Create New Post</h2>
         <p className="mt-4">{errorMessage}</p>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -278,24 +279,26 @@ const NewPost = () => {
             <label htmlFor="tags" className="block text-sm font-medium">
             {t("newPost.tags")}
             </label>
-            <div className="mt-1 mb-2 flex flex-wrap gap-2">
+            <div className="mt-1 mb-2 flex flex-wrap gap-2 ">
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex items-center px-2 py-1 bg-red-500 border border-red-900 text-sm rounded"
+                  className="inline-flex items-center px-2 py-1 text-white dark:text-white bg-red-500 border border-red-900 text-sm rounded"
                 >
                   {tag}
                   <button
                     type="button"
                     onClick={() => handleRemoveTag(tag)}
-                    className="ml-2 text-gray-300 hover:text-white"
+                    className="ml-2 text-white dark:text-gray-300  hover:text-white"
                   >
                     &times;
                   </button>
                 </span>
               ))}
             </div>
-            <div className="flex flex-col sm:flex-row gap-4">
+
+
+            <div className="flex flex-col sm:flex-row gap-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border-blue-900">
             <input
               type="text"
               id="tagInput"
@@ -306,9 +309,11 @@ const NewPost = () => {
             <button
               type="button"
               onClick={handleAddTag}
-              className="p-2  text-[#000435] bg-white dark:text-white dark:bg-[#000435] hover:bg-sky-400 dark:hover:bg-blue-700 duration-300 rounded border-2 border-sky-400 w-1/3"
-            >
-              {t("allPosts.tag")}
+              className="p-2  text-[#000435] bg-white dark:text-white dark:bg-[#000435]  w-1/3" >
+              <Link
+                className="p-2  text-[#000435] bg-white dark:text-white dark:bg-[#000435]   border-2 border-sky-500  dark:border-sky-500 hover:bg-sky-500 hover:text-white duration-300  dark:hover:bg-sky-500 w-full rounded-md" to={""}>
+                  {t("allPosts.tag")}
+              </Link>
             </button>
             </div>
           </div>

@@ -74,7 +74,7 @@
 // export default FAQ;
 
 import React, { useState } from 'react';
-// import bgHero from "../assets/bgHero.png";
+import bgHero from "../assets/bgHero.png";
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 
 interface FAQItem {
@@ -118,7 +118,7 @@ const FAQ: React.FC = () => {
 
   return (
     <section className=" text-[#000435] bg-white dark:text-white dark:bg-[#000435]" >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  text-[#000435] bg-white dark:text-white dark:bg-[#000435]" >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  text-[#000435] bg-white dark:text-white dark:bg-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <h2 className="text-3xl md:text-4xl mb-14 font-extrabold text-center  text-[#000435] bg-white dark:text-white dark:bg-[#000435]">🤔 Frequently Asked Questions 🤔</h2>
         <dl className="space-y-5">
           {faqs.map((faq, index) => (

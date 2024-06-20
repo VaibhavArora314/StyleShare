@@ -66,7 +66,7 @@ const Showcase: React.FC = () => {
 
   return (
     <section className=" text-[#000435] bg-white dark:text-white dark:bg-[#000435]" >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" >
         <h2 className="text-3xl md:text-4xl mb-14 font-extrabold text-center  text-[#000435] bg-white dark:text-white dark:bg-[#000435]">🚀  Our Code Editor 🚀</h2>
         <div className="flex flex-col md:flex-row md:space-x-6 items-center">
           <div className="md:w-1/2 space-y-5">

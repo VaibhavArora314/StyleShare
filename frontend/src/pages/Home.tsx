@@ -52,7 +52,7 @@
 // export default Home;
 import { Link } from "react-router-dom";
 import hero from "../assets/hero.png";
-// import bgHero from "../assets/bgHero.png";
+import bgHero from "../assets/bgHero.png";
 import '../styles/hero.css'
 import About from "./About";
 import HomePagePost from "./HomePagePosts";
@@ -68,8 +68,8 @@ function Home() {
   const { t } = useTranslation();
   
   return (      
-  <div className="-mt-7 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]" >
-        <div className="w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4" >
+  <div className="-mt-7 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
+        <div className="w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="max-w-[1240px] mx-auto grid md:grid-cols-2">
             <div className="flex flex-col justify-center">
               <h1>
