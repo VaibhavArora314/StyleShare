@@ -235,99 +235,101 @@ const NewPost = () => {
   };
 
   return (
-      <div className="border  text-[#000435] bg-white dark:text-white dark:bg-[#000435] rounded-lg p-6 sm:max-w-[70%] max-w-[50vh] mx-auto m-10"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        <h2 className="text-2xl font-semibold mb-4 text-center ">Create New Post</h2>
-        <p className="mt-4">{errorMessage}</p>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="title" className="block text-sm font-medium">
-            {t("newPost.createPost")}
-            </label>
-            <input
-              type="text"
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-              className="mt-1 p-2 w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-blue-900 rounded"
-            />
-          </div>
-          <div>
-            <label htmlFor="description" className="block text-sm font-medium">
-            {t("newPost.description")}
-            </label>
-            <textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-              className="mt-1 p-2 w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-blue-900 rounded"
-            ></textarea>
-          </div>
-          <div>
-            <label htmlFor="codeSnippet" className="block text-sm font-medium">
-            {t("newPost.codeSnippet")}
-            </label>
-            <textarea
-              id="codeSnippet"
-              value={codeSnippet}
-              onChange={(e) => setCodeSnippet(e.target.value)}
-              className="mt-1 p-2 w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-blue-900 rounded"
-            ></textarea>
-          </div>
-          <div>
-            <label htmlFor="tags" className="block text-sm font-medium">
-            {t("newPost.tags")}
-            </label>
-            <div className="mt-1 mb-2 flex flex-wrap gap-2 ">
-              {tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="inline-flex items-center px-2 py-1 text-white dark:text-white bg-red-500 border border-red-900 text-sm rounded"
-                >
-                  {tag}
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveTag(tag)}
-                    className="ml-2 text-white dark:text-gray-300  hover:text-white"
+    <div className="-mt-10 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
+        <div className="border  text-[#000435] bg-white dark:text-white dark:bg-[#000435] rounded-lg p-6 sm:max-w-[70%] max-w-[50vh] mx-auto "style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <h2 className="text-2xl font-semibold mb-4 text-center ">Create New Post</h2>
+          <p className="mt-4">{errorMessage}</p>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label htmlFor="title" className="block text-sm font-medium">
+              {t("newPost.createPost")}
+              </label>
+              <input
+                type="text"
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+                className="mt-1 p-2 w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-blue-900 rounded"
+              />
+            </div>
+            <div>
+              <label htmlFor="description" className="block text-sm font-medium">
+              {t("newPost.description")}
+              </label>
+              <textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+                className="mt-1 p-2 w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-blue-900 rounded"
+              ></textarea>
+            </div>
+            <div>
+              <label htmlFor="codeSnippet" className="block text-sm font-medium">
+              {t("newPost.codeSnippet")}
+              </label>
+              <textarea
+                id="codeSnippet"
+                value={codeSnippet}
+                onChange={(e) => setCodeSnippet(e.target.value)}
+                className="mt-1 p-2 w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-blue-900 rounded"
+              ></textarea>
+            </div>
+            <div>
+              <label htmlFor="tags" className="block text-sm font-medium">
+              {t("newPost.tags")}
+              </label>
+              <div className="mt-1 mb-2 flex flex-wrap gap-2 ">
+                {tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center px-2 py-1 text-white dark:text-white bg-red-500 border border-red-900 text-sm rounded"
                   >
-                    &times;
-                  </button>
-                </span>
-              ))}
+                    {tag}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveTag(tag)}
+                      className="ml-2 text-white dark:text-gray-300  hover:text-white"
+                    >
+                      &times;
+                    </button>
+                  </span>
+                ))}
+              </div>
+
+
+              <div className="flex flex-col sm:flex-row gap-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border-blue-900">
+              <input
+                type="text"
+                id="tagInput"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                className="p-2  text-[#000435] bg-white dark:text-white dark:bg-[#000435] border-blue-900 border rounded w-full"
+              />
+              <button
+                type="button"
+                onClick={handleAddTag}
+                className="p-2  text-[#000435] bg-white dark:text-white dark:bg-[#000435]  w-1/3" >
+                <Link
+                  className="p-2  text-[#000435] bg-white dark:text-white dark:bg-[#000435]   border-2 border-sky-500  dark:border-sky-500 hover:bg-sky-500 hover:text-white duration-300  dark:hover:bg-sky-500 w-full rounded-md" to={""}>
+                    {t("allPosts.tag")}
+                </Link>
+              </button>
+              </div>
             </div>
-
-
-            <div className="flex flex-col sm:flex-row gap-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border-blue-900">
-            <input
-              type="text"
-              id="tagInput"
-              value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
-              className="p-2  text-[#000435] bg-white dark:text-white dark:bg-[#000435] border-blue-900 border rounded w-full"
-            />
+            <div className="flex justify-center items-center">
             <button
-              type="button"
-              onClick={handleAddTag}
-              className="p-2  text-[#000435] bg-white dark:text-white dark:bg-[#000435]  w-1/3" >
-              <Link
-                className="p-2  text-[#000435] bg-white dark:text-white dark:bg-[#000435]   border-2 border-sky-500  dark:border-sky-500 hover:bg-sky-500 hover:text-white duration-300  dark:hover:bg-sky-500 w-full rounded-md" to={""}>
-                  {t("allPosts.tag")}
-              </Link>
+              type="submit"
+              className="mt-4 py-2 px-24 w-full sm:w-fit bg-green-600 hover:bg-green-700 duration-300 rounded text-white"
+            >
+              {t("newPost.submit")}
             </button>
+            
             </div>
-          </div>
-          <div className="flex justify-center items-center">
-          <button
-            type="submit"
-            className="mt-4 py-2 px-24 w-full sm:w-fit bg-green-600 hover:bg-green-700 duration-300 rounded text-white"
-          >
-            {t("newPost.submit")}
-          </button>
-          
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+    </div>
   );
 };
 

@@ -7,6 +7,7 @@ import Loader from "../components/Loader";
 import PostCard from "../components/PostCard";
 import { useTranslation } from "react-i18next";
 import bgHero from "../assets/bgHero.png";
+
 const Favorite = () => {
   const user = useRecoilValue(userState);
   const [favoritePosts, setFavoritePosts] = useState<IPost[]>([]);
@@ -66,25 +67,27 @@ const Favorite = () => {
 
   return (
     <>
-      <div className="max-w-screen-xl mx-auto p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] flex flex-col items-center">
-      <div className="w-80 text-[#000435] bg-white  backdrop-blur-sm rounded-xl p-3 border border-sky-500 text-center text-xl font-semibold dark:text-white dark:bg-[#000435]"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-      {t("myfavpost")} 😍
+      <div className="-mt-8 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
+        <div className="max-w-screen-xl mx-auto p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] flex flex-col items-center">
+        <div className="w-80 text-[#000435] bg-white  backdrop-blur-sm rounded-xl p-3 border border-sky-500 text-center text-xl font-semibold dark:text-white dark:bg-[#000435]"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        {t("myfavpost")} 😍
+        </div>
+        <div className="mt-8 w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          {favoritePosts.length > 0 ? (
+            <>
+              <h4 className="font-semibold ">{t("favpost")} ( {favoritePosts.length} )</h4>
+              <div className=" mt-6 mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full ">
+                {favoritePosts.map(post => (
+                  <PostCard key={post.id} post={post} onDelete={handleDelete} currentUser={currentUser}/>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="text-center text-lg text-[#000435] font-semibold dark:text-white">{t("nofav")} 😟</div>
+          )}
+        </div>
+        </div>
       </div>
-      <div className="mt-8 w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        {favoritePosts.length > 0 ? (
-          <>
-            <h4 className="font-semibold ">{t("favpost")} ( {favoritePosts.length} )</h4>
-            <div className=" mt-6 mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full ">
-              {favoritePosts.map(post => (
-                <PostCard key={post.id} post={post} onDelete={handleDelete} currentUser={currentUser}/>
-              ))}
-            </div>
-          </>
-        ) : (
-          <div className="text-center text-lg text-[#000435] font-semibold dark:text-white">{t("nofav")} 😟</div>
-        )}
-      </div>
-    </div>
     </>
   );
 };

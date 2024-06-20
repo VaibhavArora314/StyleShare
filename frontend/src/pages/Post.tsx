@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import usePost from "../hooks/usePost";
 import SharePostButtons from "../components/SharePostButtons";
 import ReactionButton from "../components/ReactionButtons";
+import bgHero from "../assets/bgHero.png";
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
@@ -167,127 +168,129 @@ const Post = () => {
   };
 
   return (
-    <div className="p-6  text-[#000435] bg-white dark:text-white dark:bg-[#000435] max-w-screen-xl mx-auto">
-      <>
-        <button
-          onClick={() => window.history.back()}
-          className="mb-2 mt-2 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
-        >
-          <IoMdArrowRoundBack size={20} />
-        </button>
-        <div className="flex flex-row content-center mb-1 boder border-sky-500 dark:border-sky-500">
-          <h2 className="text-2xl font-semibold mr-3">{post.title}</h2>
-          {isFavorite ? (
-            <MdFavorite
-              onClick={handleRemoveFromFavorite}
-              size={33}
-              className="cursor-pointer   text-red-600 "
-            />
-          ) : (
-            <MdFavoriteBorder
-              onClick={handleAddToFavorite}
-              size={33}
-              className="cursor-pointer text-[#000435] bg-white dark:text-white dark:bg-[#000435]  "
-            />
-          )}
-        </div>
-        <ReactionButton postId={post.id} initialReaction={post.userReaction} />
-        <p className="mb-4">{post.description}</p>
-
-
-        <div className="relative my-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] ">
-          {isPreview ? (
-            <div className="p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435]  z-0 h-full overflow-hidden rounded border border-gray-700">
-              <iframe
-                ref={ref}
-                onLoad={onLoad}
-                className="w-full h-full border-0 text-[#000435] bg-white dark:text-white dark:bg-[#000435] "
-                srcDoc={`<html class='flex w-full h-full'>
-                      <head>
-                        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-                        <script>
-                          document.addEventListener('DOMContentLoaded', function() {
-                            document.querySelectorAll('a[href="#"]').forEach(function(anchor) {
-                              anchor.addEventListener('click', function(e) {
-                                e.preventDefault();
-                                window.top.location.reload();
-                              });
-                            });
-                          });
-                        </script>
-                        </head>
-                      <body class='w-full h-full flex items-center justify-center minw-full min-h-full'>
-                        <div class='w-full h-full p-6'>${sanitizedSnippet}</div>
-                      </body>
-                    </html>`}
-                title="Preview"
-                sandbox="allow-scripts allow-same-origin"
-                style={{ minHeight: height, maxWidth: "100%" }}
-              />
+    <div className="-mt-10 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
+        <div className="p-6  text-[#000435] bg-white dark:text-white dark:bg-[#000435] max-w-screen-xl mx-auto" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <>
+            <button
+              onClick={() => window.history.back()}
+              className="mb-2 mt-2 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+            >
+              <IoMdArrowRoundBack size={20} />
+            </button>
+            <div className="flex flex-row content-center mb-1 boder border-sky-500 dark:border-sky-500">
+              <h2 className="text-2xl font-semibold mr-3">{post.title}</h2>
+              {isFavorite ? (
+                <MdFavorite
+                  onClick={handleRemoveFromFavorite}
+                  size={33}
+                  className="cursor-pointer   text-red-600 "
+                />
+              ) : (
+                <MdFavoriteBorder
+                  onClick={handleAddToFavorite}
+                  size={33}
+                  className="cursor-pointer text-[#000435] bg-white dark:text-white dark:bg-[#000435]  "
+                />
+              )}
             </div>
-          ) : (
-            <pre className="p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435]  border border-gray-700 rounded overflow-auto max-h-96 line-numbers language-html">
-              <code className="text-[#000435] bg-white dark:text-white dark:bg-[#000435] ">{post.codeSnippet}</code>
-            </pre>
-          )}
-          <div className="absolute top-2 right-3 flex space-x-2">
-            {isOwner && !isPreview ? (
-              <Link
-                to={`/app/posts/edit/${post.id}`}
-                className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
-              >
-                Edit
-              </Link>
-            ) : null}
-            {isPreview ? null : (
+            <ReactionButton postId={post.id} initialReaction={post.userReaction} />
+            <p className="mb-4">{post.description}</p>
+
+
+            <div className="relative my-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] ">
+              {isPreview ? (
+                <div className="p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435]  z-0 h-full overflow-hidden rounded border border-gray-700">
+                  <iframe
+                    ref={ref}
+                    onLoad={onLoad}
+                    className="w-full h-full border-0 text-[#000435] bg-white dark:text-white dark:bg-[#000435] "
+                    srcDoc={`<html class='flex w-full h-full'>
+                          <head>
+                            <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+                            <script>
+                              document.addEventListener('DOMContentLoaded', function() {
+                                document.querySelectorAll('a[href="#"]').forEach(function(anchor) {
+                                  anchor.addEventListener('click', function(e) {
+                                    e.preventDefault();
+                                    window.top.location.reload();
+                                  });
+                                });
+                              });
+                            </script>
+                            </head>
+                          <body class='w-full h-full flex items-center justify-center minw-full min-h-full'>
+                            <div class='w-full h-full p-6'>${sanitizedSnippet}</div>
+                          </body>
+                        </html>`}
+                    title="Preview"
+                    sandbox="allow-scripts allow-same-origin"
+                    style={{ minHeight: height, maxWidth: "100%" }}
+                  />
+                </div>
+              ) : (
+                <pre className="p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435]  border border-gray-700 rounded overflow-auto max-h-96 line-numbers language-html">
+                  <code className="text-[#000435] bg-white dark:text-white dark:bg-[#000435] ">{post.codeSnippet}</code>
+                </pre>
+              )}
+              <div className="absolute top-2 right-3 flex space-x-2">
+                {isOwner && !isPreview ? (
+                  <Link
+                    to={`/app/posts/edit/${post.id}`}
+                    className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+                  >
+                    Edit
+                  </Link>
+                ) : null}
+                {isPreview ? null : (
+                  <button
+                    onClick={handleCopy}
+                    className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+                  >
+                    {t("postdet.copy")}
+                  </button>
+                )}
+                <button
+                  onClick={togglePreview}
+                  className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+                >
+                  {isPreview ? t("postdet.show") : t("postdet.preview")}
+                </button>
+                <button
+                  onClick={handleNavigation}
+                  className="px-2 py-1 rounded-md text-white bg-green-600 hover:bg-green-700 text-sm"
+                >
+                  {t("postdet.cus")}
+                </button>
+              </div>
+            </div>
+            <div className="mb-4 ">
+              <h3 className="text-xl font-semibold my-2 ">{t("newPost.tags")}</h3>
+              <div className="flex flex-wrap gap-2 ">
+                {post.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="inline-flex items-center px-2 py-1 text-[#000435] bg-white dark:text-white dark:bg-[#000435]  border border-sky-500 text-sm rounded-3xl"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="my-5">
+              <h3 className="text-xl font-semibold my-2">{t("postdet.author")}</h3>
               <button
-                onClick={handleCopy}
-                className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+                onClick={handleProfileNavigation}
+                data-tooltip-content={`View ${post.author.username} profile 👀`}
+                data-tooltip-id="my-tooltip"
+                className="text-lg font-semibold cursor-pointer"
               >
-                {t("postdet.copy")}
+                {t("postdet.user")}: @{post.author.username}
               </button>
-            )}
-            <button
-              onClick={togglePreview}
-              className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
-            >
-              {isPreview ? t("postdet.show") : t("postdet.preview")}
-            </button>
-            <button
-              onClick={handleNavigation}
-              className="px-2 py-1 rounded-md text-white bg-green-600 hover:bg-green-700 text-sm"
-            >
-              {t("postdet.cus")}
-            </button>
-          </div>
+            </div>
+            <SharePostButtons shareUrl={shareUrl} title={title}/>
+            <Comment />
+          </>
         </div>
-        <div className="mb-4 ">
-          <h3 className="text-xl font-semibold my-2 ">{t("newPost.tags")}</h3>
-          <div className="flex flex-wrap gap-2 ">
-            {post.tags.map((tag, index) => (
-              <span
-                key={index}
-                className="inline-flex items-center px-2 py-1 text-[#000435] bg-white dark:text-white dark:bg-[#000435]  border border-sky-500 text-sm rounded-3xl"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="my-5">
-          <h3 className="text-xl font-semibold my-2">{t("postdet.author")}</h3>
-          <button
-            onClick={handleProfileNavigation}
-            data-tooltip-content={`View ${post.author.username} profile 👀`}
-            data-tooltip-id="my-tooltip"
-            className="text-lg font-semibold cursor-pointer"
-          >
-            {t("postdet.user")}: @{post.author.username}
-          </button>
-        </div>
-        <SharePostButtons shareUrl={shareUrl} title={title}/>
-        <Comment />
-      </>
     </div>
   );
 };
