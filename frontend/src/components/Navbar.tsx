@@ -153,12 +153,13 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li className="mt-2">
-                  <button
-                    className="block py-2 px-3 rounded lg:border-0 lg:p-0 text-white lg:hover:text-blue-500 hover:bg-gray-700 hover:text-white lg:hover:bg-transparent w-full text-left"
-                    onClick={handleLogout}
-                  >
-                    {t("navbar.links.logout")}
-                  </button>
+                <button
+  className="block py-2 px-3 rounded-full border border-white-300 text-white w-full text-left transition duration-300 ease-in-out 
+             hover:bg-white hover:text-blue-400"
+  onClick={handleLogout}
+>
+  {t("navbar.links.logout")}
+</button>
                 </li>
               </>
             )}
