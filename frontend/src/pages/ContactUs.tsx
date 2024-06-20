@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import bgHero from "../assets/bgHero.png";
 
 function ContactUs() {
   const [name, setName] = useState("");
@@ -66,9 +67,10 @@ function ContactUs() {
     }
   };
   return (
-    <div className="text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
+
+    <div className="text-[#000435] bg-white dark:text-white dark:bg-[#000435]"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <section className="flex justify-center p-12 md:bg-grey-500">
-        <div className="w-full text-[#000435] bg-white dark:text-white dark:bg-[#000435] rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 border-blue-700 dark:border-sky-500">
+        <div className="w-full text-[#000435] bg-white dark:text-white dark:bg-[#000435] rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 border-blue-700 dark:border-sky-500"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="max-w-md mx-auto mt-8 p-6 rounded-lg shadow-md">
             <h2 className="text-3xl font-bold mb-4  text-center text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
               Contact Us
