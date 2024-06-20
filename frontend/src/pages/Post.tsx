@@ -135,7 +135,7 @@ const Post = () => {
           <IoMdArrowRoundBack size={20} />
         </button>
         <div className="flex flex-row content-center mb-1 ">
-          <h2 className="text-2xl font-semibold mr-3">{post.title}</h2>
+          <h2 className="text-2xl font-semibold mr-3 ">{post.title}</h2>
           {isFavorite ? (
             <MdFavorite
               onClick={handleRemoveFromFavorite}
