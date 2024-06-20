@@ -5,6 +5,7 @@ import { userState } from "../store/atoms/auth";
 import { useRecoilValue } from "recoil";
 import { useTranslation } from "react-i18next";
 import usePosts from "../hooks/usePosts";
+import bgHero from "../assets/bgHero.png";
 
 const Posts = () => {
   const [showFilterDialog, setShowFilterDialog] = useState(false);
@@ -64,87 +65,89 @@ const Posts = () => {
   // );
 
   return (
-    <div className="max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4">
-      <h1 className="text-2xl font-semibold mb-4 text-white">
-        {t("allPosts.Posts")}
-      </h1>
-      <div className="w-full flex justify-between mb-4 relative">
-        <button
-          onClick={toggleFilterDialog}
-          className="flex items-center text-white hover:text-gray-400"
-        >
-          {t("allPosts.filter")}
-          <svg
-            className="w-4 h-4 ml-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+    <div className="-mt-7 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
+      <div className="max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <h1 className="text-2xl font-semibold mb-4 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435]">
+          {t("allPosts.Posts")}
+        </h1>
+        <div className="w-full flex justify-between mb-4 relative">
+          <button
+            onClick={toggleFilterDialog}
+            className="flex items-center text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] hover:text-blue-400"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M19 9l-7 7-7-7"
-            ></path>
-          </svg>
-        </button>
-        {showFilterDialog && (
-          <div
-            ref={filterRef}
-            className="absolute top-full mt-2 bg-gray-800 p-4 rounded shadow-lg w-full max-w-md"
-          >
-            <div className="mb-2">
-              <input
-                type="text"
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={t("allPosts.tag")}
-                className="p-2 w-full rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-gray-500"
-              />
-            </div>
-            <button
-              onClick={addTag}
-              className="px-4 py-2 text-white border border-gray-600 rounded hover:bg-gray-700"
+            {t("allPosts.filter")}
+            <svg
+              className="w-4 h-4 ml-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              {t("allPosts.tag")}
-            </button>
-            <div className="mt-2 flex flex-wrap">
-              {filterTags.map((tag, index) => (
-                <div
-                  key={index}
-                  className="flex items-center bg-gray-700 text-white px-2 py-1 rounded mr-2 mb-2"
-                >
-                  <span>{tag}</span>
-                  <button
-                    onClick={() => removeTag(tag)}
-                    className="ml-2 focus:outline-none"
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M19 9l-7 7-7-7"
+              ></path>
+            </svg>
+          </button>
+          {showFilterDialog && (
+            <div
+              ref={filterRef}
+              className="absolute top-full mt-2 bg-gray-800 p-4 rounded shadow-lg w-full max-w-md"
+            >
+              <div className="mb-2">
+                <input
+                  type="text"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder={t("allPosts.tag")}
+                  className="p-2 w-full rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-gray-500"
+                />
+              </div>
+              <button
+                onClick={addTag}
+                className="px-4 py-2 text-white border border-gray-600 rounded hover:bg-gray-700"
+              >
+                {t("allPosts.tag")}
+              </button>
+              <div className="mt-2 flex flex-wrap">
+                {filterTags.map((tag, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center bg-gray-700 text-white px-2 py-1 rounded mr-2 mb-2"
                   >
-                    <svg
-                      className="w-4 h-4 fill-current text-red-500"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <span>{tag}</span>
+                    <button
+                      onClick={() => removeTag(tag)}
+                      className="ml-2 focus:outline-none"
                     >
-                      <path d="M10 0c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm5 13.586-1.414 1.414-3.586-3.586-3.586 3.586-1.414-1.414 3.586-3.586-3.586-3.586 1.414-1.414 3.586 3.586 3.586-3.586 1.414 1.414-3.586 3.586 3.586 3.586z" />
-                    </svg>
-                  </button>
-                </div>
-              ))}
+                      <svg
+                        className="w-4 h-4 fill-current text-red-500"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M10 0c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm5 13.586-1.414 1.414-3.586-3.586-3.586 3.586-1.414-1.414 3.586-3.586-3.586-3.586 1.414-1.414 3.586 3.586 3.586-3.586 1.414 1.414-3.586 3.586 3.586 3.586z" />
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-          }}
-          placeholder={t("allPosts.search")}
-          className="p-2 w-full max-w-xs rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+          )}
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
+            placeholder={t("allPosts.search")}
+            className="p-2 w-full max-w-xs rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <PostListWithPagination searchQuery={searchQuery} tags={filterTags} />
       </div>
-      <PostListWithPagination searchQuery={searchQuery} tags={filterTags} />
     </div>
   );
 };

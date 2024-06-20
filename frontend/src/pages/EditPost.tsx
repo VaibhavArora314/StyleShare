@@ -70,7 +70,7 @@ const EditPost = () => {
   }
 
   return (
-    <div className="p-6 text-white max-w-screen-xl mx-auto">
+    <div className="p-6 text-[#000435] bg-white dark:text-white dark:bg-[#000435] max-w-screen-xl mx-auto">
       <h2 className="text-2xl font-semibold mb-4">Edit Post</h2>
       <p className="mt-4">{error}</p>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -84,7 +84,7 @@ const EditPost = () => {
             name="title"
             value={post.title}
             onChange={(e) => setPost({ ...post, title: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded"
+            className="w-full px-3 py-2 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-blue-500 rounded"
           />
         </div>
         <div className="mb-4">
@@ -96,7 +96,7 @@ const EditPost = () => {
             name="description"
             value={post.description}
             onChange={(e) => setPost({ ...post, description: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded"
+            className="w-full px-3 py-2 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-blue-500 rounded"
           />
         </div>
         <div className="mb-4">
@@ -108,7 +108,7 @@ const EditPost = () => {
             name="codeSnippet"
             value={post.codeSnippet}
             onChange={(e) => setPost({ ...post, codeSnippet: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded"
+            className="w-full px-3 py-2 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-blue-500 rounded"
           />
         </div>
         <div className="mb-4">
@@ -120,7 +120,7 @@ const EditPost = () => {
             name="jsCodeSnippet"
             value={post.jsCodeSnippet}
             onChange={(e) => setPost({ ...post, jsCodeSnippet: e.target.value })}
-            className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-700 rounded"
+            className="w-full px-3 py-2 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-blue-500 rounded"
           />
         </div>
         <div>
@@ -131,7 +131,7 @@ const EditPost = () => {
             {post.tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center px-2 py-1 bg-gray-700 text-sm rounded"
+                className="inline-flex items-center px-2 py-1  text-[#fff]  dark:text-white   bg-gray-700 text-sm rounded"
               >
                 {tag}
                 <button
@@ -149,7 +149,7 @@ const EditPost = () => {
             id="tagInput"
             value={tagInput}
             onChange={(e) => setTagInput(e.target.value)}
-            className="p-2 bg-gray-800 border border-gray-700 rounded"
+            className="p-2 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-blue-500 rounded"
           />
           <button
             type="button"
