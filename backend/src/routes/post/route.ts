@@ -1,7 +1,7 @@
-
 import { Router } from "express";
 import authMiddleware from "../../middleware/auth"
 import { aiCustomization, createCommentController, createPostController, deletePostController, favoritePostController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostReactionsController, getPostsWithPagination, getUserReactionController, reactToPostController, removeReactionController, unfavoritePostController, updatePostController } from "./controller";
+import timeout from "connect-timeout";
 
 const postRouter = Router();
 
@@ -29,7 +29,7 @@ postRouter.get('/all/leaderboard', getLeaderboardController);
 
 postRouter.delete('/delete/:id', authMiddleware, deletePostController); 
 
-postRouter.post('/customize',aiCustomization);
+postRouter.post('/customize', timeout('60s'),aiCustomization);
 
 postRouter.post('/:id/react', authMiddleware, reactToPostController);
 
