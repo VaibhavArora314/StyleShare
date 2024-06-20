@@ -15,6 +15,7 @@ body {
   padding: 0;
   background: white;
   overflow: auto;
+  overflow-x: hidden;
 }
 
 .custom-cursor {

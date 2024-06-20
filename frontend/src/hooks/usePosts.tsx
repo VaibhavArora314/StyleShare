@@ -1,32 +1,44 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IPost } from "../types";
 import axios from "axios";
 
-const usePosts = ({initialPage = 1,pageSize=12}) => {
+type Props = {
+  initialPage: number;
+  pageSize: number;
+  searchQuery: string;
+  tags: string[]
+}
+
+const usePosts = ({initialPage = 1,pageSize=12,searchQuery="",tags=[]}:Props) => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
+  const [timeoutValue,setTimeoutValue] = useState<number | null>(null);
+
+  const fetchPosts = useCallback(async () => {
+    try {
+      // setLoading(true);
+      const response = await axios.get(
+        `/api/v1/posts?page=${page}&pageSize=${pageSize}&searchQuery=${searchQuery}&tags=${tags.join(",")}`
+      );
+      setPosts(response.data.posts);
+      setTotalPages(response.data.totalPages);
+      setLoading(false);
+    } catch (error) {
+      setError("Failed to fetch posts");
+      setLoading(false);
+    }
+  },[page,pageSize,tags,searchQuery]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          `/api/v1/posts?page=${page}&pageSize=${pageSize}`
-        );
-        setPosts(response.data.posts);
-        setTotalPages(response.data.totalPages);
-        setLoading(false);
-      } catch (error) {
-        setError("Failed to fetch posts");
-        setLoading(false);
-      }
-    };
+    if (timeoutValue) clearTimeout(timeoutValue);
 
-    fetchPosts();
-  }, [page,pageSize]);
+    const timeout = setTimeout(fetchPosts,300);
+    setTimeoutValue(timeout);
+    // fetchPosts();
+  }, [page,pageSize,tags,searchQuery,fetchPosts]);
 
   const handlePreviousPage = () => {
     if (page > 1) {
@@ -44,8 +56,8 @@ const usePosts = ({initialPage = 1,pageSize=12}) => {
     setPage(pageNumber);
   };
 
-  const handleDelete = (id: string) => {
-    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+  const handleDelete = () => {
+    fetchPosts();
   };
 
   return {
@@ -57,7 +69,7 @@ const usePosts = ({initialPage = 1,pageSize=12}) => {
     handleNextPage,
     handlePreviousPage,
     handlePageClick,
-    handleDelete
+    handleDelete,
   }
 };
 

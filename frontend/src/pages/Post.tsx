@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios, { AxiosError } from "axios";
-import DOMPurify from "dompurify";
 import Loader from "../components/Loader";
 import toast from "react-hot-toast";
 import Comment from "./Comment";
@@ -12,8 +11,7 @@ import { useTranslation } from "react-i18next";
 import usePost from "../hooks/usePost";
 import SharePostButtons from "../components/SharePostButtons";
 import ReactionButton from "../components/ReactionButtons";
-import PostPreview from "../components/PostPreview";
-import PostCodeWindow from "../components/PostCodeWindow";
+import PostCodeWithPreview from "../components/PostCodeWithPreview";
 import {followUser,unfollowUser,getFollowStatus} from '../components/api/FollowApis';
 import { tokenState, userState } from "../store/atoms/auth";
 import { useRecoilValue } from "recoil";
@@ -231,20 +229,15 @@ const Post = () => {
         </div>
         <ReactionButton postId={post.id} initialReaction={post.userReaction} />
         <p className="mb-4">{post.description}</p>
-        <div className="my-4">
-          <PostCodeWindow
-            id={post.id}
-            isOwner={isOwner}
-            codeSnippet={post.codeSnippet}
-            jsCodeSnippet={post.jsCodeSnippet}
-            handleCustomizeAi={handleNavigation}
-            showCustomizeAiOption={true}
-          />
-          <PostPreview
-            jsCodeSnippet={post.jsCodeSnippet}
-            sanitizedSnippet={sanitizedSnippet}
-          />
-        </div>
+        <PostCodeWithPreview
+          id={post.id}
+          isOwner={isOwner}
+          codeSnippet={post.codeSnippet}
+          jsCodeSnippet={post.jsCodeSnippet}
+          handleCustomizeAi={handleNavigation}
+          showCustomizeAiOption={true}
+          showTogether={true}
+        />
         <div className="mb-4">
           <h3 className="text-xl font-semibold my-2">{t("newPost.tags")}</h3>
           <div className="flex flex-wrap gap-2">
