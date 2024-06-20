@@ -12,6 +12,9 @@ import usePost from "../hooks/usePost";
 import SharePostButtons from "../components/SharePostButtons";
 import ReactionButton from "../components/ReactionButtons";
 import PostCodeWithPreview from "../components/PostCodeWithPreview";
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+import { BsFileEarmarkZipFill } from "react-icons/bs";
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
@@ -123,6 +126,21 @@ const Post = () => {
     navigate(`/app/profile/${post.author.id}`);
   };
 
+  const downloadAsZip = () => {
+  const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please Login to download!");
+      return;
+    }
+    const zip = new JSZip();
+    zip.file(`${post.title}.html`, post.codeSnippet);
+    zip.file(`${post.title}.js`, post.jsCodeSnippet);
+
+    zip.generateAsync({ type: 'blob' }).then((content) => {
+      saveAs(content, `${post.title}.zip`);
+    });
+  };
+
   return (
     <div className="p-6 text-white max-w-screen-xl mx-auto">
       <>
@@ -159,6 +177,13 @@ const Post = () => {
           showCustomizeAiOption={true}
           showTogether={true}
         />
+        <button
+          onClick={downloadAsZip} 
+          className="flex items-center px-2 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+        >
+          <BsFileEarmarkZipFill className="mr-2" size={20} />
+          Download as zip
+        </button>
         <div className="mb-4">
           <h3 className="text-xl font-semibold my-2">{t("newPost.tags")}</h3>
           <div className="flex flex-wrap gap-2">
