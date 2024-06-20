@@ -66,22 +66,22 @@ function ContactUs() {
     }
   };
   return (
-    <div className="text-white">
+    <div className="text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
       <section className="flex justify-center p-12 md:bg-grey-500">
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full text-[#000435] bg-white dark:text-white dark:bg-[#000435] rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 border-blue-700 dark:border-sky-500">
           <div className="max-w-md mx-auto mt-8 p-6 rounded-lg shadow-md">
-            <h2 className="text-3xl font-bold mb-4 text-white text-center">
+            <h2 className="text-3xl font-bold mb-4  text-center text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
               Contact Us
             </h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label htmlFor="name" className="block text-white">
+                <label htmlFor="name" className="block text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
                   Name
                 </label>
                 <input
                   type="text"
                   id="name"
-                  className="form-input text-white mt-1 p-2 block w-full rounded-lg bg-gray-700"
+                  className="form-input text-[#000435] bg-white dark:text-white dark:bg-[#000435] mt-1 p-2 block w-full rounded-lg border border-blue-500"
                   placeholder="Your Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -89,13 +89,13 @@ function ContactUs() {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="email" className="block text-white">
+                <label htmlFor="email" className="block text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
                   Email
                 </label>
                 <input
                   type="email"
                   id="email"
-                  className="form-input text-white mt-1 p-2 block w-full rounded-lg bg-gray-700"
+                  className="form-input text-[#000435] bg-white dark:text-white dark:bg-[#000435] mt-1 p-2 block w-full rounded-lg border border-blue-500"
                   placeholder="your-email@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -103,13 +103,13 @@ function ContactUs() {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="subject" className="block text-white">
+                <label htmlFor="subject" className="block text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
                   Subject
                 </label>
                 <input
                   type="text"
                   id="subject"
-                  className="form-input text-white mt-1 p-2 block w-full rounded-lg bg-gray-700"
+                  className="form-input text-[#000435] bg-white dark:text-white dark:bg-[#000435] mt-1 p-2 block w-full rounded-lg border border-blue-500"
                   placeholder="Subject"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
@@ -117,12 +117,12 @@ function ContactUs() {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="message" className="block text-white">
+                <label htmlFor="message" className="block text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
                   Message
                 </label>
                 <textarea
                   id="message"
-                  className="form-input text-white mt-1 p-2 block w-full rounded-lg bg-gray-700"
+                  className="form-input text-[#000435] bg-white dark:text-white dark:bg-[#000435] mt-1 p-2 block w-full rounded-lg border border-blue-500"
                   placeholder="Your Message"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}

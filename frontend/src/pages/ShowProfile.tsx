@@ -32,7 +32,7 @@ const ShowProfile = () => {
     };
 
     fetchUserProfile();
-  }, [id]);
+  }, [id, posts]);
 
   const handleDelete = (id: string) => {
     setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
@@ -53,14 +53,14 @@ const ShowProfile = () => {
   };
 
   return (
-    <div className="max-w-screen-xl mx-auto p-4 text-white flex flex-col items-center">
-        <div className="w-80 bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500">
+    <div className="max-w-screen-xl mx-auto p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] flex flex-col items-center">
+        <div className="w-80 text-[#000435] bg-white dark:text-white dark:bg-[#000435] backdrop-blur-sm rounded-xl p-3 border border-sky-500">
           <div className="p-2 flex justify-end mr-2">
             {
               user?.verified ?
-                <GoVerified className="text-2xl text-white" title="Verified" />
+                <GoVerified className="text-2xl text-[#000435] bg-white dark:text-white dark:bg-[#000435]" title="Verified" />
                 :
-                <GoUnverified className="text-2xl text-white" title="Unverified" />
+                <GoUnverified className="text-2xl text-[#000435] bg-white dark:text-white dark:bg-[#000435]" title="Unverified" />
             }
           </div>
           <div className="flex flex-col items-center mb-3">
