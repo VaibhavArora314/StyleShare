@@ -175,31 +175,33 @@ const Post = () => {
         >
           <IoMdArrowRoundBack size={20} />
         </button>
-        <div className="flex flex-row content-center mb-1">
+        <div className="flex flex-row content-center mb-1 boder border-sky-500 dark:border-sky-500">
           <h2 className="text-2xl font-semibold mr-3">{post.title}</h2>
           {isFavorite ? (
             <MdFavorite
               onClick={handleRemoveFromFavorite}
               size={33}
-              className="cursor-pointer text-blue-600 "
+              className="cursor-pointer   text-red-600 "
             />
           ) : (
             <MdFavoriteBorder
               onClick={handleAddToFavorite}
               size={33}
-              className="cursor-pointer text-white"
+              className="cursor-pointer text-[#000435] bg-white dark:text-white dark:bg-[#000435]  "
             />
           )}
         </div>
         <ReactionButton postId={post.id} initialReaction={post.userReaction} />
         <p className="mb-4">{post.description}</p>
-        <div className="relative my-4">
+
+
+        <div className="relative my-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] ">
           {isPreview ? (
-            <div className="p-4 bg-gray-800 z-0 h-full overflow-hidden rounded border border-gray-700">
+            <div className="p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435]  z-0 h-full overflow-hidden rounded border border-gray-700">
               <iframe
                 ref={ref}
                 onLoad={onLoad}
-                className="w-full h-full border-0"
+                className="w-full h-full border-0 text-[#000435] bg-white dark:text-white dark:bg-[#000435] "
                 srcDoc={`<html class='flex w-full h-full'>
                       <head>
                         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -224,8 +226,8 @@ const Post = () => {
               />
             </div>
           ) : (
-            <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96 line-numbers language-html">
-              <code>{post.codeSnippet}</code>
+            <pre className="p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435]  border border-gray-700 rounded overflow-auto max-h-96 line-numbers language-html">
+              <code className="text-[#000435] bg-white dark:text-white dark:bg-[#000435] ">{post.codeSnippet}</code>
             </pre>
           )}
           <div className="absolute top-2 right-3 flex space-x-2">
@@ -259,13 +261,13 @@ const Post = () => {
             </button>
           </div>
         </div>
-        <div className="mb-4">
-          <h3 className="text-xl font-semibold my-2">{t("newPost.tags")}</h3>
+        <div className="mb-4 ">
+          <h3 className="text-xl font-semibold my-2 ">{t("newPost.tags")}</h3>
           <div className="flex flex-wrap gap-2 ">
             {post.tags.map((tag, index) => (
               <span
                 key={index}
-                className="inline-flex items-center px-2 py-1 bg-gray-700 text-sm rounded"
+                className="inline-flex items-center px-2 py-1 text-[#000435] bg-white dark:text-white dark:bg-[#000435]  border border-sky-500 text-sm rounded-3xl"
               >
                 {tag}
               </span>

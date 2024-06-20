@@ -114,17 +114,17 @@ const CustomizeWithAi = () => {
   });
 
   return (
-    <div className="customize-page p-6 text-[#000435] bg-white dark:text-white dark:bg-[#000435] max-w-screen-xl mx-auto">
-      <h1 className="text-3xl font-bold mb-5 ">✨ {t("postdet.cus")} ✨</h1>
-      <div className="mb-6 text-[#000435] bg-white dark:text-white dark:bg-[#000435]" >
-        <h2 className="text-xl font-semibold mb-2">😀 {t("custom.og")}</h2>
-        <div className="relative my-4">
+    <div className="customize-page p-6 max-w-screen-xl mx-auto text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
+      <h1 className="text-3xl font-bold mb-5 text-[#000435] bg-white dark:text-white dark:bg-[#000435] ">✨ {t("postdet.cus")} ✨</h1>
+      <div className="mb-6 text-[#000435] bg-white dark:text-white dark:bg-[#000435] " >
+        <h2 className="text-xl font-semibold mb-2 text-[#000435] bg-white dark:text-white dark:bg-[#000435]">😀 {t("custom.og")}</h2>
+        <div className="relative my-4  text-white bg-white dark:text-white dark:bg-[#000435] ">
           {isOriginalPreview ? (
-            <div className="p-4 bg-gray-800 z-0 h-full overflow-hidden rounded border border-sky-500">
+            <div className="p-4 text-white bg-white dark:text-white dark:bg-[#000435] z-0 h-full overflow-hidden rounded border border-sky-500">
               <iframe
                 ref={refOriginal}
                 onLoad={onLoadOriginal}
-                className="w-full h-full border-0"
+                className="w-full h-full border-0 text-[#000435] bg-white dark:text-white dark:bg-[#000435] "
                 srcDoc={`<!DOCTYPE html>
                     <html class='flex w-full h-full'>
                       <head>
@@ -150,7 +150,7 @@ const CustomizeWithAi = () => {
               />
             </div>
           ) : (
-            <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96 line-numbers language-html">
+            <pre className="p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-500 rounded overflow-auto max-h-96 line-numbers language-html">
               <code>{post.codeSnippet}</code>
             </pre>
           )}
@@ -158,14 +158,14 @@ const CustomizeWithAi = () => {
             {isOriginalPreview ? null : (
               <button
                 onClick={() => handleCopy(post.codeSnippet)}
-                className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+                className="px-2 py-1 bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-700 text-white dark:text-white dark:bg-blue-500 text-sm rounded"
               >
                 {t("postdet.copy")} 
               </button>
             )}
             <button
               onClick={toggleOriginalPreview}
-              className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+              className="px-2 py-1 bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-700 text-white dark:text-white dark:bg-blue-500 text-sm rounded"
             >
               {isOriginalPreview ? t("postdet.show") : t("postdet.preview")}
             </button>
@@ -173,7 +173,7 @@ const CustomizeWithAi = () => {
         </div>
       </div>
       <input
-        className="w-full p-3 mb-5 rounded bg-blue-950 backdrop-blur-sm "
+        className="w-full p-3 mb-5 rounded text-[#000435] bg-white dark:text-white dark:bg-[#000435]  border border-sky-500 "
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder={t("custom.des")}
@@ -199,11 +199,11 @@ const CustomizeWithAi = () => {
           <h2 className="text-xl font-semibold mb-2">🌟 Customized Code Snippet</h2>
           <div className="relative my-4">
             {isCustomPreview ? (
-              <div className="p-4 bg-gray-800 z-0 h-full overflow-hidden rounded border border-sky-500">
+              <div className="p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435]z-0 h-full overflow-hidden rounded border border-sky-500">
                 <iframe
                   ref={refCustom}
                   onLoad={onLoadCustom}
-                  className="w-full h-full border-0"
+                  className="w-full h-full border-0 text-[#000435] bg-white dark:text-white dark:bg-[#000435]"
                   srcDoc={`<!DOCTYPE html>
                       <html class='flex w-full h-full'>
                         <head>
@@ -229,7 +229,7 @@ const CustomizeWithAi = () => {
                 />
               </div>
             ) : (
-              <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96 line-numbers language-html">
+              <pre className="p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-gray-700 rounded overflow-auto max-h-96 line-numbers language-html">
                 <code>{customCode}</code>
               </pre>
             )}
@@ -237,14 +237,14 @@ const CustomizeWithAi = () => {
               {isCustomPreview ? null : (
                 <button
                   onClick={() => handleCopy(customCode)}
-                  className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+                  className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-[#000435]  dark:text-white dark:bg-[#000435] text-sm rounded"
                 >
                   {t("postdet.copy")}
                 </button>
               )}
               <button
                 onClick={toggleCustomPreview}
-                className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+                className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-[#000435]  dark:text-white dark:bg-[#000435]text-sm rounded"
               >
                 {isCustomPreview ? t("postdet.show") : t("postdet.preview")}
               </button>
