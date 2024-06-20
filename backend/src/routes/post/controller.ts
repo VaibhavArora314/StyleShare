@@ -181,6 +181,11 @@ export const getPostController = async (req: Request, res: Response) => {
           select: {
             id: true,
             username: true,
+            following: {
+              select: {
+                id: true
+              }
+            }
           },
         },
         comments: true
@@ -188,17 +193,26 @@ export const getPostController = async (req: Request, res: Response) => {
     });
 
     if (!post) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "No such post exists!",
       });
     }
 
+    const totalFollowers = post.author.following.length;
+
     res.status(200).json({
-      post,
+      post: {
+        ...post,
+        author: {
+          ...post.author,
+          totalFollowers,
+        },
+      },
     });
   } catch (error) {
-    res.status(411).json({
-      error: "No such post exists!",
+    console.error(error);
+    res.status(500).json({
+      error: "Internal server error!",
     });
   }
 };

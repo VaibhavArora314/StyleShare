@@ -16,6 +16,7 @@ const usePost = (id: string) => {
       id: "",
       username: "",
       email: "",
+      totalFollowers: 0
     },
     comments: [],
     favoritePosts: [],

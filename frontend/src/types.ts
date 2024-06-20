@@ -15,6 +15,7 @@ export interface IPost {
     id: string;
     username: string;
     email: string;
+    totalFollowers:number
   },
   comments: IComment[];
   favoritePosts: [];
@@ -29,6 +30,10 @@ export interface IUser {
   createdAt:string;
   posts: IPost[];
   favoritePosts?: IPost[]; 
+  isFollowing: boolean;
+  _count: {
+    following: number
+  }
 }
 
 export interface ILeaderboardUser {

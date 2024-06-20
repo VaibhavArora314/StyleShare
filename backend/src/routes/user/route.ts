@@ -1,8 +1,11 @@
 import { Router } from "express";
 import {
+  checkFollowStatusController,
   contactUsController,
+  followUserController,
   generateOtpController,
   showUserProfileController,
+  unfollowUserController,
   userProfileController,
   userSigninController,
   userSignupController,
@@ -25,5 +28,11 @@ userRouter.get("/me", authMiddleware, userProfileController);
 userRouter.post("/contact-us", contactUsController);
 
 userRouter.get("/profile/:id", showUserProfileController);
+
+userRouter.post("/:id/follow", authMiddleware, followUserController);
+
+userRouter.post("/:id/unfollow", authMiddleware, unfollowUserController);
+
+userRouter.get("/:id/follow-status", authMiddleware, checkFollowStatusController);
 
 export default userRouter;
