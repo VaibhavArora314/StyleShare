@@ -24,7 +24,7 @@ function PostPreview({
   }, []);
 
   return (
-    <div className="p-4 bg-gray-800 z-0 overflow-hidden rounded border border-gray-700">
+    <div className="p-4 text-[#000435] bg-white dark:text-white dark:bg-[#fff] z-0 overflow-hidden rounded border-2 border-sky-400">
       <iframe
         ref={ref}
         className="w-full border-0"

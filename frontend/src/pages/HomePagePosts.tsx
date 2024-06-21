@@ -4,6 +4,7 @@ import { userState } from "../store/atoms/auth";
 import { useRecoilValue } from "recoil";
 import { useTranslation } from "react-i18next";
 import usePosts from "../hooks/usePosts";
+import bgHero from "../assets/bgHero.png";
 
 const HomePagePost = () => {
   const {posts, error, loading, handleDelete} = usePosts({ initialPage: 1, pageSize: -6 ,searchQuery: "", tags: []});
@@ -23,8 +24,8 @@ const HomePagePost = () => {
   }
 
   return (
-    <div className="max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4">
-      <h1 className="text-3xl font-semibold my-4 text-white">
+    <div className="max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <h1 className="text-3xl font-semibold my-4  text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
         📃 {t("PostHeading")}
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full my-10">
