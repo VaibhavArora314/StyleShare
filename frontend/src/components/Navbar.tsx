@@ -154,7 +154,7 @@ const Navbar = () => {
                 </li>
                 <li className="mt-2">
                 <button
-  className="block py-2 px-3 rounded-full border border-white-300 text-white w-full text-left transition duration-300 ease-in-out 
+  className="block -mt-1 ml-1 md:ml-0 py-2 px-3 rounded-full border border-white-300 text-white w-3/2 md:w-full text-left transition duration-300 ease-in-out 
              hover:bg-white hover:text-blue-400"
   onClick={handleLogout}
 >
