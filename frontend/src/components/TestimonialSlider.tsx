@@ -47,7 +47,7 @@ const testimonials: Testimonial[] = [
 const NextArrow: React.FC<{ className?: string; style?: React.CSSProperties; onClick?: () => void }> = ({ className, style, onClick }) => {
   return (
     <div
-      className={`${className} text-black rounded-full  transform scale-125 hover:scale-150 transition-transform duration-300`}
+      className={`${className}  text-[#000435] bg-white dark:text-white dark:bg-[#000435] rounded-full  transform scale-125 hover:scale-150 transition-transform duration-300`}
       style={{ ...style, display: 'block' }}
       onClick={onClick}
     >
@@ -59,7 +59,7 @@ const NextArrow: React.FC<{ className?: string; style?: React.CSSProperties; onC
 const PrevArrow: React.FC<{ className?: string; style?: React.CSSProperties; onClick?: () => void }> = ({ className, style, onClick }) => {
   return (
     <div
-      className={`${className} text-black rounded-full  transform scale-125 hover:scale-150 transition-transform duration-300`}
+      className={`${className}  text-[#000435] bg-white dark:text-white dark:bg-[#000435] rounded-full  transform scale-125 hover:scale-150 transition-transform duration-300`}
       style={{ ...style, display: 'block' }}
       onClick={onClick}
     >
@@ -113,18 +113,18 @@ const TestimonialSlider: React.FC = () => {
   };
 
   return (
-    <div className=" bg-[#000435] testimonial-slider py-10 mx-10 max-w-70 px-4 md:px-10" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-      <h2 className="text-3xl md:text-4xl font-extrabold text-center text-white mb-8 " >⭐ What Our Users Say ⭐</h2>
+    <div className="  text-[#000435] bg-white dark:text-white dark:bg-[#000435] testimonial-slider py-10  max-w-70 px-4 md:px-10"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
+      <h2 className="text-3xl md:text-4xl font-extrabold text-center text-[#000435] bg-white dark:text-white dark:bg-[#000435] mb-8 " >⭐ What Our Users Say ⭐</h2>
       <Slider {...settings}>
         {testimonials.map((testimonial, index) => (
-          <div key={index} className="  testimonial  p-6 md:p-20 rounded-lg shadow-lg    text-white flex flex-col items-center justify-center" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <div key={index} className="  testimonial  p-6 md:p-20 rounded-lg shadow-lg     text-[#000435] bg-white dark:text-white dark:bg-[#000435] flex flex-col items-center justify-center" >
             <img
               src={testimonial.image}
               alt={`${testimonial.author}'s picture`}
-              className="w-32 h-32 md:w-40 md:h-40 rounded-full mb-8 border-4 border-white-1000 mx-auto mt-0 p-2"
+              className="w-32 h-32 md:w-40 md:h-40 rounded-full mb-8 border-4 border-[#000435] dark:border-white mx-auto mt-0 p-2  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"
             />
-            <p className="text-lg md:text-2xl italic mb-4 md:mb-6 text-center">"{testimonial.quote}"</p>
-            <h4 className="text-base mt-4 md:mt-6 md:text-xl font-semibold text-center text-white-700">- {testimonial.author}</h4>
+            <p className="text-lg md:text-2xl italic mb-4 md:mb-6 text-center  text-[#000435] bg-white dark:text-white dark:bg-[#000435]">"{testimonial.quote}"</p>
+            <h4 className="text-base mt-4 md:mt-6 md:text-xl font-semibold text-center text-white-700  text-[#000435] bg-white dark:text-white dark:bg-[#000435]">- {testimonial.author}</h4>
 
           </div>
         ))}
@@ -134,6 +134,3 @@ const TestimonialSlider: React.FC = () => {
 };
 
 export default TestimonialSlider;
-
-
-
