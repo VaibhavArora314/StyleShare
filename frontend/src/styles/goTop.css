@@ -1,0 +1,25 @@
+@keyframes movebtn {
+  0% {
+    transform: translateY(0px);
+  }
+  25% {
+    transform: translateY(20px);
+  }
+  50% {
+    transform: translateY(0px);
+  }
+  75% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-movebtn {
+  animation: movebtn 1.2s ease-in-out infinite;
+}
+
+.hover-stop:hover {
+  animation-play-state: paused;
+}
