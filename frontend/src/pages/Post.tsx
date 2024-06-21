@@ -12,6 +12,7 @@ import usePost from "../hooks/usePost";
 import SharePostButtons from "../components/SharePostButtons";
 import ReactionButton from "../components/ReactionButtons";
 import PostCodeWithPreview from "../components/PostCodeWithPreview";
+import bgHero from "../assets/bgHero.png";
 import {followUser,unfollowUser,getFollowStatus} from '../components/api/FollowApis';
 import { tokenState, userState } from "../store/atoms/auth";
 import { useRecoilValue } from "recoil";
@@ -186,7 +187,8 @@ const Post = () => {
   };
 
   return (
-    <div className="p-6 text-white max-w-screen-xl mx-auto">
+    <div className="-mt-10 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
+        <div className="p-6  text-[#000435] bg-white dark:text-white dark:bg-[#000435] max-w-screen-xl mx-auto" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <>
         <button
           onClick={() => window.history.back()}
@@ -194,19 +196,19 @@ const Post = () => {
         >
           <IoMdArrowRoundBack size={20} />
         </button>
-        <div className="flex flex-row content-center mb-1">
-          <h2 className="text-2xl font-semibold mr-3">{post.title}</h2>
+        <div className="flex flex-row content-center mb-1 ">
+          <h2 className="text-2xl font-semibold mr-3 ">{post.title}</h2>
           {isFavorite ? (
             <MdFavorite
               onClick={handleRemoveFromFavorite}
               size={33}
-              className="cursor-pointer text-blue-600 "
+              className="cursor-pointer text-[#fe4c4c]  "
             />
           ) : (
             <MdFavoriteBorder
               onClick={handleAddToFavorite}
               size={33}
-              className="cursor-pointer text-white"
+              className="cursor-pointer text-[#e74e4e] bg-white dark:text-white dark:bg-[#000435] "
             />
           )}
         </div>
@@ -227,7 +229,7 @@ const Post = () => {
             {post.tags.map((tag, index) => (
               <span
                 key={index}
-                className="inline-flex items-center px-2 py-1 bg-gray-700 text-sm rounded"
+                className="inline-flex items-center px-2 py-1 text-[#fff] bg-sky-400 dark:text-white dark:bg-[#838387]  text-sm rounded"
               >
                 {tag}
               </span>
@@ -266,6 +268,7 @@ const Post = () => {
         <SharePostButtons shareUrl={shareUrl} title={title} />
         <Comment />
       </>
+        </div>
     </div>
   );
 };

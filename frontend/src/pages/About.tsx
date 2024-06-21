@@ -7,7 +7,7 @@ function About() {
   const { t } = useTranslation();
 
   return (
-    <div className="w-full bg-[#000435] py-16 px-4" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div className="w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
       <div className="max-w-[1240px] mx-auto grid md:grid-cols-2">
         <img className="w-[550px] mx-auto my-4" src={about} alt="About Us" />
         <div className="flex flex-col justify-center">
@@ -17,13 +17,13 @@ function About() {
           <h1 className='md:text-4xl sm:text-3xl font-bold py-4 text-white'>
             {t('about.head1.heading')}
           </h1>
-          <p className="text-lg text-gray-300 text-justify">
+          <p className="text-lg text-[#000435] bg-white dark:text-white dark:bg-[#000435] text-justify">
             💁‍♂️ {t('about.head1.paragraph')}
           </p>
-          <p className='md:text-3xl sm:text-3xl text-2xl font-bold py-4 text-white'>
+          <p className='md:text-3xl sm:text-3xl text-2xl font-bold py-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435]'>
             🤔 {t('about.head2.heading')}
           </p>
-          <p className="text-lg text-gray-300">
+          <p className="text-lg  text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
             <span> ✅ {t('about.head2.list.l1')}</span><br />
             <span> ✅ {t('about.head2.list.l2')}</span><br />
             <span> ✅ {t('about.head2.list.l3')}</span><br />

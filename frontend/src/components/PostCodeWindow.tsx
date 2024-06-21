@@ -12,7 +12,7 @@ function PostCodeWindow({
   return (
     <>
       <div className="mb-2">
-        <div className="flex bg-gray-800 border border-gray-700 rounded">
+        <div className="flex text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-700 rounded">
           <button
             onClick={() => handleTabSwitch("html")}
             className={`px-4 py-2 ${
@@ -38,7 +38,7 @@ function PostCodeWindow({
         </div>
         <div className="">
           {activeTab === "html" ? (
-            <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96">
+            <pre className="p-4 text-[#000435] bg-sky-300 dark:text-white dark:bg-[#223bb9] border-4 border-sky-700 rounded overflow-auto max-h-96">
               <code>{codeSnippet}</code>
             </pre>
           ) : (

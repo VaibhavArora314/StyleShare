@@ -8,6 +8,7 @@ import { useRecoilValue } from 'recoil';
 import { tokenState, userState } from '../store/atoms/auth';
 import Loader from '../components/Loader';
 import { GoUnverified, GoVerified } from 'react-icons/go';
+import bgHero from "../assets/bgHero.png";
 import toast from 'react-hot-toast';
 import { RiUserFollowFill } from "react-icons/ri";
 import { RiUserUnfollowFill } from "react-icons/ri";
@@ -45,7 +46,7 @@ const ShowProfile = () => {
     };
 
     fetchUserProfile();
-  }, [id, token,user]);
+  }, [id, posts, token,user]);
 
   const handleDelete = (id: string) => {
     setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
