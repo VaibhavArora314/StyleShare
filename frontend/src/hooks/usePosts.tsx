@@ -32,22 +32,6 @@ const usePosts = ({initialPage = 1,pageSize=12,searchQuery="",tags=[]}:Props) =>
     }
   },[page,pageSize,tags,searchQuery]);
 
-  // useEffect(() => {
-  //   if (timeoutValue) clearTimeout(timeoutValue);
-
-  //   const timeout = setTimeout(fetchPosts,300);
-  //   setTimeoutValue(timeout);
-  //   // fetchPosts();
-  // }, [page,pageSize,tags,searchQuery]);
-  // useEffect(() => {
-  //   if (timeoutValue) clearTimeout(timeoutValue);
-
-  //   const timeout = setTimeout(fetchPosts,300);
-  //   setTimeoutValue(timeout);
-  //   // fetchPosts();
-  //   return () => clearTimeout(timeout);
-  // }, [page,pageSize,tags,searchQuery,fetchPosts]);
-
   useEffect(() => {
     if (timeoutValue) clearTimeout(timeoutValue);
 
