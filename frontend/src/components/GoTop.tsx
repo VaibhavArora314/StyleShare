@@ -44,7 +44,7 @@ const GoTop: React.FC = () => {
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="2"
+              strokeWidth="2"
               d="M5 15l7 -7l7 7"
             />
           </svg>

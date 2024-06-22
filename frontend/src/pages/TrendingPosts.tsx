@@ -3,17 +3,42 @@ import axios from "axios";
 import Loader from "../components/Loader";
 import PostCard from "../components/PostCard";
 import bgHero from "../assets/bgHero.png";
+import { IComment } from "../types";
 
+
+// select: {
+//   id: true,
+//   title: true,
+//   codeSnippet: true,
+//   jsCodeSnippet: true,
+//   description: true,
+//   tags: true,
+//   author: {
+//     select: {
+//       id: true,
+//       username: true,
+//       email: true,
+//     },
+//   },
+//   reactions:true,
+// },
+// });
 interface Post {
   id: string;
   title: string;
   description: string;
+  codeSnippet: string;
+  jsCodeSnippet: string;
   author: {
     id: string;
     username: string;
+    email: string;
   };
   tags: string[];
   reactions: object[];
+  comments: IComment[];
+  favoritePosts: [];
+  userReaction: 'Like' | 'Celebrate' | 'Support' | 'Love' | 'Insightful' | 'Funny' | null; 
 }
 
 const TrendingPosts = () => {
@@ -43,13 +68,13 @@ const TrendingPosts = () => {
     fetchPosts();
   }, []);
 
-  const updatePostReactions = (postId: string, totalReactions: number) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === postId ? { ...post, reactionCount: totalReactions } : post
-      )
-    );
-  };
+  // const updatePostReactions = (postId: string, totalReactions: number) => {
+  //   setPosts((prevPosts) =>
+  //     prevPosts.map((post) =>
+  //       post.id === postId ? { ...post, reactionCount: totalReactions } : post
+  //     )
+  //   );
+  // };
 
   if (loading) {
     return <Loader />;
@@ -71,9 +96,16 @@ const TrendingPosts = () => {
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {posts.map((post) => (
-            <PostCard key={post.id} post={post} onUpdateReactions={updatePostReactions} currentUser={null} />
+            <PostCard key={post.id} post={post} currentUser={null} onDelete={function (): void {
+              throw new Error("Function not implemented.");
+            } } />
           ))}
         </div>
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {posts.map((post) => (
+            <PostCard key={post.id} post={post} onUpdateReactions={updatePostReactions} currentUser={null} />
+          ))}
+        </div> */}
       </div>
     </div>
   );
