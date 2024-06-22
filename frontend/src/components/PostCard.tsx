@@ -24,7 +24,7 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
     const fetchReactions = async () => {
       try {
         const { data } = await axios.get(`/api/v1/posts/${post.id}/reactions`);
-        const formattedReactions = data.reactions.map((reaction: any) => ({
+        const formattedReactions = data.reactions.map((reaction: { type: string; _count: { type: number } }) => ({
           type: reaction.type,
           count: reaction._count.type
         }));
