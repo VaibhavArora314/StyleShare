@@ -35,10 +35,10 @@ const usePosts = ({initialPage = 1,pageSize=12,searchQuery="",tags=[]}:Props) =>
   useEffect(() => {
     if (timeoutValue) clearTimeout(timeoutValue);
 
-    const timeout = setTimeout(fetchPosts,300);
-    setTimeoutValue(timeout);
-    //fetchPosts();
-  }, []);
+    // const timeout = setTimeout(fetchPosts,300);
+    // setTimeoutValue(timeout);
+    fetchPosts();
+  }, [page,pageSize,tags,searchQuery]);
 
   const handlePreviousPage = () => {
     if (page > 1) {
@@ -74,4 +74,3 @@ const usePosts = ({initialPage = 1,pageSize=12,searchQuery="",tags=[]}:Props) =>
 };
 
 export default usePosts;
-
