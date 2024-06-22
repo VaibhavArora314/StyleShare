@@ -8,10 +8,11 @@ import { useRecoilValue } from 'recoil';
 import { tokenState, userState } from '../store/atoms/auth';
 import Loader from '../components/Loader';
 import { GoUnverified, GoVerified } from 'react-icons/go';
-import toast from 'react-hot-toast';
+import bgHero from "../assets/bgHero.png";
 import { RiUserFollowFill } from "react-icons/ri";
 import { RiUserUnfollowFill } from "react-icons/ri";
 import { followUser, unfollowUser, getFollowStatus } from '../components/api/FollowApis';
+import toast from 'react-hot-toast';
 
 const ShowProfile = () => {
   const { id } = useParams();
@@ -19,9 +20,9 @@ const ShowProfile = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const currentUser = useRecoilValue(userState);
   const { t } = useTranslation();
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const token = useRecoilValue(tokenState);
 
   useEffect(() => {
@@ -87,6 +88,7 @@ const ShowProfile = () => {
     }
   };
 
+
   if (loading) {
     return <Loader />;
   }
@@ -102,55 +104,51 @@ const ShowProfile = () => {
   };
 
   return (
-    <div className="max-w-screen-xl mx-auto p-4 text-white flex flex-col items-center">
-      <div className="w-80 bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500">
-        <div className="p-2 flex justify-end mr-2">
-          {user?.verified ? (
-            <GoVerified className="text-2xl text-white" title="Verified" />
-          ) : (
-            <GoUnverified className="text-2xl text-white" title="Unverified" />
-          )}
-        </div>
-        <div className="flex flex-col items-center mb-3">
-          <img
-            src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`}
-            width={60}
-            alt="profile-pic"
-          />
-          <p className="p-4 text-xl">{user?.username}</p>
-          <p className="text-gray-200 font-normal text-sm">{user?._count.following} followers</p>
-          <p className="text-sky-400 flex items-center">
-            <span className="ml-2 text-base font-semibold">Joined: {formatDate(user?.createdAt)}</span>
-          </p>
-        </div>
-      </div>
-      {user?.id && currentUser?.id && currentUser?.id !== user?.id && (
+    <div className="-mt-5 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
+        <div className="max-w-screen-xl mx-auto p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] flex flex-col items-center"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <div className="w-80 text-[#000435] bg-white dark:text-white dark:bg-[#000435] backdrop-blur-sm rounded-xl p-3 border border-sky-500">
+            <div className="p-2 flex justify-end mr-2">
+              {
+                user?.verified ?
+                  <GoVerified className="text-2xl text-[#000435] bg-white dark:text-white dark:bg-[#000435]" title="Verified" />
+                  :
+                  <GoUnverified className="text-2xl text-[#000435] bg-white dark:text-white dark:bg-[#000435]" title="Unverified" />
+              }
+            </div>
+            <div className="flex flex-col items-center mb-3">
+              <img src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} width={60} alt="profile-pic" />
+              <p className="p-4 text-xl">{user?.username}</p>
+              <p className="text-[#000435] font-semibold text-sm  dark:text-white">{user?._count.following} followers</p>
+              <p className="text-sky-400 flex items-center">
+              <span className="ml-2 text-base font-semibold">Joined: {formatDate(user?.createdAt)}</span>
+            </p>          
+            </div>
+          </div>
+          {user?.id && currentUser?.id && currentUser?.id !== user?.id && (
         isFollowing ? (
           <button
-            className="mt-4 flex font-semibold py-2 px-2 bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500 hover:bg-blue-900"
+            className="text-white mt-4 flex font-semibold py-2 px-2 bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500 hover:bg-blue-900"
             onClick={() => handleUnfollow(user.id)}
           >
             <RiUserUnfollowFill size={23} className='mr-1' /> Unfollow {user?.username}
           </button>
         ) : (
           <button
-            className="mt-4 flex font-semibold py-2 px-2 bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500 hover:bg-blue-900"
+            className="text-white mt-4 flex font-semibold py-2 px-2 bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500 hover:bg-blue-900"
             onClick={() => handleFollow(user.id)}
           >
             <RiUserFollowFill size={23} className='mr-1' /> Follow {user?.username}
           </button>
         )
       )}
-      <div className="mt-6 w-full">
-        <h4 className="font-semibold">
-          {t("leaderboard.posts")} ( {user?.posts.length} )
-        </h4>
-        <div className="mt-6 mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
-          {user?.posts.map((post) => (
-            <PostCard key={post.id} post={post} onDelete={handleDelete} currentUser={currentUser} />
-          ))}
+          <div className="mt-8 w-full">
+            <h4 className="font-semibold">{t("leaderboard.posts")} ( {user?.posts.length} )</h4>
+            <div className="mt-6 mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
+
+              {user?.posts.map(post => <PostCard key={post.id} post={post} onDelete={handleDelete} currentUser={currentUser} />)}
+            </div>
+          </div>
         </div>
-      </div>
     </div>
   );
 };

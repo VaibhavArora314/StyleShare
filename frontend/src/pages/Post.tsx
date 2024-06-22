@@ -271,11 +271,11 @@ const Post = () => {
           >
             {t("postdet.user")}: @{post.author.username}
           </button>
-          <p className="text-gray-200 font-normal text-sm">{post.author.totalFollowers} followers</p>
+          <p className="text-[#000435] font-semibold text-sm  dark:text-white">{post.author.totalFollowers} followers</p>
           {currentUser?.id && post.author?.id &&  currentUser?.id !== post.author?.id && (
             isFollowing ? (
               <button
-                className="mt-4 flex font-semibold py-2 px-2 bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500 hover:bg-blue-900"
+                className="mt-4 flex font-semibold py-2 px-2 text-white bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500 hover:bg-blue-900"
                 onClick={() => handleUnfollow(post.author.id)}
               >
                 <RiUserUnfollowFill size={23} className='mr-1' /> Unfollow {post.author.username}

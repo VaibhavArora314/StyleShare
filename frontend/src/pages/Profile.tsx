@@ -102,7 +102,6 @@ const Profile = ()=> {
     <>
       <div className="-mt-5 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
         <div className="w-full max-w-screen-xl mx-auto p-4  flex flex-col items-center  text-[#000435] bg-white dark:text-white dark:bg-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
-
           <div className="w-80   text-[#000435] bg-white dark:text-white dark:bg-[#000435] backdrop-blur-sm rounded-xl p-3 border border-sky-500" >
             <div className="p-2 flex justify-end mr-2 ">
               {
@@ -115,7 +114,7 @@ const Profile = ()=> {
             <div className="flex flex-col items-center mb-3">
               <img src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} width={60} alt="profile-pic" />
               <p className="p-4 text-xl">{user?.username}</p>
-              <p className="text-gray-200 font-normal text-sm">{user?._count.following} followers</p>
+              <p className="text-[#000435] font-semibold text-sm  dark:text-white">{user?._count.following} followers</p>
             <p className="text-sky-400 flex items-center "><MdOutlineMailOutline className="text-xl " /> 
             <span className="ml-2 text-sm">{user?.email}</span>
             </p>
