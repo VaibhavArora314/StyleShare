@@ -15,16 +15,19 @@
 }
 .text-typing {
   font-size: medium; /* Default font size */
+  color:blueviolet;
 }
 
 @media (max-width: 320px) {
   .text-typing {
     font-size: large; /* Font size for screens up to 320px */
+    color:blueviolet;
   }
 }
 
 @media (min-width: 321px) and (max-width: 425px) {
   .text-typing {
+    color:blueviolet;
     font-size: x-large; /* Font size for screens between 321px and 425px */
   }
 }
@@ -32,5 +35,6 @@
 @media (min-width: 426px) and (max-width: 768px) {
   .text-typing {
     font-size: xx-large; /* Font size for screens between 426px and 768px */
+    color:blueviolet;
   }
 }

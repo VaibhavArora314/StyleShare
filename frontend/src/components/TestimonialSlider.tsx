@@ -121,7 +121,7 @@ const TestimonialSlider: React.FC = () => {
             <img
               src={testimonial.image}
               alt={`${testimonial.author}'s picture`}
-              className="w-32 h-32 md:w-40 md:h-40 rounded-full mb-8 border-4 border-[#000435] dark:border-white mx-auto mt-0 p-2  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"
+              className="w-32 h-32 md:w-40 md:h-40 rounded-full mb-8 border-4 border-[#c737fb] dark:border-white mx-auto mt-0 p-2  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"
             />
             <p className="text-lg md:text-2xl italic mb-4 md:mb-6 text-center  text-[#000435] bg-white dark:text-white dark:bg-[#000435]">"{testimonial.quote}"</p>
             <h4 className="text-base mt-4 md:mt-6 md:text-xl font-semibold text-center text-white-700  text-[#000435] bg-white dark:text-white dark:bg-[#000435]">- {testimonial.author}</h4>

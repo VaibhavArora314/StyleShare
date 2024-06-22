@@ -30,8 +30,9 @@ import { Tooltip } from 'react-tooltip'
 import EditPost from "./pages/EditPost";
 import useTheme from './hooks/useTheme';
 import CodeEditor from "./pages/CodeEditor";
-// import axios from "axios";
-// axios.defaults.baseURL = "http://localhost:3001/";
+import TrendingPosts from "./pages/TrendingPosts";
+import axios from "axios";
+axios.defaults.baseURL = "http://localhost:3001/";
 
 
 function App() {
@@ -40,7 +41,6 @@ function App() {
     <BrowserRouter>
       <RecoilRoot>
         <React.Suspense fallback={<Loader />}>
-
           <GoTop/>
           <div style={{ backgroundColor: theme === 'light' ? '#fff' : '#000435', color: theme === 'light' ? '#000435' : '#fff'}}>
             <Navbar theme={theme} toggleTheme={toggleTheme}  />
@@ -49,8 +49,8 @@ function App() {
               <Routes>
                 <Route path="/app" element={<Home />} />
                 <Route path="/app/posts/:id" element={<Post />} />
-                <Route path="/app/posts" element={<Posts    />} />
-                <Route path="/app/profile/:id" element={<ShowProfile/>} />
+                <Route path="/app/posts" element={<Posts />} />
+                <Route path="/app/profile/:id" element={<ShowProfile />} />
                 <Route
                   path="/app/signin"
                   element={
@@ -71,7 +71,7 @@ function App() {
                   path="/app/new-post"
                   element={
                     <AuthenticatedRoute>
-                      <NewPost  />
+                      <NewPost />
                     </AuthenticatedRoute>
                   }
                 />
@@ -87,7 +87,7 @@ function App() {
                   path="/app/profile"
                   element={
                     <AuthenticatedRoute>
-                      <Profile  />
+                      <Profile />
                     </AuthenticatedRoute>
                   }
                 />
@@ -108,13 +108,11 @@ function App() {
                   }
                 />
                 <Route
-                path="/app/leaderboard"
-                  element={
-                      <LeaderBoard   />
-                  }
+                  path="/app/leaderboard"
+                  element={<LeaderBoard />}
                 />
                 <Route
-                path="/app/code"
+                  path="/app/code"
                   element={
                     <AuthenticatedRoute>
                       <CodeEditor />
@@ -123,23 +121,21 @@ function App() {
                 />
                 <Route
                   path="/app/contact-us"
-                  element={
-                    <ContactUs />
-                  }
+                  element={<ContactUs />}
                 />
                 <Route
                   path="/app/about"
-                  element={
-                    <About />
-                  }
+                  element={<About />}
                 />
                 <Route
                   path="/app/policy"
-                  element={
-                    <Policy />
-                  }
+                  element={<Policy />}
                 />
-                <Route path="*" element={<PageNotFound/>} />
+                <Route
+                  path="/app/trending-posts"
+                  element={<TrendingPosts />}
+                />
+                <Route path="*" element={<PageNotFound />} />
               </Routes>
             </div>
             <Footer />
