@@ -26,6 +26,19 @@ model User {
   comments     Comment[] @relation("userComments")
   favorites    Favorite[] @relation("userFavorites")
   reactions    Reaction[]
+  following    Follow[] @relation("following")
+  followers    Follow[] @relation("followers")
+}
+
+model Follow {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  followerId   String   @db.ObjectId
+  followingId  String   @db.ObjectId
+  follower     User     @relation("followers", fields: [followerId], references: [id])
+  following    User     @relation("following", fields: [followingId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([followerId, followingId])
 }
 
 model Post {

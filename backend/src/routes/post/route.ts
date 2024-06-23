@@ -30,8 +30,6 @@ postRouter.get('/all/leaderboard', getLeaderboardController);
 
 postRouter.delete('/delete/:id', authMiddleware, deletePostController); 
 
-postRouter.post('/customize', aiCustomization);
-
 postRouter.post('/:id/react', authMiddleware, reactToPostController);
 
 postRouter.delete('/:id/react', authMiddleware, removeReactionController);

@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { UserAuthRequest } from "../../helpers/types";
 import { createPostSchema } from "./zodSchema";
 import prisma from "../../db";
-import {GoogleGenerativeAI} from '@google/generative-ai'
 
 export const createPostController = async (
   req: UserAuthRequest,
@@ -186,6 +185,11 @@ export const getPostController = async (req: Request, res: Response) => {
           select: {
             id: true,
             username: true,
+            following: {
+              select: {
+                id: true
+              }
+            }
           },
         },
         comments: true
@@ -193,17 +197,26 @@ export const getPostController = async (req: Request, res: Response) => {
     });
 
     if (!post) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "No such post exists!",
       });
     }
 
+    const totalFollowers = post.author.following.length;
+
     res.status(200).json({
-      post,
+      post: {
+        ...post,
+        author: {
+          ...post.author,
+          totalFollowers,
+        },
+      },
     });
   } catch (error) {
-    res.status(411).json({
-      error: "No such post exists!",
+    console.error(error);
+    res.status(500).json({
+      error: "Internal server error!",
     });
   }
 };
@@ -643,48 +656,6 @@ const getCodeSnippetById = async (id: string) => {
     select: { codeSnippet: true },
   });
   return post?.codeSnippet || "";
-};
-
-export const aiCustomization = async (req: UserAuthRequest, res: Response) => {
-  try {
-    const { id, query } = req.body;
-
-    if (!id || !query) {
-      console.error("ID and query are required", { id, query });
-      return res.status(400).json({ error: "ID and query are required" });
-    }
-
-    const originalCodeSnippet = await getCodeSnippetById(id);
-
-    if (!originalCodeSnippet) {
-      console.error("Code snippet not found for id:", id);
-      return res.status(404).json({ error: "Code snippet not found" });
-    }
-
-    let key = process.env.API_KEY
-
-    if (!key) {
-      throw new Error("API_KEY is not defined in the environment variables.");
-    }
-
-    const genAI = new GoogleGenerativeAI(key);
-
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-    const prompt = `This is my tailwind css code: ${originalCodeSnippet}\n\n I want you to modify it and put ${query}\n\n and also write the code in vs code format like one below other tag and just give me code don't explain it.`
-
-    const result = await model.generateContent(prompt);
-
-    const response = await result.response;
-
-    const text = response.text();
-
-    res.json({ customCode: text });
-
-  } catch (error) {
-    console.error('Failed to customize the code', error);
-    res.status(500).json({ error: "Failed to customize the code" });
-  }
 };
 
 export const reactToPostController = async (req: UserAuthRequest, res: Response) => {
