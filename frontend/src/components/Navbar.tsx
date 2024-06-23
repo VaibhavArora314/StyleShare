@@ -99,11 +99,11 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                 {t("navbar.links.leaderboard")}
               </Link>
             </li>
-            <li className="mt-2">
+            {/* <li className="mt-2">
               <Link to="/app/trending-posts" className={getNavLinkClass("/app/trending-posts")} onClick={closeMenu}>
                 {t("Trending")}
               </Link>
-            </li>
+            </li> */}
             {!isLoggedIn ? (
               <div className="flex flex-col lg:flex-row lg:space-x-4">
                 <li className="mb-2 lg:mb-0">

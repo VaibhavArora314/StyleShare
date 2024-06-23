@@ -63,7 +63,7 @@ const TrendingPosts = () => {
   }
 
   return (
-    <div className=" flex items-center justify-center text-[#000435] bg-white dark:text-white dark:bg-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div className="w-full flex items-center justify-center text-[#000435] bg-white dark:text-white dark:bg-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="p-6 max-w-screen-xl w-full bg-white dark:bg-[#000435] rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold mb-4 text-[#c050f8]  dark:text-white text-center">
           Trending Posts
