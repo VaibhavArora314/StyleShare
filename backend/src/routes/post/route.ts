@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authMiddleware from "../../middleware/auth"
-import { aiCustomization, createCommentController, createPostController, deletePostController, favoritePostController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostReactionsController, getPostsWithPagination, getUserReactionController, reactToPostController, removeReactionController, unfavoritePostController, updatePostController ,getPostsController,getTrendingPostsController} from "./controller";
+import { createCommentController, createPostController, deletePostController, favoritePostController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostReactionsController, getPostsWithPagination, getUserReactionController, reactToPostController, removeReactionController, unfavoritePostController, updatePostController ,getPostsController,getTrendingPostsController} from "./controller";
 
 const postRouter = Router();
 
