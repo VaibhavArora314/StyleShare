@@ -10,16 +10,17 @@ export interface IPost {
   title: string;
   description: string;
   codeSnippet: string;
+  jsCodeSnippet: string;
   tags: string[];
   author: {
     id: string;
     username: string;
     email: string;
+    totalFollowers:number
   },
-  likes: number;
-  dislikes: number;
   comments: IComment[];
-  favoritePosts: []
+  favoritePosts: [];
+  userReaction: 'Like' | 'Celebrate' | 'Support' | 'Love' | 'Insightful' | 'Funny' | null; 
 }
 
 export interface IUser {
@@ -27,8 +28,13 @@ export interface IUser {
   username: string;
   email: string;
   verified: boolean;
+  createdAt:string;
   posts: IPost[];
   favoritePosts?: IPost[]; 
+  isFollowing: boolean;
+  _count: {
+    following: number
+  }
 }
 
 export interface ILeaderboardUser {

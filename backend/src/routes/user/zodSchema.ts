@@ -29,3 +29,9 @@ export const googleSchema = zod.object({
   email:zod.string().email(),
   password:zod.string()
 })
+export const contactUsSchema = zod.object({
+  name: zod.string().min(1, "Name is required"),
+  email: zod.string().email("Invalid email address"), 
+  subject: zod.string().min(1, "Subject is required"),
+  message: zod.string().min(1, "Message is required"),
+});

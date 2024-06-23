@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import { UserAuthRequest } from "../../helpers/types";
 import { createPostSchema } from "./zodSchema";
 import prisma from "../../db";
-import axios from "axios";
-import {GoogleGenerativeAI} from '@google/generative-ai'
 
 export const createPostController = async (
   req: UserAuthRequest,
@@ -52,6 +50,7 @@ export const createPostController = async (
       data: {
         title: data.title,
         codeSnippet: data.codeSnippet,
+        jsCodeSnippet: data.jsCodeSnippet,
         description: data.description,
         tags: data.tags,
         authorId: userId,
@@ -60,6 +59,7 @@ export const createPostController = async (
         id: true,
         title: true,
         codeSnippet: true,
+        jsCodeSnippet: true,
         description: true,
         tags: true,
         author: {
@@ -89,7 +89,7 @@ export const updatePostController = async (req: UserAuthRequest, res: Response) 
   try {
     const userId = req.userId;
     const postId = req.params.id;
-    const { title, codeSnippet, description, tags } = req.body;
+    const { title, codeSnippet, jsCodeSnippet, description, tags } = req.body;
 
     if (!userId) {
       return res.status(403).json({ error: "Invalid user" });
@@ -139,6 +139,7 @@ export const updatePostController = async (req: UserAuthRequest, res: Response) 
       data: {
         title,
         codeSnippet,
+        jsCodeSnippet,
         description,
         tags,
       },
@@ -146,6 +147,7 @@ export const updatePostController = async (req: UserAuthRequest, res: Response) 
         id: true,
         title: true,
         codeSnippet: true,
+        jsCodeSnippet: true,
         description: true,
         tags: true,
       },
@@ -174,6 +176,7 @@ export const getPostController = async (req: Request, res: Response) => {
         id: true,
         title: true,
         codeSnippet: true,
+        jsCodeSnippet: true,
         description: true,
         tags: true,
         likes: true,
@@ -182,6 +185,11 @@ export const getPostController = async (req: Request, res: Response) => {
           select: {
             id: true,
             username: true,
+            following: {
+              select: {
+                id: true
+              }
+            }
           },
         },
         comments: true
@@ -189,17 +197,26 @@ export const getPostController = async (req: Request, res: Response) => {
     });
 
     if (!post) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "No such post exists!",
       });
     }
 
+    const totalFollowers = post.author.following.length;
+
     res.status(200).json({
-      post,
+      post: {
+        ...post,
+        author: {
+          ...post.author,
+          totalFollowers,
+        },
+      },
     });
   } catch (error) {
-    res.status(411).json({
-      error: "No such post exists!",
+    console.error(error);
+    res.status(500).json({
+      error: "Internal server error!",
     });
   }
 };
@@ -210,6 +227,7 @@ export const getPostsController = async (req: Request, res: Response) => {
       id: true,
       title: true,
       codeSnippet: true,
+      jsCodeSnippet: true,
       description: true,
       tags: true,
       author: {
@@ -231,8 +249,23 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string);
     const pageSize = parseInt(req.query.pageSize as string);
+    const searchQuery = req.query.searchQuery as string || "";
+    const tags = req.query.tags ? (req.query.tags as string).split(',') : [];
+    console.log(tags)
 
-    const totalPosts = await prisma.post.count();
+     const totalPosts = await prisma.post.count({
+      where: {
+        AND: [
+          {
+            OR: [
+              { title: { contains: searchQuery, mode: 'insensitive' } },
+              { description: { contains: searchQuery, mode: 'insensitive' } }
+            ]
+          },
+          tags.length > 0 ? { tags: { hasSome: tags } } : {}
+        ]
+      }
+    });
     const totalPages = Math.ceil(totalPosts / pageSize);
 
     const posts = await prisma.post.findMany({
@@ -242,6 +275,7 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
         id: true,
         title: true,
         codeSnippet: true,
+        jsCodeSnippet: true,
         description: true,
         tags: true,
         author: {
@@ -251,146 +285,25 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
           },
         },
       },
+      where: {
+        AND: [
+          {
+            OR: [
+              { title: { contains: searchQuery, mode: 'insensitive' } },
+              { description: { contains: searchQuery, mode: 'insensitive' } }
+            ]
+          },
+          tags.length > 0 ? { tags: { hasSome: tags } } : {}
+        ]
+      }
     });
-
     res.status(200).json({
       posts,
       totalPages,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Failed to fetch posts' });
-  }
-};
-
-export const likePostController = async (req: UserAuthRequest, res: Response) => {
-  try {
-    const userId = req.userId;
-    const postId = req.params.id;
-
-    if (!userId) {
-      return res.status(400).json({ error: "User ID is required." });
-    }
-
-    const interaction = await prisma.userPostInteraction.findUnique({
-      where: {
-        userId_postId: {
-          userId,
-          postId
-        }
-      }
-    });
-
-    if (interaction) {
-      if (interaction.liked) {
-        return res.status(400).json({ error: "You have already liked this post." });
-      } else {
-        await prisma.userPostInteraction.update({
-          where: { id: interaction.id },
-          data: { liked: true, disliked: false }
-        });
-        await prisma.post.update({
-          where: { id: postId },
-          data: {
-            likes: { increment: 1 },
-            dislikes: interaction.disliked ? { decrement: 1 } : undefined
-          }
-        });
-      }
-    } else {
-      await prisma.userPostInteraction.create({
-        data: {
-          userId,
-          postId,
-          liked: true,
-          disliked: false
-        }
-      });
-      await prisma.post.update({
-        where: { id: postId },
-        data: { likes: { increment: 1 } }
-      });
-    }
-
-    const post = await prisma.post.findUnique({
-      where: { id: postId },
-      select: { likes: true, dislikes: true }
-    });
-
-    res.status(200).json({
-      message: "Post liked successful",
-      likes: post?.likes,
-      dislikes: post?.dislikes
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: "Failed to like the post."
-    });
-  }
-};
-
-export const dislikePostController = async (req: UserAuthRequest, res: Response) => {
-  try {
-    const userId = req.userId;
-    const postId = req.params.id;
-
-    if (!userId) {
-      return res.status(400).json({ error: "User ID is required." });
-    }
-
-    const interaction = await prisma.userPostInteraction.findUnique({
-      where: {
-        userId_postId: {
-          userId,
-          postId
-        }
-      }
-    });
-
-    if (interaction) {
-      if (interaction.disliked) {
-        return res.status(400).json({ error: "You have already disliked this post." });
-      } else {
-        await prisma.userPostInteraction.update({
-          where: { id: interaction.id },
-          data: { liked: false, disliked: true }
-        });
-        await prisma.post.update({
-          where: { id: postId },
-          data: {
-            dislikes: { increment: 1 },
-            likes: interaction.liked ? { decrement: 1 } : undefined
-          }
-        });
-      }
-    } else {
-      await prisma.userPostInteraction.create({
-        data: {
-          userId,
-          postId,
-          liked: false,
-          disliked: true
-        }
-      });
-      await prisma.post.update({
-        where: { id: postId },
-        data: { dislikes: { increment: 1 } }
-      });
-    }
-
-    const post = await prisma.post.findUnique({
-      where: { id: postId },
-      select: { dislikes: true, likes: true }
-    });
-
-    res.status(200).json({
-      message: "Post disliked successful",
-      dislikes: post?.dislikes,
-      likes: post?.likes
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: "Failed to dislike the post."
-    });
   }
 };
 
@@ -596,6 +509,7 @@ export const getFavoritePostsController = async (req: UserAuthRequest, res: Resp
             id: true,
             title: true,
             codeSnippet: true,
+            jsCodeSnippet: true,
             description: true,
             tags: true,
             author: {
@@ -682,13 +596,13 @@ export const deletePostController = async (req: UserAuthRequest, res: Response) 
       return res.status(403).json({ error: { message: "You are not authorized to delete this post" } });
     }
 
-    await prisma.userPostInteraction.deleteMany({
-      where: { postId }
-    });
     await prisma.comment.deleteMany({
       where: { postId }
     });
     await prisma.favorite.deleteMany({
+      where: { postId }
+    });
+    await prisma.reaction.deleteMany({
       where: { postId }
     });
 
@@ -711,44 +625,155 @@ const getCodeSnippetById = async (id: string) => {
   return post?.codeSnippet || "";
 };
 
-export const aiCustomization = async (req: UserAuthRequest, res: Response) => {
+export const reactToPostController = async (req: UserAuthRequest, res: Response) => {
   try {
-    const { id, query } = req.body;
+    const userId = req.userId;
+    const postId = req.params.id;
+    const { type } = req.body;
 
-    if (!id || !query) {
-      console.error("ID and query are required", { id, query });
-      return res.status(400).json({ error: "ID and query are required" });
+    if (!userId) {
+      return res.status(403).json({ error: { message: "Invalid user" } });
     }
 
-    const originalCodeSnippet = await getCodeSnippetById(id);
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        verified: true,
+      },
+    });
 
-    if (!originalCodeSnippet) {
-      console.error("Code snippet not found for id:", id);
-      return res.status(404).json({ error: "Code snippet not found" });
+    if (!user?.verified) {
+      return res.status(403).json({
+        error: { message: "User is not verified!" },
+      });
     }
 
-    let key = process.env.API_KEY
+    const existingReaction = await prisma.reaction.findUnique({
+      where: {
+        userId_postId: { userId, postId },
+      },
+    });
 
-    if (!key) {
-      throw new Error("API_KEY is not defined in the environment variables.");
+    if (existingReaction) {
+      const updatedReaction = await prisma.reaction.update({
+        where: { id: existingReaction.id },
+        data: { type },
+      });
+      res.status(200).json({ message: "Reaction updated", reaction: updatedReaction });
+    } else {
+      const newReaction = await prisma.reaction.create({
+        data: {
+          userId,
+          postId,
+          type,
+        },
+      });
+      res.status(201).json({ message: "Reaction added", reaction: newReaction });
     }
-
-    const genAI = new GoogleGenerativeAI(key);
-
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
-    
-    const prompt = `This is my tailwind css code: ${originalCodeSnippet}\n\n I want you to modify it and put ${query}\n\n and also write the code in vs code format like one below other tag and just give me code don't explain it.`
-    
-    const result = await model.generateContent(prompt);
-
-    const response = await result.response;
-
-    const text = response.text();
-
-    res.json({ customCode: text });
-
   } catch (error) {
-    console.error('Failed to customize the code', error);
-    res.status(500).json({ error: "Failed to customize the code" });
+    res.status(500).json({ error: "Failed to react to the post" });
+  }
+};
+
+export const removeReactionController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+
+    if (!userId) {
+      return res.status(403).json({ error: { message: "Invalid user" } });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        verified: true,
+      },
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({
+        error: { message: "User is not verified!" },
+      });
+    }
+
+    const existingReaction = await prisma.reaction.findUnique({
+      where: {
+        userId_postId: { userId, postId },
+      },
+    });
+
+    if (existingReaction) {
+      await prisma.reaction.delete({
+        where: { id: existingReaction.id },
+      });
+      res.status(200).json({ message: "Reaction removed" });
+    } else {
+      res.status(404).json({ error: "No reaction to remove" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to remove reaction" });
+  }
+};
+
+export const getUserReactionController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+
+    if (!userId) {
+      return res.status(403).json({ error: { message: "Invalid user" } });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        verified: true,
+      },
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({
+        error: { message: "User is not verified!" },
+      });
+    }
+
+    const reaction = await prisma.reaction.findUnique({
+      where: {
+        userId_postId: { userId, postId },
+      },
+    });
+
+    if (reaction) {
+      res.status(200).json({ reaction });
+    } else {
+      res.status(404).json({ message: "No reaction found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch reaction" });
+  }
+};
+
+export const getPostReactionsController = async (req: Request, res: Response) => {
+  try {
+    const postId = req.params.id;
+
+    const reactions = await prisma.reaction.groupBy({
+      by: ['type'],
+      where: { postId },
+      _count: {
+        type: true,
+      },
+    });
+
+    res.status(200).json({ reactions });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch reactions" });
   }
 };

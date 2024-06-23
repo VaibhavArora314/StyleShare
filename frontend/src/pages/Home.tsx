@@ -7,20 +7,24 @@ import HomePagePost from "./HomePagePosts";
 import { TypewriterEffectSmoothDemo } from "../components/HeroText";
 import MagicButton from "../components/ui/MagicButton";
 import { useTranslation } from 'react-i18next';
+import TestimonialSlider from "../components/TestimonialSlider";
+import FAQ from "../components/FAQ";
+import Showcase from "../components/Showcase";
+import Features from "../components/Features";
 
 function Home() {
   const { t } = useTranslation();
   
   return (      
-  <div className="min-h-screen bg-[#000435] text-white" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        <div className="w-full bg-[#000435] py-16 px-4" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+  <div className="-mt-7 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
+        <div className="w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="max-w-[1240px] mx-auto grid md:grid-cols-2">
             <div className="flex flex-col justify-center">
               <h1>
                 <TypewriterEffectSmoothDemo />
               </h1>
               <h1 className='md:text-3xl sm:text-3xl font-medium py-2'>{t("hero.subheading")}</h1>
-              <p className="text-lg text-gray-300 font-semibold">
+              <p className="text-lg  text-[#000435] bg-white dark:text-white dark:bg-[#000435] font-semibold">
                 <span> ✅ {t("hero.list.first")}</span><br />
                 <span> ✅ {t("hero.list.second")}</span><br />
                 <span> ✅ {t("hero.list.third")}</span><br />
@@ -28,15 +32,19 @@ function Home() {
               </p>
               <Link
                 to="/app/posts"
-                className='text-white mt-9'>
+                className=' text-[#000435] bg-white dark:text-white dark:bg-[#000435] mt-9'>
                 <MagicButton title={t("hero.button")} />
               </Link>
             </div>
             <img className="w-[600px] imgAnimate" src={hero} alt="About Us" />
           </div>
         </div>
+        <Features/>
         <About />
+        <Showcase/>
         <HomePagePost />
+        <TestimonialSlider/>
+        <FAQ/>
       </div>
   );
 }

@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import MonacoEditor from '@monaco-editor/react';
-import { CiLight, CiDark } from 'react-icons/ci';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
+import toast, { Toaster } from 'react-hot-toast';
+import { FaCopy } from 'react-icons/fa';
+import bgHero from "../assets/bgHero.png";
 
-const CodeEditor = () => {
+const CodeEditor = ()=> {
   const initialCode = `<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-blue-400 py-6 sm:py-12">
     <div class="relative px-6 pt-10 pb-8 shadow-2xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
       <div class="mx-auto max-w-md text-white">
@@ -42,12 +44,11 @@ const CodeEditor = () => {
     </div>
   </div>`;
   const [code, setCode] = useState(initialCode);
-  const [theme, setTheme] = useState<'light' | 'dark'>(
-    () => (localStorage.getItem('theme') as 'light' | 'dark') || 'dark'
-  );
+
   const outputRef = useRef<HTMLIFrameElement>(null);
   const navigate = useNavigate();
   const { t } = useTranslation();
+ 
 
   const updateOutput = (code: string) => {
     const doc = `
@@ -70,61 +71,70 @@ const CodeEditor = () => {
     updateOutput(code);
   }, [code]);
 
-  useEffect(() => {
-    localStorage.setItem('theme', theme);
-  }, [theme]);
 
   const handlePublish = () => {
     navigate('/app/new-post', { state: { codeSnippet: code } });
   };
 
+  const handleCopyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      toast.success('Code copied to clipboard!');
+    } catch (err) {
+      toast.error('Failed to copy code!');
+      console.error('Failed to copy code: ', err);
+    }
+  };
+
   return (
-    <div className='flex flex-col h-screen -mt-28 sm:-mt-8'>
-      <nav className={`bg-${theme === 'dark' ? 'gray-900' : 'white'} text-white p-16 sm:p-5 mt-20 sm:mt-1`}>
-        <div className="flex justify-between items-center">
-          <div className="flex-1"></div>
-          <button 
-            onClick={handlePublish}
-            className='p-2 rounded cursor-pointer focus:outline-none bg-sky-500 hover:bg-sky-600 mr-1'>
-            {t("share")}
-          </button>
-          <div className="flex-1 flex justify-end">
-            <button
-              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-              className={`p-2 rounded cursor-pointer focus:outline-none bg-${theme === 'dark' ? 'gray-600 text-white hover:bg-gray-700' : 'gray-200 text-black hover:bg-gray-300'}`}
-            >
-              {theme === 'light' ? <CiDark className="text-xl" /> : <CiLight className="text-xl" />}
+
+      <div className='flex flex-col h-screen -mt-28 sm:-mt-8'style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <Toaster />
+        <nav className={`text-[#000435] bg-white dark:text-white dark:bg-[#000435] p-16 sm:p-5 mt-20 sm:mt-1`}style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <div className="flex justify-between items-center">
+            <div className="flex-1"></div>
+            <button 
+              onClick={handlePublish}
+              className='p-2 rounded cursor-pointer  border-2 font-mono border-red-200 focus:outline-none text-[#801fc4] bg-white dark:text-white dark:bg-[#000490] hover:bg-sky-500 hover:text-white dark:hover:text-white dark:hover:bg-sky-500'>
+              {t("share")}
             </button>
+            <div className="flex-1 flex justify-end">
+              <button 
+                onClick={handleCopyToClipboard}
+                className='p-2 rounded cursor-pointer  border-2 font-mono border-red-200 focus:outline-none text-[#801fc4] bg-white dark:text-white dark:bg-[#000490] hover:bg-sky-500 hover:text-white dark:hover:text-white dark:hover:bg-sky-500 '>
+                  <FaCopy />
+              </button>
+            </div>
+          </div>
+        </nav>
+        <div className="flex flex-col lg:flex-row flex-1">
+          <div className="w-full lg:w-1/2 h-1/2 lg:h-full">
+            <MonacoEditor
+              height="100%"
+              language="html"
+              theme={ 'vs-dark'}
+              value={code}
+              onChange={(newValue) => {
+                if (newValue !== undefined) {
+                  setCode(newValue);
+                }
+              }}
+            />
+          </div>
+          <div className="w-full lg:w-1/2 h-1/2 lg:h-full">
+            <iframe
+              ref={outputRef}
+              style={{
+                width: '100%',
+                height: '100%',
+                border: 'none',
+                backgroundColor: "white"
+              }}
+            ></iframe>
           </div>
         </div>
-      </nav>
-      <div className="flex flex-col lg:flex-row flex-1">
-        <div className="w-full lg:w-1/2 h-1/2 lg:h-full">
-          <MonacoEditor
-            height="100%"
-            language="html"
-            theme={theme === 'light' ? 'vs-light' : 'vs-dark'}
-            value={code}
-            onChange={(newValue) => {
-              if (newValue !== undefined) {
-                setCode(newValue);
-              }
-            }}
-          />
-        </div>
-        <div className="w-full lg:w-1/2 h-1/2 lg:h-full">
-          <iframe
-            ref={outputRef}
-            style={{
-              width: '100%',
-              height: '100%',
-              border: 'none',
-              backgroundColor: "white"
-            }}
-          ></iframe>
-        </div>
       </div>
-    </div>
+
   );
 };
 
