@@ -16,6 +16,11 @@ import bgHero from "../assets/bgHero.png";
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { BsFileEarmarkZipFill } from "react-icons/bs";
+import {followUser,unfollowUser,getFollowStatus} from '../components/api/FollowApis';
+import { tokenState, userState } from "../store/atoms/auth";
+import { useRecoilValue } from "recoil";
+import { RiUserFollowFill } from "react-icons/ri";
+import { RiUserUnfollowFill } from "react-icons/ri";
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
@@ -23,9 +28,30 @@ const Post = () => {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
   const { t } = useTranslation();
+  const token = useRecoilValue(tokenState);
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const currentUser = useRecoilValue(userState);
 
   const shareUrl = window.location.href;
   const title = `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`;
+
+
+  useEffect(() => {
+    const fetchFollowStatus = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          return;
+        }
+        const followStatusResponse = await getFollowStatus(post.author.id, token!);
+        setIsFollowing(followStatusResponse.isFollowing);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchFollowStatus();
+  }, [post?.author.id, token]);
 
   const handleAddToFavorite = async () => {
     try {
@@ -101,6 +127,42 @@ const Post = () => {
     const favoriteStatus = localStorage.getItem(`post-${id}-favorite`);
     setIsFavorite(favoriteStatus === "true");
   }, [id]);
+
+  const handleFollow = async (userId: string) => {
+    if (!token) {
+      toast.error('Authentication token is missing');
+      return;
+    }
+    try {
+      await followUser(userId, token);
+      setIsFollowing(true);
+      toast.success('Followed successfully');
+    } catch (error: any) {
+      if (error.response && error.response.status === 403) {
+        toast.error(error.response.data.error.message || 'User is not verified!');
+      } else {
+        toast.error("Some Error occurred!")
+      }
+    }
+  };
+
+  const handleUnfollow = async (userId: string) => {
+    if (!token) {
+      toast.error('Authentication token is missing');
+      return;
+    }
+    try {
+      await unfollowUser(userId, token);
+      setIsFollowing(false);
+      toast.success('Unfollowed successfully');
+    } catch (error: any) {
+      if (error.response && error.response.status === 403) {
+        toast.error(error.response.data.error.message || 'User is not verified!');
+      } else {
+        toast.error("Some Error occurred!")
+      }
+    }
+  };
 
   const handleNavigation = () => {
     const token = localStorage.getItem("token");
@@ -209,6 +271,24 @@ const Post = () => {
           >
             {t("postdet.user")}: @{post.author.username}
           </button>
+          <p className="text-[#000435] font-semibold text-sm  dark:text-white">{post.author.totalFollowers} followers</p>
+          {currentUser?.id && post.author?.id &&  currentUser?.id !== post.author?.id && (
+            isFollowing ? (
+              <button
+                className="mt-4 flex font-semibold py-2 px-2 text-white bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500 hover:bg-blue-900"
+                onClick={() => handleUnfollow(post.author.id)}
+              >
+                <RiUserUnfollowFill size={23} className='mr-1' /> Unfollow {post.author.username}
+              </button>
+            ) : (
+              <button
+                className="mt-4 flex font-semibold py-2 px-2 bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500 hover:bg-blue-900"
+                onClick={() => handleFollow(post.author.id)}
+              >
+                <RiUserFollowFill size={23} className='mr-1' /> Follow {post.author.username}
+              </button>
+            )
+          )}
         </div>
         <SharePostButtons shareUrl={shareUrl} title={title} />
         <Comment />
