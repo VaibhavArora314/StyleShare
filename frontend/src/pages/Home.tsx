@@ -13,6 +13,7 @@ import Showcase from "../components/Showcase";
 import Features from "../components/Features";
 
 function Home() {
+  console.log("Home page rerendered");
   const { t } = useTranslation();
   
   return (      
