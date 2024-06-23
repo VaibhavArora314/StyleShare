@@ -4,7 +4,7 @@ import {
   userProfileController,
   userSigninController,
   userSignupController,
-  verifyOtpController,
+  verifyOtpController,google
 } from "./controller";
 import authMiddleware from "../../middleware/auth";
 
@@ -14,6 +14,7 @@ userRouter.post("/signup", userSignupController);
 
 userRouter.post("/signin", userSigninController);
 
+userRouter.post("/google",google);
 userRouter.post("/generate-otp", authMiddleware, generateOtpController);
 
 userRouter.post("/verify-otp", authMiddleware, verifyOtpController);

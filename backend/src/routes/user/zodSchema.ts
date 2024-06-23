@@ -23,3 +23,9 @@ export const signinBodySchema = zod.object({
 export const otpVerificationSchema = zod.object({
   otp: zod.number(),
 });
+
+export const googleSchema = zod.object({
+  username: zod.string(),
+  email:zod.string().email(),
+  password:zod.string()
+})
