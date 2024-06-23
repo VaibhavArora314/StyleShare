@@ -1,21 +1,23 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import axios, { AxiosError } from "axios";
 import { IPost } from "../types";
-import { userState } from "../store/atoms/auth";
+import { tokenState, userState } from "../store/atoms/auth";
 import { useRecoilValue } from "recoil";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import PostCodeWithPreview from "../components/PostCodeWithPreview";
 import bgHero from "../assets/bgHero.png";
-import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const CustomizeWithAi = () => {
   const user = useRecoilValue(userState);
+  const { id } = useParams<{ id: string }>();
   const [customCssCode, setCustomCssCode] = useState("");
   const [customJsCode, setCustomJsCode] = useState("");
   const [query, setQuery] = useState("");
   const location = useLocation();
   const post: IPost = location.state.post;
+  const token = useRecoilValue(tokenState);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
 
@@ -33,41 +35,24 @@ const CustomizeWithAi = () => {
       (async () => {
         setLoading(true);
         try {
-          const originalCodeSnippetCss = post.codeSnippet;
-          const originalCodeSnippetJs = post.jsCodeSnippet;
-
-          let key = import.meta.env.VITE_API_KEY;
-
-          if (!key) {
-            throw new Error("API_KEY is not defined in the environment variables.");
-          }
-
-          const genAI = new GoogleGenerativeAI(key);
-          const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-          const promptForCss = `This is my tailwind css code: ${originalCodeSnippetCss}\n\n
-                                I want you to modify it and put ${query}\n\n
-                                and also write the code in vs code format like one below other tag and just give me code don't explain it.`;
-          const promptForJs = `This is my Javascript code: ${originalCodeSnippetJs}\n\n
-                                I want you to modify it and put ${query}\n\n
-                                and also write the code in vs code format like one below other and just give me code don't explain it.`;
-
-          const [resultForCss, resultForJs] = await Promise.all([
-            model.generateContent(promptForCss),
-            model.generateContent(promptForJs),
-          ]);
-
-          const responseForCss = resultForCss.response;
-          const responseForJs = resultForJs.response;
-
-          const cssText = await responseForCss.text();
-          const jsText = await responseForJs.text();
-
-          setCustomCssCode(cssText);
-          setCustomJsCode(jsText);
+          const response = await axios.post(
+            "/api/v1/posts/customize",
+            { id, query },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setCustomCssCode(response.data.css);
+          setCustomJsCode(response.data.js);
           setLoading(false);
         } catch (error) {
           console.error("Failed to customize the code", error);
+          const axiosError = error as AxiosError;
+          if (axiosError.response) {
+            console.error("Error response:", axiosError.response.data);
+          }
           setLoading(false);
           throw error;
         }
