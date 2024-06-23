@@ -15,6 +15,7 @@ interface Post {
     id: string;
     username: string;
     email: string;
+    totalFollowers:number
   };
   tags: string[];
   reactions: object[];
