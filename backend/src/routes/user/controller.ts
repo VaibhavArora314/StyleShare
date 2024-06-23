@@ -5,6 +5,7 @@ import {
   otpVerificationSchema,
   signinBodySchema,
   signupBodySchema,
+  googleSchema
 } from "./zodSchema";
 import { createHash, validatePassword } from "../../helpers/hash";
 import { createJWT } from "../../helpers/jwt";
@@ -12,6 +13,54 @@ import { UserAuthRequest } from "../../helpers/types";
 import crypto from "crypto";
 import { sendVerificationEmail } from "../../helpers/mail/sendOtpMail";
 import { sendWelcomeEmail } from "../../helpers/mail/sendWelcomeMail";
+
+export const google = async (req: Request, res: Response) => {
+  try {
+    const payload = req.body;
+  const result = googleSchema.safeParse(payload);
+  const data = result.data;
+    const user = await prisma.user.findFirst({
+      where: {
+        email: req.body.email,
+      },
+    });
+    if (user) {
+      const token = createJWT({
+        id: user.id,
+      });
+      res.status(201).json({
+        message: "User logged in Successfully.",
+        token: token,
+      });
+    } else {
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+      const passwordHash = await createHash(generatedPassword);
+
+      const user = await prisma.user.create({
+        data:{
+        username:req.body.name,
+        passwordHash,
+        email: req.body.email,
+        },
+        select:{
+          id: true
+        }
+
+      });
+      await sendWelcomeEmail(req.body.email, req.body.username);
+      const token = createJWT({
+        id: user.id,
+      });
+      res.status(201).json({
+        message: "User logged in Successfully.",
+        token: token,
+      });
+  } }catch(error) {
+    console.log(error);
+  }
+};
 
 export const userSignupController = async (req: Request, res: Response) => {
   try {

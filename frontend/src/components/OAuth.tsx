@@ -7,24 +7,23 @@ import { tokenState } from "../store/atoms/auth";
 import toast from "react-hot-toast";
 import { useState } from "react";
 export default function OAuth() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    const setTokenState = useSetRecoilState(tokenState);
+    const [error, setError] = useState({
+        email: "",
+        password: "",
+        message: "",
+      });
+
     const handleGoogleClick = async ()=>{
-        const setTokenState = useSetRecoilState(tokenState);
-        const [error, setError] = useState({
-            email: "",
-            password: "",
-            message: "",
-          });
-  const navigate = useNavigate();
         try{
             const provider = new GoogleAuthProvider();
             const auth = getAuth(app);
             const result = await signInWithPopup(auth, provider);
             console.log(result);
             const response = await axios.post("/api/v1/user/google", {
-                email,
-                password,
+                email:result.user.email,
+                username:result.user.displayName,
               });
               setTokenState(response.data?.token);
             localStorage.setItem("token", response.data?.token || "");

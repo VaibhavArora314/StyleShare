@@ -239,13 +239,14 @@ const Signup = () => {
               <p className="text-sm font-semibold mb-2 text-red-600">
                 {error.password}
               </p>
-              <div className="flex justify-center">
+              <div className="flex flex-col justify-center">
                 <button
                   type="submit"
                   className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full"
                 >
                   {t("register.signup")}
                 </button>
+                <OAuth/>
               </div>
             </form>
             <p className="mt-4 text-sm text-[#000435] bg-white dark:text-white dark:bg-[#000453]">
@@ -254,21 +255,6 @@ const Signup = () => {
               {t("login.sigin")}
               </Link>
             </p>
-            <div className="flex flex-col justify-center">
-              <button
-                type="submit"
-                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full"
-              >
-                {t("register.signup")}
-              </button>
-              <OAuth/>
-            </div>
-          <p className="mt-4 text-sm text-white">
-          {t("register.alAccount")}{" "}
-            <Link to="/app/signin" className="text-blue-500">
-            {t("login.sigin")}
-            </Link>
-          </p>
         </div>
         </div>
       </section>

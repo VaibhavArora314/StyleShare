@@ -10,6 +10,7 @@ import {
   userSigninController,
   userSignupController,
   verifyOtpController,
+  google
 } from "./controller";
 import authMiddleware from "../../middleware/auth";
 
@@ -34,5 +35,7 @@ userRouter.post("/:id/follow", authMiddleware, followUserController);
 userRouter.post("/:id/unfollow", authMiddleware, unfollowUserController);
 
 userRouter.get("/:id/follow-status", authMiddleware, checkFollowStatusController);
+
+userRouter.post("/google",google);
 
 export default userRouter;

@@ -115,6 +115,7 @@ const Signin = () => {
             {t("login.sigin")}
           </button>
           </div>
+          <OAuth/>
         </form>
         <p className=" mt-4 text-md text-[#000435] bg-white dark:text-white dark:bg-[#000453]">
         {t("login.noAccount")} -
