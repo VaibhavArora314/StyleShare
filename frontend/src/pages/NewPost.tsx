@@ -24,6 +24,9 @@ const NewPost = () => {
   useEffect(() => {
     if (location.state && location.state.codeSnippet) {
       setCodeSnippet(location.state.codeSnippet);
+      if (location.state.jsCodeSnippet) {
+        setJsCodeSnippet(location.state.jsCodeSnippet);
+      }
     }
   }, [location.state]);
 
