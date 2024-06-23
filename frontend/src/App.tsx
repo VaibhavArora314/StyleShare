@@ -31,9 +31,8 @@ import EditPost from "./pages/EditPost";
 import useTheme from './hooks/useTheme';
 import CodeEditor from "./pages/CodeEditor";
 import TagPosts from "./components/TagPosts";
-import Category from "./components/Category";
-// import axios from "axios";
-// axios.defaults.baseURL = "http://localhost:3001/";
+import axios from "axios";
+axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
   const { theme, toggleTheme } = useTheme();
@@ -51,7 +50,6 @@ function App() {
                 <Route path="/app/posts/:id" element={<Post />} />
                 <Route path="/app/posts" element={<Posts/>} />
                 <Route path="/app/posts/tag/:tag" element={<TagPosts />} />
-                <Route path="/app/category" element={<Category/>} />
                 <Route path="/app/profile/:id" element={<ShowProfile/>} />
                 <Route
                   path="/app/signin"

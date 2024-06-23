@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import PostCard from "../components/PostCard";
 import { userState } from "../store/atoms/auth";
@@ -7,14 +6,36 @@ import { useRecoilValue } from "recoil";
 import { useTranslation } from "react-i18next";
 import usePosts from "../hooks/usePosts";
 import bgHero from "../assets/bgHero.png";
+import { useParams } from "react-router-dom";
 
 const TagPosts = () => {
-  const { tag } = useParams();  
+  const currentUser = useRecoilValue(userState);
+  const { tag } = useParams();
+  const {
+    posts: allPosts, // Rename posts to allPosts to preserve the original posts fetched
+    loading,
+    error,
+    page,
+    totalPages,
+    handleNextPage,
+    handlePreviousPage,
+    handlePageClick,
+    handleDelete,
+    addTag,
+    removeTag,
+    searchQuery,
+    setSearchQuery,
+    tags,
+  } = usePosts({
+    initialPage: 1,
+    pageSize: 12,
+  });
+
   const [showFilterDialog, setShowFilterDialog] = useState(false);
   const [tagInput, setTagInput] = useState("");
-  const [filterTags, setFilterTags] = useState<string[]>(tag ? [tag] : []);
   const filterRef = useRef<HTMLDivElement>(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [filterTags, setFilterTags] = useState<string[]>(tag ? [tag] : []);
+
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -23,49 +44,59 @@ const TagPosts = () => {
     }
   }, [tag]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        filterRef.current &&
-        !filterRef.current.contains(event.target as Node)
-      ) {
-        setShowFilterDialog(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [tag]);
-
   const toggleFilterDialog = () => {
     setShowFilterDialog(!showFilterDialog);
   };
 
-  const addTag = () => {
-    if (tagInput && !filterTags.includes(tagInput.toLowerCase())) {
-      setFilterTags([...filterTags, tagInput.toLowerCase()]);
+  const handleAddTag = () => {
+    if (tagInput && !tags.includes(tagInput.toLowerCase())) {
+      addTag(tagInput.toLowerCase()); // Use addTag function from usePosts
       setTagInput("");
     }
   };
 
-  const removeTag = (tagToRemove: string) => {
-    setFilterTags(filterTags.filter((tag) => tag !== tagToRemove));
+  const handleRemoveTag = (tagToRemove: string) => {
+    removeTag(tagToRemove); // Use removeTag function from usePosts
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      addTag();
+      handleAddTag();
     }
   };
 
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <div className="text-red-500 font-semibold text-lg text-center">
+        {error}
+      </div>
+    );
+  }
+
+  // Filter posts based on filterTags
+  const filteredPosts = allPosts.filter((post) =>
+    filterTags.every((tag) =>
+      post.tags.map((t) => t.toLowerCase()).includes(tag.toLowerCase())
+    )
+  );
+
   return (
-    <div className="-mt-7 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
-      <div className="max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div
+      className="-mt-7 min-h-screen text-[#000435] bg-white dark:text-white dark:bg-[#000435]"
+      style={{
+        backgroundImage: `url(${bgHero})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4">
         <h1 className="text-2xl font-semibold mb-4 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435]">
-          {t("allPosts.Posts")}
+          {tag && `${tag} `} {t("allPosts.Posts")}
         </h1>
         <div className="w-full flex justify-between mb-4 relative">
           <button
@@ -104,20 +135,20 @@ const TagPosts = () => {
                 />
               </div>
               <button
-                onClick={addTag}
+                onClick={handleAddTag}
                 className="px-4 py-2 text-white border border-gray-600 rounded hover:bg-gray-700"
               >
                 {t("allPosts.tag")}
               </button>
               <div className="mt-2 flex flex-wrap">
-                {filterTags.map((tag, index) => (
+                {tags.map((tag, index) => (
                   <div
                     key={index}
                     className="flex items-center bg-gray-700 text-white px-2 py-1 rounded mr-2 mb-2"
                   >
                     <span>{tag}</span>
                     <button
-                      onClick={() => removeTag(tag)}
+                      onClick={() => handleRemoveTag(tag)}
                       className="ml-2 focus:outline-none"
                     >
                       <svg
@@ -143,95 +174,56 @@ const TagPosts = () => {
             className="p-2 w-full max-w-xs rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <PostListWithPagination searchQuery={searchQuery} tags={filterTags} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
+          {filteredPosts.map((post, index) => (
+            <PostCard
+              key={index}
+              post={post}
+              onDelete={handleDelete}
+              currentUser={currentUser}
+            />
+          ))}
+        </div>
+        <div className="flex justify-center items-center mt-4 w-full space-x-2">
+          <button
+            onClick={handlePreviousPage}
+            disabled={page === 1}
+            className={`text-white px-4 py-2 rounded ${
+              page === 1
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+            {t("allPosts.pre")}
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageClick(i + 1)}
+              className={`text-white px-4 py-2 rounded ${
+                page === i + 1
+                  ? "bg-blue-500 text-white"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={handleNextPage}
+            disabled={page === totalPages}
+            className={`text-white px-6 py-2 rounded ${
+              page === totalPages
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+            {t("allPosts.next")}
+          </button>
+        </div>
       </div>
     </div>
   );
 };
-
-function PostListWithPagination({ searchQuery = "", tags = [] }: { searchQuery: string, tags: string[] }) {
-  const currentUser = useRecoilValue(userState);
-  const {
-    posts,
-    loading,
-    error,
-    page,
-    totalPages,
-    handleNextPage,
-    handlePreviousPage,
-    handlePageClick,
-    handleDelete,
-  } = usePosts({
-    initialPage: 1,
-    pageSize: 12,
-    searchQuery,
-    tags,
-  });
-
-  const { t } = useTranslation();
-
-  const filteredPosts = posts;
-
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return (
-      <div className="text-red-500 font-semibold text-lg text-center">
-        {error}
-      </div>
-    );
-  }
-
-  return (
-    <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
-        {filteredPosts.map((post, index) => (
-          <PostCard
-            key={index}
-            post={post}
-            onDelete={handleDelete}
-            currentUser={currentUser}
-          />
-        ))}
-      </div>
-      <div className="flex justify-center items-center mt-4 w-full space-x-2">
-        <button
-          onClick={handlePreviousPage}
-          disabled={page === 1}
-          className={`text-white px-4 py-2 rounded ${page === 1
-              ? "bg-gray-600 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
-            }`}
-        >
-          {t("allPosts.pre")}
-        </button>
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button
-            key={i}
-            onClick={() => handlePageClick(i + 1)}
-            className={`text-white px-4 py-2 rounded ${page === i + 1
-                ? "bg-blue-500 text-white"
-                : "bg-blue-600 hover:bg-blue-700"
-              }`}
-          >
-            {i + 1}
-          </button>
-        ))}
-        <button
-          onClick={handleNextPage}
-          disabled={page === totalPages}
-          className={`text-white px-6 py-2 rounded ${page === totalPages
-              ? "bg-gray-600 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
-            }`}
-        >
-          {t("allPosts.next")}
-        </button>
-      </div>
-    </>
-  );
-}
 
 export default TagPosts;

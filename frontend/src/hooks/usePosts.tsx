@@ -90,7 +90,8 @@ const usePosts = ({ initialPage = 1, pageSize = 12 }: Props) => {
     addTag,
     removeTag,
     searchQuery,
-    setSearchQuery
+    setSearchQuery,
+    tags
   };
 };
 
