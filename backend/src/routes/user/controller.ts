@@ -149,10 +149,7 @@ export const userSigninController = async (req: Request, res: Response) => {
   }
 };
 
-export const userProfileController = async (
-  req: UserAuthRequest,
-  res: Response
-) => {
+export const userProfileController = async (req: UserAuthRequest, res: Response) => {
   const userId = req.userId;
 
   const user = await prisma.user.findFirst({
@@ -178,6 +175,9 @@ export const userProfileController = async (
         }
       },
       verified: true,
+      _count: {
+        select: { following: true },
+      }
     },
   });
 
@@ -191,6 +191,57 @@ export const userProfileController = async (
     user,
   });
 };
+
+export const showUserProfileController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+      select: {
+        id: true,
+        username: true,
+        createdAt: true,
+        posts: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            tags: true,
+            author: {
+              select: {
+                id: true,
+                username: true,
+              }
+            }
+          }
+        },
+        verified: true,
+        _count: {
+          select: { following: true },
+        },
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        error: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      user,
+    });
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).json({
+      error: "An unexpected error occurred!",
+    });
+  }
+};
+
 
 export const generateOtpController = async (
   req: UserAuthRequest,
@@ -317,7 +368,6 @@ export const verifyOtpController = async (
   }
 };
 
-
 export const contactUsController = async (req: Request, res: Response) => {
   try {
     const payload = req.body;
@@ -356,50 +406,119 @@ export const contactUsController = async (req: Request, res: Response) => {
   }
 };
 
-export const showUserProfileController = async (req: UserAuthRequest, res: Response) => {
+export const followUserController = async (req: UserAuthRequest, res: Response) => {
   try {
-    const { id } = req.params;
+    const followerId = req.userId;
+    const followingId = req.params.id; 
 
-    const user = await prisma.user.findUnique({
-      where: {
-        id: id,
-      },
-      select: {
-        id: true,
-        email: false,
-        username: true,
-        createdAt: true,
-        posts: {
-          select: {
-            id: true,
-            title: true,
-            description: true,
-            tags: true,
-            author: {
-              select: {
-                id: true,
-                username: true,
-              }
-            }
-          }
-        },
-        verified: true,
-      },
-    });
-
-    if (!user) {
-      return res.status(404).json({
-        error: "User not found",
+    if (followerId === followingId) {
+      return res.status(400).json({
+        error: "You cannot follow yourself.",
       });
     }
 
-    res.status(200).json({
-      user,
+    const existingFollow = await prisma.follow.findFirst({
+      where: {
+        followerId,
+        followingId,
+      },
+    });
+
+    if (existingFollow) {
+      return res.status(400).json({
+        error: "You are already following this user.",
+      });
+    }
+
+    await prisma.follow.create({
+      data: {
+        follower: { connect: { id: followerId } },
+        following: { connect: { id: followingId } },
+      },
+    });
+
+    const followerCount = await prisma.follow.count({
+      where: { followingId },
+    });
+
+    res.status(201).json({
+      message: "User followed successfully.",
+      followersCount: followerCount,
     });
   } catch (error) {
-    console.error("Error fetching user profile:", error);
+    console.error("Follow user error:", error);
     res.status(500).json({
-      error: "An unexpected error occurred!",
+      error: {
+        message: "An unexpected error occurred.",
+      },
+    });
+  }
+};
+
+export const unfollowUserController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const followerId = req.userId;
+    const followingId = req.params.id; 
+
+    const existingFollow = await prisma.follow.findFirst({
+      where: {
+        followerId,
+        followingId,
+      },
+    });
+
+    if (!existingFollow) {
+      return res.status(400).json({
+        error: "You are not following this user.",
+      });
+    }
+
+    await prisma.follow.delete({
+      where: {
+        id: existingFollow.id,
+      },
+    });
+
+    const followerCount = await prisma.follow.count({
+      where: { followingId },
+    });
+
+    res.status(200).json({
+      message: "User unfollowed successfully.",
+      followersCount: followerCount,
+    });
+  } catch (error) {
+    console.error("Unfollow user error:", error);
+    res.status(500).json({
+      error: {
+        message: "An unexpected error occurred.",
+      },
+    });
+  }
+};
+
+
+export const checkFollowStatusController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const followerId = req.userId;
+    const followingId = req.params.id;
+
+    const existingFollow = await prisma.follow.findFirst({
+      where: {
+        followerId,
+        followingId,
+      },
+    });
+
+    res.status(200).json({
+      isFollowing: !!existingFollow,
+    });
+  } catch (error) {
+    console.error("Check follow status error:", error);
+    res.status(500).json({
+      error: {
+        message: "An unexpected error occurred.",
+      },
     });
   }
 };
