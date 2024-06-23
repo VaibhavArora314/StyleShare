@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authMiddleware from "../../middleware/auth"
-import { createCommentController, createPostController, deletePostController, favoritePostController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostReactionsController, getPostsWithPagination, getUserReactionController, reactToPostController, removeReactionController, unfavoritePostController, updatePostController } from "./controller";
+import { createCommentController, createPostController, deletePostController, favoritePostController, getAllTagsController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostReactionsController, getPostsWithPagination, getUserReactionController, reactToPostController, removeReactionController, unfavoritePostController, updatePostController } from "./controller";
 
 const postRouter = Router();
 
@@ -35,5 +35,7 @@ postRouter.delete('/:id/react', authMiddleware, removeReactionController);
 postRouter.get('/:id/reaction', authMiddleware, getUserReactionController);
 
 postRouter.get('/:id/reactions', getPostReactionsController);
+
+postRouter.get('/all/tags', getAllTagsController);
 
 export default postRouter;
