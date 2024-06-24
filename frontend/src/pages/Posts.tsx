@@ -68,14 +68,6 @@ const Posts = () => {
           {t("allPosts.Posts")}
         </h1>
         <div className="w-full flex justify-between mb-4 relative">
-          {/* Toggle button for TrendingPosts */}
-          <button
-            onClick={toggleTrendingPosts}
-            className="flex items-center text-[#c14dff]  bg-white dark:text-white dark:bg-[#000435]    hover:text-blue-100 hover:bg-sky-500 dark:hover:text-white dark:hover:bg-sky-500"
-          ><Link to={""} className="rounded-md border p-2 font-semibold border-sky-500 ">
-            {showTrendingPosts ? "Hide Trending Posts" : "Show Trending Posts"}</Link>
-          </button>
-          {/* Filter dialog toggle button */}
           <button
             onClick={toggleFilterDialog}
             className="flex items-center text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] hover:text-blue-400"
@@ -150,6 +142,12 @@ const Posts = () => {
             placeholder={t("allPosts.search")}
             className="p-2 w-full max-w-xs rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          <button
+            onClick={toggleTrendingPosts}
+            className="flex items-center text-[#c14dff]  bg-white dark:text-white dark:bg-[#000435]    hover:text-blue-100 hover:bg-sky-500 dark:hover:text-white dark:hover:bg-sky-500"
+          ><Link to={""} className="rounded-md border p-2 font-semibold border-sky-500 ">
+            {showTrendingPosts ? "Hide Trending Posts" : "Show Trending Posts"}</Link>
+          </button>
         </div>
         {/* Conditionally render TrendingPosts or normal posts based on showTrendingPosts state */}
         {showTrendingPosts ? (
