@@ -30,6 +30,7 @@
     "react-router-dom": "^6.23.1",
     "react-share": "^5.1.0",
     "react-slick": "^0.30.2",
+    "react-switch": "^7.0.0",
     "react-tooltip": "^5.26.4",
     "recoil": "^0.7.7",
     "slick-carousel": "^1.8.1",
