@@ -16,15 +16,15 @@ const Footer = () => {
     return (
         <div className='bg-black text-white p-10'>
             <div className='md:flex'>
-                <div className='md:w-1/2'>
-                    <div className="flex flex-col items-center md:items-start">
-                        <div className="flex items-center">
+                <div className="md:w-1/2 lg:-mt-8 md:-mt-14 sm:mt-1 sm:w-full content-center">
+                    <div className=" flex flex-col  md:items-start">
+                        <div className="flex items-center sm:w-full">
                             <img src={logo} className="h-8" alt="Styleshare Logo" />
-                            <span className="ml-4 text-2xl font-semibold whitespace-nowrap text-white">
+                            <span className="ml-4 text-2xl font-semibold whitespace-nowrap text-white ">
                                 {t('footer.heading')}
                             </span>
                         </div>
-                        <p className="mt-2 text-gray-300 text-sm md:text-base text-center md:text-left w-1/2 sm:w-full">
+                        <p className="mt-2 text-gray-300 text-sm md:text-base  md:text-left lg:w-1/2 sm:w-full">
                             {t('A simple web-based platform where users can easily contribute, create, explore, share components.')}
                         </p>
                     </div>
