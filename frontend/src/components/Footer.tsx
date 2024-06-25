@@ -24,7 +24,7 @@ const Footer = () => {
                                 {t('footer.heading')}
                             </span>
                         </div>
-                        <p className="mt-2 text-gray-300 text-sm md:text-base text-center md:text-left w-1/2">
+                        <p className="mt-2 text-gray-300 text-sm md:text-base text-center md:text-left w-1/2 sm:w-full">
                             {t('A simple web-based platform where users can easily contribute, create, explore, share components.')}
                         </p>
                     </div>
