@@ -13,6 +13,78 @@
         },
         "button":"Explore Now"
     },
+    "offer": {
+        "title": "🫴 What we offer to developers 📦",
+        "responsiveDesign": {
+          "title": "Responsive Design",
+          "description": "All components are from best sources and designed to be fully responsive 📝ensuring they look great on any device📱"
+        },
+        "leaderboard": {
+          "title": "Leaderboard",
+          "description": "Compete with other developers and 🪜climb the leaderboard by sharing your best components and get recognized 🥇"
+        },
+        "personalization": {
+          "title": "Personalization",
+          "description": "Engage with the community by 👍/👎components. Save your 💖 components for quick access in your future projects."
+        },
+        "customizableCodeSnippets": {
+          "title": "Customizable Code Snippets",
+          "description": "Easily customize and preview code 👀 snippets with our built-in editor and A.I tailored specifically for Tailwind CSS 💅"
+        }
+    },
+    "editor": {
+      "title": "🚀 Our Code Editor 🚀",
+      "livePreview": 
+      {
+        "title": "Live Preview",
+        "description": "Instantly see the results of your code changes with our live preview feature. Perfect for rapid prototyping and debugging."
+      },
+      "syntaxHighlighting": 
+      {
+        "title": "Syntax Highlighting",
+        "description": "Enjoy a rich editing experience with syntax highlighting for HTML, CSS, and JavaScript. Easily identify code elements and errors."
+      },
+      "autoCompletion": 
+      {
+        "title": "Auto-Completion",
+        "description": "Speed up your coding with intelligent auto-completion suggestions for tags, attributes, and more."
+      }
+    },
+    "testimonials": {
+      "title": "⭐ What Our Users Say ⭐",
+      "users": [
+        {
+          "quote": "StyleShare's Tailwind CSS platform has revolutionized my workflow! With its intuitive utility-first approach, I can create stylish and responsive designs in a fraction of the time.",
+          "author": "Ravi Kiran, Front-end Developer",
+          "image": "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain"
+        },
+        {
+          "quote": "I've been using StyleShare's Tailwind CSS platform for my personal projects, and I'm amazed by its flexibility and efficiency. It's truly a game-changer in the world of web development!",
+          "author": "Yash Goyal, Front-end Developer",
+          "image": "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain"
+        },
+        {
+          "quote": "Thanks to StyleShare's Tailwind CSS platform, I've been able to speed up my design process significantly. Its modular approach and customizable components have made styling a breeze!",
+          "author": "Manoj Kumar, Front-end Developer",
+          "image": "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain"
+        },
+        {
+          "quote": "StyleShare's Tailwind CSS platform has transformed the way I collaborate with my team. Its consistent and scalable design system ensures seamless integration across projects, fostering productivity and creativity.",
+          "author": "Surya Teja, Front-end Developer",
+          "image": "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain"
+        },
+        {
+          "quote": "I can't imagine working on web projects without StyleShare's Tailwind CSS platform. Its simplicity and power have elevated my skills as a developer and enabled me to deliver top-notch designs to my clients.",
+          "author": "Sivaram, Front-end Developer",
+          "image": "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain"
+        },
+        {
+          "quote": "StyleShare's Tailwind CSS platform has transformed the way I collaborate with my team. Its consistent and scalable design system ensures seamless integration across projects, fostering productivity and creativity.",
+          "author": "Bharath, Front-end Developer",
+          "image": "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain"
+        }
+      ]
+    },
     "about":{
         "aboutHeading":"About Style Share",
         "head1":{
@@ -31,6 +103,31 @@
             }
         }
     },
+    "faq": {
+        "title": "🤔 Frequently Asked Questions 🤔",
+        "questions": [
+          {
+            "question": "What is Style Share ?",
+            "answer": "Style Share is a simple web-based platform where users can contribute, create, explore, and share web design components, focusing on Tailwind CSS."
+          },
+          {
+            "question": "How does it work ?",
+            "answer": "Users can search any component with search bar from various developers, contribute to open source for more Tailwind components, create their own component to help other developers, and create posts from the 'New Posts' section."
+          },
+          {
+            "question": "Who can use Style Share ?",
+            "answer": "Whether you are a seasoned developer looking for inspiration or a beginner taking your first steps into the world of web design, Style Share offers a wealth of resources tailored to your needs."
+          },
+          {
+            "question": "Is there a cost to use Style Share ?",
+            "answer": "No, Style Share is completely free to use."
+          },
+          {
+            "question": "How do I contribute to Style Share ?",
+            "answer": "You can contribute by creating your own components and sharing them on the platform. You can also help improve existing components."
+          }
+        ]
+      },
     "footer":{
         "heading":"Style Share",
         "company":"Company",
@@ -69,6 +166,7 @@
         "posts": "Posts",
         "leaderboard": "Leaderboard",
         "signin": "Sign in",
+        "codeeditor":"CodeEditor",
         "signup": "Sign up",
         "newpost": "New Post",
         "profile": "Profile",
