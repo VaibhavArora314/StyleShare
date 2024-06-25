@@ -276,14 +276,14 @@ const Post = () => {
           {currentUser?.id && post.author?.id &&  currentUser?.id !== post.author?.id && (
             isFollowing ? (
               <button
-                className="mt-4 flex font-semibold py-2 px-2 text-white dark:text-white bg-sky-500 dark:bg-sky-500 rounded-xl p-3 border border-sky-500 hover:bg-blue-900"
+                className="mt-4 flex font-semibold py-2 px-2 text-white dark:text-white bg-sky-500 dark:bg-sky-500 rounded-xl p-3 border border-sky-500 hover:bg-blue-900 dark:hover:bg-blue-900"
                 onClick={() => handleUnfollow(post.author.id)}
               >
                 <RiUserUnfollowFill size={23} className="mr-1" /> Unfollow {post.author.username}
               </button>
             ) : (
               <button
-                className="mt-4 flex font-semibold py-2 px-2 text-white dark:text-white bg-sky-500 dark:bg-sky-500 rounded-xl p-3 border border-sky-500 hover:bg-blue-900"
+                className="mt-4 flex font-semibold py-2 px-2 text-white dark:text-white bg-sky-500 dark:bg-sky-500 rounded-xl p-3 border border-sky-500 hover:bg-blue-900 dark:hover:bg-blue-900"
                 onClick={() => handleFollow(post.author.id)}
               >
                 <RiUserFollowFill size={23} className="mr-1" /> Follow {post.author.username}
