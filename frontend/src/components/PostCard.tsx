@@ -111,7 +111,13 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
           ? `${post.description.slice(0, 100)}...`
           : post.description}
       </p>
-      <p className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 mb-4">By: {post.author.username}</p>
+      <p className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 mb-4">By : 
+        <Link to={`/app/profile/${post.author.id}`} data-tooltip-content={`View ${post.author.username} profile 👀`} data-tooltip-id="my-tooltip" className="text-base">
+        <strong className="text-sky-500">
+            {' '} @{post.author.username}{' '}
+        </strong>
+        </Link>
+      </p>
       <div className="mt-2 flex flex-wrap gap-2  text-blue-950 bg-white dark:text-white dark:bg-blue-950 ">
         {post.tags.map((tag, index) => (
           <span
