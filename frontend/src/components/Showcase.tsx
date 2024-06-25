@@ -26,7 +26,7 @@ const Showcase: React.FC = () => {
             {features.map((feature, index) => (
               <div key={index} className="p-4 sm:p-4 md:p-6 lg:p-8 rounded-lg shadow-md border-2 border-grey-500 transition-transform duration-300 hover:-translate-y-2">
                 <h3 className="text-md sm:text-md md:text-xl lg:text-2xl font-bold mb-2 text-[#b752fa]  dark:text-white">{feature.title}</h3>
-                <p className="text-sm sm:text-sm md:text-sm lg:text-lg font-mono">{feature.description}</p>
+                <p className="text-md sm:text-md md:text-md lg:text-lg font-mono">{feature.description}</p>
               </div>
             ))}
           </div>
