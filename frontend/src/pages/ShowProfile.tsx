@@ -5,10 +5,14 @@ import axios from 'axios';
 import PostCard from '../components/PostCard';
 import { useTranslation } from 'react-i18next';
 import { useRecoilValue } from 'recoil';
-import { userState } from '../store/atoms/auth';
+import { tokenState, userState } from '../store/atoms/auth';
 import Loader from '../components/Loader';
 import { GoUnverified, GoVerified } from 'react-icons/go';
 import bgHero from "../assets/bgHero.png";
+import { RiUserFollowFill } from "react-icons/ri";
+import { RiUserUnfollowFill } from "react-icons/ri";
+import { followUser, unfollowUser, getFollowStatus } from '../components/api/FollowApis';
+import toast from 'react-hot-toast';
 
 const ShowProfile = () => {
   const { id } = useParams();
@@ -18,14 +22,23 @@ const ShowProfile = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const currentUser = useRecoilValue(userState);
   const { t } = useTranslation();
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const token = useRecoilValue(tokenState);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get(`/api/v1/user/profile/${id}`)
+        const response = await axios.get(`/api/v1/user/profile/${id}`);
         setUser(response.data.user);
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+          return;
+        }
+        const followStatusResponse = await getFollowStatus(id!, token!);
+        setIsFollowing(followStatusResponse.isFollowing);
+        console.log(posts);
       } catch (error) {
-        console.log(posts)
         setErrorMessage('Failed to fetch user details');
       } finally {
         setLoading(false);
@@ -33,11 +46,48 @@ const ShowProfile = () => {
     };
 
     fetchUserProfile();
-  }, [id, posts]);
+  }, [id, posts, token,user]);
 
   const handleDelete = (id: string) => {
     setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
   };
+
+  const handleFollow = async (userId: string) => {
+    if (!token) {
+      toast.error('Authentication token is missing');
+      return;
+    }
+    try {
+      await followUser(userId, token);
+      setIsFollowing(true);
+      toast.success('Followed successfully');
+    } catch (error: any) {
+      if (error.response && error.response.status === 403) {
+        toast.error(error.response.data.error.message || 'User is not verified!');
+      } else {
+        toast.error("Some Error occured !");
+      }
+    }
+  };
+
+  const handleUnfollow = async (userId: string) => {
+    if (!token) {
+      toast.error('Authentication token is missing');
+      return;
+    }
+    try {
+      await unfollowUser(userId, token);
+      setIsFollowing(false);
+      toast.success('Unfollowed successfully');
+    } catch (error: any) {
+      if (error.response && error.response.status === 403) {
+        toast.error(error.response.data.error.message || 'User is not verified!');
+      } else {
+        toast.error("Some Error occured !");
+      }
+    }
+  };
+
 
   if (loading) {
     return <Loader />;
@@ -68,11 +118,29 @@ const ShowProfile = () => {
             <div className="flex flex-col items-center mb-3">
               <img src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} width={60} alt="profile-pic" />
               <p className="p-4 text-xl">{user?.username}</p>
+              <p className="text-[#000435] font-semibold text-sm  dark:text-white">{user?._count.following} followers</p>
               <p className="text-sky-400 flex items-center">
               <span className="ml-2 text-base font-semibold">Joined: {formatDate(user?.createdAt)}</span>
             </p>          
             </div>
           </div>
+          {user?.id && currentUser?.id && currentUser?.id !== user?.id && (
+        isFollowing ? (
+          <button
+            className="text-white mt-4 flex font-semibold py-2 px-2 bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500 hover:bg-blue-900"
+            onClick={() => handleUnfollow(user.id)}
+          >
+            <RiUserUnfollowFill size={23} className='mr-1' /> Unfollow {user?.username}
+          </button>
+        ) : (
+          <button
+            className="text-white mt-4 flex font-semibold py-2 px-2 bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500 hover:bg-blue-900"
+            onClick={() => handleFollow(user.id)}
+          >
+            <RiUserFollowFill size={23} className='mr-1' /> Follow {user?.username}
+          </button>
+        )
+      )}
           <div className="mt-8 w-full">
             <h4 className="font-semibold">{t("leaderboard.posts")} ( {user?.posts.length} )</h4>
             <div className="mt-6 mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
