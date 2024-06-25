@@ -1,24 +1,44 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import Loader from "../components/Loader";
 import PostCard from "../components/PostCard";
 import { userState } from "../store/atoms/auth";
 import { useRecoilValue } from "recoil";
 import { useTranslation } from "react-i18next";
 import usePosts from "../hooks/usePosts";
-import TrendingPosts from "./TrendingPosts";
 import bgHero from "../assets/bgHero.png";
 import { Link } from "react-router-dom";
 
 const Posts = () => {
+  const currentUser = useRecoilValue(userState);
+  const {
+    posts,
+    loading,
+    error,
+    page,
+    totalPages,
+    handleNextPage,
+    handlePreviousPage,
+    handlePageClick,
+    handleDelete,
+    addTag:insertTag,
+    removeTag:deleteTag,
+    searchQuery,
+    setSearchQuery
+  } = usePosts({
+    initialPage: 1,
+    pageSize: 12,
+  });
+
   const [showFilterDialog, setShowFilterDialog] = useState(false);
   const [tagInput, setTagInput] = useState("");
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const filterRef = useRef<HTMLDivElement>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showTrendingPosts, setShowTrendingPosts] = useState(false); // State for toggling TrendingPosts visibility
 
   const { t } = useTranslation();
 
+  const filteredPosts = posts;
+
+  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -38,16 +58,18 @@ const Posts = () => {
   const toggleFilterDialog = () => {
     setShowFilterDialog(!showFilterDialog);
   };
-
+  
   const addTag = () => {
     if (tagInput && !filterTags.includes(tagInput.toLowerCase())) {
       setFilterTags([...filterTags, tagInput.toLowerCase()]);
+      insertTag(tagInput);
       setTagInput("");
     }
   };
 
   const removeTag = (tagToRemove: string) => {
     setFilterTags(filterTags.filter((tag) => tag !== tagToRemove));
+    deleteTag(tagToRemove);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -57,13 +79,45 @@ const Posts = () => {
     }
   };
 
-  const toggleTrendingPosts = () => {
-    setShowTrendingPosts(!showTrendingPosts); // Toggle the state for TrendingPosts visibility
-  };
+  // const filteredPosts = posts.filter(
+  //   (post) =>
+  //     filterTags.every((tag) =>
+  //       post.tags.map((t) => t.toLowerCase()).includes(tag)
+  //     ) &&
+  //     (post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       post.author.username.toLowerCase().includes(searchQuery.toLowerCase()))
+  // );
+  
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <div className="text-red-500 font-semibold text-lg text-center">
+        {error}
+      </div>
+    );
+  }
 
   return (
-    <div className="-mt-7 min-h-screen text-[#000435] bg-white dark:text-white dark:bg-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-      <div className="max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4">
+    <div
+    className="-mt-7 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"
+    style={{
+        backgroundImage: `url(${bgHero})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div
+        className="max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4"
+        style={{
+          backgroundImage: `url(${bgHero})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <h1 className="text-2xl font-semibold mb-4 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435]">
           {t("allPosts.Posts")}
         </h1>
@@ -88,7 +142,6 @@ const Posts = () => {
               ></path>
             </svg>
           </button>
-          {/* Filter dialog content */}
           {showFilterDialog && (
             <div
               ref={filterRef}
@@ -134,121 +187,74 @@ const Posts = () => {
               </div>
             </div>
           )}
-          {/* Search input field */}
+          
+          <Link
+            to={`/app/trending-posts`}
+            className="text-blue-500 dark:text-white bg-white dark:bg-blue-900  hover:text-white dark:hover:text-white dark:hover:bg-sky-500 hover:bg-sky-500 transition-colors duration-200 rounded-md  border border-sky-500 p-2"
+          >
+            Show Trending Posts
+          </Link>
+          
           <input
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
             placeholder={t("allPosts.search")}
             className="p-2 w-full max-w-xs rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
+          {filteredPosts.map((post, index) => (
+            <PostCard
+              key={index}
+              post={post}
+              onDelete={handleDelete}
+              currentUser={currentUser}
+            />
+          ))}
+        </div>
+        <div className="flex justify-center items-center mt-4 w-full space-x-2">
           <button
-            onClick={toggleTrendingPosts}
-            className="flex items-center text-[#c14dff]  bg-white dark:text-white dark:bg-[#000435]    hover:text-blue-100 hover:bg-sky-500 dark:hover:text-white dark:hover:bg-sky-500"
-          ><Link to={""} className="rounded-md border p-2 font-semibold border-sky-500 ">
-            {showTrendingPosts ? "Hide Trending Posts" : "Show Trending Posts"}</Link>
+            onClick={handlePreviousPage}
+            disabled={page === 1}
+            className={`text-white px-4 py-2 rounded ${
+              page === 1
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+            {t("allPosts.pre")}
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageClick(i + 1)}
+              className={`text-white px-4 py-2 rounded ${
+                page === i + 1
+                  ? "bg-blue-500 text-white"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={handleNextPage}
+            disabled={page === totalPages}
+            className={`text-white px-6 py-2 rounded ${
+              page === totalPages
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+            {t("allPosts.next")}
           </button>
         </div>
-        {/* Conditionally render TrendingPosts or normal posts based on showTrendingPosts state */}
-        {showTrendingPosts ? (
-          <TrendingPosts />
-        ) : (
-          <PostListWithPagination searchQuery={searchQuery} tags={filterTags} />
-        )}
       </div>
     </div>
   );
 };
-
-function PostListWithPagination({ searchQuery = "", tags = [] }: {
-  searchQuery: string,
-  tags: string[]
-}) {
-  const currentUser = useRecoilValue(userState);
-  const {
-    posts,
-    loading,
-    error,
-    page,
-    totalPages,
-    handleNextPage,
-    handlePreviousPage,
-    handlePageClick,
-    handleDelete,
-  } = usePosts({
-    initialPage: 1,
-    pageSize: 12,
-    searchQuery: searchQuery,
-    tags
-  });
-
-  const { t } = useTranslation();
-
-  const filteredPosts = posts;
-
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return (
-      <div className="text-red-500 font-semibold text-lg text-center">
-        {error}
-      </div>
-    );
-  }
-
-  return (
-    <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
-        {filteredPosts.map((post, index) => (
-          <PostCard
-            key={index}
-            post={post}
-            onDelete={handleDelete}
-            currentUser={currentUser}
-          />
-        ))}
-      </div>
-      <div className="flex justify-center items-center mt-4 w-full space-x-2">
-        <button
-          onClick={handlePreviousPage}
-          disabled={page === 1}
-          className={`text-white px-4 py-2 rounded ${
-            page === 1
-              ? "bg-gray-600 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
-          }`}
-        >
-          {t("allPosts.pre")}
-        </button>
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button
-            key={i}
-            onClick={() => handlePageClick(i + 1)}
-            className={`text-white px-4 py-2 rounded ${
-              page === i + 1
-                ? "bg-blue-500 text-white"
-                : "bg-blue-600 hover:bg-blue-700"
-            }`}
-          >
-            {i + 1}
-          </button>
-        ))}
-        <button
-          onClick={handleNextPage}
-          disabled={page === totalPages}
-          className={`text-white px-6 py-2 rounded ${
-            page === totalPages
-              ? "bg-gray-600 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
-          }`}
-        >
-          {t("allPosts.next")}
-        </button>
-      </div>
-    </>
-  );
-}
 
 export default Posts;

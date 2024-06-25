@@ -1,29 +1,32 @@
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { IPost } from "../types";
 import axios from "axios";
 
 type Props = {
-  initialPage: number;
-  pageSize: number;
-  searchQuery: string;
-  tags: string[];
-  debounceDelay?: number;
-}
+  initialPage?: number;
+  pageSize?: number;
+};
 
-const usePosts = ({ initialPage = 1, pageSize = 12, searchQuery = "", tags = [], debounceDelay = 300 }: Props) => {
+const usePosts = ({ initialPage = 1, pageSize = 12 }: Props) => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
-  const timeoutRef = useRef<number | null>(null);
-  const isFirstLoad = useRef(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
 
-  const fetchPosts = useCallback(async () => {
-    setLoading(true);
+  const fetchPosts = async (
+    page: number,
+    pageSize: number,
+    searchQuery: string,
+    tags: string[]
+  ) => {
     try {
       const response = await axios.get(
-        `/api/v1/posts?page=${page}&pageSize=${pageSize}&searchQuery=${searchQuery}&tags=${tags.join(",")}`
+        `/api/v1/posts?page=${page}&pageSize=${pageSize}&searchQuery=${searchQuery}&tags=${tags.join(
+          ","
+        )}`
       );
       setPosts(response.data.posts);
       setTotalPages(response.data.totalPages);
@@ -32,28 +35,17 @@ const usePosts = ({ initialPage = 1, pageSize = 12, searchQuery = "", tags = [],
     } finally {
       setLoading(false);
     }
-  }, [page, pageSize, tags, searchQuery]);
+  };
+
+  // const loadPosts = useCallback(() => {
+  //   if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+  //   timeoutRef.current = window.setTimeout(fetchPosts, 300);
+  // }, [fetchPosts]);
 
   useEffect(() => {
-    if (isFirstLoad.current) {
-      fetchPosts();
-      isFirstLoad.current = false;
-    } else {
-      if (timeoutRef.current !== null) {
-        clearTimeout(timeoutRef.current);
-      }
-
-      timeoutRef.current = window.setTimeout(() => {
-        fetchPosts();
-      }, debounceDelay);
-
-      return () => {
-        if (timeoutRef.current !== null) {
-          clearTimeout(timeoutRef.current);
-        }
-      };
-    }
-  }, [page, pageSize, tags, searchQuery, fetchPosts, debounceDelay]);
+    fetchPosts(page, pageSize, searchQuery, tags);
+  }, [page, searchQuery, tags]);
 
   const handlePreviousPage = () => {
     if (page > 1) {
@@ -72,7 +64,17 @@ const usePosts = ({ initialPage = 1, pageSize = 12, searchQuery = "", tags = [],
   };
 
   const handleDelete = () => {
-    fetchPosts();
+    fetchPosts(page, pageSize, searchQuery, tags);
+  };
+
+  const addTag = (tagInput: string) => {
+    if (tagInput && !tags.includes(tagInput.toLowerCase())) {
+      setTags((filterTags) => [...filterTags, tagInput.toLowerCase()]);
+    }
+  };
+
+  const removeTag = (tagToRemove: string) => {
+    setTags((filterTags) => filterTags.filter((tag) => tag !== tagToRemove));
   };
 
   return {
@@ -85,7 +87,11 @@ const usePosts = ({ initialPage = 1, pageSize = 12, searchQuery = "", tags = [],
     handlePreviousPage,
     handlePageClick,
     handleDelete,
-  }
+    addTag,
+    removeTag,
+    searchQuery,
+    setSearchQuery
+  };
 };
 
 export default usePosts;

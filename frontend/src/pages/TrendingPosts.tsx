@@ -4,6 +4,7 @@ import Loader from "../components/Loader";
 import PostCard from "../components/PostCard";
 import bgHero from "../assets/bgHero.png";
 import { IComment } from "../types";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 interface Post {
   id: string;
@@ -66,6 +67,12 @@ const TrendingPosts = () => {
   return (
     <div className="w-full flex items-center justify-center text-[#000435] bg-white dark:text-white dark:bg-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="p-6 max-w-screen-xl w-full bg-white dark:bg-[#000435] rounded-lg shadow-lg">
+      <button
+          onClick={() => window.history.back()}
+          className="mb-2 mt-2 px-2 py-1 bg-sky-500 hover:bg-sky-600 text-white text-sm rounded"
+        >
+          <IoMdArrowRoundBack size={20} />
+        </button>
         <h1 className="text-3xl font-bold mb-4 text-[#c050f8]  dark:text-white text-center">
           Trending Posts
         </h1>
