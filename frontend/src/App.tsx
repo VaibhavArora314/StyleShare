@@ -34,14 +34,12 @@ import TrendingPosts from "./pages/TrendingPosts";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
-
 function App() {
   const { theme, toggleTheme } = useTheme();
   return (
     <BrowserRouter>
       <RecoilRoot>
         <React.Suspense fallback={<Loader />}>
-
           <GoTop/>
           <div style={{ backgroundColor: theme === 'light' ? '#fff' : '#000435', color: theme === 'light' ? '#000435' : '#fff'}}>
             <Navbar theme={theme} toggleTheme={toggleTheme}  />
@@ -50,7 +48,7 @@ function App() {
               <Routes>
                 <Route path="/app" element={<Home />} />
                 <Route path="/app/posts/:id" element={<Post />} />
-                <Route path="/app/posts" element={<Posts    />} />
+                <Route path="/app/posts" element={<Posts/>} />
                 <Route path="/app/profile/:id" element={<ShowProfile/>} />
                 <Route
                   path="/app/signin"

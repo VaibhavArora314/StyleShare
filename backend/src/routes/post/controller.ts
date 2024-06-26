@@ -858,3 +858,25 @@ export const getPostReactionsController = async (req: Request, res: Response) =>
     res.status(500).json({ error: "Failed to fetch reactions" });
   }
 };
+
+export const getAllTagsController = async (req: Request, res: Response) => {
+  try {
+    const posts = await prisma.post.findMany({
+      select: {
+        tags: true,
+      },
+    });
+
+    const allTags = posts.flatMap(post => post.tags);
+    const uniqueTags = Array.from(new Set(allTags));
+
+    res.status(200).json({
+      tags: uniqueTags,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "Failed to fetch tags",
+    });
+  }
+};
