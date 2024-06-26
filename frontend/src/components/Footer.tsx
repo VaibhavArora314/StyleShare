@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import github from '../assets/github.png';
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { loggedInState } from '../store/atoms/auth';
 import { CgProfile } from 'react-icons/cg';
 import { BsFilePost } from 'react-icons/bs';
