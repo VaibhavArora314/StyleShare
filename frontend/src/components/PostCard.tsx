@@ -8,6 +8,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
+import bgHero from "../assets/bgHero.png";
 
 type Props = {
   post: IPost;
@@ -103,9 +104,9 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
   return (
     <div
       key={post.id}
-      className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 border border-gray-600 p-6 rounded-lg shadow-lg hover:shadow-2xl hover:border-blue-500 hover:-translate-y-2 transition-transform duration-300 ease-in-out"
+      className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 border border-gray-600 p-6 rounded-lg shadow-lg hover:shadow-2xl hover:border-blue-500 hover:-translate-y-2 transition-transform duration-300 ease-in-out"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
     >
-      <h2 className="text-xl font-bold mb-3 text-[#5f67de] bg-white dark:text-white dark:bg-blue-950">{post.title}</h2>
+      <h2 className="text-xl font-bold mb-3 text-[#c94aff] bg-white dark:text-[#c94aff] dark:bg-blue-950">{post.title}</h2>
       <p className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 mb-4">
         {post.description.length > 100
           ? `${post.description.slice(0, 100)}...`

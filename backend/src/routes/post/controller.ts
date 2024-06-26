@@ -308,6 +308,39 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
   }
 };
 
+export const getTrendingPostsController = async (req: Request, res: Response) => {
+  try{
+    const trendingPosts = await prisma.post.findMany({
+      select: {
+        id: true,
+        title: true,
+        codeSnippet: true,
+        jsCodeSnippet: true,
+        description: true,
+        tags: true,
+        author: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+          },
+        },
+        reactions:true,
+      },
+    });
+    res.status(200).json({
+      message: "Successfully created comment!",
+      trendingPosts,
+    });
+
+
+  }catch(error){
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
 export const createCommentController = async (req: UserAuthRequest, res: Response) => {
   try {
     const userId = req.userId;
