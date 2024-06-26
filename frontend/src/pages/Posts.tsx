@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import { useTranslation } from "react-i18next";
 import usePosts from "../hooks/usePosts";
 import bgHero from "../assets/bgHero.png";
+import { Link } from "react-router-dom";
 
 const Posts = () => {
   const currentUser = useRecoilValue(userState);
@@ -186,6 +187,14 @@ const Posts = () => {
               </div>
             </div>
           )}
+          
+          <Link
+            to={`/app/trending-posts`}
+            className="text-blue-500 dark:text-white bg-white dark:bg-blue-900  hover:text-white dark:hover:text-white dark:hover:bg-sky-500 hover:bg-sky-500 transition-colors duration-200 rounded-md  border border-sky-500 p-2"
+          >
+            Show Trending Posts
+          </Link>
+          
           <input
             type="text"
             value={searchQuery}

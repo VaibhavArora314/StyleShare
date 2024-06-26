@@ -77,7 +77,7 @@ const TestimonialSlider: React.FC = () => {
   const goToNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + slidesToShow) % testimonials.length);
   };
-
+  
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) => (prevIndex - slidesToShow + testimonials.length) % testimonials.length);
   };
