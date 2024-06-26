@@ -110,7 +110,7 @@ const Signin = () => {
           <div className="flex justify-center">
           <button
             type="submit"
-            className=" bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+            className=" bg-blue-500 text-white text-xl py-2 px-4 w-full rounded-md hover:bg-blue-600"
           >
             {t("login.sigin")}
           </button>
