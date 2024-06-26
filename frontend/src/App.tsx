@@ -117,7 +117,7 @@ function App() {
                 <Route
                 path="/app/rateus"
                   element={
-                      <Rateus   />
+                      <Rateus theme={theme} />
                   }
                 />
                 <Route

@@ -29,7 +29,6 @@ const RateUs: React.FC<RateUsProps> = ({ theme }) => {
       toast.error('Please Fill all Details :(');
     }
   };
-
   const containerClasses = `border-2 border-black p-6 rounded-lg max-w-md w-full mx-auto ${
     theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'
   } shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:scale-105`;

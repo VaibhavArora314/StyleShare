@@ -175,5 +175,4 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
     </nav>
   );
 };
-
 export default Navbar;
