@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import github from '../assets/github.png';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { loggedInState } from '../store/atoms/auth';
 import { CgProfile } from 'react-icons/cg';
 import { BsFilePost } from 'react-icons/bs';
@@ -19,10 +19,12 @@ const Footer = () => {
                 <div className="md:w-1/2 lg:-mt-8 md:-mt-14 sm:mt-1 sm:w-full content-center">
                     <div className=" flex flex-col  md:items-start">
                         <div className="flex items-center sm:w-full">
-                            <img src={logo} className="h-8" alt="Styleshare Logo" />
-                            <span className="ml-4 text-2xl font-semibold whitespace-nowrap text-white ">
-                                {t('footer.heading')}
-                            </span>
+                        <Link to="/app" className="flex items-center gap-1">
+                             <img src={logo} className="h-8" alt="Styleshare Logo" />
+                             <span className="ml-4 text-2xl font-semibold whitespace-nowrap text-white ">
+                              {t('footer.heading')}
+                          </span>
+                        </Link>
                         </div>
                         <p className="mt-2 text-gray-300 text-sm md:text-base  md:text-left lg:w-1/2 sm:w-full">
                             {t('A simple web-based platform where users can easily contribute, create, explore, share components.')}
