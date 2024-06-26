@@ -20,8 +20,8 @@ const Category = () => {
   }, []);
 
   return (
-      <div className="max-w-screen-xl flex flex-col items-center justify-center mx-auto mt-4">
-        <span className="flex text-3xl font-semibold my-4  text-[#000435] dark:text-white">
+      <div className="mt-10">
+        <span className="text-center justify-center flex text-3xl font-semibold my-4  text-[#000435] dark:text-white">
         <HiOutlineCollection size={40} className='mr-3' /> Our Categories
         </span>
         <div
@@ -57,7 +57,7 @@ const Category = () => {
           >
             {tags.map((tag, index) => (
               <Link
-                to={`/app/posts/tag/${tag}`}
+                to={`/app/posts?tags=${tag}`}
                 key={index}
                 className="inline-flex items-center px-5 py-3 m-2 border-2 border-[#5f67de] text-[#5f67de] font-bold dark:border-white dark:text-white dark:bg-transparent text-2xl rounded-lg transition-colors duration-300 hover:bg-[#5f67de] hover:text-white dark:hover:bg-white dark:hover:text-black"
               >
