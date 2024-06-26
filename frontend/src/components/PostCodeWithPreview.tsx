@@ -1,7 +1,6 @@
 import { useState } from "react";
 import PostCodeWindow from "./PostCodeWindow";
 import PostPreview from "./PostPreview";
-import DOMPurify from "dompurify";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -29,22 +28,6 @@ const PostCodeWithPreview = ({
   const [isPreview, setIsPreview] = useState(false);
   const { t } = useTranslation();
 
-  DOMPurify.addHook("uponSanitizeElement", (node, data) => {
-    if (data.tagName === "img" || data.tagName === "div") {
-      const src = node.getAttribute("src");
-      const style = node.getAttribute("style");
-      if (src && src.startsWith("http")) {
-        node.setAttribute("src", src);
-      }
-      if (style && style.includes("url(")) {
-        node.setAttribute("style", style);
-      }
-    }
-  });
-
-  const sanitizedSnippet = DOMPurify.sanitize(codeSnippet || "", {
-    ADD_ATTR: ["style", "background"],
-  });
 
   const handleCopy = () => {
     if (codeSnippet && activeTab === "html") {
@@ -73,13 +56,13 @@ const PostCodeWithPreview = ({
           />
           <PostPreview
             jsCodeSnippet={jsCodeSnippet}
-            sanitizedSnippet={sanitizedSnippet}
+            codeSnippet={codeSnippet}
           />
         </>
       ) : isPreview ? (
         <PostPreview
           jsCodeSnippet={jsCodeSnippet}
-          sanitizedSnippet={sanitizedSnippet}
+          codeSnippet={codeSnippet}
         />
       ) : (
         <PostCodeWindow
