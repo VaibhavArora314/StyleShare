@@ -254,7 +254,7 @@ const Post = () => {
           <div className="flex flex-wrap gap-2">
         {post.tags.map((tag, index) => (
           <Link
-            to={`/app/posts/tag/${tag}`}
+            to={`/app/posts?tags=${tag}`}
             key={index}
             className="inline-flex items-center px-2 py-1 border-2 border-[#5f67de] text-[#5f67de] font-semibold dark:border-white dark:text-white dark:bg-transparent text-sm rounded-md transition-colors duration-300 hover:bg-[#5f67de] hover:text-white dark:hover:bg-white dark:hover:text-black"
           >

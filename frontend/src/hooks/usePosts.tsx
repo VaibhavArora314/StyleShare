@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { IPost } from "../types";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { IPost } from "../types";
 
 type Props = {
   initialPage?: number;
@@ -15,6 +16,7 @@ const usePosts = ({ initialPage = 1, pageSize = 12 }: Props) => {
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [tags, setTags] = useState<string[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const fetchPosts = async (
     page: number,
@@ -22,6 +24,7 @@ const usePosts = ({ initialPage = 1, pageSize = 12 }: Props) => {
     searchQuery: string,
     tags: string[]
   ) => {
+    setLoading(true);
     try {
       const response = await axios.get(
         `/api/v1/posts?page=${page}&pageSize=${pageSize}&searchQuery=${searchQuery}&tags=${tags.join(
@@ -37,15 +40,12 @@ const usePosts = ({ initialPage = 1, pageSize = 12 }: Props) => {
     }
   };
 
-  // const loadPosts = useCallback(() => {
-  //   if (timeoutRef.current) clearTimeout(timeoutRef.current);
-
-  //   timeoutRef.current = window.setTimeout(fetchPosts, 300);
-  // }, [fetchPosts]);
-
   useEffect(() => {
-    fetchPosts(page, pageSize, searchQuery, tags);
-  }, [page, searchQuery, tags]);
+    const tagsFromParams = searchParams.get("tags");
+    const initialTags = tagsFromParams ? tagsFromParams.split(",") : [];
+    setTags(initialTags);
+    fetchPosts(page, pageSize, searchQuery, initialTags);
+  }, [page, searchQuery, searchParams]);
 
   const handlePreviousPage = () => {
     if (page > 1) {
@@ -69,12 +69,16 @@ const usePosts = ({ initialPage = 1, pageSize = 12 }: Props) => {
 
   const addTag = (tagInput: string) => {
     if (tagInput && !tags.includes(tagInput.toLowerCase())) {
-      setTags((filterTags) => [...filterTags, tagInput.toLowerCase()]);
+      const newTags = [...tags, tagInput.toLowerCase()];
+      setTags(newTags);
+      setSearchParams({ tags: newTags.join(",") });
     }
   };
 
   const removeTag = (tagToRemove: string) => {
-    setTags((filterTags) => filterTags.filter((tag) => tag !== tagToRemove));
+    const newTags = tags.filter((tag) => tag !== tagToRemove);
+    setTags(newTags);
+    setSearchParams({ tags: newTags.join(",") });
   };
 
   return {
