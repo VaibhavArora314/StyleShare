@@ -41,8 +41,9 @@ const testimonials: Testimonial[] = [
 ];
 
 const TestimonialSlider: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [slidesToShow, setSlidesToShow] = useState(3);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [slidesToShow, setSlidesToShow] = useState<number>(3);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
 
   useEffect(() => {
     const updateSlidesToShow = () => {
@@ -61,6 +62,18 @@ const TestimonialSlider: React.FC = () => {
     return () => window.removeEventListener('resize', updateSlidesToShow);
   }, []);
 
+  useEffect(() => {
+    let intervalId: ReturnType<typeof setInterval>;
+
+    if (!isHovered) {
+      intervalId = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + slidesToShow) % testimonials.length);
+      }, 2000); // Change slide every 3 seconds
+    }
+
+    return () => clearInterval(intervalId);
+  }, [slidesToShow, isHovered]);
+
   const goToNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + slidesToShow) % testimonials.length);
   };
@@ -69,13 +82,23 @@ const TestimonialSlider: React.FC = () => {
     setCurrentIndex((prevIndex) => (prevIndex - slidesToShow + testimonials.length) % testimonials.length);
   };
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <div
       className="testimonial-slider-container w-full flex flex-col text-center py-10 bg-cover bg-center text-[#000435] dark:text-white"
       style={{ backgroundImage: `url(${bgHero})` }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <h2 className="text-3xl md:text-4xl font-extrabold mb-8">⭐ What Our Users Say ⭐</h2>
-      <div className="testimonial-slider  flex  items-center justify-center w-full my-auto mx-auto">
+      <div className="testimonial-slider flex items-center justify-center w-full my-auto mx-auto">
         <button
           className="prev-arrow text-4xl cursor-pointer transform hover:scale-125 transition-transform duration-300"
           onClick={goToPrevious}
@@ -84,7 +107,7 @@ const TestimonialSlider: React.FC = () => {
         </button>
         <div className="flex overflow-hidden max-w-full">
           {testimonials.slice(currentIndex, currentIndex + slidesToShow).map((testimonial, index) => (
-            <div key={index} className="testimonial mx-2 p-6 md:p-10 rounded-lg shadow-lg bg-white dark:bg-[#000435] text-[#000435] dark:text-white flex flex-col items-center justify-center min-w-[260px] md:min-w-[350px]  lg:min-w-[400px]">
+            <div key={index} className="testimonial mx-2 p-6 md:p-10 rounded-lg shadow-lg bg-white dark:bg-[#000435] text-[#000435] dark:text-white flex flex-col items-center justify-center min-w-[260px] md:min-w-[350px] lg:min-w-[400px]">
               <img
                 src={testimonial.image}
                 alt={`${testimonial.author}'s picture`}
@@ -101,6 +124,15 @@ const TestimonialSlider: React.FC = () => {
         >
           &#9654;
         </button>
+      </div>
+      <div className="dots flex justify-center mt-4">
+        {testimonials.map((_, index) => (
+          <div
+            key={index}
+            className={`w-3 h-3 mx-1 rounded-full cursor-pointer ${index === currentIndex ? 'bg-[#a238ff]' : 'bg-gray-400'}`}
+            onClick={() => setCurrentIndex(index)}
+          />
+        ))}
       </div>
     </div>
   );
