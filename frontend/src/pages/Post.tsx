@@ -51,6 +51,7 @@ const Post = () => {
     };
 
     fetchFollowStatus();
+    document.title='Style Share | Post details 📄'
   }, [post?.author.id, token]);
 
   const handleAddToFavorite = async () => {

@@ -16,6 +16,8 @@ import Category from "./Category";
 function Home() {
   console.log("Home page rerendered");
   const { t } = useTranslation();
+
+  document.title='Style Share | Welcome 🙏'
   
   return (      
   <div className="-mt-7 min-h-screen  text-[#000435] dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >

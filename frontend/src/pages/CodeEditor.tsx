@@ -48,7 +48,8 @@ const CodeEditor = ()=> {
   const outputRef = useRef<HTMLIFrameElement>(null);
   const navigate = useNavigate();
   const { t } = useTranslation();
- 
+
+  document.title='Style Share | Code your creativity 👨‍💻'
 
   const updateOutput = (code: string) => {
     const doc = `

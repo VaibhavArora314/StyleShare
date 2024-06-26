@@ -25,6 +25,8 @@ const NewPost = () => {
     if (location.state && location.state.codeSnippet) {
       setCodeSnippet(location.state.codeSnippet);
     }
+
+    document.title='Style Share | Create Post 🗽'
   }, [location.state]);
 
   const handleAddTag = () => {

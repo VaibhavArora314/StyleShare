@@ -45,6 +45,8 @@ const ShowProfile = () => {
       }
     };
 
+    document.title='Style Share | Profile 🌱'
+
     fetchUserProfile();
   }, [id, posts, token,user]);
 

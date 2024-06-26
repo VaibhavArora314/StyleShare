@@ -15,6 +15,7 @@ function ContactUs() {
     message: "",
   });
 
+  document.title='Style Share | Reach us 📱'
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

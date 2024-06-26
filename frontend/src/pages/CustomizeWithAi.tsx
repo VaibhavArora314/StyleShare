@@ -65,6 +65,8 @@ const CustomizeWithAi = () => {
     );
   };
 
+  document.title='Style Share | Customize 🤖'
+
   return (
     <div className="-mt-20 w-full text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="customize-page p-6 max-w-screen-xl mx-auto text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
