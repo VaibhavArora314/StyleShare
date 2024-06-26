@@ -16,6 +16,7 @@ import React from "react";
 import Loader from "./components/Loader";
 import ContactUs from "./pages/ContactUs";
 import About from "./pages/About";
+import Rateus from "./pages/Rateus";
 import Policy from "./pages/Policy";
 import GoTop from "./components/GoTop";
 import { Toaster } from 'react-hot-toast';
@@ -111,6 +112,12 @@ function App() {
                 path="/app/leaderboard"
                   element={
                       <LeaderBoard   />
+                  }
+                />
+                <Route
+                path="/app/rateus"
+                  element={
+                      <Rateus   />
                   }
                 />
                 <Route
