@@ -1,4 +1,3 @@
-
 import { Router } from "express";
 import authMiddleware from "../../middleware/auth"
 import { aiCustomization, createCommentController, createPostController, deletePostController, favoritePostController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostReactionsController, getPostsWithPagination, getUserReactionController, reactToPostController, removeReactionController, unfavoritePostController, updatePostController } from "./controller";
@@ -29,8 +28,6 @@ postRouter.get('/all/leaderboard', getLeaderboardController);
 
 postRouter.delete('/delete/:id', authMiddleware, deletePostController); 
 
-postRouter.post('/customize',aiCustomization);
-
 postRouter.post('/:id/react', authMiddleware, reactToPostController);
 
 postRouter.delete('/:id/react', authMiddleware, removeReactionController);
@@ -38,5 +35,7 @@ postRouter.delete('/:id/react', authMiddleware, removeReactionController);
 postRouter.get('/:id/reaction', authMiddleware, getUserReactionController);
 
 postRouter.get('/:id/reactions', getPostReactionsController);
+
+postRouter.post('/customize', aiCustomization);
 
 export default postRouter;

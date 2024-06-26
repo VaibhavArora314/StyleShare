@@ -186,6 +186,11 @@ export const getPostController = async (req: Request, res: Response) => {
           select: {
             id: true,
             username: true,
+            following: {
+              select: {
+                id: true
+              }
+            }
           },
         },
         comments: true
@@ -193,17 +198,26 @@ export const getPostController = async (req: Request, res: Response) => {
     });
 
     if (!post) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "No such post exists!",
       });
     }
 
+    const totalFollowers = post.author.following.length;
+
     res.status(200).json({
-      post,
+      post: {
+        ...post,
+        author: {
+          ...post.author,
+          totalFollowers,
+        },
+      },
     });
   } catch (error) {
-    res.status(411).json({
-      error: "No such post exists!",
+    console.error(error);
+    res.status(500).json({
+      error: "Internal server error!",
     });
   }
 };
@@ -236,8 +250,23 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string);
     const pageSize = parseInt(req.query.pageSize as string);
+    const searchQuery = req.query.searchQuery as string || "";
+    const tags = req.query.tags ? (req.query.tags as string).split(',') : [];
+    console.log(tags)
 
-    const totalPosts = await prisma.post.count();
+     const totalPosts = await prisma.post.count({
+      where: {
+        AND: [
+          {
+            OR: [
+              { title: { contains: searchQuery, mode: 'insensitive' } },
+              { description: { contains: searchQuery, mode: 'insensitive' } }
+            ]
+          },
+          tags.length > 0 ? { tags: { hasSome: tags } } : {}
+        ]
+      }
+    });
     const totalPages = Math.ceil(totalPosts / pageSize);
 
     const posts = await prisma.post.findMany({
@@ -257,13 +286,24 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
           },
         },
       },
+      where: {
+        AND: [
+          {
+            OR: [
+              { title: { contains: searchQuery, mode: 'insensitive' } },
+              { description: { contains: searchQuery, mode: 'insensitive' } }
+            ]
+          },
+          tags.length > 0 ? { tags: { hasSome: tags } } : {}
+        ]
+      }
     });
-
     res.status(200).json({
       posts,
       totalPages,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Failed to fetch posts' });
   }
 };
@@ -581,9 +621,12 @@ export const deletePostController = async (req: UserAuthRequest, res: Response) 
 const getCodeSnippetById = async (id: string) => {
   const post = await prisma.post.findUnique({
     where: { id },
-    select: { codeSnippet: true },
+    select: { codeSnippet: true, jsCodeSnippet: true },
   });
-  return post?.codeSnippet || "";
+  return {
+    css: post?.codeSnippet || "",
+    js: post?.jsCodeSnippet || "",
+  };
 };
 
 export const aiCustomization = async (req: UserAuthRequest, res: Response) => {
@@ -595,32 +638,34 @@ export const aiCustomization = async (req: UserAuthRequest, res: Response) => {
       return res.status(400).json({ error: "ID and query are required" });
     }
 
-    const originalCodeSnippet = await getCodeSnippetById(id);
+    const originalSnippets = await getCodeSnippetById(id);
 
-    if (!originalCodeSnippet) {
-      console.error("Code snippet not found for id:", id);
-      return res.status(404).json({ error: "Code snippet not found" });
+    if (!originalSnippets.css && !originalSnippets.js) {
+      console.error("Code snippets not found for id:", id);
+      return res.status(404).json({ error: "Code snippets not found" });
     }
 
-    let key = process.env.API_KEY
-
+    const key = process.env.API_KEY;
     if (!key) {
       throw new Error("API_KEY is not defined in the environment variables.");
     }
 
     const genAI = new GoogleGenerativeAI(key);
-
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const prompt = `This is my tailwind css code: ${originalCodeSnippet}\n\n I want you to modify it and put ${query}\n\n and also write the code in vs code format like one below other tag and just give me code don't explain it.`
+    const cssPrompt = `This is my Tailwind CSS code: ${originalSnippets.css}\n\n I want you to modify it and put ${query}\n\n and also write the code in VS Code format like one below another tag and just give me the code, don't explain it.`;
+    const jsPrompt = `This is my JavaScript code: ${originalSnippets.js}\n\n I want you to modify it and put ${query}\n\n and also write the code in VS Code format like one below another tag and just give me the code, don't explain it.`;
 
-    const result = await model.generateContent(prompt);
+    const cssResult = await model.generateContent(cssPrompt);
+    const jsResult = await model.generateContent(jsPrompt);
 
-    const response = await result.response;
+    const cssResponse = await cssResult.response;
+    const jsResponse = await jsResult.response;
 
-    const text = response.text();
+    const cssText = cssResponse.text();
+    const jsText = jsResponse.text();
 
-    res.json({ customCode: text });
+    res.json({ css: cssText, js: jsText });
 
   } catch (error) {
     console.error('Failed to customize the code', error);

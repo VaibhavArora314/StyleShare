@@ -1,7 +1,6 @@
-import { useEffect, useState, useRef } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios, { AxiosError } from "axios";
-import DOMPurify from "dompurify";
 import Loader from "../components/Loader";
 import toast from "react-hot-toast";
 import Comment from "./Comment";
@@ -12,47 +11,47 @@ import { useTranslation } from "react-i18next";
 import usePost from "../hooks/usePost";
 import SharePostButtons from "../components/SharePostButtons";
 import ReactionButton from "../components/ReactionButtons";
+import PostCodeWithPreview from "../components/PostCodeWithPreview";
+import bgHero from "../assets/bgHero.png";
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+import { BsFileEarmarkZipFill } from "react-icons/bs";
+import {followUser,unfollowUser,getFollowStatus} from '../components/api/FollowApis';
+import { tokenState, userState } from "../store/atoms/auth";
+import { useRecoilValue } from "recoil";
+import { RiUserFollowFill } from "react-icons/ri";
+import { RiUserUnfollowFill } from "react-icons/ri";
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
   const { post, error, loading, isOwner } = usePost(id || "");
   const navigate = useNavigate();
-  const [isPreview, setIsPreview] = useState(false);
-  const ref = useRef<HTMLIFrameElement>(null);
-  const [height, setHeight] = useState("0px");
   const [isFavorite, setIsFavorite] = useState(false);
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState("html");
+  const token = useRecoilValue(tokenState);
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const currentUser = useRecoilValue(userState);
 
   const shareUrl = window.location.href;
   const title = `👋 Hey ! I found amazing tailwind css 💅 component ${post.title} have a look, The design is done by ${post.author.username} check out the link it's amazing 😀`;
 
-  const onLoad = () => {
-    setHeight(ref.current?.contentWindow?.document.body.scrollHeight + "px");
-  };
 
   useEffect(() => {
-    onLoad();
-  }, [isPreview, post?.codeSnippet]);
+    const fetchFollowStatus = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          return;
+        }
+        const followStatusResponse = await getFollowStatus(post.author.id, token!);
+        setIsFollowing(followStatusResponse.isFollowing);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  const handleCopy = () => {
-    if (post && activeTab === "html") {
-      navigator.clipboard.writeText(post.codeSnippet);
-      toast.success('HTML Code copied to clipboard');
-    }
-    if (post && activeTab === "js") {
-      navigator.clipboard.writeText(post.jsCodeSnippet);
-      toast.success('JavaScript copied to clipboard');
-    }
-  };
-
-  const togglePreview = () => {
-    setIsPreview(!isPreview);
-  };
-
-  useEffect(() => {
-    onLoad();
-  }, [isPreview, post?.codeSnippet]);
+    fetchFollowStatus();
+  }, [post?.author.id, token]);
 
   const handleAddToFavorite = async () => {
     try {
@@ -129,22 +128,41 @@ const Post = () => {
     setIsFavorite(favoriteStatus === "true");
   }, [id]);
 
-  DOMPurify.addHook("uponSanitizeElement", (node, data) => {
-    if (data.tagName === "img" || data.tagName === "div") {
-      const src = node.getAttribute("src");
-      const style = node.getAttribute("style");
-      if (src && src.startsWith("http")) {
-        node.setAttribute("src", src);
-      }
-      if (style && style.includes("url(")) {
-        node.setAttribute("style", style);
+  const handleFollow = async (userId: string) => {
+    if (!token) {
+      toast.error('Authentication token is missing');
+      return;
+    }
+    try {
+      await followUser(userId, token);
+      setIsFollowing(true);
+      toast.success('Followed successfully');
+    } catch (error: any) {
+      if (error.response && error.response.status === 403) {
+        toast.error(error.response.data.error.message || 'User is not verified!');
+      } else {
+        toast.error("Some Error occurred!")
       }
     }
-  });
+  };
 
-  const sanitizedSnippet = DOMPurify.sanitize(post?.codeSnippet || "", {
-    ADD_ATTR: ["style", "background"],
-  });
+  const handleUnfollow = async (userId: string) => {
+    if (!token) {
+      toast.error('Authentication token is missing');
+      return;
+    }
+    try {
+      await unfollowUser(userId, token);
+      setIsFollowing(false);
+      toast.success('Unfollowed successfully');
+    } catch (error: any) {
+      if (error.response && error.response.status === 403) {
+        toast.error(error.response.data.error.message || 'User is not verified!');
+      } else {
+        toast.error("Some Error occurred!")
+      }
+    }
+  };
 
   const handleNavigation = () => {
     const token = localStorage.getItem("token");
@@ -171,136 +189,73 @@ const Post = () => {
     navigate(`/app/profile/${post.author.id}`);
   };
 
-  const handleTabSwitch = (tab: any) => {
-    setActiveTab(tab);
-  }
+  const downloadAsZip = () => {
+  const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please Login to download!");
+      return;
+    }
+    const zip = new JSZip();
+    zip.file(`${post.title}.html`, post.codeSnippet);
+    zip.file(`${post.title}.js`, post.jsCodeSnippet);
+
+    zip.generateAsync({ type: 'blob' }).then((content) => {
+      saveAs(content, `${post.title}.zip`);
+    });
+  };
 
   return (
-    <div className="p-6 text-white max-w-screen-xl mx-auto">
+    <div className="-mt-10 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
+        <div className="p-6  text-[#000435] bg-white dark:text-white dark:bg-[#000435] max-w-screen-xl mx-auto" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <>
         <button
           onClick={() => window.history.back()}
-          className="mb-2 mt-2 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+          className="mb-2 mt-2 px-2 py-1 bg-sky-500 hover:bg-sky-600 text-white text-sm rounded"
         >
           <IoMdArrowRoundBack size={20} />
         </button>
-        <div className="flex flex-row content-center mb-1">
-          <h2 className="text-2xl font-semibold mr-3">{post.title}</h2>
+        <div className="flex flex-row  justify-center items-center  mb-1 ">
+          <h2 className="text-2xl font-bold mr-3   text-[#d952ff]  dark:text-white">{post.title}</h2>
           {isFavorite ? (
             <MdFavorite
               onClick={handleRemoveFromFavorite}
               size={33}
-              className="cursor-pointer text-blue-600 "
+              className="cursor-pointer text-[#fe4c4c]  "
             />
           ) : (
             <MdFavoriteBorder
               onClick={handleAddToFavorite}
               size={33}
-              className="cursor-pointer text-white"
+              className="cursor-pointer text-[#e74e4e] bg-white dark:text-white dark:bg-[#000435] "
             />
           )}
         </div>
+        {/* <ReactionButton postId={post.id} initialReaction={post.userReaction} /> */}
+        <p className="mb-4 flex flex-row font-semibold justify-center items-center content-center text-justify text-[#8437b4]  dark:text-white">{post.description}</p>
+        <PostCodeWithPreview
+          id={post.id}
+          isOwner={isOwner}
+          codeSnippet={post.codeSnippet}
+          jsCodeSnippet={post.jsCodeSnippet}
+          handleCustomizeAi={handleNavigation}
+          showCustomizeAiOption={true}
+          showTogether={true}
+        />
         <ReactionButton postId={post.id} initialReaction={post.userReaction} />
-        <p className="mb-4">{post.description}</p>
-        <div className="relative my-4">
-          {isPreview ? (
-            <div className="p-4 bg-gray-800 z-0 h-full overflow-hidden rounded border border-gray-700">
-              <iframe
-                ref={ref}
-                onLoad={onLoad}
-                className="w-full h-full border-0"
-                srcDoc={`<html class='flex w-full h-full'>
-                      <head>
-                        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-                        <script>
-                          document.addEventListener('DOMContentLoaded', function() {
-                            document.querySelectorAll('a[href="#"]').forEach(function(anchor) {
-                              anchor.addEventListener('click', function(e) {
-                                e.preventDefault();
-                                window.top.location.reload();
-                              });
-                            });
-                          });
-                        </script>
-                        </head>
-                      <body class='w-full h-full flex items-center justify-center minw-full min-h-full'>
-                        <div class='w-full h-full p-6'>${sanitizedSnippet}</div>
-                      </body>
-                      ${post.jsCodeSnippet ? `${post.jsCodeSnippet}` : ""}
-                    </html>`}
-                title="Preview"
-                sandbox="allow-scripts allow-same-origin"
-                style={{ minHeight: height, maxWidth: "100%" }}
-              />
-            </div>
-          ) : (<div>
-            <div className="flex bg-gray-800 border border-gray-700 rounded">
-              <button
-                onClick={() => handleTabSwitch("html")}
-                className={`px-4 py-2 ${activeTab === "html" ? 'bg-blue-600 text-white' : 'border border-gray-700 text-white'}`}
-              >
-                HTML
-              </button>
-              {(post.jsCodeSnippet != "") ? (
-                <button
-                  onClick={() => handleTabSwitch("js")}
-                  className={`px-4 py-2 ${activeTab === "js" ? 'bg-blue-600 text-white' : 'border border-gray-700  text-white'}`}
-                >
-                  JavaScript
-                </button>
-              ) : null}
-            </div>
-            <div className="">
-              {activeTab === "html" ? (
-                <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96">
-                  <code>{post.codeSnippet}</code>
-                </pre>
-              ) : (
-                <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96">
-                  <code>{post.jsCodeSnippet}</code>
-                </pre>
-              )}
-            </div>
-          </div>
-          )}
-          <div className="absolute top-2 right-3 flex space-x-2">
-            {isOwner && !isPreview ? (
-              <Link
-                to={`/app/posts/edit/${post.id}`}
-                className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
-              >
-                Edit
-              </Link>
-            ) : null}
-            {isPreview ? null : (
-              <button
-                onClick={handleCopy}
-                className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
-              >
-                {t("postdet.copy")}
-              </button>
-            )}
-            <button
-              onClick={togglePreview}
-              className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
-            >
-              {isPreview ? t("postdet.show") : t("postdet.preview")}
-            </button>
-            <button
-              onClick={handleNavigation}
-              className="px-2 py-1 rounded-md text-white bg-green-600 hover:bg-green-700 text-sm"
-            >
-              {t("postdet.cus")}
-            </button>
-          </div>
-        </div>
+        <button
+          onClick={downloadAsZip} 
+          className="flex items-center px-2 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+        >
+          <BsFileEarmarkZipFill className="mr-2" size={20} />
+          Download as zip
+        </button>
         <div className="mb-4">
           <h3 className="text-xl font-semibold my-2">{t("newPost.tags")}</h3>
           <div className="flex flex-wrap gap-2">
             {post.tags.map((tag, index) => (
               <span
                 key={index}
-                className="inline-flex items-center px-2 py-1 bg-gray-700 text-sm rounded"
+                className="inline-flex items-center px-2 py-1 text-[#fff] bg-sky-400 dark:text-white dark:bg-sky-500  text-sm rounded"
               >
                 {tag}
               </span>
@@ -308,7 +263,7 @@ const Post = () => {
           </div>
         </div>
         <div className="my-5">
-          <h3 className="text-xl font-semibold my-2">{t("postdet.author")}</h3>
+          <h3 className="text-xl font-semibold  my-2">{t("postdet.author")}</h3>
           <button
             onClick={handleProfileNavigation}
             data-tooltip-content={`View ${post.author.username} profile 👀`}
@@ -317,10 +272,29 @@ const Post = () => {
           >
             {t("postdet.user")}: @{post.author.username}
           </button>
+          <p className="text-black font-semibold text-sm  dark:text-white">{post.author.totalFollowers} followers</p>
+          {currentUser?.id && post.author?.id &&  currentUser?.id !== post.author?.id && (
+            isFollowing ? (
+              <button
+                className="mt-4 flex font-semibold py-2 px-2 text-white dark:text-white bg-sky-500 dark:bg-sky-500 rounded-xl p-3 border border-sky-500 hover:bg-blue-900 dark:hover:bg-blue-900"
+                onClick={() => handleUnfollow(post.author.id)}
+              >
+                <RiUserUnfollowFill size={23} className="mr-1" /> Unfollow {post.author.username}
+              </button>
+            ) : (
+              <button
+                className="mt-4 flex font-semibold py-2 px-2 text-white dark:text-white bg-sky-500 dark:bg-sky-500 rounded-xl p-3 border border-sky-500 hover:bg-blue-900 dark:hover:bg-blue-900"
+                onClick={() => handleFollow(post.author.id)}
+              >
+                <RiUserFollowFill size={23} className="mr-1" /> Follow {post.author.username}
+              </button>
+            )
+          )}
         </div>
         <SharePostButtons shareUrl={shareUrl} title={title} />
         <Comment />
       </>
+        </div>
     </div>
   );
 };

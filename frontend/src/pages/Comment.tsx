@@ -74,18 +74,18 @@ const Comment = () => {
   }
   
   return (
-    <div className="">
+    <div className="text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
       <div>
         <h3 className="text-xl font-semibold mb-4">{comments.length} {t("postdet.comments")}</h3>
         {comments.length > 0 ? (
           <ul className="space-y-3">
           {comments.map((comment: IComment) => (
-            <li key={comment.id} className="border-b border-gray-700 pb-3 flex items-start space-x-3">
+            <li key={comment.id} className=" pb-3 flex items-start space-x-3 text-sky-500">
               <img
                 src={`https://ui-avatars.com/api/?name=${comment.user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`}
                 width={40}
                 alt="profile-pic"
-                className="flex-shrink-0"
+                className="flex-shrink-0 "
               />
               <div>
                 <Link to={`/app/profile/${comment.user.id}`} data-tooltip-content={`View ${comment.user.username} profile 👀`} data-tooltip-id="my-tooltip" className="text-base">
@@ -94,21 +94,21 @@ const Comment = () => {
                     <span className="text-xs text-gray-500">{new Date(comment.createdAt).toLocaleString()}</span>
                   </strong>
                 </Link>
-                <p className="text-sm text-white">{comment.content}</p>
+                <p className="text-sm text-[#000435] bg-white dark:text-white dark:bg-[#000435]">{comment.content}</p>
               </div>
             </li>
           ))}
         </ul>
         
         ) : (
-          <p className="text-gray-300">{t("postdet.firstcomment")}</p>
+          <p className="text-[#000435] bg-white dark:text-white dark:bg-[#000435]">{t("postdet.firstcomment")}</p>
         )}
       </div>
       <form onSubmit={handleCommentSubmit} className="mt-5">
         <textarea
           value={commentContent}
           onChange={(e) => setCommentContent(e.target.value)}
-          className="w-full p-2 bg-gray-800 border border-gray-700 rounded mb-2"
+          className="w-full p-2 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-500 rounded mb-2"
           rows={2}
           placeholder={t("postdet.addcomment")}
           disabled={submitting}

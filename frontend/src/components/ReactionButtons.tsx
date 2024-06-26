@@ -132,13 +132,13 @@ const ReactionButton: React.FC<ReactionButtonProps> = ({ postId, initialReaction
     >
       <button
         onClick={reaction ? handleRemoveReaction : handleDefaultReaction}
-        className="p-2 bg-blue-950 backdrop-blur-sm rounded-lg border border-sky-500"
+        className="p-2 text-[#000435] bg-white dark:text-white dark:bg-[#000435] backdrop-blur-sm rounded-lg border border-sky-500"
       >
         {reaction ? reactionEmoji(reaction) : <AiOutlineLike size={30} color='#87CEEB' />}
       </button>
       {showEmojis && (
         <div
-          className="absolute flex space-x-5 mt-1 bg-blue-950 backdrop-blur-sm p-3 rounded-lg border border-sky-500 shadow-lg z-50"
+          className="absolute flex space-x-5 mt-1 text-[#000435] bg-white dark:text-white dark:bg-[#000435] backdrop-blur-sm p-3 rounded-lg border border-sky-500 shadow-lg z-50"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
@@ -152,7 +152,7 @@ const ReactionButton: React.FC<ReactionButtonProps> = ({ postId, initialReaction
       )}
       <br/>
       {reaction && (
-        <div className="mt-2 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded bg-blue-950 backdrop-blur-sm dark:text-blue-300  border border-sky-500">You reacted with {reaction}</div>
+        <div className="mt-2 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded  bg-white  dark:bg-[#000435] backdrop-blur-sm dark:text-blue-300  border border-sky-500">You reacted with {reaction}</div>
       )}
     </div>
   );
