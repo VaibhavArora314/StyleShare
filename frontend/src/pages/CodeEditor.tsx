@@ -3,8 +3,9 @@ import MonacoEditor from '@monaco-editor/react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import toast, { Toaster } from 'react-hot-toast';
-import { FaCopy } from 'react-icons/fa';
+// import { FaCopy } from 'react-icons/fa';
 import bgHero from "../assets/bgHero.png";
+import { FaCopy, FaBars, FaTimes } from 'react-icons/fa';
 
 const CodeEditor = () => {
   const initialCode = `<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-blue-400 py-6 sm:py-12">
@@ -49,6 +50,7 @@ const CodeEditor = () => {
   const outputRef = useRef<HTMLIFrameElement>(null);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleTabSwitch = (tab: "html" | "js") => {
     setActiveTab(tab);
@@ -95,9 +97,9 @@ const CodeEditor = () => {
 
     <div className='flex flex-col h-screen -mt-28 sm:-mt-8' style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <Toaster />
-      <nav className={`text-[#000435] bg-white dark:text-white dark:bg-[#000435] p-16 sm:p-5 mt-20 sm:mt-1`} style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        <div className="flex justify-between items-center">
-          <div>
+      <nav className={`text-[#000435] bg-white dark:text-white dark:bg-[#000435] p-5 sm:p-5 mt-20 sm:mt-1`} style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="flex flex-wrap justify-between items-center">
+          <div className="flex space-x-2 mb-2 md:mb-0">
             <button
               onClick={() => handleTabSwitch("html")}
               className={`p-2 rounded cursor-pointer border-2 font-mono border-red-200 focus:outline-none ${activeTab === "html" ? "bg-blue-600 text-white" : "border border-gray-700 text-[#801fc4]"}`}>
@@ -114,7 +116,7 @@ const CodeEditor = () => {
             className='p-2 rounded cursor-pointer border-2 font-mono border-red-200 focus:outline-none text-[#801fc4] bg-white dark:text-white dark:bg-[#000490] hover:bg-sky-500 hover:text-white dark:hover:text-white dark:hover:bg-sky-500'>
             {t("share")}
           </button>
-          <div >
+          <div>
             <button
               onClick={handleCopyToClipboard}
               className='p-2 rounded cursor-pointer border-2 font-mono border-red-200 focus:outline-none text-[#801fc4] bg-white dark:text-white dark:bg-[#000490] hover:bg-sky-500 hover:text-white dark:hover:text-white dark:hover:bg-sky-500 '>
