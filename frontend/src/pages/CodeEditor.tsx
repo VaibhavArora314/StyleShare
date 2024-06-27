@@ -3,9 +3,8 @@ import MonacoEditor from '@monaco-editor/react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import toast, { Toaster } from 'react-hot-toast';
-// import { FaCopy } from 'react-icons/fa';
 import bgHero from "../assets/bgHero.png";
-import { FaCopy, FaBars, FaTimes } from 'react-icons/fa';
+import { FaCopy } from 'react-icons/fa';
 
 const CodeEditor = () => {
   const initialCode = `<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-blue-400 py-6 sm:py-12">
@@ -50,7 +49,6 @@ const CodeEditor = () => {
   const outputRef = useRef<HTMLIFrameElement>(null);
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleTabSwitch = (tab: "html" | "js") => {
     setActiveTab(tab);
