@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import Loader from "../components/Loader";
 import toast from "react-hot-toast";
@@ -252,15 +252,16 @@ const Post = () => {
         <div className="mb-4">
           <h3 className="text-xl font-semibold my-2">{t("newPost.tags")}</h3>
           <div className="flex flex-wrap gap-2">
-            {post.tags.map((tag, index) => (
-              <span
-                key={index}
-                className="inline-flex items-center px-2 py-1 text-[#fff] bg-sky-400 dark:text-white dark:bg-sky-500  text-sm rounded"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+        {post.tags.map((tag, index) => (
+          <Link
+            to={`/app/posts?tags=${tag}`}
+            key={index}
+            className="inline-flex items-center px-2 py-1 border-2 border-[#5f67de] text-[#5f67de] font-semibold dark:border-white dark:text-white dark:bg-transparent text-sm rounded-md transition-colors duration-300 hover:bg-[#5f67de] hover:text-white dark:hover:bg-white dark:hover:text-black"
+          >
+            {tag}
+          </Link>
+        ))}
+      </div>
         </div>
         <div className="my-5">
           <h3 className="text-xl font-semibold  my-2">{t("postdet.author")}</h3>
