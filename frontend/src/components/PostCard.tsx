@@ -182,7 +182,7 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
       key={post.id}
       className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 border border-gray-600 p-6 rounded-lg shadow-lg hover:shadow-2xl hover:border-blue-500 hover:-translate-y-2 transition-transform duration-300 ease-in-out"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
     >
-<div className="flex justify-between items-center">
+      <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold mb-3 text-[#c94aff] bg-white dark:text-[#c94aff] dark:bg-blue-950">{post.title}</h2>
         {isFavorite ? (
           <MdFavorite
@@ -194,7 +194,7 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
           <MdFavoriteBorder
             onClick={handleAddToFavorite}
             size={33}
-            className="cursor-pointer text-[#e74e4e] bg-white dark:text-white dark:bg-[#000435]"
+            className="cursor-pointer text-[#e74e4e] dark:text-white"
           />
         )}
       </div>      <p className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 mb-4">
