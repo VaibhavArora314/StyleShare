@@ -171,7 +171,8 @@
         "newpost": "New Post",
         "profile": "Profile",
         "favorite": "Favorite",
-        "logout": "Logout"
+        "logout": "Logout",
+        "category":"Category"
     }
 },
     "leaderboard": {

@@ -18,7 +18,7 @@ const Features = () => {
           </div>
           <div className="flex flex-wrap -m-4">
           <div className="xl:w-1/4 md:w-1/2 p-4">
-              <div className="border border-sky-500 border-opacity-75 p-6 rounded-lg hover:bg-blue-300 dark:hover:bg-blue-950 hover:border-sky-700 backdrop-blur-sm cursor-pointer">
+              <div className="border border-sky-500 border-opacity-75 p-6 rounded-lg hover:bg-blue-300 dark:hover:bg-blue-950 hover:border-sky-700 backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1">
                 <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-sky-500 text-white mb-4">
                 <RiTailwindCssFill size={23}/>
                 </div>
@@ -27,7 +27,7 @@ const Features = () => {
               </div>
             </div>
             <div className="xl:w-1/4 md:w-1/2 p-4">
-              <div className="border border-sky-500 border-opacity-75 p-6 rounded-lg hover:bg-blue-300 dark:hover:bg-blue-950 hover:border-sky-700 backdrop-blur-sm cursor-pointer">
+              <div className="border border-sky-500 border-opacity-75 p-6 rounded-lg hover:bg-blue-300 dark:hover:bg-blue-950 hover:border-sky-700 backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1">
               <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-sky-500 text-white mb-4">
                 <MdLeaderboard size={23}/>
                 </div>
@@ -36,7 +36,7 @@ const Features = () => {
               </div>
             </div>
             <div className="xl:w-1/4 md:w-1/2 p-4">
-              <div className="border border-sky-500 border-opacity-75 p-6 rounded-lg hover:bg-blue-300 dark:hover:bg-blue-950 hover:border-sky-700 backdrop-blur-sm cursor-pointer">
+              <div className="border border-sky-500 border-opacity-75 p-6 rounded-lg hover:bg-blue-300 dark:hover:bg-blue-950 hover:border-sky-700 backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1">
               <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-sky-500 text-white mb-4">
                 <FaLaptopFile size={23}/>
                 </div>
@@ -45,7 +45,7 @@ const Features = () => {
               </div>
             </div>
             <div className="xl:w-1/4 md:w-1/2 p-4">
-              <div className="border border-sky-500 border-opacity-75 p-6 rounded-lg hover:bg-blue-300 dark:hover:bg-blue-950 hover:border-sky-700 backdrop-blur-sm cursor-pointer">
+              <div className="border border-sky-500 border-opacity-75 p-6 rounded-lg hover:bg-blue-300 dark:hover:bg-blue-950 hover:border-sky-700 backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1">
               <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-sky-500 text-white mb-4">
                 <BiSolidCustomize size={23}/>
                 </div>

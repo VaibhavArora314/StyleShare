@@ -59,26 +59,16 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme })=> {
         <button
           onClick={toggleMenu}
           type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-100 rounded-lg lg:hidden hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          className="relative inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-100 rounded-lg lg:hidden hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-200"
           aria-controls="navbar-default"
           aria-expanded={isMenuOpen ? "true" : "false"}
         >
           <span className="sr-only">Open Menu</span>
-          <svg
-            className="w-5 h-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 17 14"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 1h15M1 7h15M1 13h15"
-            />
-          </svg>
+          <div className="flex flex-col gap-1">
+               <span className={`h-0.5 w-4 bg-white transform transition duration-200 ease-in ${isMenuOpen?"rotate-[45deg]":"rotate-0"}`}></span>
+               <span className={`h-0.5 w-4 ${isMenuOpen?"bg-transparent":"bg-white"} transition duration-200 ease-in ${isMenuOpen?"absolute":"relative"} `}></span>
+               <span className={`h-0.5 w-4 bg-white transform transition duration-200 ease-in ${isMenuOpen?"rotate-[-45deg]":"rotate-0"} ${isMenuOpen?"absolute":"relative"} `}></span>
+          </div>
         </button>
         <div
           className={`${isMenuOpen ? "block" : "hidden"} w-full lg:block lg:w-auto transition-all duration-300 ease-in-out`}
