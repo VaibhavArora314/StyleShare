@@ -132,26 +132,30 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
             ))}
           </div>
       <div className="flex justify-between mt-1 ">
+        <button>
         <Link
           to={`/app/posts/${post.id}`}
           className="inline-block mt-4 text-blue-400 hover:text-blue-300 transition-colors duration-200 rounded-3xl border-2 border-blue-500 hover:border-blue-300 px-4 py-2"
         >
           Read More
         </Link>
+        </button>
         {currentUser && currentUser.id === post.author.id && (
           <div className="flex space-x-2">
+            <button>
             <Link
               to={`/app/posts/edit/${post.id}`}
               className="justify-end mt-4 inline-block text-blue-400 hover:text-blue-300 transition-colors duration-200 border-2 border-blue-500 hover:border-blue-300 p-2 rounded-3xl"
             >
-              <FaEdit size={25} />
+              <FaEdit size={23} />
             </Link>
+            </button>
             <button
               onClick={handleDelete}
               disabled={isDeleting}
               className="" 
             > <Link className="justify-end mt-4 inline-block text-red-500 hover:text-red-400 transition-colors duration-200 border-2 border-red-500 dark:border-red-500 hover:border-red-400 p-2 rounded-3xl" to={""}>
-                {isDeleting ? "Deleting..." : <MdDeleteOutline  size={20} />}
+                {isDeleting ? "Deleting..." : <MdDeleteOutline  size={23} />}
                 </Link>
             </button>
           </div>
