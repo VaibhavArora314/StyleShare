@@ -20,6 +20,12 @@ app.get('/app/*', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../../frontend/dist', 'index.html'));
 });
 
+app.use('/admin', express.static(path.join(__dirname, '../../admin/dist'), {maxAge: 0}));
+app.get('/admin/*', (req: Request, res: Response) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  res.sendFile(path.join(__dirname, '../../admin/dist', 'index.html'));
+});
+
 app.use("/api/v1", rootRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

@@ -43,6 +43,8 @@ const Profile = ()=> {
       }
     };
 
+    document.title='Style Share | View profile 👀'
+
     fetchUser();
   }, [token,posts]);
 

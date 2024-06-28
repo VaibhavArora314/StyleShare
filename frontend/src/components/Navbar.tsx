@@ -6,8 +6,8 @@ import toast from "react-hot-toast";
 import logo from '../assets/favicon.png';
 import { useTranslation } from "react-i18next";
 import LanguageDropdown from "./LanguageDropdown";
-import { FaHome, FaScroll, FaTrophy, FaUser, FaPlus, FaCode, FaHeart, FaSignOutAlt, FaMoon, FaSun } from 'react-icons/fa'; // Import necessary icons
-import { IoLogIn, IoPersonAdd } from 'react-icons/io5'; // Additional icons if needed
+import { FaHome, FaScroll, FaTrophy, FaUser, FaPlus, FaCode, FaHeart, FaSignOutAlt, FaMoon, FaSun, FaStar } from 'react-icons/fa';
+import { IoLogIn, IoPersonAdd } from 'react-icons/io5';
 import clsx from 'clsx';
 
 interface NavbarProps {
@@ -39,7 +39,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
 
   const getNavLinkClass = (path: string) => {
     return clsx(
-      "block py-2 px-3 rounded md:border-0 md:p-0 text-white md:hover:text-blue-300 hover:bg-blue-400 hover:text-white md:hover:bg-transparent",
+      "block py-2 px-4 rounded md:border-0 md:p-0 text-white md:hover:text-blue-300 hover:bg-blue-400 hover:text-white md:hover:bg-transparent transition duration-300 ease-in-out",
       {
         "text-blue-600": location.pathname === path,
       }
@@ -48,23 +48,21 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
 
   return (
     <nav className="bg-gradient-to-r from-[#6a11cb] via-[#ab67df] to-[#2575fc] fixed w-full z-20 top-0 start-0">
-
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link to="/app" className="flex items-center space-x-3 rtl:space-x-reverse" onClick={closeMenu}>
-          <div className="flex items-center space-x-3 rtl:space-x-reverse dark:text-black">
+      <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
+        {/* Styleshare logo and language selector */}
+        <div className="flex items-center space-x-3">
+          <Link to="/app" className="flex items-center space-x-3 rtl:space-x-reverse" onClick={closeMenu}>
             <img src={logo} className="h-8" alt="Styleshare Logo" />
             <span className="self-center text-2xl font-bold text-white font-mono">
               {t("navbar.logo")}
             </span>
-          </div>
-          <div>
-            <LanguageDropdown />
-          </div>
-        </Link>
+          </Link>
+          <LanguageDropdown />
+        </div>
         <button
           onClick={toggleMenu}
           type="button"
-          className="relative inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-100 rounded-lg lg:hidden hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          className="relative inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-100 rounded-lg lg:hidden hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-200 ml-4"
           aria-controls="navbar-default"
           aria-expanded={isMenuOpen ? "true" : "false"}
         >
@@ -76,10 +74,10 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
           </div>
         </button>
         <div
-          className={`${isMenuOpen ? "block" : "hidden"} w-full lg:block lg:w-auto transition-all duration-300 ease-in-out`}
+          className={`${isMenuOpen ? "block" : "hidden"} lg:block lg:w-auto transition-all duration-300 ease-in-out`}
           id="navbar-default"
         >
-          <ul className="font-medium flex flex-col p-0 text-lg lg:p-0 mt-4 border rounded-lg lg:flex-row lg:space-x-5 rtl:space-x-reverse lg:mt-0 lg:border-0">
+          <ul className="font-medium flex flex-col p-0 text-lg lg:p-0 mt-4 border rounded-lg lg:flex-row lg:space-x-4 rtl:space-x-reverse lg:mt-0 lg:border-0">
             <li className="mt-2 lg:mb-0">
               <Link to="/app" className={getNavLinkClass("/app")} aria-current="page" onClick={closeMenu}>
                 <FaHome className="inline-block mr-2" /> {t("navbar.links.home")}
@@ -95,9 +93,14 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                 <FaTrophy className="inline-block mr-2" /> {t("navbar.links.leaderboard")}
               </Link>
             </li>
+            <li className="mt-2">
+              <Link to="/app/rateus" className={getNavLinkClass("/app/rateus")} onClick={closeMenu}>
+                <FaStar className="inline-block mr-2" /> Rate Us
+              </Link>
+            </li>
             {!isLoggedIn ? (
-              <div className="flex flex-col lg:flex-row lg:space-x-4">
-                <li className="mb-2 lg:mb-0">
+              <div className="flex flex-col lg:flex-row lg:space-x-4 items-center mt-4 lg:mt-0">
+                <li>
                   <Link to="/app/signin" onClick={closeMenu}>
                     <button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
                       <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
@@ -145,19 +148,21 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                 </li>
                 <li className="mt-2">
                   <Link to="/app/fav" className={getNavLinkClass("/app/fav")} onClick={closeMenu}>
-                    <FaHeart className="inline-block mr-2" /> {t("navbar.links.favorite")}
+                    <FaHeart className="inline-block mr-2" /> {t("navbar.links.favorites")}
                   </Link>
                 </li>
-                <li className="mt-1">
+                <li className="mt-2">
                   <button
-                    className=" text-white px-4 py-2 -mt-3  rounded-lg bg-blue-500 hover:bg-blue-600"
                     onClick={handleLogout}
+                    className="inline-flex items-center justify-center w-full lg:w-auto h-12 px-6 text-lg text-white transition duration-300 ease-in-out bg-red-500 rounded-lg focus:outline-none hover:bg-red-600"
                   >
                     <FaSignOutAlt className="inline-block mr-2" /> {t("navbar.links.logout")}
                   </button>
+                </li>
+                <li>
                   <button
                     onClick={toggleTheme}
-                    className="inline-flex mx-1  border-2 border-white items-center justify-center w-10 h-10 text-gray-100 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                    className="inline-flex mt-1 border-2 border-white items-center justify-center w-10 h-10 text-gray-100 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-200 lg:hidden"
                   >
                     {theme === 'light' ? <FaMoon className="w-4 h-4 " /> : <FaSun className="w-4 h-4" />}
                   </button>

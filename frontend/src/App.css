@@ -18,6 +18,11 @@
   background-color: #ab67df;
 }
 
+::-webkit-scrollbar-thumb:hover {
+  background-color: #843bbf; 
+  cursor: pointer;
+}
+
 .scroll-margin-top {
   scroll-margin-top: 100px;
 }
