@@ -28,6 +28,8 @@ const NewPost = () => {
         setJsCodeSnippet(location.state.jsCodeSnippet);
       }
     }
+
+    document.title='Style Share | Create Post 🗽'
   }, [location.state]);
 
   const handleAddTag = () => {

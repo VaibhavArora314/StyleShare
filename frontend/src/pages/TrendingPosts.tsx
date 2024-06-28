@@ -49,6 +49,8 @@ const TrendingPosts = () => {
       }
     };
 
+    document.title="Style Share | What's trending 🎉"
+
     fetchPosts();
   }, []);
 

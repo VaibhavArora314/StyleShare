@@ -54,6 +54,8 @@ const CodeEditor = () => {
     setActiveTab(tab);
   };
 
+  document.title='Style Share | Code your creativity 👨‍💻'
+
   const updateOutput = (code: string, jsCode: string) => {
     const doc = `
       <!DOCTYPE html>

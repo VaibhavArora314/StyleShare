@@ -49,6 +49,8 @@ const Posts = () => {
       }
     };
 
+    document.title='Style Share | Our Posts 📃'
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);

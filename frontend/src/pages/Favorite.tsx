@@ -49,6 +49,8 @@ const Favorite = () => {
       }
     };
 
+    document.title="Style Share | My favorite 💖"
+
     getFavoritePosts();
   }, [user]);
 

@@ -9,10 +9,11 @@ import bgHero from "../assets/bgHero.png";
 
 
 const LeaderBoard  = () => {
-    const {loading, leaderboard} = useLeaderboard();
+  const {loading, leaderboard} = useLeaderboard();
   const currentUser = useRecoilValue(userState);
   const {t} = useTranslation();
 
+  document.title='Style Share | Top users 😎'
 
   return (
     <div className="-mt-7 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
