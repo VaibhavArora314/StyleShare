@@ -34,7 +34,7 @@ const FAQ: React.FC = () => {
                   onClick={() => handleToggle(index)}
                   className={`animated-border-inner w-full focus:outline-none transition duration-100 ease-in-out text-[#000435] bg-white dark:text-white dark:bg-[#000435]`}
                 >
-                  <span className="text-lg md:text-2xl leading-6 font-medium text-[#000435] bg-white dark:text-white dark:bg-[#000435]">{faq.question}</span>
+                  <span className="text-lg md:text-2xl leading-6 font-medium text-[#000435] bg-white dark:text-white dark:bg-[#000435] hover:text-purple-600">{faq.question}</span>
                   {activeIndex === index ? <BiChevronUp className="h-5 w-5" /> : <BiChevronDown className="h-5 w-5" />}
                 </button>
               </div>
