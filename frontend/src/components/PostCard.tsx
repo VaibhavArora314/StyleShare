@@ -4,10 +4,12 @@ import { RiLightbulbFlashFill } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { IPost, IUser } from "../types";
 import { MdDeleteOutline } from "react-icons/md";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
+import bgHero from "../assets/bgHero.png";
+import { MdFavorite,MdFavoriteBorder } from "react-icons/md";
 
 type Props = {
   post: IPost;
@@ -18,6 +20,7 @@ type Props = {
 const PostCard = ({ post, onDelete, currentUser }: Props) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [reactions, setReactions] = useState<{ type: string, count: number }[]>([]);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const fetchReactions = async () => {
@@ -35,6 +38,81 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
 
     fetchReactions();
   }, [post.id]);
+
+  useEffect(() => {
+    const favoriteStatus = localStorage.getItem(`post-${post.id}-favorite`);
+    setIsFavorite(favoriteStatus === "true");
+  }, [post.id]);
+
+  const handleAddToFavorite = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Please login to add a post to favorites");
+        return;
+      }
+      await axios.post(
+        `/api/v1/posts/${post.id}/favorite`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setIsFavorite(true);
+      localStorage.setItem(`post-${post.id}-favorite`, "true");
+      toast.success("Post added to favorites");
+    } catch (e) {
+      const error = e as AxiosError<{
+        error: {
+          message: string;
+        };
+      }>;
+      if (error.response && error.response.status === 403) {
+        toast.error(
+          error.response.data.error.message || "User is not verified!"
+        );
+      } else {
+        toast.error("Failed to add to favorites. Please try again later.");
+      }
+    }
+  };
+
+  const handleRemoveFromFavorite = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Please login to remove a post from favorites");
+        return;
+      }
+      await axios.post(
+        `/api/v1/posts/${post.id}/unfavorite`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setIsFavorite(false);
+      localStorage.removeItem(`post-${post.id}-favorite`);
+      toast.success("Post removed from favorites");
+    } catch (e) {
+      const error = e as AxiosError<{
+        error: {
+          message: string;
+        };
+      }>;
+      if (error.response && error.response.status === 403) {
+        toast.error(
+          error.response.data.error.message || "User is not verified!"
+        );
+      } else {
+        toast.error("Failed to remove from favorites. Please try again later.");
+      }
+    }
+  };
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -60,7 +138,6 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
     const totalReactions = reactions.reduce((acc, reaction) => {
       return acc + (reaction.count || 0);
     }, 0);
-
     return (
       <div className="flex -space-x-2 rtl:space-x-reverse mt-4">
         {reactions.map((reaction, index) => {
@@ -103,10 +180,24 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
   return (
     <div
       key={post.id}
-      className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 border border-gray-600 p-6 rounded-lg shadow-lg hover:shadow-2xl hover:border-blue-500 hover:-translate-y-2 transition-transform duration-300 ease-in-out"
+      className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 border border-gray-600 p-6 rounded-lg shadow-lg hover:shadow-2xl hover:border-blue-500 hover:-translate-y-2 transition-transform duration-300 ease-in-out"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
     >
-      <h2 className="text-xl font-bold mb-3 text-[#5f67de] bg-white dark:text-white dark:bg-blue-950">{post.title}</h2>
-      <p className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 mb-4">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-bold mb-3 text-[#c94aff] bg-white dark:text-[#c94aff] dark:bg-blue-950">{post.title}</h2>
+        {isFavorite ? (
+          <MdFavorite
+            onClick={handleRemoveFromFavorite}
+            size={33}
+            className="cursor-pointer text-[#fe4c4c]"
+          />
+        ) : (
+          <MdFavoriteBorder
+            onClick={handleAddToFavorite}
+            size={33}
+            className="cursor-pointer text-[#e74e4e] dark:text-white"
+          />
+        )}
+      </div>      <p className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 mb-4">
         {post.description.length > 100
           ? `${post.description.slice(0, 100)}...`
           : post.description}
@@ -118,37 +209,43 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
         </strong>
         </Link>
       </p>
-      <div className="mt-2 flex flex-wrap gap-2  text-blue-950 bg-white dark:text-white dark:bg-blue-950 ">
-        {post.tags.map((tag, index) => (
-          <span
-            key={index}
-            className="text-sm text-blue-950 bg-white dark:text-white dark:bg-blue-950 border-2 border-blue-900 dark:border-white px-3 py-1 rounded-full"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
+      
+      <div className="flex flex-wrap gap-2">
+            {post.tags.map((tag, index) => (
+              <Link
+                to={`/app/posts?tags=${tag}`}
+                key={index}
+                className="inline-flex items-center px-2 py-1 border-2 border-[#5f67de] text-[#5f67de] font-semibold dark:border-white dark:text-white dark:bg-transparent text-sm rounded-md transition-colors duration-300 hover:bg-[#5f67de] hover:text-white dark:hover:bg-white dark:hover:text-black"
+              >
+                {tag}
+              </Link>
+            ))}
+          </div>
       <div className="flex justify-between mt-1 ">
+        <button>
         <Link
           to={`/app/posts/${post.id}`}
           className="inline-block mt-4 text-blue-400 hover:text-blue-300 transition-colors duration-200 rounded-3xl border-2 border-blue-500 hover:border-blue-300 px-4 py-2"
         >
           Read More
         </Link>
+        </button>
         {currentUser && currentUser.id === post.author.id && (
           <div className="flex space-x-2">
+            <button>
             <Link
               to={`/app/posts/edit/${post.id}`}
               className="justify-end mt-4 inline-block text-blue-400 hover:text-blue-300 transition-colors duration-200 border-2 border-blue-500 hover:border-blue-300 p-2 rounded-3xl"
             >
-              <FaEdit size={25} />
+              <FaEdit size={23} />
             </Link>
+            </button>
             <button
               onClick={handleDelete}
               disabled={isDeleting}
               className="" 
             > <Link className="justify-end mt-4 inline-block text-red-500 hover:text-red-400 transition-colors duration-200 border-2 border-red-500 dark:border-red-500 hover:border-red-400 p-2 rounded-3xl" to={""}>
-                {isDeleting ? "Deleting..." : <MdDeleteOutline  size={20} />}
+                {isDeleting ? "Deleting..." : <MdDeleteOutline  size={23} />}
                 </Link>
             </button>
           </div>

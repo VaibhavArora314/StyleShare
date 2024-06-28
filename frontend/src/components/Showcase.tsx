@@ -1,32 +1,44 @@
 import React from 'react';
-import editor from "../assets/editor.png"; 
+import editor from "../assets/editor.png";
+import { useTranslation } from 'react-i18next';
 
 const Showcase: React.FC = () => {
-  const features = [
-    {
-      title: "Live Preview",
-      description: "Instantly see the results of your code changes with our live preview feature. Perfect for rapid prototyping and debugging."
-    },
-    {
-      title: "Syntax Highlighting",
-      description: "Enjoy a rich editing experience with syntax highlighting for HTML, CSS, and JavaScript. Easily identify code elements and errors."
-    },
-    {
-      title: "Auto-Completion",
-      description: "Speed up your coding with intelligent auto-completion suggestions for tags, attributes, and more."
-    }
-  ];
+  const { t } = useTranslation();
+
+  const editorData = {
+    title: t("editor.title"),
+    features: [
+      {
+        title: t("editor.livePreview.title"),
+        description: t("editor.livePreview.description")
+      },
+      {
+        title: t("editor.syntaxHighlighting.title"),
+        description: t("editor.syntaxHighlighting.description")
+      },
+      {
+        title: t("editor.autoCompletion.title"),
+        description: t("editor.autoCompletion.description")
+      }
+    ]
+  };
 
   return (
     <section className="text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-4xl mb-14 font-extrabold text-center text-[#000435] bg-white dark:text-white dark:bg-[#000435]">🚀  Our Code Editor 🚀</h2>
+        <p className="text-2xl lg:text-4xl xl:text-4xl 2xl:text-4xl mb-6 lg:mb-14 font-extrabold text-center text-[#b752fa] dark:text-white">
+          {editorData.title}
+        </p>
         <div className="flex flex-col md:flex-row md:space-x-6 items-center">
           <div className="md:w-1/2 space-y-5">
-            {features.map((feature, index) => (
-              <div key={index} className="p-6 rounded-lg shadow-md border-2 animated-border1 transition-transform duration-300 hover:-translate-y-1">
-                <h3 className="text-2xl font-bold mb-2">{feature.title}</h3>
-                <p className="text-lg font-mono">{feature.description}</p>
+            {editorData.features.map((feature, index) => (
+              <div key={index} className="p-4 sm:p-4 md:p-6 lg:p-8 rounded-lg shadow-md border-2 border-grey-500 transition-transform duration-300 hover:-translate-y-2">
+                <h3 className="text-md md:text-xl lg:text-2xl font-bold mb-2 text-[#b752fa] dark:text-white">
+                  {feature.title}
+                </h3>
+                <p className="text-md lg:text-lg font-mono">
+                  {feature.description}
+                </p>
               </div>
             ))}
           </div>
