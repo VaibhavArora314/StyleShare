@@ -1,6 +1,6 @@
 import { ReactElement, useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import {  isAdminLoggedInState } from "../store/atoms";
+import {  isAdminLoggedInState } from "../../store/atoms/adminauth";
 import { useNavigate } from "react-router-dom";
 
 type Props = {

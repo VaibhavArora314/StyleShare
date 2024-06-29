@@ -31,9 +31,9 @@ import EditPost from "./pages/EditPost";
 import useTheme from './hooks/useTheme';
 import CodeEditor from "./pages/CodeEditor";
 import TrendingPosts from "./pages/TrendingPosts";
-import AdminLogin from "../../admin/src/auth/AdminLogin";
-import AdminDashboard from "../../admin/src/pages/Dashboard";
-import AuthenticatedAdminRoute from "../../admin/src/components/AuthenticatedAdminRoute";
+import AdminLogin from "./admin/auth/AdminLogin";
+import AdminDashboard from "./admin/pages/Dashboard";
+import AuthenticatedAdminRoute from "./admin/components/AuthenticatedAdminRoute";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 

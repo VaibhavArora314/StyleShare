@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loggedInState, tokenState } from "../store/atoms/auth";
-import { isAdminLoggedInState, adminTokenState } from '../../../admin/src/store/atoms';
+import { isAdminLoggedInState, adminTokenState } from '../store/atoms/adminauth';
 import { Link, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import logo from '../assets/favicon.png';
@@ -137,7 +137,9 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
               </div>
             ) : (
               <>
-                <li className="mt-2">
+              {!isAdminLoggedIn && 
+              <>
+              <li className="mt-2">
                   <Link to="/app/new-post" className={getNavLinkClass("/app/new-post")} onClick={closeMenu}>
                     {t("navbar.links.newpost")}
                   </Link>
@@ -157,7 +159,10 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                     {t("navbar.links.favorite")}
                   </Link>
                 </li>
-                {isAdminLoggedIn &&
+              </>
+              }
+
+                {isAdminLoggedIn && 
                   <li className="mt-2">
                     <Link to="/app/admindashboard" className={getNavLinkClass("/app/admindashboard")} onClick={closeMenu}>
                       Dashboard

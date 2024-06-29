@@ -61,7 +61,8 @@ export const adminProfileController = async (req: UserAuthRequest, res: Response
     },
     select: {
       id: true,
-      email: true
+      email: true,
+      isAdmin:true
     },
   });
 
