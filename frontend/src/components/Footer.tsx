@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { loggedInState } from '../store/atoms/auth';
 import { CgProfile } from 'react-icons/cg';
 import { BsFilePost } from 'react-icons/bs';
-import { FaHome } from 'react-icons/fa';
+import { FaHome ,FaRegCopyright } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import logo from "../assets/favicon.png";
 
@@ -86,9 +86,12 @@ const Footer = () => {
                     </Link>
                 </div>
            </div>
-           <div className='mt-10 text-gray-300 xl:flex justify-center text-md lg:text-xl xl:text-md'>
-                {t('footer.copy1')} {currentYear} {t('footer.copy2')}
-           </div>
+           <div className='mt-10 text-gray-300 flex justify-center items-center text-md lg:text-xl'>
+               <FaRegCopyright className="mr-1 mt-[4.5px]" />
+               <span>
+               {t('footer.copy1')} {currentYear} {t('footer.copy2')}
+               </span>
+          </div>
         </div>
     )
 }
