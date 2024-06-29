@@ -30,6 +30,7 @@ export interface IUser {
   verified: boolean;
   createdAt:string;
   posts: IPost[];
+  isAdmin:boolean;
   favoritePosts?: IPost[]; 
   isFollowing: boolean;
   _count: {

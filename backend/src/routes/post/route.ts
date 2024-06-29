@@ -1,12 +1,6 @@
 import { Router } from "express";
 import authMiddleware from "../../middleware/auth"
-
-
-
-
-
 import { getTrendingPostsController,aiCustomization, createCommentController, createPostController, deletePostController, favoritePostController, getAllTagsController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostReactionsController, getPostsWithPagination, getUserReactionController, reactToPostController, removeReactionController, unfavoritePostController, updatePostController } from "./controller";
-
 
 const postRouter = Router();
 
