@@ -78,19 +78,16 @@ const Footer = () => {
             </div>
            <div className='block w-3/4 m-auto mt-10'>
                 <div className='flex gap-4 justify-center md:justify-end'>
-                    <a href="https://github.com/VaibhavArora314/StyleShare" className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease">
+                    <a href="https://github.com/VaibhavArora314/StyleShare" className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease rounded-3xl">
                         <img src={github} alt="github" className='pointer w-14 h-14' />
                     </a>
-                    <Link to='/app' className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease flex items-center justify-center p-2 text-white rounded-full focus:outline-none">
+                    <Link to='/app' className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease flex items-center justify-center p-2 text-white focus:outline-none rounded-3xl">
                         <FaHome size={35} />
                     </Link>
                 </div>
            </div>
            <div className='mt-10 text-gray-300 flex justify-center items-center text-md lg:text-xl'>
-               <FaRegCopyright className="mr-1 mt-[4.5px]" />
-               <span>
-               {t('footer.copy1')} {currentYear} {t('footer.copy2')}
-               </span>
+               {t('footer.copy1')} <FaRegCopyright className="ml-2 mr-1 mt-1" /> {currentYear} {t('footer.copy2')}
           </div>
         </div>
     )
