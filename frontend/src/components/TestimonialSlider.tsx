@@ -116,4 +116,3 @@ const TestimonialSlider: React.FC = () => {
 };
 
 export default TestimonialSlider;
-
