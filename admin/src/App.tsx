@@ -1,16 +1,15 @@
-import { BrowserRouter } from "react-router-dom"
-import { useRecoilValue } from "recoil"
-import { userState } from "./store/atoms/auth"
+import { BrowserRouter } from "react-router-dom";
+import { RecoilRoot } from "recoil";
+import React from "react";
 
 function App() {
-  const user = useRecoilValue(userState);
-  console.log(user);
-
   return (
     <BrowserRouter>
-      Admin Panel
+      <RecoilRoot>
+        <React.Suspense fallback={<></>}>Admin Panel</React.Suspense>
+      </RecoilRoot>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
