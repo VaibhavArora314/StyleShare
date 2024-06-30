@@ -25,7 +25,7 @@
   });
 
   export const googleSchema = zod.object({
-    username: zod.string(),
+    displayname: zod.string(),
     email:zod.string().email(),
     password:zod.string()
   })
