@@ -31,6 +31,9 @@ import EditPost from "./pages/EditPost";
 import useTheme from './hooks/useTheme';
 import CodeEditor from "./pages/CodeEditor";
 import TrendingPosts from "./pages/TrendingPosts";
+import AdminLogin from "../../admin/src/auth/AdminLogin";
+import AdminDashboard from "../../admin/src/pages/Dashboard";
+import AuthenticatedAdminRoute from "../../admin/src/components/AuthenticatedAdminRoute";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -49,7 +52,7 @@ function App() {
                 <Route path="/app" element={<Home />} />
                 <Route path="/app/posts/:id" element={<Post />} />
                 <Route path="/app/posts" element={<Posts />} />
-                <Route path="/app/profile/:id" element={<ShowProfile/>} />
+                <Route path="/app/profile/:id" element={<ShowProfile />} />
                 <Route
                   path="/app/signin"
                   element={
@@ -64,6 +67,22 @@ function App() {
                     <NonAuthenticatedRoute>
                       <Signup />
                     </NonAuthenticatedRoute>
+                  }
+                />
+                <Route
+                  path="/app/admin"
+                  element={
+                    <NonAuthenticatedRoute>
+                      <AdminLogin />
+                    </NonAuthenticatedRoute>
+                  }
+                />
+                <Route
+                  path="/app/admindashboard"
+                  element={
+                    <AuthenticatedAdminRoute>
+                      <AdminDashboard  />
+                    </AuthenticatedAdminRoute>
                   }
                 />
                 <Route

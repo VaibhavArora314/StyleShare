@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "../admin/src/components", "../admin/src/auth", "../admin/src/store/atoms/adminauth.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
