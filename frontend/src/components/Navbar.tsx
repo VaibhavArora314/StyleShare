@@ -1,7 +1,7 @@
 import React, {  useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loggedInState, tokenState } from "../store/atoms/auth";
-import { isAdminLoggedInState, adminTokenState } from '../store/atoms/adminauth';
+import { isAdminLoggedInState, adminTokenState } from '../../../admin/src/store/atoms/adminauth';
 import { Link, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import logo from '../assets/favicon.png';

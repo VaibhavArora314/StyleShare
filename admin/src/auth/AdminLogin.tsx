@@ -2,11 +2,11 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { adminTokenState } from "../../store/atoms/adminauth"; 
+import { adminTokenState } from "../store/atoms/adminauth"; 
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-import bgHero from "../../assets/bgHero.png";
+import bgHero from "../../../frontend/src/assets/bgHero.png";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
