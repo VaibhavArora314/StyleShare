@@ -34,8 +34,8 @@ import TrendingPosts from "./pages/TrendingPosts";
 import AdminLogin from "../../admin/src/auth/AdminLogin";
 import AdminDashboard from "../../admin/src/pages/Dashboard";
 import AuthenticatedAdminRoute from "../../admin/src/components/AuthenticatedAdminRoute";
-import axios from "axios";
-axios.defaults.baseURL = "http://localhost:3001/";
+// import axios from "axios";
+// axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
   const { theme, toggleTheme } = useTheme();
