@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { IPost } from "../types";
 import axios from "axios";
 
@@ -6,20 +6,20 @@ type Props = {
   initialPage: number;
   pageSize: number;
   searchQuery: string;
-  tags: string[]
-}
+  tags: string[];
+};
 
-const usePosts = ({initialPage = 1,pageSize=12,searchQuery="",tags=[]}:Props) => {
+const usePosts = ({ initialPage = 1, pageSize = 12, searchQuery = "", tags = [] }: Props) => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
-  const [timeoutValue,setTimeoutValue] = useState<number | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const fetchPosts = useCallback(async () => {
     try {
-      // setLoading(true);
+      setLoading(true);
       const response = await axios.get(
         `/api/v1/posts?page=${page}&pageSize=${pageSize}&searchQuery=${searchQuery}&tags=${tags.join(",")}`
       );
@@ -30,15 +30,21 @@ const usePosts = ({initialPage = 1,pageSize=12,searchQuery="",tags=[]}:Props) =>
       setError("Failed to fetch posts");
       setLoading(false);
     }
-  },[page,pageSize,tags,searchQuery]);
+  }, [page, pageSize, tags, searchQuery]);
 
   useEffect(() => {
-    if (timeoutValue) clearTimeout(timeoutValue);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
 
-    const timeout = setTimeout(fetchPosts,300);
-    setTimeoutValue(timeout);
-    // fetchPosts();
-  }, [page,pageSize,tags,searchQuery,fetchPosts]);
+    timeoutRef.current = setTimeout(fetchPosts, 300);
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [page, pageSize, tags, searchQuery, fetchPosts]);
 
   const handlePreviousPage = () => {
     if (page > 1) {
@@ -70,7 +76,7 @@ const usePosts = ({initialPage = 1,pageSize=12,searchQuery="",tags=[]}:Props) =>
     handlePreviousPage,
     handlePageClick,
     handleDelete,
-  }
+  };
 };
 
 export default usePosts;
