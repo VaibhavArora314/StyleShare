@@ -14,7 +14,7 @@ export const userState = selector({
         if (!token) return null;
 
         try {
-            const { data } = await axios.get('/api/auth/v1/user/me', {
+            const { data } = await axios.get('/api/v1/admin/me', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
