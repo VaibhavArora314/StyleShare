@@ -3,7 +3,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loggedInState, tokenState } from "../store/atoms/auth";
 import { Link, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
-import logo from '../assets/favicon.png';
+import logo from "../assets/favicon.png";
 import { useTranslation } from "react-i18next";
 import LanguageDropdown from "./LanguageDropdown";
 import { FaSun, FaMoon } from 'react-icons/fa';
@@ -32,7 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme })=> {
     localStorage.removeItem("token");
     setTokenState("");
     closeMenu();
-    toast.success('Logged out successfully');
+    toast.success("Logged out successfully");
   };
 
   const getNavLinkClass = (path: string) => {
@@ -42,13 +42,17 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme })=> {
   };
 
   return (
-    <nav className={`bg-gradient-to-r from-[#6a11cb] via-[#ab67df] to-[#2575fc] fixed w-full z-20 top-0 start-0 `}>
-
+    <nav className="bg-gradient-to-r from-[#6a11cb] via-[#ab67df] to-[#2575fc]  fixed w-full z-20 top-0 start-0">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link to="/app" className="flex items-center justify-between space-x-3 rtl:space-x-reverse" onClick={closeMenu}>
-          <div className="flex items-center space-x-3 rtl:space-x-reverse dark:text-black">
+        <Link
+          to="/app"
+          className="flex items-center justify-between space-x-3 rtl:space-x-reverse"
+          onClick={closeMenu}
+        >
+          <div className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={logo} className="h-8" alt="Styleshare Logo" />
-            <span className="self-center text-2xl font-bold text-white font-mono">
+            <span className="self-center text-2xl font-bold  text-white font-mono">
+
               {t("navbar.logo")}
             </span>
           </div>
@@ -76,17 +80,30 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme })=> {
         >
           <ul className="font-medium flex flex-col p-0 text-lg lg:p-0 mt-4 border rounded-lg lg:flex-row lg:space-x-5 rtl:space-x-reverse lg:mt-0 lg:border-0">
             <li className="mt-2 lg:mb-0">
-              <Link to="/app" className={getNavLinkClass("/app")} aria-current="page" onClick={closeMenu}>
+              <Link
+                to="/app"
+                className={getNavLinkClass("/app")}
+                aria-current="page"
+                onClick={closeMenu}
+              >
                 {t("navbar.links.home")}
               </Link>
             </li>
             <li className="mt-2">
-              <Link to="/app/posts" className={getNavLinkClass("/app/posts")} onClick={closeMenu}>
+              <Link
+                to="/app/posts"
+                className={getNavLinkClass("/app/posts")}
+                onClick={closeMenu}
+              >
                 {t("navbar.links.posts")}
               </Link>
             </li>
             <li className="mt-2">
-              <Link to="/app/leaderboard" className={getNavLinkClass("/app/leaderboard")} onClick={closeMenu}>
+              <Link
+                to="/app/leaderboard"
+                className={getNavLinkClass("/app/leaderboard")}
+                onClick={closeMenu}
+              >
                 {t("navbar.links.leaderboard")}
               </Link>
             </li>
@@ -106,7 +123,8 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme })=> {
                   <Link to="/app/signup" onClick={closeMenu}>
                     <button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
                       <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-                      <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-gradient-to-l from-[#c779e8] to-indigo-500 px-5 text-lg font-small text-white backdrop-blur-3xl">
+                      <span className="inline-flex   h-full w-full cursor-pointer items-center justify-center rounded-full bg-gradient-to-l  from-[#c779e8] to-indigo-500 px-5  text-lg font-small text-white backdrop-blur-3xl">
+
                         {t("navbar.links.signup")}
                       </span>
                     </button>
@@ -125,7 +143,11 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme })=> {
             ) : (
               <>
                 <li className="mt-2">
-                  <Link to="/app/new-post" className={getNavLinkClass("/app/new-post")} onClick={closeMenu}>
+                  <Link
+                    to="/app/new-post"
+                    className={getNavLinkClass("/app/new-post")}
+                    onClick={closeMenu}
+                  >
                     {t("navbar.links.newpost")}
                   </Link>
                 </li>
@@ -135,18 +157,28 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme })=> {
                   </Link>
                 </li>
                 <li className="mt-2">
-                  <Link to="/app/profile" className={getNavLinkClass("/app/profile")} onClick={closeMenu}>
+                  <Link
+                    to="/app/profile"
+                    className={getNavLinkClass("/app/profile")}
+                    onClick={closeMenu}
+                  >
                     {t("navbar.links.profile")}
                   </Link>
                 </li>
                 <li className="mt-2">
-                  <Link to="/app/fav" className={getNavLinkClass("/app/fav")} onClick={closeMenu}>
+                  <Link
+                    to="/app/fav"
+                    className={getNavLinkClass("/app/fav")}
+                    onClick={closeMenu}
+                  >
                     {t("navbar.links.favorite")}
                   </Link>
                 </li>
                 <li className="mt-1">
                   <button
-                    className=" text-white px-4 py-2 -mt-3  rounded-lg bg-blue-500 hover:bg-blue-600"
+                    className="block -mt-1 ml-1 md:ml-0 py-2 px-3 rounded-full border border-white-300 text-white w-3/2 md:w-full text-left transition duration-300 ease-in-out 
+             hover:bg-white hover:text-blue-400"
+
                     onClick={handleLogout}
                   >
                     {t("navbar.links.logout")}
