@@ -77,7 +77,7 @@ const TestimonialSlider: React.FC = () => {
       <h2 className="text-3xl md:text-4xl font-extrabold mb-8">{testimonialsData.title}</h2>
       <div className="testimonial-slider flex items-center justify-center w-full my-auto mx-auto">
         <button
-          className="prev-arrow text-4xl cursor-pointer transform hover:scale-125 transition-transform duration-300"
+          className="prev-arrow text-4xl cursor-pointer transform hover:scale-125 transition-transform duration-300 mx-2 md:mx-4 lg:mx-6"
           onClick={goToPrevious}
         >
           &#9664;
@@ -96,7 +96,7 @@ const TestimonialSlider: React.FC = () => {
           ))}
         </div>
         <button
-          className="next-arrow text-4xl cursor-pointer transform hover:scale-125 transition-transform duration-300"
+          className="next-arrow text-4xl cursor-pointer transform hover:scale-125 transition-transform duration-300 mx-2 md:mx-4 lg:mx-6"
           onClick={goToNext}
         >
           &#9654;
