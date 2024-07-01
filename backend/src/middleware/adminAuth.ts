@@ -1,6 +1,6 @@
 import { Response, NextFunction } from 'express';
 import prisma from '../db';
-import { decodeJWT } from '../helpers/jwt';
+import { decodeJWT,verifyJWT } from '../helpers/jwt';
 import { JwtPayload } from 'jsonwebtoken';
 import { UserAuthRequest } from '../helpers/types';
 
@@ -10,6 +10,13 @@ export const isAdmin = async (req: UserAuthRequest, res: Response, next: NextFun
 
     if (!token) {
       return res.status(403).json({ error: "No token provided" });
+    }
+
+    const isValid = verifyJWT(token);
+    if (!isValid) {
+        return res.status(403).json({
+            error: "Invalid token/format",
+        });
     }
 
     const decoded = decodeJWT(token);
