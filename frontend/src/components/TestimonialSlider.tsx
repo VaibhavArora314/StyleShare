@@ -19,7 +19,7 @@ const TestimonialSlider: React.FC = () => {
   const testimonialsData = t('testimonials', { returnObjects: true }) as TestimonialsData;
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [slidesToShow, setSlidesToShow] = useState<number>(1);
+  const [slidesToShow, setSlidesToShow] = useState<number>(3);
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const TestimonialSlider: React.FC = () => {
       <h2 className="text-3xl md:text-4xl font-extrabold mb-8">{testimonialsData.title}</h2>
       <div className="testimonial-slider flex items-center justify-center w-full my-auto mx-auto">
         <button
-          className="prev-arrow text-4xl cursor-pointer transform hover:scale-110 transition-transform duration-300 mx-2 md:mx-4 lg:mx-6"
+          className="prev-arrow text-4xl cursor-pointer transform hover:scale-125 transition-transform duration-300 mx-2 md:mx-4 lg:mx-6"
           onClick={goToPrevious}
         >
           &#9664;
