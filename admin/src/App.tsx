@@ -6,6 +6,9 @@ import Signin from "./pages/Signin";
 import PageNotFound from "./pages/PageNotFound";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import NonAuthenticatedRoute from "./components/NonAuthenticatedRoute";
+import Profile from "./pages/Profile";
+import Users from "./pages/Users";
+import Posts from "./pages/Posts";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -14,7 +17,6 @@ function App() {
     <BrowserRouter>
       <RecoilRoot>
         <React.Suspense fallback={<></>}>
-          Admin Panel
           <Routes>
             <Route
               path="/admin/sign-in"
@@ -29,6 +31,30 @@ function App() {
               element={
                 <AuthenticatedRoute>
                   <Dashboard />
+                </AuthenticatedRoute>
+              }
+            />
+            <Route
+              path="/admin/profile"
+              element={
+                <AuthenticatedRoute>
+                  <Profile />
+                </AuthenticatedRoute>
+              }
+            />
+            <Route
+              path="/admin/users"
+              element={
+                <AuthenticatedRoute>
+                  <Users />
+                </AuthenticatedRoute>
+              }
+            />
+            <Route
+              path="/admin/posts"
+              element={
+                <AuthenticatedRoute>
+                  <Posts />
                 </AuthenticatedRoute>
               }
             />
