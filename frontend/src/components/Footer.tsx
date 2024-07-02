@@ -3,8 +3,8 @@ import github from '../assets/github.png';
 import { Link } from 'react-router-dom';
 import { loggedInState } from '../store/atoms/auth';
 import { CgProfile } from 'react-icons/cg';
-import { BsFilePost } from 'react-icons/bs';
-import { FaHome } from 'react-icons/fa';
+import { BsFilePost, BsTelephoneFill, BsFillQuestionCircleFill } from 'react-icons/bs';
+import { FaHome, FaInfoCircle, FaUser } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import logo from "../assets/favicon.png";
 
@@ -34,10 +34,16 @@ const Footer = () => {
                         <p className='text-gray-200 font-bold mt-8 md:mt-0'>{t('footer.company')}</p>
                         <ul className='text-gray-300 py-4'>
                             <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to='/app/about'>{t('footer.c.l1')}</Link>
+                                <Link to='/app/about' className='flex items-center gap-1'>
+                                    <FaInfoCircle size={20} />
+                                    {t('footer.c.l1')}
+                                </Link>
                             </li>
                             <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to='/app/contact-us'>{t('footer.c.l2')}</Link>
+                                <Link to='/app/contact-us' className='flex items-center gap-1'>
+                                    <BsTelephoneFill size={20} />
+                                    {t('footer.c.l2')}
+                                </Link>
                             </li>
                         </ul>
                     </div>
@@ -46,14 +52,14 @@ const Footer = () => {
                         <ul className='text-gray-300 py-4 cursor-pointer'>
                             <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
                                 <Link className='flex items-center gap-1' to='/app/posts'>
-                                    {t('footer.q.q1')}
                                     <BsFilePost size={20} />
+                                    {t('footer.q.q1')}
                                 </Link>
                             </li>
                             <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
                                 <Link className='flex items-center gap-1' to={isLoggedIn ? '/app/profile' : '/app/signin'}>
-                                    {t('footer.q.q2')}
                                     <CgProfile size={20} />
+                                    {t('footer.q.q2')}
                                 </Link>
                             </li>
                         </ul>
@@ -62,13 +68,22 @@ const Footer = () => {
                         <p className='text-gray-200 font-bold'>{t('footer.legal')}</p>
                         <ul className='text-gray-300 py-4 cursor-pointer'>
                             <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to='/app/policy#privacy-policy'>{t('footer.l.le1')}</Link>
+                                <Link to='/app/policy#privacy-policy' className='flex items-center gap-1'>
+                                    <BsFillQuestionCircleFill size={20} />
+                                    {t('footer.l.le1')}
+                                </Link>
                             </li>
                             <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to='/app/policy#terms-and-conditions'>{t('footer.l.le2')}</Link>
+                                <Link to='/app/policy#terms-and-conditions' className='flex items-center gap-1'>
+                                    <BsFillQuestionCircleFill size={20} />
+                                    {t('footer.l.le2')}
+                                </Link>
                             </li>
                             <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to='/app/policy#cookie-policy'>{t('footer.l.le3')}</Link>
+                                <Link to='/app/policy#cookie-policy' className='flex items-center gap-1'>
+                                    <BsFillQuestionCircleFill size={20} />
+                                    {t('footer.l.le3')}
+                                </Link>
                             </li>
                         </ul>
                     </div>
