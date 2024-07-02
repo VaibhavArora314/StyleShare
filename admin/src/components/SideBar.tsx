@@ -6,7 +6,7 @@ import { IoNewspaperOutline } from "react-icons/io5";
 import logo from '../assets/favicon.png';
 import { Link, useLocation } from 'react-router-dom';
 
-const Sider = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleSidebar: () => void }) => {
+const SideBar = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleSidebar: () => void }) => {
   const location = useLocation();
 
   const linkClasses = (path: string) => 
@@ -30,4 +30,4 @@ const Sider = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleSid
   );
 };
 
-export default Sider;
+export default SideBar;

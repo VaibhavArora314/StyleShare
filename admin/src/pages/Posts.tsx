@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar"
-import Sider from "../components/SideBar";
+import SideBar from "../components/SideBar";
 
 const Posts = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -13,7 +13,7 @@ const Posts = () => {
     <div>
       <Navbar  toggleSidebar={toggleSidebar} />
       <div className="flex-1 flex flex-col lg:ml-80">
-      <Sider sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 <div className="mx-5 lg:mr-11 overflow-x-auto shadow-md rounded-xl mb-5">
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-white uppercase bg-sky-500">
