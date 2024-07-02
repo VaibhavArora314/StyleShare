@@ -17,6 +17,8 @@ function Policy() {
       }
     };
 
+    document.title='Style Share | Secret policies 🤫'
+
     scrollToHash();
   }, [location]);
 

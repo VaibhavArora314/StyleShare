@@ -140,7 +140,16 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
               <>
                 <li className="mt-2">
                   <Link to="/app/new-post" className={getNavLinkClass("/app/new-post")} onClick={closeMenu}>
+<<<<<<< IconsAdded
                     <FaPlus className="inline-block mr-2" /> {t("navbar.links.newpost")}
+=======
+                    {t("navbar.links.newpost")}
+                  </Link>
+                </li>
+                <li className="mt-2">
+                  <Link to="/app/code" className={getNavLinkClass("/app/code")} onClick={closeMenu}>
+                    {t("navbar.links.codeeditor")}
+>>>>>>> main
                   </Link>
                 </li>
                 <li className="mt-2">
