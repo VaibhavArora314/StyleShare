@@ -6,6 +6,7 @@ import Signin from "./pages/Signin";
 import PageNotFound from "./pages/PageNotFound";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import NonAuthenticatedRoute from "./components/NonAuthenticatedRoute";
+import { Toaster } from "react-hot-toast";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -14,7 +15,6 @@ function App() {
     <BrowserRouter>
       <RecoilRoot>
         <React.Suspense fallback={<></>}>
-          Admin Panel
           <Routes>
             <Route
               path="/admin/sign-in"
@@ -34,6 +34,7 @@ function App() {
             />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
+          <Toaster/>
         </React.Suspense>
       </RecoilRoot>
     </BrowserRouter>
