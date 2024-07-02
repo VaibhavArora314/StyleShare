@@ -20,10 +20,10 @@ const Posts = () => {
     handlePreviousPage,
     handlePageClick,
     handleDelete,
-    addTag:insertTag,
-    removeTag:deleteTag,
+    addTag: insertTag,
+    removeTag: deleteTag,
     searchQuery,
-    setSearchQuery
+    setSearchQuery,
   } = usePosts({
     initialPage: 1,
     pageSize: 12,
@@ -38,18 +38,14 @@ const Posts = () => {
 
   const filteredPosts = posts;
 
-  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        filterRef.current &&
-        !filterRef.current.contains(event.target as Node)
-      ) {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
         setShowFilterDialog(false);
       }
     };
 
-    document.title='Style Share | Our Posts 📃'
+    document.title = "Style Share | Our Posts 📃";
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -60,7 +56,7 @@ const Posts = () => {
   const toggleFilterDialog = () => {
     setShowFilterDialog(!showFilterDialog);
   };
-  
+
   const addTag = () => {
     if (tagInput && !filterTags.includes(tagInput.toLowerCase())) {
       setFilterTags([...filterTags, tagInput.toLowerCase()]);
@@ -81,16 +77,6 @@ const Posts = () => {
     }
   };
 
-  // const filteredPosts = posts.filter(
-  //   (post) =>
-  //     filterTags.every((tag) =>
-  //       post.tags.map((t) => t.toLowerCase()).includes(tag)
-  //     ) &&
-  //     (post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       post.author.username.toLowerCase().includes(searchQuery.toLowerCase()))
-  // );
-  
   if (loading) {
     return <Loader />;
   }
@@ -105,8 +91,8 @@ const Posts = () => {
 
   return (
     <div
-    className="-mt-7 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"
-    style={{
+      className="-mt-7 min-h-screen text-[#000435] bg-white dark:text-white dark:bg-[#000435]"
+      style={{
         backgroundImage: `url(${bgHero})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -123,27 +109,35 @@ const Posts = () => {
         <h1 className="text-2xl font-semibold mb-4 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435]">
           {t("allPosts.Posts")}
         </h1>
-        <div className="w-full flex justify-between mb-4 relative">
-          <button
-            onClick={toggleFilterDialog}
-            className="flex items-center text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] hover:text-blue-400"
-          >
-            {t("allPosts.filter")}
-            <svg
-              className="w-4 h-4 ml-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+        <div className="w-full flex flex-col sm:flex-row justify-between items-center mb-4 relative space-y-4 sm:space-y-0 sm:space-x-4">
+          <div className="flex space-x-4">
+            <button
+              onClick={toggleFilterDialog}
+              className="flex items-center text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] hover:text-blue-400"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M19 9l-7 7-7-7"
-              ></path>
-            </svg>
-          </button>
+              {t("allPosts.filter")}
+              <svg
+                className="w-4 h-4 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+            <Link
+              to={`/app/trending-posts`}
+              className="text-blue-500 dark:text-white bg-white dark:bg-blue-900 hover:text-white dark:hover:text-white dark:hover:bg-sky-500 hover:bg-sky-500 transition-colors duration-200 rounded-md border border-sky-500 p-2"
+            >
+              Show Trending Posts
+            </Link>
+          </div>
           {showFilterDialog && (
             <div
               ref={filterRef}
@@ -189,14 +183,6 @@ const Posts = () => {
               </div>
             </div>
           )}
-          
-          <Link
-            to={`/app/trending-posts`}
-            className="text-blue-500 dark:text-white bg-white dark:bg-blue-900  hover:text-white dark:hover:text-white dark:hover:bg-sky-500 hover:bg-sky-500 transition-colors duration-200 rounded-md  border border-sky-500 p-2"
-          >
-            Show Trending Posts
-          </Link>
-          
           <input
             type="text"
             value={searchQuery}
