@@ -47,34 +47,41 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-[#6a11cb] via-[#ab67df] to-[#2575fc] fixed w-full z-20 top-0 start-0">
-      <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
-        {/* Styleshare logo and language selector */}
-        <div className="flex items-center space-x-3">
-          <Link to="/app" className="flex items-center space-x-3 rtl:space-x-reverse" onClick={closeMenu}>
+    <nav className="bg-gradient-to-r from-[#6a11cb] via-[#ab67df] to-[#2575fc] fixed w-full z-20 top-0">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        {/* Favicon, Logo, Language Selector, Close Button */}
+        <div className="flex items-center space-x-8 lg:space-x-3 w-full lg:w-auto justify-between lg:justify-start mb-4 lg:mb-0">
+          <Link to="/app" className="flex items-center space-x-4 rtl:space-x-reverse" onClick={closeMenu}>
             <img src={logo} className="h-8" alt="Styleshare Logo" />
             <span className="self-center text-2xl font-bold text-white font-mono">
               {t("navbar.logo")}
             </span>
           </Link>
-          <LanguageDropdown />
-        </div>
-        <button
-          onClick={toggleMenu}
-          type="button"
-          className="relative inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-100 rounded-lg lg:hidden hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-200 ml-4"
-          aria-controls="navbar-default"
-          aria-expanded={isMenuOpen ? "true" : "false"}
-        >
-          <span className="sr-only">Open Menu</span>
-          <div className="flex flex-col gap-1">
-            <span className={`h-0.5 w-4 bg-white transform transition duration-200 ease-in ${isMenuOpen ? "rotate-[45deg]" : "rotate-0"}`}></span>
-            <span className={`h-0.5 w-4 ${isMenuOpen ? "bg-transparent" : "bg-white"} transition duration-200 ease-in ${isMenuOpen ? "absolute" : "relative"}`}></span>
-            <span className={`h-0.5 w-4 bg-white transform transition duration-200 ease-in ${isMenuOpen ? "rotate-[-45deg]" : "rotate-0"} ${isMenuOpen ? "absolute" : "relative"}`}></span>
+          <div className="flex items-center space-x-16 lg:hidden ml-8"> {/* Adjusted margin-left */}
+            <div className="relative z-10">
+              <LanguageDropdown /> {/* Ensure dropdown appears above */}
+            </div>
+            <button
+              onClick={toggleMenu}
+              type="button"
+              className="relative inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-100 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-200"
+              aria-controls="navbar-default"
+              aria-expanded={isMenuOpen ? "true" : "false"}
+            >
+              <span className="sr-only">Open Menu</span>
+              <div className="flex flex-col gap-1">
+                <span className={`h-0.5 w-4 bg-white transform transition duration-200 ease-in ${isMenuOpen ? "rotate-[45deg]" : "rotate-0"}`}></span>
+                <span className={`h-0.5 w-4 ${isMenuOpen ? "bg-transparent" : "bg-white"} transition duration-200 ease-in ${isMenuOpen ? "absolute" : "relative"}`}></span>
+                <span className={`h-0.5 w-4 bg-white transform transition duration-200 ease-in ${isMenuOpen ? "rotate-[-45deg]" : "rotate-0"} ${isMenuOpen ? "absolute" : "relative"}`}></span>
+              </div>
+            </button>
           </div>
-        </button>
+          <div className="hidden lg:flex items-center space-x-3">
+            <LanguageDropdown /> {/* Keep as is for larger screens */}
+          </div>
+        </div>
         <div
-          className={`${isMenuOpen ? "block" : "hidden"} lg:block lg:w-auto transition-all duration-300 ease-in-out`}
+          className={`${isMenuOpen ? "block" : "hidden"} w-full lg:w-auto lg:flex lg:flex-grow lg:items-center lg:justify-end lg:order-2 relative`}
           id="navbar-default"
         >
           <ul className="font-medium flex flex-col p-0 text-lg lg:p-0 mt-4 border rounded-lg lg:flex-row lg:space-x-4 rtl:space-x-reverse lg:mt-0 lg:border-0">
@@ -99,7 +106,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
               </Link>
             </li>
             {!isLoggedIn ? (
-              <div className="flex flex-col lg:flex-row lg:space-x-4 items-center mt-4 lg:mt-0">
+              <>
                 <li>
                   <Link to="/app/signin" onClick={closeMenu}>
                     <button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
@@ -128,17 +135,12 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                     {theme === 'light' ? <FaMoon className="w-4 h-4 " /> : <FaSun className="w-4 h-4" />}
                   </button>
                 </li>
-              </div>
+              </>
             ) : (
               <>
                 <li className="mt-2">
                   <Link to="/app/new-post" className={getNavLinkClass("/app/new-post")} onClick={closeMenu}>
                     <FaPlus className="inline-block mr-2" /> {t("navbar.links.newpost")}
-                  </Link>
-                </li>
-                <li className="mt-2">
-                  <Link to="/app/code" className={getNavLinkClass("/app/code")} onClick={closeMenu}>
-                    <FaCode className="inline-block mr-2" /> {t("CodeEditor")}
                   </Link>
                 </li>
                 <li className="mt-2">
