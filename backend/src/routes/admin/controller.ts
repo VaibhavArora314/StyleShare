@@ -34,7 +34,7 @@ export const adminLoginController = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(404).json({ error: { message: "No such admin exists" } });
+      return res.status(400).json({ error: { message: "No such admin exists" } });
     }
 
     const matchPassword = await validatePassword(data.password, user.passwordHash);

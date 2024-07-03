@@ -1,10 +1,9 @@
 import { useRecoilValue } from 'recoil';
-import github from '../assets/github.png';
 import { Link } from "react-router-dom";
 import { loggedInState } from '../store/atoms/auth';
 import { CgProfile } from 'react-icons/cg';
 import { BsFilePost } from 'react-icons/bs';
-import { FaHome,FaRegCopyright } from 'react-icons/fa';
+import { FaHome,FaRegCopyright,FaGithub } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import logo from "../assets/favicon.png";
 
@@ -77,14 +76,14 @@ const Footer = () => {
                 </div>
             </div>
            <div className='block w-3/4 m-auto mt-10'>
-                <div className='flex gap-4 justify-center md:justify-end'>
-                    <a href="https://github.com/VaibhavArora314/StyleShare" className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease">
-                        <img src={github} alt="github" className='pointer w-14 h-14' />
-                    </a>
-                    <Link to='/app' className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease flex items-center justify-center p-2 text-white rounded-full focus:outline-none">
-                        <FaHome size={35} />
-                    </Link>
-                </div>
+             <div className='flex gap-4 justify-center md:justify-end'>
+               <a href="https://github.com/VaibhavArora314/StyleShare" className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease-in-out flex items-center justify-center p-2 rounded-full">
+                 <FaGithub size={35} className="text-white" />
+               </a>
+            <Link to='/app' className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease-in-out flex items-center justify-center p-2 text-white rounded-full focus:outline-none">
+                 <FaHome size={35} />
+            </Link>
+              </div>
            </div>
            <div className='mt-10 text-gray-300 xl:flex justify-center text-md lg:text-xl xl:text-md'>
                 {t('footer.copy1')} <FaRegCopyright className="ml-2 mr-1 mt-1" /> {currentYear} {t('footer.copy2')}
