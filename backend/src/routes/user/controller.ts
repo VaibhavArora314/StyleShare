@@ -399,7 +399,7 @@ export const contactUsController = async (req: Request, res: Response) => {
     
     res.status(201).json({
       message: "Your message has been received. We will get back to you shortly.",
-      // contactMessage,
+      contactMessage,
     });
   } catch (error) {
     console.log("Contact Us form submission error: ", error);
