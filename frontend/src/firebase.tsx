@@ -7,11 +7,11 @@ import { initializeApp } from "firebase/app";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey:import.meta.env.VITE_KEY,
-  authDomain:import.meta.env.DOMAIN ,
-  projectId: import.meta.env.PROJECT_ID,
+  authDomain:"style-share-19dca.firebaseapp.com",
+  projectId: "style-share-19dca",
   storageBucket: "style-share-19dca.appspot.com",
   messagingSenderId: "1001984111526",
-  appId:import.meta.env.APP_ID,
+  appId:"1:1001984111526:web:cff4ebb77b722bb7fa1567",
   measurementId: "G-E55W452MBQ"
 };
 
