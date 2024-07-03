@@ -15,7 +15,7 @@ const SideBar = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleS
   return (
     <div className={`lg:rounded-xl rounded-none fixed z-30 inset-y-0 left-0 w-72 lg:m-5 transition-transform transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 bg-[#000435] text-white`}>
       <div className="flex items-center justify-between mr-6 mt-3 h-16 px-4">
-        <span className="text-xl flex font-bold"><img src={logo} className="h-8 mx-3" alt="Styleshare Logo" /> Style Share</span>
+        <a href='/app' className="text-xl flex font-bold"><img src={logo} className="h-8 mx-3" alt="Styleshare Logo" /> Style Share</a>
         <button onClick={toggleSidebar} className="lg:hidden text-2xl">
           <FaTimes />
         </button>

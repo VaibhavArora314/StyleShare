@@ -25,7 +25,7 @@ const Footer = () => {
                           </span>
                         </Link>
                         </div>
-                        <p className="mt-2 text-gray-300 text-sm md:text-base  md:text-left lg:w-1/2 sm:w-full">
+                        <p className="mt-2 text-gray-300 text-sm md:text-base  md:text-left lg:w-1/2 sm:w-full pr-2">
                             {t('A simple web-based platform where users can easily contribute, create, explore, share components.')}
                         </p>
                     </div>
@@ -39,6 +39,9 @@ const Footer = () => {
                             </li>
                             <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
                                 <Link to='/app/contact-us'>{t('footer.c.l2')}</Link>
+                            </li>
+                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
+                                <a href='/admin'>Admin Dashboard</a>
                             </li>
                         </ul>
                     </div>
@@ -77,15 +80,15 @@ const Footer = () => {
             </div>
            <div className='block w-3/4 m-auto mt-10'>
              <div className='flex gap-4 justify-center md:justify-end'>
-               <a href="https://github.com/VaibhavArora314/StyleShare" className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease-in-out flex items-center justify-center p-2 rounded-full">
+               <a href="https://github.com/VaibhavArora314/StyleShare" className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform duration-300 ease-in-out flex items-center justify-center p-2 rounded-full">
                  <FaGithub size={35} className="text-white" />
                </a>
-            <Link to='/app' className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform transition-shadow duration-300 ease-in-out flex items-center justify-center p-2 text-white rounded-full focus:outline-none">
+            <Link to='/app' className="hover:scale-110 hover:shadow-[0_0_10px_2px_blue] transition-transform duration-300 ease-in-out flex items-center justify-center p-2 text-white rounded-full focus:outline-none">
                  <FaHome size={35} />
             </Link>
               </div>
            </div>
-           <div className='mt-10 text-gray-300 xl:flex justify-center text-md lg:text-xl xl:text-md'>
+           <div className='mt-10 text-gray-300 flex justify-center text-md lg:text-xl xl:text-md'>
                 {t('footer.copy1')} <FaRegCopyright className="ml-2 mr-1 mt-1" /> {currentYear} {t('footer.copy2')}
            </div>
         </div>
