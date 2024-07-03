@@ -12,7 +12,8 @@ import { UserAuthRequest } from "../../helpers/types";
 import crypto from "crypto";
 import { sendVerificationEmail } from "../../helpers/mail/sendOtpMail";
 import { sendWelcomeEmail } from "../../helpers/mail/sendWelcomeMail";
-
+import { date } from "zod";
+import{ mailing} from "../../helpers/mail/ContactUsMail";
 export const userSignupController = async (req: Request, res: Response) => {
   try {
     const payload = req.body;
@@ -371,8 +372,7 @@ export const verifyOtpController = async (
 export const contactUsController = async (req: Request, res: Response) => {
   try {
     const payload = req.body;
-    const result = contactUsSchema.safeParse(payload);
-
+    const result = contactUsSchema.safeParse(payload); 
     if (!result.success) {
       const formattedError: any = {};
       result.error.errors.forEach((e) => {
@@ -392,11 +392,14 @@ export const contactUsController = async (req: Request, res: Response) => {
         subject: data.subject,
         message: data.message,
       }
-    });
-
+    });  
+    if (result.data?.email && result.data?.name) {
+      await mailing(result.data.email, result.data.name);
+    }
+    
     res.status(201).json({
       message: "Your message has been received. We will get back to you shortly.",
-      contactMessage,
+      // contactMessage,
     });
   } catch (error) {
     console.log("Contact Us form submission error: ", error);
