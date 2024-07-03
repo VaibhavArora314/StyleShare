@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import DOMPurify from "dompurify";
 
 function PostPreview({
-  sanitizedSnippet,
+  codeSnippet,
   jsCodeSnippet,
 }: {
-  sanitizedSnippet: string;
+  codeSnippet: string;
   jsCodeSnippet: string;
 }) {
   const ref = useRef<HTMLIFrameElement>(null);
@@ -22,6 +23,23 @@ function PostPreview({
       window.removeEventListener("message", handleResize);
     };
   }, []);
+
+  DOMPurify.addHook("uponSanitizeElement", (node, data) => {
+    if (data.tagName === "img" || data.tagName === "div") {
+      const src = node.getAttribute("src");
+      const style = node.getAttribute("style");
+      if (src && src.startsWith("http")) {
+        node.setAttribute("src", src);
+      }
+      if (style && style.includes("url(")) {
+        node.setAttribute("style", style);
+      }
+    }
+  });
+
+  const sanitizedSnippet = DOMPurify.sanitize(codeSnippet || "", {
+    ADD_ATTR: ["style", "background"],
+  });
 
   return (
     <div className="p-4 text-[#000435] bg-white dark:text-white dark:bg-[#fff] z-0 overflow-hidden rounded border-2 border-sky-400">

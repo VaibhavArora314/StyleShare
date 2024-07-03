@@ -11,12 +11,16 @@ import TestimonialSlider from "../components/TestimonialSlider";
 import FAQ from "../components/FAQ";
 import Showcase from "../components/Showcase";
 import Features from "../components/Features";
+import Category from "./Category";
 
 function Home() {
+  console.log("Home page rerendered");
   const { t } = useTranslation();
+
+  document.title='Style Share | Welcome 🙏'
   
   return (      
-  <div className="-mt-7 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
+  <div className="-mt-7 min-h-screen  text-[#000435] dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
         <div className="w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="max-w-[1240px] mx-auto grid md:grid-cols-2">
             <div className="flex flex-col justify-center">
@@ -42,6 +46,7 @@ function Home() {
         <Features/>
         <About />
         <Showcase/>
+        <Category/>
         <HomePagePost />
         <TestimonialSlider/>
         <FAQ/>

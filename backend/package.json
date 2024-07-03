@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "build": "prisma generate && npx tsc -b && cd ../frontend && npm i && npm run build",
+    "frontend-build": "cd ../frontend && npm i && npm run build",
+    "admin-build": "cd ../admin && npm i && npm run build",
+    "backend-build": "prisma generate && npx tsc -b",
+    "build": "npm run backend-build && npm run frontend-build && npm run admin-build",
     "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

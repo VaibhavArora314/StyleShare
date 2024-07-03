@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { useRecoilValue } from 'recoil';
 import { tokenState } from '../store/atoms/auth';
 import usePost from '../hooks/usePost';
+import CodeEditorAndPreview from '../components/CodeEditorAndPreview';
 
 const EditPost = () => {
   const token = useRecoilValue(tokenState);
@@ -69,6 +70,8 @@ const EditPost = () => {
     );
   }
 
+  document.title='Style Share | Edit your post 📝'
+
   return (
     <div className="p-6 text-[#000435] bg-white dark:text-white dark:bg-[#000435] max-w-screen-xl mx-auto">
       <h2 className="text-2xl font-semibold mb-4">Edit Post</h2>
@@ -99,30 +102,12 @@ const EditPost = () => {
             className="w-full px-3 py-2 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-blue-500 rounded"
           />
         </div>
-        <div className="mb-4">
-          <label htmlFor="codeSnippet" className="block text-sm font-medium mb-2">
-            Code Snippet
-          </label>
-          <textarea
-            id="codeSnippet"
-            name="codeSnippet"
-            value={post.codeSnippet}
-            onChange={(e) => setPost({ ...post, codeSnippet: e.target.value })}
-            className="w-full px-3 py-2 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-blue-500 rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="jsCodeSnippet" className="block text-sm font-medium mb-2">
-            JavaScript Code Snippet
-          </label>
-          <textarea
-            id="jsCodeSnippet"
-            name="jsCodeSnippet"
-            value={post.jsCodeSnippet}
-            onChange={(e) => setPost({ ...post, jsCodeSnippet: e.target.value })}
-            className="w-full px-3 py-2 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-blue-500 rounded"
-          />
-        </div>
+        <CodeEditorAndPreview
+          codeSnippet={post.codeSnippet}
+          jsCodeSnippet={post.jsCodeSnippet}
+          setCodeSnippet={(codeSnippet) => setPost({ ...post, codeSnippet })}
+          setJsCodeSnippet={(jsCodeSnippet) => setPost({ ...post, jsCodeSnippet })}
+        />
         <div>
           <label htmlFor="tags" className="block text-sm font-medium">
             Tags

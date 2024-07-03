@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import Loader from "../components/Loader";
 import toast from "react-hot-toast";
@@ -51,6 +51,7 @@ const Post = () => {
     };
 
     fetchFollowStatus();
+    document.title='Style Share | Post details 📄'
   }, [post?.author.id, token]);
 
   const handleAddToFavorite = async () => {
@@ -210,12 +211,12 @@ const Post = () => {
       <>
         <button
           onClick={() => window.history.back()}
-          className="mb-2 mt-2 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+          className="mb-2 mt-2 px-2 py-1 bg-sky-500 hover:bg-sky-600 text-white text-sm rounded"
         >
           <IoMdArrowRoundBack size={20} />
         </button>
-        <div className="flex flex-row content-center mb-1 ">
-          <h2 className="text-2xl font-semibold mr-3 ">{post.title}</h2>
+        <div className="flex flex-row  justify-center items-center  mb-1 ">
+          <h2 className="text-2xl font-bold mr-3   text-[#d952ff]  dark:text-white">{post.title}</h2>
           {isFavorite ? (
             <MdFavorite
               onClick={handleRemoveFromFavorite}
@@ -230,8 +231,8 @@ const Post = () => {
             />
           )}
         </div>
-        <ReactionButton postId={post.id} initialReaction={post.userReaction} />
-        <p className="mb-4">{post.description}</p>
+        {/* <ReactionButton postId={post.id} initialReaction={post.userReaction} /> */}
+        <p className="mb-4 flex flex-row font-semibold justify-center items-center content-center text-justify text-[#8437b4]  dark:text-white">{post.description}</p>
         <PostCodeWithPreview
           id={post.id}
           isOwner={isOwner}
@@ -241,6 +242,7 @@ const Post = () => {
           showCustomizeAiOption={true}
           showTogether={true}
         />
+        <ReactionButton postId={post.id} initialReaction={post.userReaction} />
         <button
           onClick={downloadAsZip} 
           className="flex items-center px-2 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
@@ -251,18 +253,19 @@ const Post = () => {
         <div className="mb-4">
           <h3 className="text-xl font-semibold my-2">{t("newPost.tags")}</h3>
           <div className="flex flex-wrap gap-2">
-            {post.tags.map((tag, index) => (
-              <span
-                key={index}
-                className="inline-flex items-center px-2 py-1 text-[#fff] bg-sky-400 dark:text-white dark:bg-[#838387]  text-sm rounded"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+        {post.tags.map((tag, index) => (
+          <Link
+            to={`/app/posts?tags=${tag}`}
+            key={index}
+            className="inline-flex items-center px-2 py-1 border-2 border-[#5f67de] text-[#5f67de] font-semibold dark:border-white dark:text-white dark:bg-transparent text-sm rounded-md transition-colors duration-300 hover:bg-[#5f67de] hover:text-white dark:hover:bg-white dark:hover:text-black"
+          >
+            {tag}
+          </Link>
+        ))}
+      </div>
         </div>
         <div className="my-5">
-          <h3 className="text-xl font-semibold my-2">{t("postdet.author")}</h3>
+          <h3 className="text-xl font-semibold  my-2">{t("postdet.author")}</h3>
           <button
             onClick={handleProfileNavigation}
             data-tooltip-content={`View ${post.author.username} profile 👀`}
@@ -271,21 +274,21 @@ const Post = () => {
           >
             {t("postdet.user")}: @{post.author.username}
           </button>
-          <p className="text-[#000435] font-semibold text-sm  dark:text-white">{post.author.totalFollowers} followers</p>
+          <p className="text-black font-semibold text-sm  dark:text-white">{post.author.totalFollowers} followers</p>
           {currentUser?.id && post.author?.id &&  currentUser?.id !== post.author?.id && (
             isFollowing ? (
               <button
-                className="mt-4 flex font-semibold py-2 px-2 text-white bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500 hover:bg-blue-900"
+                className="mt-4 flex font-semibold py-2 px-2 text-white dark:text-white bg-sky-500 dark:bg-sky-500 rounded-xl p-3 border border-sky-500 hover:bg-blue-900 dark:hover:bg-blue-900"
                 onClick={() => handleUnfollow(post.author.id)}
               >
-                <RiUserUnfollowFill size={23} className='mr-1' /> Unfollow {post.author.username}
+                <RiUserUnfollowFill size={23} className="mr-1" /> Unfollow {post.author.username}
               </button>
             ) : (
               <button
-                className="mt-4 flex font-semibold py-2 px-2 bg-blue-950 backdrop-blur-sm rounded-xl p-3 border border-sky-500 hover:bg-blue-900"
+                className="mt-4 flex font-semibold py-2 px-2 text-white dark:text-white bg-sky-500 dark:bg-sky-500 rounded-xl p-3 border border-sky-500 hover:bg-blue-900 dark:hover:bg-blue-900"
                 onClick={() => handleFollow(post.author.id)}
               >
-                <RiUserFollowFill size={23} className='mr-1' /> Follow {post.author.username}
+                <RiUserFollowFill size={23} className="mr-1" /> Follow {post.author.username}
               </button>
             )
           )}

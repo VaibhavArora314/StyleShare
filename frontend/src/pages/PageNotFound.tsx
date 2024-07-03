@@ -3,6 +3,9 @@ import notfound from '../assets/notFound.png'
 
 const PageNotFound = () => {
   const { t } = useTranslation();
+
+  document.title='Style Share | Nothing here 🫗'
+
   return (
     <div className='flex flex-col items-center justify-center mx-auto'>
         <img src={notfound} alt='Page Not Found' className='w-[400px]' /> 

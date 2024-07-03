@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { UserAuthRequest } from "../../helpers/types";
 import { createPostSchema } from "./zodSchema";
 import prisma from "../../db";
+import {GoogleGenerativeAI} from '@google/generative-ai'
 
 export const createPostController = async (
   req: UserAuthRequest,
@@ -304,6 +305,39 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Failed to fetch posts' });
+  }
+};
+
+export const getTrendingPostsController = async (req: Request, res: Response) => {
+  try{
+    const trendingPosts = await prisma.post.findMany({
+      select: {
+        id: true,
+        title: true,
+        codeSnippet: true,
+        jsCodeSnippet: true,
+        description: true,
+        tags: true,
+        author: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+          },
+        },
+        reactions:true,
+      },
+    });
+    res.status(200).json({
+      message: "Successfully created comment!",
+      trendingPosts,
+    });
+
+
+  }catch(error){
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
   }
 };
 
@@ -620,9 +654,56 @@ export const deletePostController = async (req: UserAuthRequest, res: Response) 
 const getCodeSnippetById = async (id: string) => {
   const post = await prisma.post.findUnique({
     where: { id },
-    select: { codeSnippet: true },
+    select: { codeSnippet: true, jsCodeSnippet: true },
   });
-  return post?.codeSnippet || "";
+  return {
+    css: post?.codeSnippet || "",
+    js: post?.jsCodeSnippet || "",
+  };
+};
+
+export const aiCustomization = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const { id, query } = req.body;
+
+    if (!id || !query) {
+      console.error("ID and query are required", { id, query });
+      return res.status(400).json({ error: "ID and query are required" });
+    }
+
+    const originalSnippets = await getCodeSnippetById(id);
+
+    if (!originalSnippets.css && !originalSnippets.js) {
+      console.error("Code snippets not found for id:", id);
+      return res.status(404).json({ error: "Code snippets not found" });
+    }
+
+    const key = process.env.API_KEY;
+    if (!key) {
+      throw new Error("API_KEY is not defined in the environment variables.");
+    }
+
+    const genAI = new GoogleGenerativeAI(key);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const cssPrompt = `This is my Tailwind CSS code: ${originalSnippets.css}\n\n I want you to modify it and put ${query}\n\n and also write the code in VS Code format like one below another tag and just give me the code, don't explain it.`;
+    const jsPrompt = `This is my JavaScript code: ${originalSnippets.js}\n\n I want you to modify it and put ${query}\n\n and also write the code in VS Code format like one below another tag and just give me the code, don't explain it.`;
+
+    const cssResult = await model.generateContent(cssPrompt);
+    const jsResult = await model.generateContent(jsPrompt);
+
+    const cssResponse = await cssResult.response;
+    const jsResponse = await jsResult.response;
+
+    const cssText = cssResponse.text();
+    const jsText = jsResponse.text();
+
+    res.json({ css: cssText, js: jsText });
+
+  } catch (error) {
+    console.error('Failed to customize the code', error);
+    res.status(500).json({ error: "Failed to customize the code" });
+  }
 };
 
 export const reactToPostController = async (req: UserAuthRequest, res: Response) => {
@@ -775,5 +856,27 @@ export const getPostReactionsController = async (req: Request, res: Response) =>
     res.status(200).json({ reactions });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch reactions" });
+  }
+};
+
+export const getAllTagsController = async (req: Request, res: Response) => {
+  try {
+    const posts = await prisma.post.findMany({
+      select: {
+        tags: true,
+      },
+    });
+
+    const allTags = posts.flatMap(post => post.tags);
+    const uniqueTags = Array.from(new Set(allTags));
+
+    res.status(200).json({
+      tags: uniqueTags,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "Failed to fetch tags",
+    });
   }
 };

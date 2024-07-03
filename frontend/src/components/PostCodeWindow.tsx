@@ -11,14 +11,14 @@ function PostCodeWindow({
 }) {
   return (
     <>
-      <div className="mb-2">
-        <div className="flex text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-700 rounded">
+      <div className="mb-2 ">
+        <div className="flex p-1 border-2 border-sky-500 rounded">
           <button
             onClick={() => handleTabSwitch("html")}
-            className={`px-4 py-2 ${
+            className={`px-2 py-1  mx-1 font-semibold rounded-md ${
               activeTab === "html"
-                ? "bg-blue-600 text-white"
-                : "border border-gray-700 text-white"
+                ? "bg-sky-500 text-[#ffffff] dark:bg-sky-500 dark:text-white "
+                : "border border-sky-500 text-sky-500 dark:text-white"
             }`}
           >
             HTML
@@ -26,10 +26,10 @@ function PostCodeWindow({
           {jsCodeSnippet != "" ? (
             <button
               onClick={() => handleTabSwitch("js")}
-              className={`px-4 py-2 ${
+              className={`px-2 py-1  mx-1 font-semibold rounded-md ${
                 activeTab === "js"
-                  ? "bg-blue-600 text-white"
-                  : "border border-gray-700  text-white"
+                  ? "bg-sky-500 text-[#ffffff] dark:bg-sky-500 dark:text-white"
+                  : "border border-sky-500 text-sky-500 dark:text-white"
               }`}
             >
               JavaScript
@@ -42,7 +42,7 @@ function PostCodeWindow({
               <code>{codeSnippet}</code>
             </pre>
           ) : (
-            <pre className="p-4 bg-gray-800 border border-gray-700 rounded overflow-auto max-h-96">
+            <pre className="p-4 text-[#000435] bg-sky-300 dark:text-white dark:bg-[#223bb9] border-4 border-sky-700 rounded overflow-auto max-h-96">
               <code>{jsCodeSnippet}</code>
             </pre>
           )}

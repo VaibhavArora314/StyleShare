@@ -7,9 +7,11 @@ import usePosts from "../hooks/usePosts";
 import bgHero from "../assets/bgHero.png";
 
 const HomePagePost = () => {
-  const {posts, error, loading, handleDelete} = usePosts({ initialPage: 1, pageSize: -6 ,searchQuery: "", tags: []});
+  const {posts, error, loading, handleDelete} = usePosts({ initialPage: 1, pageSize: -6});
   const currentUser = useRecoilValue(userState);
   const { t } = useTranslation();
+
+  console.log("Home page post section rerendered")
 
   if (loading) {
     return <Loader />;

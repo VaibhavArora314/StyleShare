@@ -1,50 +1,51 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { IPost } from "../types";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { IPost } from "../types";
 
 type Props = {
-  initialPage: number;
-  pageSize: number;
-  searchQuery: string;
-  tags: string[];
+  initialPage?: number;
+  pageSize?: number;
 };
 
-const usePosts = ({ initialPage = 1, pageSize = 12, searchQuery = "", tags = [] }: Props) => {
+const usePosts = ({ initialPage = 1, pageSize = 12 }: Props) => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const fetchPosts = useCallback(async () => {
+  const fetchPosts = async (
+    page: number,
+    pageSize: number,
+    searchQuery: string,
+    tags: string[]
+  ) => {
+    setLoading(true);
     try {
-      setLoading(true);
       const response = await axios.get(
-        `/api/v1/posts?page=${page}&pageSize=${pageSize}&searchQuery=${searchQuery}&tags=${tags.join(",")}`
+        `/api/v1/posts?page=${page}&pageSize=${pageSize}&searchQuery=${searchQuery}&tags=${tags.join(
+          ","
+        )}`
       );
       setPosts(response.data.posts);
       setTotalPages(response.data.totalPages);
-      setLoading(false);
     } catch (error) {
       setError("Failed to fetch posts");
+    } finally {
       setLoading(false);
     }
-  }, [page, pageSize, tags, searchQuery]);
+  };
 
   useEffect(() => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    timeoutRef.current = setTimeout(fetchPosts, 300);
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [page, pageSize, tags, searchQuery, fetchPosts]);
+    const tagsFromParams = searchParams.get("tags");
+    const initialTags = tagsFromParams ? tagsFromParams.split(",") : [];
+    setTags(initialTags);
+    fetchPosts(page, pageSize, searchQuery, initialTags);
+  }, [page, searchQuery, searchParams]);
 
   const handlePreviousPage = () => {
     if (page > 1) {
@@ -63,7 +64,21 @@ const usePosts = ({ initialPage = 1, pageSize = 12, searchQuery = "", tags = [] 
   };
 
   const handleDelete = () => {
-    fetchPosts();
+    fetchPosts(page, pageSize, searchQuery, tags);
+  };
+
+  const addTag = (tagInput: string) => {
+    if (tagInput && !tags.includes(tagInput.toLowerCase())) {
+      const newTags = [...tags, tagInput.toLowerCase()];
+      setTags(newTags);
+      setSearchParams({ tags: newTags.join(",") });
+    }
+  };
+
+  const removeTag = (tagToRemove: string) => {
+    const newTags = tags.filter((tag) => tag !== tagToRemove);
+    setTags(newTags);
+    setSearchParams({ tags: newTags.join(",") });
   };
 
   return {
@@ -76,6 +91,11 @@ const usePosts = ({ initialPage = 1, pageSize = 12, searchQuery = "", tags = [] 
     handlePreviousPage,
     handlePageClick,
     handleDelete,
+    addTag,
+    removeTag,
+    searchQuery,
+    setSearchQuery,
+    tags
   };
 };
 
