@@ -1,4 +1,5 @@
 import nodeMailer from 'nodemailer'
+export const mailing=async (email: string, message: string) =>{ 
 let HTML=`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +12,7 @@ let HTML=`<!DOCTYPE html>
             <div style="margin: auto;width:90%;background-color: white;max-width: 800px;padding: 1.2rem;border-radius: 0.6rem; box-shadow: 0 1px 5px rgb(0,0,0);position: relative;justify-content: center;align-items: center;">
         <h1 style="margin-top: 2rem;font-family: monospace;">Thank You for Contacting Us!</h1>
         <p style="margin-top: 2rem; font-family: sans-serif;font-size: 1rem;"> 
+        <span  style="margin-top: 2rem; font-family: sans-serif;font-size: 0.8rem;"><span style="font-weight:700;">Your Message:</span> ${message}</span><br>
             Thank you for reaching out to Style Share! Your message is important to us, and we are grateful for your interest. Our team is currently reviewing your inquiry and will respond to you as soon as possible.
             <br><br>
             In the meantime, feel free to explore more about Style Share on our website. You can browse through our latest articles, explore our featured styles, or connect with us on social media for daily inspiration.
@@ -31,7 +33,6 @@ let HTML=`<!DOCTYPE html>
 </html>
 
 `
-export const mailing=async (email: string, username: string) =>{ 
 const sender=nodeMailer.createTransport({
     service:"Gmail", 
     auth:{
@@ -41,7 +42,7 @@ const sender=nodeMailer.createTransport({
 })
 const html= HTML
 const receiver={
-    from:'no_reply<yourapp@example.com>',
+    from:process.env.EMAIL_USER,
     to:email,
     subject:"Contact Our Team",
     text:'Style Share Contact',

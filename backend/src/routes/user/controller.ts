@@ -393,8 +393,8 @@ export const contactUsController = async (req: Request, res: Response) => {
         message: data.message,
       }
     });  
-    if (result.data?.email && result.data?.name) {
-      await mailing(result.data.email, result.data.name);
+    if (result.data?.email && result.data?.message) {
+      await mailing(result.data.email, result.data.message);
     }
     
     res.status(201).json({
