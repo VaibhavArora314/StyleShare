@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { loggedInState } from '../store/atoms/auth';
 import { CgProfile } from 'react-icons/cg';
 import { BsFilePost } from 'react-icons/bs';
-import { FaHome, FaRegCopyright, FaGithub, FaEnvelope, FaInfoCircle, FaTools } from 'react-icons/fa';
+import { FaHome, FaRegCopyright, FaGithub, FaEnvelope, FaInfoCircle, FaTools, FaLock, FaFileAlt, FaCookieBite } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import logo from "../assets/favicon.png";
 
@@ -75,17 +75,20 @@ const Footer = () => {
                         <p className='text-gray-200 font-bold'>{t('footer.legal')}</p>
                         <ul className='text-gray-300 py-4 cursor-pointer'>
                             <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to='/app/policy#privacy-policy'>
+                                <Link to='/app/policy#privacy-policy' className='flex items-center gap-2'>
+                                    <FaLock />
                                     {t('footer.l.le1')}
                                 </Link>
                             </li>
                             <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to='/app/policy#terms-and-conditions'>
+                                <Link to='/app/policy#terms-and-conditions' className='flex items-center gap-2'>
+                                    <FaFileAlt />
                                     {t('footer.l.le2')}
                                 </Link>
                             </li>
                             <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to='/app/policy#cookie-policy'>
+                                <Link to='/app/policy#cookie-policy' className='flex items-center gap-2'>
+                                    <FaCookieBite />
                                     {t('footer.l.le3')}
                                 </Link>
                             </li>
