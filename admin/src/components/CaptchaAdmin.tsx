@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { IoMdRefresh } from "react-icons/io";
 
 const CaptchaAdmin = ({ onChange }: { onChange: (isValid: boolean) => void }) => {
   const [captchaText, setCaptchaText] = useState('');
@@ -30,21 +31,20 @@ const CaptchaAdmin = ({ onChange }: { onChange: (isValid: boolean) => void }) =>
   };
 
   return (
-    <div className="mb-4 p-4 bg-white rounded-lg shadow-lg">
-      <h3 className="text-lg font-semibold text-center mb-4">Captcha Generator</h3>
-      <div className="flex items-center justify-between mb-4 bg-gray-100 p-2 rounded-lg">
-        <span className="text-2xl font-mono">{captchaText}</span>
+    <div className="mb-4 rounded-lg">
+      <div className="flex items-center justify-between mb-4 text-[#000435] bg-gray-100 dark:text-white dark:bg-blue-950 p-2 rounded-lg border border-[#5f67de] dark:border-white">
+        <span className="text-xl font-semibold italic line-through">{captchaText}</span>
         <button
           type="button"
           onClick={generateCaptcha}
-          className="bg-purple-500 text-white p-2 rounded-lg hover:bg-purple-600"
+          className="bg-blue-500 text-white p-1 rounded-lg hover:bg-blue-600"
         >
-          &#8634;
+          <IoMdRefresh size={23} />
         </button>
       </div>
       <input
         type="text"
-        className="form-input mt-1 p-2 block w-full border rounded-lg"
+        className="form-input mt-1 p-2 block w-full text-[#000435] bg-white dark:text-white dark:bg-[#000453] rounded-lg border border-[#5f67de] dark:border-white"
         placeholder="Enter captcha"
         value={inputValue}
         onChange={handleInputChange}

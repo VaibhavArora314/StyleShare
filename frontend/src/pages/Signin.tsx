@@ -15,7 +15,6 @@ const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslation();
   const [isCaptchaValid, setIsCaptchaValid] = useState(false);
-
   const [error, setError] = useState({
     email: "",
     password: "",
@@ -24,6 +23,7 @@ const Signin = () => {
   const setTokenState = useSetRecoilState(tokenState);
   const navigate = useNavigate();
 
+  document.title='Style Share | Login page 👋'
   document.title='Style Share | Login page 👋'
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -109,10 +109,11 @@ const Signin = () => {
                   <AiOutlineEye fontSize={24} fill="#AFB2BF" />
               )}
               </span>
-            </label>      
+            </label>               
             <p className="text-sm font-semibold mb-2 text-red-600">
               {error.password}
             </p>
+            <CaptchaUser onChange={(isValid) => setIsCaptchaValid(isValid)} /> {/* Add Captcha component */}
           </div>
           <CaptchaUser onChange={(isValid) => setIsCaptchaValid(isValid)} />
           <div className="flex justify-center">
