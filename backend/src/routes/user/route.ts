@@ -10,6 +10,7 @@ import {
   userSigninController,
   userSignupController,
   verifyOtpController,
+  userProfileUpdate
 } from "./controller";
 import authMiddleware from "../../middleware/auth";
 
@@ -25,6 +26,8 @@ userRouter.post("/verify-otp", authMiddleware, verifyOtpController);
 
 userRouter.get("/me", authMiddleware, userProfileController);
 
+userRouter.put("/update/:id",  userProfileUpdate);
+
 userRouter.post("/contact-us", contactUsController);
 
 userRouter.get("/profile/:id", showUserProfileController);
@@ -34,5 +37,7 @@ userRouter.post("/:id/follow", authMiddleware, followUserController);
 userRouter.post("/:id/unfollow", authMiddleware, unfollowUserController);
 
 userRouter.get("/:id/follow-status", authMiddleware, checkFollowStatusController);
+
+
 
 export default userRouter;

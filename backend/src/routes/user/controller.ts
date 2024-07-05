@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import prisma from "../../db";
 import {
-  contactUsSchema,
-  otpVerificationSchema,
-  signinBodySchema,
-  signupBodySchema,
+  contactUsSchema ,
+  otpVerificationSchema ,
+  signinBodySchema ,
+  signupBodySchema , UpdateBodySchema ,
 } from "./zodSchema";
 import { createHash, validatePassword } from "../../helpers/hash";
 import { createJWT } from "../../helpers/jwt";
@@ -190,6 +190,57 @@ export const userProfileController = async (req: UserAuthRequest, res: Response)
   res.status(200).json({
     user,
   });
+};
+
+export const userProfileUpdate = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const payload = req.body
+    const result = UpdateBodySchema.safeParse(payload);
+
+    if (!result.success) {
+      const formattedError: any = {};
+      result.error.errors.forEach((e) => {
+        formattedError[e.path[0]] = e.message;
+      });
+      return res.status(411).json({
+        error: { ...formattedError, message: "" },
+      });
+    }
+
+    const data = result.data
+
+
+    const user = await prisma.user.updateMany({
+      where: {
+        id: {
+          contains : userId,
+        },
+      },
+      data:{
+        username : data.username,
+        email : data.email
+      },
+    });
+
+    if (!user) {
+      return res.status(411).json({
+        error: "Invalid token",
+      });
+    }
+
+    res.status(201).json({
+      message:"user updated successfully",
+      user,
+    });
+  }catch (error){
+    console.log(error);
+    return res.status(500).json({
+      error: {
+        message: "An unexpected exception occurred!",
+      },
+    });
+  }
 };
 
 export const showUserProfileController = async (req: UserAuthRequest, res: Response) => {

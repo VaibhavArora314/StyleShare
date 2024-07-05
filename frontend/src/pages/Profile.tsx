@@ -12,6 +12,7 @@ import { AiTwotoneInfoCircle } from "react-icons/ai";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import bgHero from "../assets/bgHero.png";
+import {ProfileForm} from "../components/profileForm.tsx";
 
 
 const Profile = ()=> {
@@ -25,6 +26,7 @@ const Profile = ()=> {
   const token = useRecoilValue(tokenState);
   const currentUser = useRecoilValue(userState);
   const { t } = useTranslation();
+  const [clickUpdate, setClickUpdate] = useState(false)
   
 
   useEffect(() => {
@@ -46,7 +48,7 @@ const Profile = ()=> {
     document.title='Style Share | View profile 👀'
 
     fetchUser();
-  }, [token,posts]);
+  }, [token,posts,user]);
 
   const handleGenerateOtp = async () => {
     try {
@@ -63,6 +65,7 @@ const Profile = ()=> {
       setVerificationError(error.response.data.error.message||'Failed to generate OTP');
     }
   };
+
 
   const handleVerifyOtp = async () => {
     try {
@@ -108,18 +111,23 @@ const Profile = ()=> {
             <div className="p-2 flex justify-end mr-2 ">
               {
                 user?.verified ?
-                  <GoVerified className="text-2xl text-[#000435] bg-white dark:text-white dark:bg-[#000435]" title="Verified" />
+                    <button><GoVerified className="text-2xl text-[#000435] bg-white dark:text-white dark:bg-[#000435]" title="Verified" /></button>
                   :
-                  <GoUnverified className="text-2xl text-[#000435] bg-white dark:text-white dark:bg-[#000435]" title="Unverified" />
+                    <button><GoUnverified className="text-2xl text-[#000435] bg-white dark:text-white dark:bg-[#000435]" title="Unverified" /></button>
               }
             </div>
             <div className="flex flex-col items-center mb-3">
               <img src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} width={60} alt="profile-pic" />
               <p className="p-4 text-xl">{user?.username}</p>
               <p className="text-[#000435] font-semibold text-sm  dark:text-white">{user?._count.following} followers</p>
-            <p className="text-sky-400 flex items-center "><MdOutlineMailOutline className="text-xl " /> 
-            <span className="ml-2 text-sm">{user?.email}</span>
-            </p>
+              <p className="text-sky-400 flex items-center "><MdOutlineMailOutline className="text-xl " />
+              <span className="ml-2 text-sm">{user?.email}</span>
+              </p>
+            </div>
+            <div className="flex flex-col items-center mb-2">
+              <button type="button" onClick={()=>{setClickUpdate(true)}} className="bg-red-500 py-2 px-3 rounded-md text-sm hover:bg-red-600">
+                Edit
+              </button>
             </div>
           </div>
           {
@@ -147,6 +155,10 @@ const Profile = ()=> {
                 }
               </div>
             )
+          }
+          {
+            clickUpdate &&
+              <ProfileForm user={user} dismiss={()=>{setClickUpdate(false)}}/>
           }
           <div className="mt-8 w-full">
             <h4 className={` text-[#000435] dark:text-white font-semibold`}>
