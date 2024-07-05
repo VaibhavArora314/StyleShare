@@ -60,6 +60,9 @@ const Footer = () => {
                                     <CgProfile size={20} />
                                 </Link>
                             </li>
+                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
+                                <Link to="/app/contributors">Our Contributors</Link>
+                            </li>
                         </ul>
                     </div>
                     <div className='md:w-1/3'>

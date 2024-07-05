@@ -31,6 +31,7 @@ import EditPost from "./pages/EditPost";
 import useTheme from './hooks/useTheme';
 import CodeEditor from "./pages/CodeEditor";
 import TrendingPosts from "./pages/TrendingPosts";
+import Contributors from "./pages/Contributors";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -49,6 +50,7 @@ function App() {
                 <Route path="/app" element={<Home />} />
                 <Route path="/app/posts/:id" element={<Post />} />
                 <Route path="/app/posts" element={<Posts />} />
+                <Route path="/app/contributors" element={<Contributors/>}/>
                 <Route path="/app/profile/:id" element={<ShowProfile/>} />
                 <Route
                   path="/app/signin"
