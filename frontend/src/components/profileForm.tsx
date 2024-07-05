@@ -14,6 +14,11 @@ export function ProfileForm({user, dismiss} : ProfileForm ){
     const [username, setName] = useState(user?.username)
     const [errorMessage, setErrorMessage] = useState("")
 
+    const [error, setError] = useState({
+        username: "",
+        email: "",
+    });
+
     async function updateUser(e){
         e.preventDefault()
         try {
@@ -21,9 +26,15 @@ export function ProfileForm({user, dismiss} : ProfileForm ){
                 email,
                 username
             }
+            if(!email){
+                toast.error("Email cannot be empty")
+            }
+            if(!username){
+                toast.error("Username cannot be empty")
+            }
             const response = await axios.put(`/api/v1/user/update/${user?.id}`,updatedUser);
             toast.success(response.data.message)
-            dismiss()
+
         }catch (err){
             console.log(err)
             const axiosError = e as AxiosError<{
@@ -31,16 +42,21 @@ export function ProfileForm({user, dismiss} : ProfileForm ){
                     message: string;
                 };
             }>;
-            setErrorMessage(
-                axiosError?.response?.data?.error.message ||
-                "An unexpected error occurred."
-            );
+
+            setError((e) => {
+                if (axiosError?.response?.data?.error)
+                    return axiosError?.response?.data?.error as typeof e;
+
+                toast.error("An unexpected error occurred");
+                return e;
+            });
         }
+        dismiss()
     }
 
-    if (errorMessage) {
-        return <div className='text-red-500 font-semibold text-lg text-center'>{errorMessage}</div>;
-    }
+    // if (error) {
+    //     return <div className='text-red-500 font-semibold text-lg text-center'>{error}</div>
+    // }
 
     return(
         <>
@@ -88,6 +104,9 @@ export function ProfileForm({user, dismiss} : ProfileForm ){
                                                                     value={username}
                                                                     onChange={(e)=>{setName(e.target.value)}}
                                                                 />
+                                                                <p className="text-sm font-semibold mb-2 text-red-600">
+                                                                    {error.username}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -107,6 +126,9 @@ export function ProfileForm({user, dismiss} : ProfileForm ){
                                                                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-500 focus:ring-0 sm:text-sm sm:leading-6 w-75"
                                                                     placeholder="janesmith@gmail.com"
                                                                 />
+                                                                <p className="text-sm font-semibold mb-2 text-red-600">
+                                                                    {error.email}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
