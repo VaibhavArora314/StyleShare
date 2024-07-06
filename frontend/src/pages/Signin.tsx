@@ -24,7 +24,6 @@ const Signin = () => {
   const navigate = useNavigate();
 
   document.title='Style Share | Login page 👋'
-  document.title='Style Share | Login page 👋'
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
