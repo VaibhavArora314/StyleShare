@@ -112,8 +112,8 @@ const Signin = () => {
             <p className="text-sm font-semibold mb-2 text-red-600">
               {error.password}
             </p>
-            <CaptchaUser onChange={(isValid) => setIsCaptchaValid(isValid)} /> {/* Add Captcha component */}
           </div>
+          <CaptchaUser onChange={(isValid) => setIsCaptchaValid(isValid)} />
           <div className="flex justify-center">
           <button
             type="submit"
