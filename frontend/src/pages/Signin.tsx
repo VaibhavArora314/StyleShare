@@ -15,7 +15,6 @@ const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslation();
   const [isCaptchaValid, setIsCaptchaValid] = useState(false);
-
   const [error, setError] = useState({
     email: "",
     password: "",
@@ -109,7 +108,7 @@ const Signin = () => {
                   <AiOutlineEye fontSize={24} fill="#AFB2BF" />
               )}
               </span>
-            </label>      
+            </label>               
             <p className="text-sm font-semibold mb-2 text-red-600">
               {error.password}
             </p>
