@@ -296,6 +296,11 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
           },
           tags.length > 0 ? { tags: { hasSome: tags } } : {}
         ]
+      },
+      orderBy: {
+        reactions: {
+          _count: "desc"
+        }
       }
     });
     res.status(200).json({
