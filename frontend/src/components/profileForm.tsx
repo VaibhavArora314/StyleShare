@@ -12,14 +12,13 @@ interface ProfileForm{
 export function ProfileForm({user, dismiss} : ProfileForm ){
     const [email, setEmail] = useState(user?.email)
     const [username, setName] = useState(user?.username)
-    const [errorMessage, setErrorMessage] = useState("")
-
     const [error, setError] = useState({
         username: "",
         email: "",
+        message : ""
     });
 
-    async function updateUser(e){
+    async function updateUser(e : React.FormEvent<HTMLFormElement>){
         e.preventDefault()
         try {
             const updatedUser = {
@@ -34,9 +33,8 @@ export function ProfileForm({user, dismiss} : ProfileForm ){
             }
             const response = await axios.put(`/api/v1/user/update/${user?.id}`,updatedUser);
             toast.success(response.data.message)
-
-        }catch (err){
-            console.log(err)
+            dismiss()
+        }catch (e){
             const axiosError = e as AxiosError<{
                 error: {
                     message: string;
@@ -48,15 +46,12 @@ export function ProfileForm({user, dismiss} : ProfileForm ){
                     return axiosError?.response?.data?.error as typeof e;
 
                 toast.error("An unexpected error occurred");
-                return e;
+                return e
             });
         }
-        dismiss()
+
     }
 
-    // if (error) {
-    //     return <div className='text-red-500 font-semibold text-lg text-center'>{error}</div>
-    // }
 
     return(
         <>
@@ -104,10 +99,10 @@ export function ProfileForm({user, dismiss} : ProfileForm ){
                                                                     value={username}
                                                                     onChange={(e)=>{setName(e.target.value)}}
                                                                 />
-                                                                <p className="text-sm font-semibold mb-2 text-red-600">
+                                                            </div>
+                                                                <p className="text-sm font-semibold  text-red-600">
                                                                     {error.username}
                                                                 </p>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div className="sm:col-span-12 mx-5">
@@ -126,10 +121,10 @@ export function ProfileForm({user, dismiss} : ProfileForm ){
                                                                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-500 focus:ring-0 sm:text-sm sm:leading-6 w-75"
                                                                     placeholder="janesmith@gmail.com"
                                                                 />
-                                                                <p className="text-sm font-semibold mb-2 text-red-600">
+                                                            </div>
+                                                                <p className="text-sm font-semibold  text-red-600">
                                                                     {error.email}
                                                                 </p>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
