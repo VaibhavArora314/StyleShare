@@ -35,11 +35,6 @@ const Signin = () => {
       return;
     }
 
-    if (!isCaptchaValid) {
-      toast.error('Captcha is not valid');
-      return;
-    }
-
     try {
       const response = await axios.post("/api/v1/user/signin", {
         email,
