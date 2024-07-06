@@ -25,7 +25,6 @@ const Signin = () => {
   const navigate = useNavigate();
 
   document.title='Style Share | Login page 👋'
-  document.title='Style Share | Login page 👋'
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -114,7 +113,6 @@ const Signin = () => {
             <p className="text-sm font-semibold mb-2 text-red-600">
               {error.password}
             </p>
-            <CaptchaUser onChange={(isValid) => setIsCaptchaValid(isValid)} /> {/* Add Captcha component */}
           </div>
           <CaptchaUser onChange={(isValid) => setIsCaptchaValid(isValid)} />
           <div className="flex justify-center">
