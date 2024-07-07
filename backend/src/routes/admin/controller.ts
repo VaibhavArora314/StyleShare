@@ -76,3 +76,27 @@ export const adminProfileController = async (req: UserAuthRequest, res: Response
     user,
   });
 };
+
+export const getAdminStatsController = async (req: Request, res: Response) => {
+  try {
+    const totalUsers = await prisma.user.count();
+    const totalPosts = await prisma.post.count();
+    const totalComments = await prisma.comment.count();
+    const totalReactions = await prisma.reaction.count();
+    const messages = await prisma.contactMessage.count();
+    const favorites = await prisma.favorite.count();
+
+    res.status(200).json({
+      totalUsers,
+      totalPosts,
+      totalComments,
+      totalReactions,
+      messages,
+      favorites
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
