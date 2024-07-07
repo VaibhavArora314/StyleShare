@@ -76,3 +76,73 @@ export const adminProfileController = async (req: UserAuthRequest, res: Response
     user,
   });
 };
+
+export const blockUserController = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: { blocked: true },
+    });
+
+    res.status(200).json({
+      message: `User ${user.username} has been blocked.`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const unblockUserController = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: { blocked: false },
+    });
+
+    res.status(200).json({
+      message: `User ${user.username} has been unblocked.`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const allUserForAdmin = async (req: Request, res:Response) => {
+  try{
+    const allUsers = await prisma.user.findMany({
+      where: {
+        isAdmin:false
+      },
+      select: {
+        id:true,
+        username:true,
+        email:true,
+        blocked:true,
+        posts:true,
+        createdAt:true,
+        comments:true,
+        following: {
+          select: {
+            id: true
+          }
+        }
+      },
+    });
+    res.status(200).json({
+      message: "Successfully fetched All Users!",
+      allUsers,
+    });
+  }catch(error){
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+}
