@@ -2,15 +2,22 @@ import { PiNewspaperClippingLight } from "react-icons/pi"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { IPost } from '../types'; 
+import { useRecoilValue } from "recoil";
+import { tokenState } from "../store/atoms/auth";
 
 const NewPosts = () => {
   const [posts, setposts] = useState<IPost[]>([]);
+  const token = useRecoilValue(tokenState);
 
   const fetchPost = async () => {
     try {
-      const response = await axios.get('/api/v1/posts?page=1&pageSize=6');
+      const response = await axios.get('/api/v1/admin/getAdminAllPosts',{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setposts(response.data.posts.reverse());
-      // console.log(response.data.posts);
+      console.log(response.data.posts);
     } catch (error) {
       console.log(error);
     }

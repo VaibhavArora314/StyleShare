@@ -279,15 +279,10 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
         jsCodeSnippet: true,
         description: true,
         tags: true,
-        likes:true,
-        createdAt:true,
-        comments:true,
-        reactions:true,
         author: {
           select: {
             id: true,
             username: true,
-            email:true
           },
         },
       },
@@ -328,9 +323,6 @@ export const getTrendingPostsController = async (req: Request, res: Response) =>
         jsCodeSnippet: true,
         description: true,
         tags: true,
-        likes:true,
-        createdAt:true,
-        comments:true,
         author: {
           select: {
             id: true,

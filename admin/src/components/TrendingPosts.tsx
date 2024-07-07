@@ -2,13 +2,20 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { MdAutoGraph } from "react-icons/md";
 import { IPost } from '../types'; 
+import { tokenState } from "../store/atoms/auth";
+import { useRecoilValue } from "recoil";
 
 const TrendingPosts = () => {
   const [trendingPosts, setTrendingPosts] = useState<IPost[]>([]);
+  const token = useRecoilValue(tokenState);
 
   const fetchPost = async () => {
     try {
-      const response = await axios.get('/api/v1/posts/trending');
+      const response = await axios.get('/api/v1/admin/getAdminAllTrendingPosts',{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setTrendingPosts(response.data.trendingPosts);
       // console.log(response.data.trendingPosts);
     } catch (error) {

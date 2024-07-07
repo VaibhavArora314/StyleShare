@@ -76,3 +76,66 @@ export const adminProfileController = async (req: UserAuthRequest, res: Response
     user,
   });
 };
+
+export const getAdminPostsController = async (req: Request, res: Response) => {
+  const posts = await prisma.post.findMany({
+    select: {
+      id: true,
+      title: true,
+      codeSnippet: true,
+      jsCodeSnippet: true,
+      description: true,
+      tags: true,
+      createdAt:true,
+      comments:true,
+      reactions:true,
+      author: {
+        select: {
+          id: true,
+          username: true,
+          email: true,
+        },
+      },
+    },
+  });
+
+  res.status(200).json({
+    posts,
+  });
+};
+
+export const getAdminTrendingPostsController = async (req: Request, res: Response) => {
+  try{
+    const trendingPosts = await prisma.post.findMany({
+      select: {
+        id: true,
+        title: true,
+        codeSnippet: true,
+        jsCodeSnippet: true,
+        description: true,
+        tags: true,
+        likes:true,
+        createdAt:true,
+        comments:true,
+        author: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+          },
+        },
+        reactions:true,
+      },
+    });
+    res.status(200).json({
+      message: "Successfully created comment!",
+      trendingPosts,
+    });
+
+
+  }catch(error){
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
