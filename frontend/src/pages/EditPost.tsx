@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { tokenState } from '../store/atoms/auth';
 import usePost from '../hooks/usePost';
 import CodeEditorAndPreview from '../components/CodeEditorAndPreview';
+import Loader from '../components/Loader';
 
 const EditPost = () => {
   const token = useRecoilValue(tokenState);
@@ -51,7 +52,7 @@ const EditPost = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   if (error) {
