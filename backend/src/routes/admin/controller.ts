@@ -209,3 +209,27 @@ export const getAdminTrendingPostsController = async (req: Request, res: Respons
     });
   }
 };
+
+export const getAdminStatsController = async (req: Request, res: Response) => {
+  try {
+    const totalUsers = await prisma.user.count();
+    const totalPosts = await prisma.post.count();
+    const totalComments = await prisma.comment.count();
+    const totalReactions = await prisma.reaction.count();
+    const contactMessages = await prisma.contactMessage.count();
+    const favoritesPosts = await prisma.favorite.count();
+
+    res.status(200).json({
+      totalUsers,
+      totalPosts,
+      totalComments,
+      totalReactions,
+      contactMessages,
+      favoritesPosts
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};

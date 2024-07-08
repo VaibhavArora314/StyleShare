@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { adminLoginController, adminProfileController, allUserForAdmin, blockUserController, unblockUserController, getAdminPostsController, getAdminTrendingPostsController } from './controller';
+import { adminLoginController, adminProfileController, allUserForAdmin, blockUserController, unblockUserController, getAdminPostsController, getAdminTrendingPostsController, getAdminStatsController } from './controller';
 import { isAdmin } from '../../middleware/adminAuth';
 
 const adminRouter = Router();
@@ -17,5 +17,7 @@ adminRouter.get('/allUsers',isAdmin,allUserForAdmin);
 adminRouter.get("/posts/all", isAdmin,getAdminPostsController );
 
 adminRouter.get("/posts/trending", isAdmin,getAdminTrendingPostsController );
+
+adminRouter.get("/getCardStatus", isAdmin,getAdminStatsController );
 
 export default adminRouter;
