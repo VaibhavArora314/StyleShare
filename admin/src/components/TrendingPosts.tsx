@@ -11,13 +11,12 @@ const TrendingPosts = () => {
 
   const fetchPost = async () => {
     try {
-      const response = await axios.get('/api/v1/admin/getAdminAllTrendingPosts',{
+      const response = await axios.get('/api/v1/admin/posts/trending',{
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setTrendingPosts(response.data.trendingPosts);
-      // console.log(response.data.trendingPosts);
     } catch (error) {
       console.log(error);
     }

@@ -8,8 +8,8 @@ adminRouter.post("/login", adminLoginController);
 
 adminRouter.get("/me", isAdmin,adminProfileController );
 
-adminRouter.get("/getAdminAllPosts", isAdmin,getAdminPostsController );
+adminRouter.get("/posts/all", isAdmin,getAdminPostsController );
 
-adminRouter.get("/getAdminAllTrendingPosts", isAdmin,getAdminTrendingPostsController );
+adminRouter.get("/posts/trending", isAdmin,getAdminTrendingPostsController );
 
 export default adminRouter;

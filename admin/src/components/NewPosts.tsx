@@ -11,13 +11,12 @@ const NewPosts = () => {
 
   const fetchPost = async () => {
     try {
-      const response = await axios.get('/api/v1/admin/getAdminAllPosts',{
+      const response = await axios.get('/api/v1/admin/posts/all',{
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setposts(response.data.posts.reverse());
-      console.log(response.data.posts);
     } catch (error) {
       console.log(error);
     }
