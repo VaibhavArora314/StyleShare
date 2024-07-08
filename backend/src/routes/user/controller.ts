@@ -13,8 +13,8 @@ import { UserAuthRequest } from "../../helpers/types";
 import crypto from "crypto";
 import { sendVerificationEmail } from "../../helpers/mail/sendOtpMail";
 import { sendWelcomeEmail } from "../../helpers/mail/sendWelcomeMail";
-<<<<<<< HEAD
-
+import { date } from "zod";
+import{ mailing} from "../../helpers/mail/ContactUsMail";
 
 export const google = async (req: Request, res: Response) => {
   try {
@@ -87,10 +87,7 @@ export const google = async (req: Request, res: Response) => {
   }
 };
 
-=======
-import { date } from "zod";
-import{ mailing} from "../../helpers/mail/ContactUsMail";
->>>>>>> 9866e2ce0df3f0a85ad7d8a63cffb5b64d21e3e0
+
 export const userSignupController = async (req: Request, res: Response) => {
   try {
     const payload = req.body;

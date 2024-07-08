@@ -248,12 +248,8 @@ const Signup = () => {
               <p className="text-sm font-semibold mb-2 text-red-600">
                 {error.password}
               </p>
-<<<<<<< HEAD
-              <div className="flex flex-col justify-center">
-=======
               <CaptchaUser onChange={(isValid) => setIsCaptchaValid(isValid)} />
               <div className="flex justify-center">
->>>>>>> 9866e2ce0df3f0a85ad7d8a63cffb5b64d21e3e0
                 <button
                   type="submit"
                   className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full"
