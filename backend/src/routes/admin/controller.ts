@@ -184,7 +184,6 @@ export const getAdminTrendingPostsController = async (req: Request, res: Respons
         jsCodeSnippet: true,
         description: true,
         tags: true,
-        likes:true,
         createdAt:true,
         comments:true,
         author: {
