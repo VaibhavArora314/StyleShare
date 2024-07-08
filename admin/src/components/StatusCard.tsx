@@ -10,8 +10,17 @@ import { RiHeartsFill } from "react-icons/ri";
 import { FaComments } from "react-icons/fa6";
 import axios from 'axios';
 
+interface IStats {
+  totalUsers: number;
+  totalPosts: number;
+  totalComments: number;
+  totalReactions: number;
+  contactMessages: number;
+  favoritesPosts: number;
+}
+
 const StatusCard = () => {
-  const [stats, setStats] = useState({ totalUsers: 0, totalPosts: 0, totalComments: 0, totalReactions: 0, messages: 0, favorites: 0 });
+  const [stats, setStats] = useState<IStats | null>(null);
   const token = useRecoilValue(tokenState);
 
   useEffect(() => {
@@ -23,13 +32,16 @@ const StatusCard = () => {
           },
         });
         setStats(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error('Error fetching stats', error);
       }
     };
     fetchStats();
-  }, []);
+  }, [token]);
+
+  if (!stats) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <section className="text-white mt-5">
@@ -85,8 +97,8 @@ const StatusCard = () => {
                 <SiGooglemessages size={40} />
               </div>
               <div>
-                <h2 className="title-font font-medium text-3xl">{stats.messages}</h2>
-                <p className="text-gray-200 py-1">Total Messages</p>
+                <h2 className="title-font font-medium text-3xl">{stats.contactMessages}</h2>
+                <p className="text-gray-200 py-1">Contact Messages</p>
               </div>
             </div>
           </div>
@@ -96,8 +108,8 @@ const StatusCard = () => {
                 <RiHeartsFill size={40} />
               </div>
               <div>
-                <h2 className="title-font font-medium text-3xl">{stats.favorites}</h2>
-                <p className="text-gray-200 py-1">Users Favorites</p>
+                <h2 className="title-font font-medium text-3xl">{stats.favoritesPosts}</h2>
+                <p className="text-gray-200 py-1">Most Favorites</p>
               </div>
             </div>
           </div>
@@ -105,6 +117,6 @@ const StatusCard = () => {
       </div>
     </section>
   );
-}
+};
 
 export default StatusCard;

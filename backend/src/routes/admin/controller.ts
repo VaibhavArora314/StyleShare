@@ -83,16 +83,16 @@ export const getAdminStatsController = async (req: Request, res: Response) => {
     const totalPosts = await prisma.post.count();
     const totalComments = await prisma.comment.count();
     const totalReactions = await prisma.reaction.count();
-    const messages = await prisma.contactMessage.count();
-    const favorites = await prisma.favorite.count();
+    const contactMessages = await prisma.contactMessage.count();
+    const favoritesPosts = await prisma.favorite.count();
 
     res.status(200).json({
       totalUsers,
       totalPosts,
       totalComments,
       totalReactions,
-      messages,
-      favorites
+      contactMessages,
+      favoritesPosts
     });
   } catch (error) {
     res.status(500).json({
