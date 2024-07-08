@@ -32,7 +32,7 @@ const LeaderBoard  = () => {
                     <th scope="col" className="px-2 py-3 sm:px-6 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider">{t("leaderboard.profile")}</th>
                     <th scope="col" className="px-2 py-3 sm:px-6 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider">{t("leaderboard.username")}</th>
                     <th scope="col" className="px-2 py-3 sm:px-6 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider">{t("leaderboard.posts")}</th>
-                    <th scope="col" className="px-2 py-3 sm:px-6 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider">Reactions</th>
+                    <th scope="col" className="px-2 py-3 sm:px-6 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] uppercase tracking-wider">{t("leaderboard.reactions")}</th>
                   </tr>
                 </thead>
                 <tbody>
