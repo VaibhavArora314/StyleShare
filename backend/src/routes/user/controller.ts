@@ -13,6 +13,7 @@ import { UserAuthRequest } from "../../helpers/types";
 import crypto from "crypto";
 import { sendVerificationEmail } from "../../helpers/mail/sendOtpMail";
 import { sendWelcomeEmail } from "../../helpers/mail/sendWelcomeMail";
+<<<<<<< HEAD
 
 
 export const google = async (req: Request, res: Response) => {
@@ -86,6 +87,10 @@ export const google = async (req: Request, res: Response) => {
   }
 };
 
+=======
+import { date } from "zod";
+import{ mailing} from "../../helpers/mail/ContactUsMail";
+>>>>>>> 9866e2ce0df3f0a85ad7d8a63cffb5b64d21e3e0
 export const userSignupController = async (req: Request, res: Response) => {
   try {
     const payload = req.body;
@@ -444,8 +449,7 @@ export const verifyOtpController = async (
 export const contactUsController = async (req: Request, res: Response) => {
   try {
     const payload = req.body;
-    const result = contactUsSchema.safeParse(payload);
-
+    const result = contactUsSchema.safeParse(payload); 
     if (!result.success) {
       const formattedError: any = {};
       result.error.errors.forEach((e) => {
@@ -465,8 +469,11 @@ export const contactUsController = async (req: Request, res: Response) => {
         subject: data.subject,
         message: data.message,
       }
-    });
-
+    });  
+    if (result.data?.email && result.data?.message) {
+      await mailing(result.data.email, result.data.message);
+    }
+    
     res.status(201).json({
       message: "Your message has been received. We will get back to you shortly.",
       contactMessage,

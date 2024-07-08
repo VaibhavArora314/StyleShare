@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import OAuth from "../components/OAuth";
 import bgHero from "../assets/bgHero.png";
+import CaptchaUser from "../components/CaptchaUser";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -27,7 +28,7 @@ const Signup = () => {
     message: "",
   });
   const { t } = useTranslation();
-
+  const [isCaptchaValid, setIsCaptchaValid] = useState(false);
   const setTokenState = useSetRecoilState(tokenState);
   const navigate = useNavigate();
 
@@ -56,6 +57,12 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!isCaptchaValid) {
+      toast.error('Captcha is not valid');
+      return;
+    }
+
     try {
       const response = await axios.post("/api/v1/user/signup", {
         username,
@@ -241,7 +248,12 @@ const Signup = () => {
               <p className="text-sm font-semibold mb-2 text-red-600">
                 {error.password}
               </p>
+<<<<<<< HEAD
               <div className="flex flex-col justify-center">
+=======
+              <CaptchaUser onChange={(isValid) => setIsCaptchaValid(isValid)} />
+              <div className="flex justify-center">
+>>>>>>> 9866e2ce0df3f0a85ad7d8a63cffb5b64d21e3e0
                 <button
                   type="submit"
                   className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full"

@@ -7,7 +7,7 @@ import usePosts from "../hooks/usePosts";
 import bgHero from "../assets/bgHero.png";
 
 const HomePagePost = () => {
-  const {posts, error, loading, handleDelete} = usePosts({ initialPage: 1, pageSize: -6});
+  const {posts, error, loading, handleDelete} = usePosts({ initialPage: 1, pageSize: 6});
   const currentUser = useRecoilValue(userState);
   const { t } = useTranslation();
 
@@ -31,7 +31,7 @@ const HomePagePost = () => {
         📃 {t("PostHeading")}
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full my-10">
-        {Array.from(posts).reverse().map((post, index) => (
+        {posts.map((post, index) => (
           <PostCard
             key={index}
             post={post}
