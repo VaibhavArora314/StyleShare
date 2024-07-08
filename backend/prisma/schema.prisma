@@ -19,6 +19,7 @@ model User {
   email        String
   passwordHash String
   verified     Boolean  @default(false)
+  blocked      Boolean  @default(false)
   otp          Int?
   isAdmin      Boolean  @default(false)
   posts        Post[]   @relation("authorPosts")
