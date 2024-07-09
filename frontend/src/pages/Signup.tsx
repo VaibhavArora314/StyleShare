@@ -255,6 +255,7 @@ const Signup = () => {
                   className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full"
                 >
                   {t("register.signup")}
+
                 </button>
                 <OAuth/>
               </div>
