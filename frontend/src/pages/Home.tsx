@@ -21,7 +21,8 @@ function Home() {
 
   document.title = 'Style Share | Welcome 🙏';
 
-  const [visibleItems, setVisibleItems] = useState([]);
+  // Define the type for visibleItems as an array of strings
+  const [visibleItems, setVisibleItems] = useState<string[]>([]);
   const [showButton, setShowButton] = useState(false);
   const listItems = [
     t("hero.list.first"),
