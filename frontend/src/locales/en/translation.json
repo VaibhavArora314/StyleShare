@@ -180,7 +180,7 @@
         "profile": "Profile",
         "username": "Username",
         "posts": "Posts",
-        "likes": "Likes"
+        "reactions": "Reactions"
     },
     "newPost":{
         "createPost": "Create New Post",
