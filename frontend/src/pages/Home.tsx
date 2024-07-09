@@ -41,7 +41,7 @@ function Home() {
         setTimeout(() => setShowButton(true), 1000); 
         return prevItems;
       });
-    }, 1600);
+    }, 673);
     return () => clearInterval(interval);
   }, [listItems]);
 
@@ -87,7 +87,7 @@ function Home() {
               <Link to="/app/posts" className='text-[#000435] bg-white dark:text-white dark:bg-[#000435] mt-9'>
                 <motion.div
                   animate={{ opacity: 1, rotate: [1, 2, -2, 0] }}
-                  transition={{ duration: 0.7, repeat: 3, repeatType: "loop" }}
+                  transition={{ duration: 0.5, repeat: 3, repeatType: "loop" }}
                 >
                   <MagicButton title={t("hero.button")} />
                 </motion.div>
