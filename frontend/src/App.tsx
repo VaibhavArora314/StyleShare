@@ -38,7 +38,7 @@ import Blocked from "./pages/Blocked";
 
 function App() {
   const { theme, toggleTheme } = useTheme();
-  const { loading, isBlocked } = userBlock();
+  const { loading, isBlocked } = userBlock(5);
 
   if (loading) {
     return <Loader />;

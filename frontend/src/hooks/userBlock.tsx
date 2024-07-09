@@ -3,38 +3,46 @@ import axios from "axios";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 
-const userBlock = () => {
+const useUserBlock = (intervalMinutes = 5) => {
   const [loading, setLoading] = useState(true);
   const [isBlocked, setIsBlocked] = useState(false);
   const token = useRecoilValue(tokenState);
 
-  useEffect(() => {
-    const checkBlockedStatus = async () => {
-      if (token) {
-        try {
-          const response = await axios.get("/api/v1/user/checkBlockedOrUnblock", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+  const checkBlockedStatus = async () => {
+    if (token) {
+      try {
+        const response = await axios.get("/api/v1/user/checkBlockedOrUnblock", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-          if (response.data.blocked) {
-            setIsBlocked(true);
-          }
-          setLoading(false);
-        } catch (error) {
-          console.error("Error checking blocked status:", error);
-          setLoading(false);
+        if (response.data.blocked) {
+          setIsBlocked(true);
+        } else {
+          setIsBlocked(false);
         }
-      } else {
+        setLoading(false);
+      } catch (error) {
+        console.error("Error checking blocked status:", error);
         setLoading(false);
       }
-    };
+    } else {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     checkBlockedStatus();
-  }, [token]);
+
+    const intervalId = setInterval(() => {
+      checkBlockedStatus();
+    }, intervalMinutes * 60 * 1000);
+
+    return () => clearInterval(intervalId);
+  }, [token, intervalMinutes]);
 
   return { loading, isBlocked };
 };
 
-export default userBlock;
+export default useUserBlock;
