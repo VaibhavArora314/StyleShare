@@ -21,7 +21,6 @@ function Home() {
 
   document.title = 'Style Share | Welcome 🙏';
 
-  // Define the type for visibleItems as an array of strings
   const [visibleItems, setVisibleItems] = useState<string[]>([]);
   const [showButton, setShowButton] = useState(false);
   const listItems = [
@@ -52,12 +51,12 @@ function Home() {
           .tick-container {
             position: relative;
             overflow: hidden;
-            height: 120px; /* Adjust height to fit all tick items */
+            height: 120px; 
           }
           .tick-item {
             position: relative;
-            height: 24px; /* Adjust height of each tick item */
-            margin-bottom: 8px; /* Adjust spacing between tick items */
+            height: 24px; 
+            margin-bottom: 8px; 
           }
         `}
       </style>
