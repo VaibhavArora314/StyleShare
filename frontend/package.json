@@ -10,10 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@monaco-editor/react": "^4.6.0",
+    "@mui/icons-material": "^5.16.0",
+    "@mui/material": "^5.16.0",
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
     "codemirror": "^6.0.1",
