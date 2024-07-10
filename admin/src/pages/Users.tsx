@@ -5,18 +5,7 @@ import SideBar from "../components/SideBar";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import toast from "react-hot-toast";
-
-export interface IUser {
-  id: string;
-  username: string;
-  email: string;
-  verified: boolean;
-  blocked: boolean;
-  createdAt: string;
-  comments:[];
-  posts: [];
-  following: [];
-}
+import { IUser } from "../types";
 
 const Users = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
