@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import Users from "./pages/Users";
 import Posts from "./pages/Posts";
 import { Toaster } from "react-hot-toast";
+import Graphs from "./pages/Graphs";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -56,6 +57,14 @@ function App() {
               element={
                 <AuthenticatedRoute>
                   <Posts />
+                </AuthenticatedRoute>
+              }
+            />
+            <Route
+              path="/admin/statistics"
+              element={
+                <AuthenticatedRoute>
+                  <Graphs />
                 </AuthenticatedRoute>
               }
             />

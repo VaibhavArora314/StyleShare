@@ -465,7 +465,8 @@ export const favoritePostController = async (req: UserAuthRequest, res: Response
     await prisma.favorite.create({
       data: {
         userId,
-        postId
+        postId,
+        createdAt: new Date()
       }
     });
 
@@ -756,6 +757,7 @@ export const reactToPostController = async (req: UserAuthRequest, res: Response)
           userId,
           postId,
           type,
+          createdAt: new Date()
         },
       });
       res.status(201).json({ message: "Reaction added", reaction: newReaction });

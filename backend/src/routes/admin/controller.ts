@@ -232,3 +232,53 @@ export const getAdminStatsController = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getGraphsStatsController = async (req: Request, res: Response) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        createdAt: true,
+      },
+    });
+    const posts = await prisma.post.findMany({
+      select: {
+        createdAt: true,
+      },
+    });
+    const comments = await prisma.comment.findMany({
+      select: {
+        createdAt: true,
+      },
+    });
+    const favorites = await prisma.favorite.findMany({
+      select: {
+        createdAt:true
+      },
+    });
+    const contacts = await prisma.contactMessage.findMany({
+      select: {
+        createdAt:true
+      },
+    });
+    const reactions = await prisma.reaction.findMany({
+      select: {
+        createdAt:true
+      },
+    });
+
+    res.status(200).json({
+      users,
+      posts,
+      comments,
+      favorites,
+      contacts,
+      reactions
+    });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
