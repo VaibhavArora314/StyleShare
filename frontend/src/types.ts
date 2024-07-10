@@ -42,5 +42,5 @@ export interface ILeaderboardUser {
   userId: string;
   username: string;
   postCount: number;
-  totalLikes:number;
+  totalReactions:number;
 }

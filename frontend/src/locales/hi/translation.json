@@ -176,7 +176,7 @@
         "profile": "प्रोफ़ाइल",
         "username": "उपयोगकर्ता नाम",
         "posts": "पोस्ट्स",
-        "likes": "पसंद"
+        "reactions": "प्रतिक्रियाओं"
     },
     "newPost": {
         "createPost": "नई पोस्ट बनाएं",
