@@ -250,7 +250,6 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
     const pageSize = parseInt(req.query.pageSize as string);
     const searchQuery = req.query.searchQuery as string || "";
     const tags = req.query.tags ? (req.query.tags as string).split(',') : [];
-    console.log(tags)
 
      const totalPosts = await prisma.post.count({
       where: {
@@ -308,39 +307,6 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Failed to fetch posts' });
-  }
-};
-
-export const getTrendingPostsController = async (req: Request, res: Response) => {
-  try{
-    const trendingPosts = await prisma.post.findMany({
-      select: {
-        id: true,
-        title: true,
-        codeSnippet: true,
-        jsCodeSnippet: true,
-        description: true,
-        tags: true,
-        author: {
-          select: {
-            id: true,
-            username: true,
-            email: true,
-          },
-        },
-        reactions:true,
-      },
-    });
-    res.status(200).json({
-      message: "Successfully created comment!",
-      trendingPosts,
-    });
-
-
-  }catch(error){
-    res.status(500).json({
-      error: "An unexpected exception occurred!",
-    });
   }
 };
 

@@ -9,15 +9,7 @@ import { SiGooglemessages } from "react-icons/si";
 import { RiHeartsFill } from "react-icons/ri";
 import { FaComments } from "react-icons/fa6";
 import axios from 'axios';
-
-interface IStats {
-  totalUsers: number;
-  totalPosts: number;
-  totalComments: number;
-  totalReactions: number;
-  contactMessages: number;
-  favoritesPosts: number;
-}
+import { IStats } from '../types';
 
 const StatusCard = () => {
   const [stats, setStats] = useState<IStats | null>(null);
