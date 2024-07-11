@@ -52,7 +52,9 @@ const LeaderBoard  = () => {
                       </td>
                       <td className="px-2 py-4 sm:px-6">
                         <div className="flex flex-col items-center">
-                          <img className="h-8 w-8 rounded-full" src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic" />
+                         <Link to={`/app/profile/${user.userId}`}>
+                         <img className="h-8 w-8 rounded-full" src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic"  />
+                         </Link>
                         </div>
                       </td>
                       <td className="px-2 py-4 sm:px-6">
