@@ -164,92 +164,92 @@ const Graphs = () => {
         <div className="mx-5 -mt-2 lg:mr-11 overflow-x-auto rounded-xl mb-5">
           <h3 className="mb-2 flex font-bold text-xl decoration-sky-500 decoration-dotted underline">Users Over Time {year}</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div className="p-4 bg-white shadow rounded">
-              <Line data={userChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+          <div className="p-4 bg-white shadow rounded">
+          <Line data={userChartData} options={{ responsive: true, scales: {x: { title: { display: true, text: 'Date User registered' } }, y: { title: { display: true, text: 'User Count' } },}, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Bar data={userBarData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Bar data={userBarData} options={{ responsive: true,scales: {x: { title: { display: true, text: 'Date User registered' } }, y: { title: { display: true, text: 'User Count' } },}, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Bubble data={userBubbleData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Bubble data={userBubbleData} options={{ responsive: true,scales: {x: { title: { display: true, text: 'Date User registered' } }, y: { title: { display: true, text: 'User Count' } },}, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Scatter data={userScatterData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Scatter data={userScatterData} options={{ responsive: true,scales: {x: { title: { display: true, text: 'Date User registered' } }, y: { title: { display: true, text: 'User Count' } },}, maintainAspectRatio: false }} />
             </div>
           </div>
           <h3 className="mt-5 font-bold text-xl decoration-sky-500 decoration-dotted underline">Posts Over Time {year}</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-2">
             <div className="p-4 bg-white shadow rounded">
-              <Line data={postChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Line data={postChartData} options={{ responsive: true, scales: { x: { title: { display: true, text: 'Date when posted' } }, y: { title: { display: true, text: 'Posts Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Bar data={postBarData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Bar data={postBarData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Date when posted' } }, y: { title: { display: true, text: 'Posts Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Bubble data={postBubbleData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Bubble data={postBubbleData} options={{ responsive: true, scales: { x: { title: { display: true, text: 'Date when posted' } }, y: { title: { display: true, text: 'Posts Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Scatter data={postScatterData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Scatter data={postScatterData} options={{ responsive: true, scales: { x: { title: { display: true, text: 'Date when posted' } }, y: { title: { display: true, text: 'Posts Count' } } }, maintainAspectRatio: false }} />
             </div>
           </div>
           <h3 className="mt-5 font-bold text-xl decoration-sky-500 decoration-dotted underline">Comments Over Time {year}</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-2">
             <div className="p-4 bg-white shadow rounded">
-              <Line data={commentChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Line data={commentChartData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Date when commented' } }, y: { title: { display: true, text: 'Comments Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Bar data={commentBarData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Bar data={commentBarData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Date when commented' } }, y: { title: { display: true, text: 'Comments Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Bubble data={commentBubbleData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Bubble data={commentBubbleData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Date when commented' } }, y: { title: { display: true, text: 'Comments Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Scatter data={commentScatterData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Scatter data={commentScatterData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Date when commented' } }, y: { title: { display: true, text: 'Comments Count' } } }, maintainAspectRatio: false }} />
             </div>
           </div>
           <h3 className="mt-5 font-bold text-xl decoration-sky-500 decoration-dotted underline">Favorites Over Time {year}</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-2">
             <div className="p-4 bg-white shadow rounded">
-              <Line data={favoriteChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Line data={favoriteChartData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Date' } }, y: { title: { display: true, text: 'Favorite Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Bar data={favoriteBarData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Bar data={favoriteBarData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Date' } }, y: { title: { display: true, text: 'Favorite Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Bubble data={favoriteBubbleData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Bubble data={favoriteBubbleData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Date' } }, y: { title: { display: true, text: 'Favorite Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Scatter data={favoriteScatterData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Scatter data={favoriteScatterData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Date' } }, y: { title: { display: true, text: 'Favorite Count' } } }, maintainAspectRatio: false }} />
             </div>
           </div>
           <h3 className="mt-5 font-bold text-xl decoration-sky-500 decoration-dotted underline">Reactions Over Time {year}</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-2">
             <div className="p-4 bg-white shadow rounded">
-              <Line data={reactionChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Line data={reactionChartData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Reacted Date' } }, y: { title: { display: true, text: 'Reactions Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Bar data={reactionBarData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Bar data={reactionBarData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Reacted Date' } }, y: { title: { display: true, text: 'Reactions Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Bubble data={reactionBubbleData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Bubble data={reactionBubbleData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Reacted Date' } }, y: { title: { display: true, text: 'Reactions Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Scatter data={reactionScatterData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Scatter data={reactionScatterData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Reacted Date' } }, y: { title: { display: true, text: 'Reactions Count' } } }, maintainAspectRatio: false }} />
             </div>
           </div>
           <h3 className="mt-5 font-bold text-xl decoration-sky-500 decoration-dotted underline">Contact Messages Over Time {year}</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-2">
             <div className="p-4 bg-white shadow rounded">
-              <Line data={contactMessageChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Line data={contactMessageChartData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Contacted Date' } }, y: { title: { display: true, text: 'Messages Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Bar data={contactMessageBarData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Bar data={contactMessageBarData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Contacted Date' } }, y: { title: { display: true, text: 'Messages Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Bubble data={contactMessageBubbleData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Bubble data={contactMessageBubbleData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Contacted Date' } }, y: { title: { display: true, text: 'Messages Count' } } }, maintainAspectRatio: false }} />
             </div>
             <div className="p-4 bg-white shadow rounded">
-              <Scatter data={contactMessageScatterData} options={{ responsive: true, maintainAspectRatio: false }} />
+              <Scatter data={contactMessageScatterData} options={{ responsive: true,scales: { x: { title: { display: true, text: 'Contacted Date' } }, y: { title: { display: true, text: 'Messages Count' } } }, maintainAspectRatio: false }} />
             </div>
           </div>
         </div>
