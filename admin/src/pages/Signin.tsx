@@ -38,7 +38,7 @@ const Signin = () => {
       });
 
       setTokenState(response.data?.token);
-      localStorage.setItem("token", response.data?.token || "");
+      localStorage.setItem("authToken", response.data?.token || "");
       navigate('/admin');
       toast.success('Login successfully')
     } catch (e) {
