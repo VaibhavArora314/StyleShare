@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import about from '../assets/about.png'
 import bgHero from "../assets/bgHero.png";
 import { useTranslation } from 'react-i18next';
+import Tilt from 'react-parallax-tilt';
 
 function About() {
   const { t } = useTranslation();
@@ -9,7 +10,9 @@ function About() {
   return (
     <div className="w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
       <div className="max-w-[1240px] mx-auto grid md:grid-cols-2">
+      <Tilt>
         <img className="w-[550px] mx-auto my-4" src={about} alt="About Us" />
+      </Tilt>
         <div className="flex flex-col justify-center">
           <p className="bg-gradient-to-r from-blue-600 via-blue-500 to-white inline-block text-transparent bg-clip-text text-4xl font-bold py-1" >
             👨‍💻 {t('about.aboutHeading')}

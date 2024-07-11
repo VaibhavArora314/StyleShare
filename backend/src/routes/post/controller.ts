@@ -180,8 +180,6 @@ export const getPostController = async (req: Request, res: Response) => {
         jsCodeSnippet: true,
         description: true,
         tags: true,
-        likes: true,
-        dislikes: true,
         author: {
           select: {
             id: true,
@@ -296,6 +294,11 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
           },
           tags.length > 0 ? { tags: { hasSome: tags } } : {}
         ]
+      },
+      orderBy: {
+        reactions: {
+          _count: "desc"
+        }
       }
     });
     res.status(200).json({
@@ -576,22 +579,26 @@ export const getLeaderboardController = async (req: Request, res: Response) => {
         },
         posts: {
           select: {
-            likes: true,
+            reactions: {
+              select: {
+                id: true,
+              },
+            },
           },
         },
       },
     });
 
-    const userLikes = leaderboard.map((user) => ({
+    const userReactions = leaderboard.map((user) => ({
       id: user.id,
       username: user.username,
       postCount: user._count.posts,
-      totalLikes: user.posts.reduce((sum, post) => sum + post.likes, 0),
+      totalReactions: user.posts.reduce((sum, post) => sum + post.reactions.length, 0),
     }));
 
-    userLikes.sort((a, b) => b.totalLikes - a.totalLikes);
+    userReactions.sort((a, b) => b.totalReactions - a.totalReactions);
 
-    const top10Users = userLikes.slice(0, 10);
+    const top10Users = userReactions.slice(0, 10);
 
     res.status(200).json({
       leaderboard: top10Users.map((user, index) => ({
@@ -599,7 +606,7 @@ export const getLeaderboardController = async (req: Request, res: Response) => {
         userId: user.id,
         username: user.username,
         postCount: user.postCount,
-        totalLikes: user.totalLikes,
+        totalReactions: user.totalReactions,
       })),
     });
   } catch (error) {

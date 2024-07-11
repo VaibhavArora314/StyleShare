@@ -149,7 +149,7 @@
         "copy1":"Copyright ",
         "copy2":"Style Share"
     },
-    "PostHeading":"Recent Posts Added",
+    "PostHeading":"Popular Posts",
     "allPosts":{
         "Posts":"Posts",
         "search":"🔍 Search anything",
@@ -180,7 +180,7 @@
         "profile": "Profile",
         "username": "Username",
         "posts": "Posts",
-        "likes": "Likes"
+        "reactions": "Reactions"
     },
     "newPost":{
         "createPost": "Create New Post",

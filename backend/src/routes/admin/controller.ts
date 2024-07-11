@@ -76,3 +76,159 @@ export const adminProfileController = async (req: UserAuthRequest, res: Response
     user,
   });
 };
+
+export const blockUserController = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: { blocked: true },
+    });
+
+    res.status(200).json({
+      message: `User ${user.username} has been blocked.`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const unblockUserController = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: { blocked: false },
+    });
+
+    res.status(200).json({
+      message: `User ${user.username} has been unblocked.`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const allUserForAdmin = async (req: Request, res:Response) => {
+  try{
+    const allUsers = await prisma.user.findMany({
+      where: {
+        isAdmin:false
+      },
+      select: {
+        id:true,
+        username:true,
+        email:true,
+        blocked:true,
+        posts:true,
+        createdAt:true,
+        comments:true,
+        following: {
+          select: {
+            id: true
+          }
+        }
+      },
+    });
+    res.status(200).json({
+      message: "Successfully fetched All Users!",
+      allUsers,
+    });
+  }catch(error){
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+}
+
+export const getAdminPostsController = async (req: Request, res: Response) => {
+  const posts = await prisma.post.findMany({
+    select: {
+      id: true,
+      title: true,
+      codeSnippet: true,
+      jsCodeSnippet: true,
+      description: true,
+      tags: true,
+      createdAt:true,
+      comments:true,
+      reactions:true,
+      author: {
+        select: {
+          id: true,
+          username: true,
+          email: true,
+        },
+      },
+    },
+  });
+
+  res.status(200).json({
+    posts,
+  });
+};
+
+export const getAdminTrendingPostsController = async (req: Request, res: Response) => {
+  try{
+    const trendingPosts = await prisma.post.findMany({
+      select: {
+        id: true,
+        title: true,
+        codeSnippet: true,
+        jsCodeSnippet: true,
+        description: true,
+        tags: true,
+        createdAt:true,
+        comments:true,
+        author: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+          },
+        },
+        reactions:true,
+      },
+    });
+    res.status(200).json({
+      message: "Successfully created comment!",
+      trendingPosts,
+    });
+
+
+  }catch(error){
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const getAdminStatsController = async (req: Request, res: Response) => {
+  try {
+    const totalUsers = await prisma.user.count();
+    const totalPosts = await prisma.post.count();
+    const totalComments = await prisma.comment.count();
+    const totalReactions = await prisma.reaction.count();
+    const contactMessages = await prisma.contactMessage.count();
+    const favoritesPosts = await prisma.favorite.count();
+
+    res.status(200).json({
+      totalUsers,
+      totalPosts,
+      totalComments,
+      totalReactions,
+      contactMessages,
+      favoritesPosts
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};

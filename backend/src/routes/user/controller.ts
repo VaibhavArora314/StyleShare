@@ -610,3 +610,23 @@ export const checkFollowStatusController = async (req: UserAuthRequest, res: Res
     });
   }
 };
+
+export const checkingBlockOrUnblock = async (req: UserAuthRequest, res: Response) => {
+  const userId = req.userId;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { blocked: true },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ blocked: user.blocked });
+  } catch (error) {
+    console.error("Error checking blocked status:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
