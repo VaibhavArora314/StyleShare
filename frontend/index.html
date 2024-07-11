@@ -9,42 +9,21 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-  
-    <div class="circle-container">
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-  </div>
-  <script>
+    
+    <div class="circle-container"></div>
+
+    <script>
       document.addEventListener("DOMContentLoaded", function () {
           const coords = { x: 0, y: 0 };
+          const circlesCount = 26; 
+          const circleContainer = document.querySelector(".circle-container");
+
+          for (let i = 0; i < circlesCount; i++) {
+              const circle = document.createElement("div");
+              circle.classList.add("circle");
+              circleContainer.appendChild(circle);
+          }
+
           const circles = document.querySelectorAll(".circle");
 
           circles.forEach(function (circle) {
@@ -54,7 +33,7 @@
 
           window.addEventListener("mousemove", function (e) {
               coords.x = e.pageX;
-              coords.y = e.pageY - window.scrollY; 
+              coords.y = e.pageY - window.scrollY;
           });
 
           function animateCircles() {
@@ -79,7 +58,6 @@
 
           animateCircles();
       });
-
-  </script>
+    </script>
   </body>
 </html>
