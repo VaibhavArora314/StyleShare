@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 interface ProfileForm{
     user : IUser | null,
-    dismiss : () => void
+    dismiss : () => void,
 }
 
 export function ProfileForm({user, dismiss} : ProfileForm ){
@@ -34,6 +34,7 @@ export function ProfileForm({user, dismiss} : ProfileForm ){
             const response = await axios.put(`/api/v1/user/update/${user?.id}`,updatedUser);
             toast.success(response.data.message)
             dismiss()
+            window.location.reload();
         }catch (e : any){
             const axiosError: AxiosError<{
                 error: {
