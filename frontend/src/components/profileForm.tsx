@@ -35,19 +35,19 @@ export function ProfileForm({user, dismiss} : ProfileForm ){
             toast.success(response.data.message)
             dismiss()
         }catch (e){
-            const axiosError = e as AxiosError<{
+            const axiosError: AxiosError<{
                 error: {
                     message: string;
                 };
-            }>;
+            }> = e;
 
-            setError((e) => {
-                if (axiosError?.response?.data?.error)
-                    return axiosError?.response?.data?.error as typeof e;
-
-                toast.error("An unexpected error occurred");
+            const errorMessage = axiosError?.response?.data?.error?.message || "An unexpected error occurred";
+            toast.error(errorMessage);
+            setError(()=> {
+                if(axiosError?.response?.data?.error)
+                    e = axiosError?.response?.data?.error ;
                 return e
-            });
+            } )
         }
 
     }

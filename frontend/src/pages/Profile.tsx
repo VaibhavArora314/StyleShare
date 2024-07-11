@@ -48,7 +48,7 @@ const Profile = ()=> {
     document.title='Style Share | View profile 👀'
 
     fetchUser();
-  }, [token,posts,user]);
+  }, [token,posts,user?.username, user?.email]);
 
   const handleGenerateOtp = async () => {
     try {

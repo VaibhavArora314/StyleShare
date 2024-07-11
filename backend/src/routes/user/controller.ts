@@ -153,6 +153,7 @@ export const userSigninController = async (req: Request, res: Response) => {
 export const userProfileController = async (req: UserAuthRequest, res: Response) => {
   const userId = req.userId;
 
+
   const user = await prisma.user.findFirst({
     where: {
       id: userId,
@@ -195,7 +196,7 @@ export const userProfileController = async (req: UserAuthRequest, res: Response)
 
 export const userProfileUpdate = async (req: UserAuthRequest, res: Response) => {
   try {
-    const userId = req.userId;
+    const userId = req.params.id;
     const payload = req.body
     const result = UpdateBodySchema.safeParse(payload);
 
@@ -211,18 +212,52 @@ export const userProfileUpdate = async (req: UserAuthRequest, res: Response) => 
 
     const data = result.data
 
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        email: data.email,
+      NOT : {
+          id : userId
+        }
+      }
+    });
+
+    if (existingUser) {
+       return res.status(411).json({
+        error: {
+          message : "Email already in use."
+        },
+      });
+    }
+
+    const userEmail = await prisma.user.findFirst({
+      where : {
+        id : userId
+      },
+      select: {
+        email : true
+      }
+    })
 
     const user = await prisma.user.updateMany({
       where: {
-        id: {
-          contains : userId,
-        },
+        id:  userId,
       },
       data:{
         username : data.username,
-        email : data.email
+        email : data.email,
       },
     });
+
+    if(userEmail?.email != data.email){
+      const user = await prisma.user.updateMany({
+        where: {
+          id:  userId,
+        },
+        data:{
+          verified : false
+        }
+      })
+    }
 
     if (!user) {
       return res.status(411).json({
@@ -235,10 +270,9 @@ export const userProfileUpdate = async (req: UserAuthRequest, res: Response) => 
       user,
     });
   }catch (error){
-    console.log(error);
     return res.status(500).json({
       error: {
-        message: "An unexpected exception occurred!",
+        message: error,
       },
     });
   }
