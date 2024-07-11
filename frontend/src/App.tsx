@@ -8,7 +8,6 @@ import Signup from "./pages/Signup";
 import Posts from "./pages/Posts";
 import Post from "./pages/Post";
 import NewPost from "./pages/NewPost";
-import { RecoilRoot } from "recoil";
 import NonAuthenticatedRoute from "./components/NonAuthenticatedRoute";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import Profile from "./pages/Profile";
@@ -31,14 +30,25 @@ import EditPost from "./pages/EditPost";
 import useTheme from './hooks/useTheme';
 import CodeEditor from "./pages/CodeEditor";
 import TrendingPosts from "./pages/TrendingPosts";
+import Contributors from "./pages/Contributors";
+import userBlock from "./hooks/userBlock";
+import Blocked from "./pages/Blocked";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
   const { theme, toggleTheme } = useTheme();
+  const { loading, isBlocked } = userBlock(5);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (isBlocked) {
+    return <Blocked />;
+  }  
   return (
     <BrowserRouter>
-      <RecoilRoot>
         <React.Suspense fallback={<Loader />}>
           <GoTop/>
           <div style={{ backgroundColor: theme === 'light' ? '#fff' : '#000435', color: theme === 'light' ? '#000435' : '#fff'}}>
@@ -49,6 +59,7 @@ function App() {
                 <Route path="/app" element={<Home />} />
                 <Route path="/app/posts/:id" element={<Post />} />
                 <Route path="/app/posts" element={<Posts />} />
+                <Route path="/app/contributors" element={<Contributors/>}/>
                 <Route path="/app/profile/:id" element={<ShowProfile/>} />
                 <Route
                   path="/app/signin"
@@ -150,7 +161,6 @@ function App() {
             <Footer />
           </div>
         </React.Suspense>
-      </RecoilRoot>
       <Tooltip id="my-tooltip" place='right' style={{backgroundColor:"#00AAFF",color:'#fff',fontSize:'15px'}} />
       <Toaster/>
     </BrowserRouter>

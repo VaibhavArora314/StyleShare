@@ -1,50 +1,114 @@
+import { useState, useEffect } from 'react';
 import { HiUsers } from 'react-icons/hi2';
 import { LiaNewspaperSolid } from 'react-icons/lia';
-import { TbActivityHeartbeat } from 'react-icons/tb';
 import { Link } from 'react-router-dom';
+import { tokenState } from '../store/atoms/auth';
+import { useRecoilValue } from 'recoil';
+import { MdAddReaction } from "react-icons/md";
+import { SiGooglemessages } from "react-icons/si";
+import { RiHeartsFill } from "react-icons/ri";
+import { FaComments } from "react-icons/fa6";
+import axios from 'axios';
+import { IStats } from '../types';
 
 const StatusCard = () => {
+  const [stats, setStats] = useState<IStats | null>(null);
+  const token = useRecoilValue(tokenState);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await axios.get('/api/v1/admin/getCardStatus', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setStats(response.data);
+      } catch (error) {
+        console.error('Error fetching stats', error);
+      }
+    };
+    fetchStats();
+  }, [token]);
+
+  if (!stats) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <section className="text-white mt-5">
-          <div className="container mx-auto px-5">
-            <div className="flex flex-wrap -m-4 text-center justify-center">
-              <Link to="/admin/users" className="p-4 lg:w-1/4 sm:w-1/2 w-full">
-                <div className="flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
-                  <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
-                    <HiUsers size={40}/>
-                  </div>
-                  <div>
-                    <h2 className="title-font font-medium text-3xl">2.7K</h2>
-                    <p className="text-gray-200 py-1">Total Users</p>
-                  </div>
-                </div>
-              </Link>
-              <Link to="/admin/posts" className="p-4 lg:w-1/4 sm:w-1/2 w-full">
-                <div className="flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
-                  <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
-                    <LiaNewspaperSolid size={40}/>
-                  </div>
-                  <div>
-                    <h2 className="title-font font-medium text-3xl">2.7K</h2>
-                    <p className="text-gray-200 py-1">Total Posts</p>
-                  </div>
-                </div>
-              </Link>
-              <div className="p-4 lg:w-1/4 sm:w-1/2 w-full">
-                <div className="hover:cursor-default flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
-                  <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
-                    <TbActivityHeartbeat size={40}/>
-                  </div>
-                  <div>
-                    <h2 className="title-font font-medium text-3xl">2.7K</h2>
-                    <p className="text-gray-200 py-1">Total Visits</p>
-                  </div>
-                </div>
+      <div className="container mx-auto px-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 lg:mx-20 text-center">
+          <Link to="/admin/users" className="col-span-1">
+            <div className="flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
+              <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
+                <HiUsers size={40} />
+              </div>
+              <div>
+                <h2 className="title-font font-medium text-3xl">{stats.totalUsers}</h2>
+                <p className="text-gray-200 py-1">Total Users</p>
+              </div>
+            </div>
+          </Link>
+          <Link to="/admin/posts" className="col-span-1">
+            <div className="flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
+              <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
+                <LiaNewspaperSolid size={40} />
+              </div>
+              <div>
+                <h2 className="title-font font-medium text-3xl">{stats.totalPosts}</h2>
+                <p className="text-gray-200 py-1">Total Posts</p>
+              </div>
+            </div>
+          </Link>
+          <div className="col-span-1">
+            <div className="hover:cursor-default flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
+              <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
+                <FaComments size={40} />
+              </div>
+              <div>
+                <h2 className="title-font font-medium text-3xl">{stats.totalComments}</h2>
+                <p className="text-gray-200 py-1">Total Comments</p>
               </div>
             </div>
           </div>
-        </section>
-  )
-}
+          <div className="col-span-1">
+            <div className="flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
+              <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
+                <MdAddReaction size={40} />
+              </div>
+              <div>
+                <h2 className="title-font font-medium text-3xl">{stats.totalReactions}</h2>
+                <p className="text-gray-200 py-1">Total Reactions</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-span-1">
+            <div className="flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
+              <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
+                <SiGooglemessages size={40} />
+              </div>
+              <div>
+                <h2 className="title-font font-medium text-3xl">{stats.contactMessages}</h2>
+                <p className="text-gray-200 py-1">Contact Messages</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-span-1">
+            <div className="hover:cursor-default flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
+              <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
+                <RiHeartsFill size={40} />
+              </div>
+              <div>
+                <h2 className="title-font font-medium text-3xl">{stats.favoritesPosts}</h2>
+                <p className="text-gray-200 py-1">Most Favorites</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
-export default StatusCard
+export default StatusCard;

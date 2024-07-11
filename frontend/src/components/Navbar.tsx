@@ -75,17 +75,17 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme })=> {
           id="navbar-default"
         >
           <ul className="font-medium flex flex-col p-0 text-lg lg:p-0 mt-4 border rounded-lg lg:flex-row lg:space-x-5 rtl:space-x-reverse lg:mt-0 lg:border-0">
-            <li className="mt-2 lg:mb-0">
+          <li className={`mt-2 lg:mb-0 ${isMenuOpen ? "ml-3" : ""}`}>
               <Link to="/app" className={getNavLinkClass("/app")} aria-current="page" onClick={closeMenu}>
                 {t("navbar.links.home")}
               </Link>
             </li>
-            <li className="mt-2">
+            <li className={`mt-2 ${isMenuOpen ? "ml-3" : ""}`}>
               <Link to="/app/posts" className={getNavLinkClass("/app/posts")} onClick={closeMenu}>
                 {t("navbar.links.posts")}
               </Link>
             </li>
-            <li className="mt-2">
+            <li className={`mt-2 ${isMenuOpen ? "ml-3" : ""}`}>
               <Link to="/app/leaderboard" className={getNavLinkClass("/app/leaderboard")} onClick={closeMenu}>
                 {t("navbar.links.leaderboard")}
               </Link>
@@ -94,7 +94,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme })=> {
               <div className="flex flex-col lg:flex-row lg:space-x-4">
                 <li className="mb-2 lg:mb-0">
                   <Link to="/app/signin" onClick={closeMenu}>
-                    <button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+                  <button className={`relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 ${isMenuOpen ? "ml-3 mt-2" : ""}`}>
                       <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
                       <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-gradient-to-l from-[#c779e8] to-indigo-500 px-5 text-lg font-small text-white backdrop-blur-3xl">
                         {t("navbar.links.signin")}
@@ -104,7 +104,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme })=> {
                 </li>
                 <li>
                   <Link to="/app/signup" onClick={closeMenu}>
-                    <button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+                  <button className={`relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 ${isMenuOpen ? "ml-3" : ""}`}>
                       <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
                       <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-gradient-to-l from-[#c779e8] to-indigo-500 px-5 text-lg font-small text-white backdrop-blur-3xl">
                         {t("navbar.links.signup")}
@@ -115,7 +115,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme })=> {
                 <li>
                   <button
                     onClick={toggleTheme}
-                    className="inline-flex mt-1 border-2 border-white items-center justify-center w-10 h-10 text-gray-100 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                    className={`inline-flex mt-1 border-2 border-white items-center justify-center w-10 h-10 text-gray-100 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-200 ${isMenuOpen ? "ml-3 mt-2 my-2" : ""}`}
                   >
                     {theme === 'light' ? <FaMoon className="w-4 h-4 " /> : <FaSun className="w-4 h-4" />}
                   </button>
@@ -124,36 +124,36 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme })=> {
               </div>
             ) : (
               <>
-                <li className="mt-2">
+                 <li className={`mt-2 ${isMenuOpen ? "ml-3" : ""}`}>
                   <Link to="/app/new-post" className={getNavLinkClass("/app/new-post")} onClick={closeMenu}>
                     {t("navbar.links.newpost")}
                   </Link>
                 </li>
-                <li className="mt-2">
+                <li className={`mt-2 ${isMenuOpen ? "ml-3" : ""}`}>
                   <Link to="/app/code" className={getNavLinkClass("/app/code")} onClick={closeMenu}>
                     {t("navbar.links.codeeditor")}
                   </Link>
                 </li>
-                <li className="mt-2">
+                <li className={`mt-2 ${isMenuOpen ? "ml-3" : ""}`}>
                   <Link to="/app/profile" className={getNavLinkClass("/app/profile")} onClick={closeMenu}>
                     {t("navbar.links.profile")}
                   </Link>
                 </li>
-                <li className="mt-2">
+                <li className={`mt-2 ${isMenuOpen ? "ml-3" : ""}`}>
                   <Link to="/app/fav" className={getNavLinkClass("/app/fav")} onClick={closeMenu}>
                     {t("navbar.links.favorite")}
                   </Link>
                 </li>
                 <li className="mt-1">
                   <button
-                    className=" text-white px-4 py-2 -mt-3  rounded-lg bg-blue-500 hover:bg-blue-600"
+                    className={`text-white px-4 py-2 -mt-3  rounded-lg bg-blue-500 hover:bg-blue-600 ${isMenuOpen ? "ml-3" : ""}`}
                     onClick={handleLogout}
                   >
                     {t("navbar.links.logout")}
                   </button>
                   <button
                   onClick={toggleTheme}
-                  className="inline-flex mx-1  border-2 border-white items-center justify-center w-10 h-10 text-gray-100 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                  className={`inline-flex mx-1 border-2 border-white items-center justify-center w-10 h-10 text-gray-100 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-200 ${isMenuOpen ? "ml-3 mt-2 my-2" : ""}`}
                 >
                   {theme === 'light' ? <FaMoon className="w-4 h-4 " /> : <FaSun className="w-4 h-4" />}
                 </button>
