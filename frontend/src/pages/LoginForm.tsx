@@ -16,7 +16,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ defaultFormType = 'Signin' }) => 
         setFormType(defaultFormType);
     }, [defaultFormType]);
 
-    const handleFormChange = (event: MouseEvent<HTMLElement>, newFormType: 'Signin' | 'SignUp' | null) => {
+    const handleFormChange = (_event: MouseEvent<HTMLElement>, newFormType: 'Signin' | 'SignUp' | null) => {
         if (newFormType !== null) {
             setFormType(newFormType);
         }
