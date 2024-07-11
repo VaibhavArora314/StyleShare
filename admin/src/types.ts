@@ -24,10 +24,19 @@ export interface IPost {
     email: string;
     verified: boolean;
     createdAt:string;
+    blocked: boolean;
     posts: IPost[];
     favoritePosts?: IPost[]; 
+    comments:[];
+    following: [];
     isFollowing: boolean;
-    _count: {
-      following: number
-    }
+  }
+
+  export interface IStats {
+    totalUsers: number;
+    totalPosts: number;
+    totalComments: number;
+    totalReactions: number;
+    contactMessages: number;
+    favoritesPosts: number;
   }
