@@ -278,21 +278,6 @@ export const updatePostController = async (req: UserAuthRequest, res: Response) 
       return res.status(403).json({ error: "Invalid admin" });
     }
 
-    const user = await prisma.user.findFirst({
-      where: {
-        id: userId,
-      },
-      select: {
-        isAdmin: true,
-      },
-    });
-
-    if (!user?.isAdmin) {
-      return res.status(403).json({
-        error: "User is not admin!",
-      });
-    }
-
     const post = await prisma.post.findUnique({
       where: {
         id: postId,
