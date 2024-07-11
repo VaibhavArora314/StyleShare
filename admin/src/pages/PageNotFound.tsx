@@ -2,7 +2,7 @@ import notfound from '../assets/notFound.png'
 
 const PageNotFound = () => {
 
-  document.title='Style Share | Nothing here 🫗'
+  document.title='Style Share Admin | Nothing here 🫗'
 
   return (
     <div className='h-screen flex flex-col items-center justify-center mx-auto text-[#000435] bg-[#000435]'>

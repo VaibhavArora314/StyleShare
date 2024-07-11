@@ -5,6 +5,8 @@ import SideBar from "../components/SideBar";
 const Posts = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  document.title ="Style Share Admin | Manage Users Posts 📃"
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
