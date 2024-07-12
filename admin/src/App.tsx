@@ -11,6 +11,7 @@ import Users from "./pages/Users";
 import Posts from "./pages/Posts";
 import { Toaster } from "react-hot-toast";
 import UpdatePost from "./components/UpdatePost";
+import Graphs from "./pages/Graphs";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -65,6 +66,14 @@ function App() {
               element={
                 <AuthenticatedRoute>
                   <UpdatePost />
+                </AuthenticatedRoute>
+              }
+            />
+            <Route
+              path="/admin/statistics"
+              element={
+                <AuthenticatedRoute>
+                  <Graphs />
                 </AuthenticatedRoute>
               }
             />
