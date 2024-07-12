@@ -46,7 +46,7 @@ function App() {
 
   if (isBlocked) {
     return <Blocked />;
-  }  
+  }
   return (
     <BrowserRouter>
         <React.Suspense fallback={<Loader />}>
