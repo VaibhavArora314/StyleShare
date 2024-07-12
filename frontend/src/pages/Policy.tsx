@@ -23,7 +23,7 @@ function Policy() {
   }, [location]);
 
   return (
-    <div className="w-full text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4 ">
+    <div className="w-full text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4 lg:px-16 mx-auto">
       <div className="flex flex-col items-start">
         <div className="flex items-center mb-8 w-full">
           <div className="flex flex-col">
