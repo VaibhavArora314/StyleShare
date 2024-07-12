@@ -29,6 +29,7 @@ export interface IUser {
   email: string;
   verified: boolean;
   createdAt:string;
+  updatedAt : string;
   posts: IPost[];
   favoritePosts?: IPost[]; 
   isFollowing: boolean;

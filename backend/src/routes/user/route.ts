@@ -11,6 +11,7 @@ import {
   userSigninController,
   userSignupController,
   verifyOtpController,
+  userProfileUpdate
 } from "./controller";
 import authMiddleware from "../../middleware/auth";
 
@@ -25,6 +26,8 @@ userRouter.post("/generate-otp", authMiddleware, generateOtpController);
 userRouter.post("/verify-otp", authMiddleware, verifyOtpController);
 
 userRouter.get("/me", authMiddleware, userProfileController);
+
+userRouter.put("/update/:id",  userProfileUpdate);
 
 userRouter.post("/contact-us", contactUsController);
 

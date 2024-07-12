@@ -6,6 +6,7 @@ import { BsFilePost } from 'react-icons/bs';
 import { FaHome, FaRegCopyright, FaGithub, FaEnvelope, FaInfoCircle, FaTools, FaLock, FaFileAlt, FaCookieBite } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import logo from "../assets/favicon.png";
+import { FaRegHandshake } from "react-icons/fa6";
 
 const Footer = () => {
     const { t } = useTranslation();
@@ -70,7 +71,9 @@ const Footer = () => {
                                 </Link>
                             </li>
                             <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to="/app/contributors">Our Contributors</Link>
+                                <Link to="/app/contributors" className='flex items-center gap-2'>
+                                    <FaRegHandshake size={20} /> Our Contributors
+                                </Link>
                             </li>
                         </ul>
                     </div>
