@@ -107,7 +107,7 @@ const ShowProfile = () => {
 
   return (
     <div className="-mt-5 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
-        <div className="max-w-screen-xl mx-auto p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] flex flex-col items-center"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="max-w-screen-xl mx-auto p-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] flex flex-col items-center" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="w-80 text-[#000435] bg-white dark:text-white dark:bg-[#000435] backdrop-blur-sm rounded-xl p-3 border border-sky-500">
             <div className="p-2 flex justify-end mr-2">
               {

@@ -1,6 +1,7 @@
 import React from 'react';
 import editor from "../assets/editor.png";
 import { useTranslation } from 'react-i18next';
+import Tilt from 'react-parallax-tilt';
 
 const Showcase: React.FC = () => {
   const { t } = useTranslation();
@@ -43,7 +44,9 @@ const Showcase: React.FC = () => {
             ))}
           </div>
           <div className="mt-10 md:mt-0 md:w-1/2 flex justify-center">
-            <img src={editor} alt="Code Editor" className="max-w-full mx-20 h-auto rounded-lg shadow-md" />
+          <Tilt className="ml-0">
+             <img src={editor} alt="Code Editor" className="max-w-full h-auto rounded-lg shadow-md" />
+         </Tilt>
           </div>
         </div>
       </div>

@@ -69,8 +69,8 @@ const TestimonialSlider: React.FC = () => {
 
   return (
     <div
-      className="testimonial-slider-container w-full flex flex-col text-center py-10 bg-cover bg-center text-[#000435] dark:text-white"
-      style={{ backgroundImage: `url(${bgHero})` }}
+      className="testimonial-slider-container w-full flex flex-col text-center py-10 text-[#000435] bg-white dark:text-white dark:bg-[#000435]"
+      style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}      
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

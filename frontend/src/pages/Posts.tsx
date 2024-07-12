@@ -6,7 +6,6 @@ import { useRecoilValue } from "recoil";
 import { useTranslation } from "react-i18next";
 import usePosts from "../hooks/usePosts";
 import bgHero from "../assets/bgHero.png";
-import { Link } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 
 const Posts = () => {
@@ -124,12 +123,6 @@ const Posts = () => {
               {t("allPosts.filter")}
               <IoIosArrowDown size={20} className="items-center pt-1" />
             </button>
-            <Link
-              to={`/app/trending-posts`}
-              className="text-blue-500 dark:text-white bg-white dark:bg-blue-900 hover:text-white dark:hover:text-white dark:hover:bg-sky-500 hover:bg-sky-500 transition-colors duration-200 rounded-md border border-sky-500 p-2"
-            >
-              Show Trending Posts
-            </Link>
           </div>
           {showFilterDialog && (
             <div
