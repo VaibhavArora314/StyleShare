@@ -15,6 +15,8 @@ const Posts = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const token = useRecoilValue(tokenState);
 
+  document.title ="Style Share Admin | Manage Users Posts 📃"
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
