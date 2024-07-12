@@ -8,6 +8,8 @@ import NewPosts from '../components/NewPosts';
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  document.title ="Style Share Admin | Dashboard 👨‍💻"
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
