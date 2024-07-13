@@ -1,30 +1,51 @@
-import React, { useState, MouseEvent, useEffect } from "react";
+import React, { useState, useEffect, MouseEvent } from "react";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { ToggleButton, ToggleButtonGroup } from "@mui/material/";
 import Signin from "../components/Signin";
 import Signup from "../components/Signup";
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface LoginFormProps {
     defaultFormType?: 'Signin' | 'SignUp';
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ defaultFormType = 'Signin' }) => {
+    const navigate = useNavigate();
+    const location = useLocation();
     const [formType, setFormType] = useState<'Signin' | 'SignUp'>(defaultFormType);
 
     useEffect(() => {
-        setFormType(defaultFormType);
-    }, [defaultFormType]);
+        const currentPath = location.pathname.split('/').pop(); // Get last part of the path
+        if (currentPath === 'signin' || currentPath === 'signup') {
+            setFormType(currentPath.charAt(0).toUpperCase() + currentPath.slice(1) as 'Signin' | 'SignUp');
+        } else {
+            setFormType(defaultFormType);
+            navigate(`/app/${defaultFormType.toLowerCase()}`);
+        }
+    }, [location.pathname, defaultFormType, navigate]);
 
     const handleFormChange = (_event: MouseEvent<HTMLElement>, newFormType: 'Signin' | 'SignUp' | null) => {
         if (newFormType !== null) {
             setFormType(newFormType);
+            navigate(`/app/${newFormType.toLowerCase()}`);
         }
     };
 
+    // Listen for changes in URL path triggered by navbar navigation
+    useEffect(() => {
+        const pathSegments = location.pathname.split('/');
+        if (pathSegments.length > 1) {
+            const lastSegment = pathSegments[pathSegments.length - 1];
+            if (lastSegment === 'signup') {
+                setFormType('SignUp');
+            }
+        }
+    }, [location.pathname]);
+
     return (
         <Box sx={{ textAlign: 'center' }}>
- <ToggleButtonGroup
+            <ToggleButtonGroup
                 value={formType}
                 onChange={handleFormChange}
                 exclusive
@@ -34,7 +55,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ defaultFormType = 'Signin' }) => 
                         fontSize: '16px',
                         width: '120px',
                         backgroundColor: 'rgba(0, 0, 0, 0.1)', // Slight transparency for better background adaptation
-                        color: '#333', // Neutral text color
+                        color: '#fff', // Neutral text color
                         borderRadius: '8px', // Rounded corners for a modern look
                         '&.Mui-selected': {
                             backgroundColor: 'rgba(37, 117, 252, 0.8)', // Light blue with slight transparency
