@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import bgHero from "../assets/bgHero.png";
-import { FaGithub } from 'react-icons/fa';
 
 interface Contributor {
   id: number;
@@ -55,9 +54,6 @@ const Contributors: React.FC = () => {
               </h2>
               <p className="text-gray-700 dark:text-gray-400">
                 Contributions: {contributor.contributions}
-              </p>
-              <p className="text-gray-700 dark:text-gray-400 flex items-center">
-                <FaGithub className="mr-1" /> GitHub Profile
               </p>
             </a>
           ))}
