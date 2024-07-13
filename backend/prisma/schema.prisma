@@ -66,7 +66,8 @@ model Reaction {
   postId   String @db.ObjectId
   user     User   @relation(fields: [userId], references: [id])
   post     Post   @relation(fields: [postId], references: [id])
-
+  createdAt DateTime @default(now())
+  
   @@unique([userId, postId])
 }
 
@@ -87,6 +88,7 @@ model Favorite {
   postId    String @db.ObjectId
   user      User   @relation("userFavorites", fields: [userId], references: [id])
   post      Post   @relation("postFavorites", fields: [postId], references: [id])
+  createdAt   DateTime @default(now())  
 
   @@unique([userId, postId])
 }

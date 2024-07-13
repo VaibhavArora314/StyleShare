@@ -232,3 +232,182 @@ export const getAdminStatsController = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getGraphsStatsController = async (req: Request, res: Response) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        createdAt: true,
+      },
+    });
+    const posts = await prisma.post.findMany({
+      select: {
+        createdAt: true,
+      },
+    });
+    const comments = await prisma.comment.findMany({
+      select: {
+        createdAt: true,
+      },
+    });
+    const favorites = await prisma.favorite.findMany({
+      select: {
+        createdAt:true
+      },
+    });
+    const contacts = await prisma.contactMessage.findMany({
+      select: {
+        createdAt:true
+      },
+    });
+    const reactions = await prisma.reaction.findMany({
+      select: {
+        createdAt:true
+      },
+    });
+
+    res.status(200).json({
+      users,
+      posts,
+      comments,
+      favorites,
+      contacts,
+      reactions
+    });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const getPostByIdController = async (req: Request, res: Response) => {
+  try {
+    const postId = req.params.id;
+
+    const post = await prisma.post.findFirst({
+      where: {
+        id: postId,
+      },
+      select: {
+        id: true,
+        title: true,
+        codeSnippet: true,
+        jsCodeSnippet: true,
+        description: true,
+        tags: true,
+      },
+    });
+
+    if (!post) {
+      return res.status(404).json({
+        message: "No such post exists!",
+      });
+    }
+
+    res.status(200).json({
+      post
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "Internal server error!",
+    });
+  }
+};
+
+export const updatePostController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const { postId } = req.params;
+    const { title, description, codeSnippet, jsCodeSnippet, tags } = req.body;
+
+    if (!userId) {
+      return res.status(403).json({ error: "Invalid admin" });
+    }
+
+    const post = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+      select: {
+        id: true
+      },
+    });
+
+    if (!post) {
+      return res.status(404).json({
+        error: "Post not found!",
+      });
+    }
+
+    const updatedPost = await prisma.post.update({
+      where: { id: postId },
+      data: {
+        title,
+        description,
+        codeSnippet,
+        jsCodeSnippet,
+        tags,
+      },
+      select: {
+        id: true,
+        title: true,
+        codeSnippet: true,
+        jsCodeSnippet: true,
+        description: true,
+        tags: true,
+      },
+    });
+
+    res.status(200).json({
+      message: "Post updated successfully.",
+      updatedPost,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const deletePostController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const { postId } = req.params;
+    const userId = req.userId;
+    
+    if (!userId) {
+      return res.status(403).json({ error: { message: "Invalid admin" } });
+    }
+
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+
+    if (!post) {
+      return res.status(404).json({ error: { message: "Post not found" } });
+    }
+
+    await prisma.comment.deleteMany({
+      where: { postId }
+    });
+    await prisma.favorite.deleteMany({
+      where: { postId }
+    });
+    await prisma.reaction.deleteMany({
+      where: { postId }
+    });
+    await prisma.post.delete({
+      where: { id: postId },
+    });
+
+    res.status(200).json({
+      message: "Post deleted successfully.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};

@@ -12,6 +12,8 @@ const Users = () => {
   const [allUsers, setAllUsers] = useState<IUser[]>([]);
   const token = useRecoilValue(tokenState);
 
+  document.title ="Style Share Admin | Manage Users 👥"
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };

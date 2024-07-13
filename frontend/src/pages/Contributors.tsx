@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import bgHero from "../assets/bgHero.png";
 
 interface Contributor {
   id: number;
@@ -27,9 +28,13 @@ const Contributors: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-black text-black dark:text-gray-200 min-h-screen">
+    <div className="-mt-7 bg-white dark:bg-[#000435] text-black dark:text-gray-200 min-h-screen" style={{
+      backgroundImage: `url(${bgHero})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}>
       <div className="container mx-auto py-8">
-        <h1 className="text-center text-4xl font-semibold mb-8">Contributors</h1>
+        <h1 className="text-center text-3xl font-semibold mb-8">🤝 Contributors</h1>
         <div className="flex flex-wrap justify-center gap-8">
           {contributors.map((contributor) => (
             <div

@@ -11,6 +11,8 @@ const Profile = () => {
   const setTokenState = useSetRecoilState(tokenState);
   const user = useRecoilValue(userState);
 
+  document.title ="Style Share Admin | My Profile 📷"
+
   const handleLogout = () => {
     setTokenState(null);
     localStorage.removeItem("authToken");
