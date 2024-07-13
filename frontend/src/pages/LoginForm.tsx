@@ -24,27 +24,31 @@ const LoginForm: React.FC<LoginFormProps> = ({ defaultFormType = 'Signin' }) => 
 
     return (
         <Box sx={{ textAlign: 'center' }}>
-            <ToggleButtonGroup
+ <ToggleButtonGroup
                 value={formType}
                 onChange={handleFormChange}
                 exclusive
                 aria-label="Platform"
                 sx={{ 
                     '& .MuiToggleButton-root': {
-                        fontSize: '20px',
-                        width: '227px',
-                        backgroundColor: 'blueviolet',
-                        color: 'white',
+                        fontSize: '16px',
+                        width: '120px',
+                        backgroundColor: 'rgba(0, 0, 0, 0.1)', // Slight transparency for better background adaptation
+                        color: '#333', // Neutral text color
+                        borderRadius: '8px', // Rounded corners for a modern look
                         '&.Mui-selected': {
-                            backgroundColor: '#2575fc',
+                            backgroundColor: 'rgba(37, 117, 252, 0.8)', // Light blue with slight transparency
                             color: 'white',
                             '&:hover': {
-                                backgroundColor: '#47c4fd',
+                                backgroundColor: 'rgba(71, 196, 253, 0.8)', // Brighter blue on hover
                             }
                         },
                         '&:hover': {
-                            backgroundColor: '#c89bf1',
+                            backgroundColor: 'rgba(200, 155, 241, 0.8)', // Light purple on hover
                         }
+                    },
+                    '& .MuiToggleButtonGroup-grouped:not(:last-of-type)': {
+                        marginRight: '8px',
                     }
                 }}
             >
