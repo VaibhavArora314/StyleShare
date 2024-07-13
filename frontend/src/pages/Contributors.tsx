@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import bgHero from "../assets/bgHero.png";
+import { FaGithub } from 'react-icons/fa';
 
 interface Contributor {
   id: number;
@@ -41,23 +42,26 @@ const Contributors: React.FC = () => {
               key={contributor.id}
               className="w-full md:w-1/3 lg:w-1/4 flex flex-col items-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-md p-4 transition-transform transform hover:scale-105 hover:shadow-xl"
             >
-              <a
-                href={contributor.html_url}
-                className="block"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
                 <img
                   src={contributor.avatar_url}
                   alt={contributor.login}
                   className="w-24 h-24 rounded-full object-cover mb-4"
                 />
-              </a>
               <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
                 {contributor.login}
               </h2>
               <p className="text-gray-700 dark:text-gray-400">
                 Contributions: {contributor.contributions}
+              </p>
+              <p className="text-gray-700 dark:text-gray-400 flex items-center">
+                <a
+                   href={contributor.html_url}
+                   className="flex items-center"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                >
+                    <FaGithub className="mr-1" /> GitHub Profile
+                </a>
               </p>
             </div>
           ))}
