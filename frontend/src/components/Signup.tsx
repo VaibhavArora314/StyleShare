@@ -183,7 +183,7 @@ const Signup = () => {
                     </p>
                   </div>
                 )}
-                <ul className="list-none text-[#5f67de] dark:text-white text-sm mt-2">
+                <ul className="list-none text-[#5f67de] dark:text-white text-sm mt-2 text-left">
                   <li className="text-sm">
                     <span className="low-upper-case">
                       <FontAwesomeIcon
