@@ -40,3 +40,12 @@ export interface IPost {
     contactMessages: number;
     favoritesPosts: number;
   }
+
+export interface IContactMessage{
+  id:string;
+  name:string,
+  email:string,
+  subject:string,
+  message:string,
+  createdAt:number
+}
