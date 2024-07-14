@@ -83,7 +83,7 @@ const StatusCard = () => {
               </div>
             </div>
           </div>
-          <div className="col-span-1">
+          <Link to={"/admin/contactmessages"} className="col-span-1">
             <div className="flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
               <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
                 <SiGooglemessages size={40} />
@@ -93,7 +93,7 @@ const StatusCard = () => {
                 <p className="text-gray-200 py-1">Contact Messages</p>
               </div>
             </div>
-          </div>
+          </Link>
           <div className="col-span-1">
             <div className="hover:cursor-default flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
               <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>

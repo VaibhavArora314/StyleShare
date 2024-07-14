@@ -4,6 +4,7 @@ import { MdAutoGraph } from "react-icons/md";
 import { IPost } from '../types'; 
 import { tokenState } from "../store/atoms/auth";
 import { useRecoilValue } from "recoil";
+import { Link } from "react-router-dom";
 
 const TrendingPosts = () => {
   const [trendingPosts, setTrendingPosts] = useState<IPost[]>([]);
@@ -62,9 +63,9 @@ const TrendingPosts = () => {
                 <td className="px-14 py-4 font-semibold">{post.comments.length}</td>
                 <td className="px-12 py-4 font-semibold">{post.reactions.length}</td>
                 <td className="px-2 py-4">
-                  <button className='font-semibold rounded-md p-2 bg-sky-500 text-white px-4 hover:bg-sky-600'>
+                  <Link to="/admin/posts" className="font-semibold rounded-md p-2 bg-sky-500 text-white px-6 border-2 hover:bg-sky-600">
                     Manage
-                  </button>
+                  </Link>
                 </td>
               </tr>
             ))}

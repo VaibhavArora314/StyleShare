@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { IPost } from '../types'; 
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
+import { Link } from "react-router-dom";
 
 const NewPosts = () => {
   const [posts, setposts] = useState<IPost[]>([]);
@@ -61,9 +62,9 @@ const NewPosts = () => {
                 <td className="px-14 py-4 font-semibold">{posts.comments.length}</td>
                 <td className="px-12 py-4 font-semibold">{posts.reactions.length}</td>
                 <td className="px-2 py-4">
-                  <button className='font-semibold rounded-md p-2 bg-sky-500 text-white px-4 hover:bg-sky-600'>
+                  <Link to="/admin/posts" className="font-semibold rounded-md p-2 bg-sky-500 text-white px-6 border-2 hover:bg-sky-600">
                     Manage
-                  </button>
+                  </Link>
                 </td>
               </tr>
             ))}
