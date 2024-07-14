@@ -68,37 +68,6 @@ function About() {
           {t("hero.button")}
         </Link>
       </div>
-      <div className="mt-26 flex flex-col items-center">
-        <p className="md:text-4xl lg:text-5xl mb-10 sm:text-3xl text-2xl font-bold py-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435] vibrate-1">
-          🤔 {t("about.head2.heading")}
-        </p>
-        <p className="text-lg text-[#000435] bg-white dark:text-white dark:bg-[#000435] grid grid-cols-1">
-          {/* <span> ✅ {t("about.head2.list.l1")}</span>
-          <br />
-          <span> ✅ {t("about.head2.list.l2")}</span>
-          <br />
-          <span> ✅ {t("about.head2.list.l3")}</span>
-          <br />
-          <span> ✅ {t("about.head2.list.l4")}</span>
-          <br />
-          <span> ✅ {t("about.head2.list.l5")}</span>
-          <br />
-          <span> ✅ {t("about.head2.list.l6")}</span> */}
-          {/* <br /> */}
-          <RippleCheckbox innertext="about.head2.list.l1" />
-          <RippleCheckbox innertext="about.head2.list.l2" />
-          <RippleCheckbox innertext="about.head2.list.l3" />
-          <RippleCheckbox innertext="about.head2.list.l4" />
-          <RippleCheckbox innertext="about.head2.list.l5" />
-          <RippleCheckbox innertext="about.head2.list.l6" />
-        </p>
-        <Link
-          to="/app/posts"
-          className="bg-gradient-to-r mt-20 from-blue-700 to-blue-500 hover:from-blue-600 hover:to-blue-400 text-white py-3 px-6 rounded-md shadow-md transition-transform transform hover:-translate-y-1 mb-30 hover:shadow-lg w-[170px] text-center font-medium my-6 mx-auto md:mx-0"
-        >
-          {t("hero.button")}
-        </Link>
-      </div>
     </div>
   );
 }
