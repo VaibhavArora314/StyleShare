@@ -1,5 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useState,useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -32,12 +33,20 @@ import CodeEditor from "./pages/CodeEditor";
 import Contributors from "./pages/Contributors";
 import userBlock from "./hooks/userBlock";
 import Blocked from "./pages/Blocked";
+import PreLoader from "./components/Loader/Loader";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
   const { theme, toggleTheme } = useTheme();
   const { loading, isBlocked } = userBlock(5);
+  const [Preloading,setLoading]= useState(true);
+  useEffect(()=>{
+    const timer = setTimeout(() => {
+      setLoading(false)
+    }, 3000);
+    return()=> clearTimeout(timer);
+  },[])
 
   if (loading) {
     return <Loader />;
@@ -46,8 +55,12 @@ function App() {
   if (isBlocked) {
     return <Blocked />;
   }
+  if(Preloading){
+    return <PreLoader />
+  }
   return (
     <BrowserRouter>
+    
         <React.Suspense fallback={<Loader />}>
           <GoTop/>
           <div style={{ backgroundColor: theme === 'light' ? '#fff' : '#000435', color: theme === 'light' ? '#000435' : '#fff'}}>
