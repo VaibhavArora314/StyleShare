@@ -11,7 +11,7 @@ const PageNotFound = () => {
         <img src={notfound} alt='Page Not Found' className='w-[400px]' /> 
         <p className='text-center mb-20'>
             <span className='text-red-600 font-bold text-6xl'>404</span><br />
-            <span className='text-gray-200 ite text-3xl font-semibold'>{t('notfound')}</span>
+            <span className='text-gray-800 text-3xl font-bold dark:text-gray-200'>{t('notfound')}</span>
         </p>    
     </div>
   )
