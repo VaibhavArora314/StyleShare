@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import prisma from "../../db";
 import {
-  contactUsSchema,
-  otpVerificationSchema,
-  signinBodySchema,
-  signupBodySchema,
+  contactUsSchema ,
+  otpVerificationSchema ,
+  signinBodySchema ,
+  signupBodySchema , UpdateBodySchema ,
 } from "./zodSchema";
 import { createHash, validatePassword } from "../../helpers/hash";
 import { createJWT } from "../../helpers/jwt";
@@ -12,7 +12,8 @@ import { UserAuthRequest } from "../../helpers/types";
 import crypto from "crypto";
 import { sendVerificationEmail } from "../../helpers/mail/sendOtpMail";
 import { sendWelcomeEmail } from "../../helpers/mail/sendWelcomeMail";
-
+import { date } from "zod";
+import{ mailing} from "../../helpers/mail/ContactUsMail";
 export const userSignupController = async (req: Request, res: Response) => {
   try {
     const payload = req.body;
@@ -152,6 +153,7 @@ export const userSigninController = async (req: Request, res: Response) => {
 export const userProfileController = async (req: UserAuthRequest, res: Response) => {
   const userId = req.userId;
 
+
   const user = await prisma.user.findFirst({
     where: {
       id: userId,
@@ -190,6 +192,90 @@ export const userProfileController = async (req: UserAuthRequest, res: Response)
   res.status(200).json({
     user,
   });
+};
+
+export const userProfileUpdate = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.params.id;
+    const payload = req.body
+    const result = UpdateBodySchema.safeParse(payload);
+
+    if (!result.success) {
+      const formattedError: any = {};
+      result.error.errors.forEach((e) => {
+        formattedError[e.path[0]] = e.message;
+      });
+      return res.status(411).json({
+        error: { ...formattedError, message: "" },
+      });
+    }
+
+    const data = result.data
+
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        email: data.email,
+      NOT : {
+          id : userId
+        }
+      }
+    });
+
+    if (existingUser) {
+       return res.status(411).json({
+        error: {
+          message : "Email already in use."
+        },
+      });
+    }
+
+    const userEmail = await prisma.user.findFirst({
+      where : {
+        id : userId
+      },
+      select: {
+        email : true
+      }
+    })
+
+    const user = await prisma.user.updateMany({
+      where: {
+        id:  userId,
+      },
+      data:{
+        username : data.username,
+        email : data.email,
+      },
+    });
+
+    if(userEmail?.email != data.email){
+      const user = await prisma.user.updateMany({
+        where: {
+          id:  userId,
+        },
+        data:{
+          verified : false
+        }
+      })
+    }
+
+    if (!user) {
+      return res.status(411).json({
+        error: "Invalid token",
+      });
+    }
+
+    res.status(201).json({
+      message:"user updated successfully",
+      user,
+    });
+  }catch (error){
+    return res.status(500).json({
+      error: {
+        message: error,
+      },
+    });
+  }
 };
 
 export const showUserProfileController = async (req: UserAuthRequest, res: Response) => {
@@ -371,8 +457,7 @@ export const verifyOtpController = async (
 export const contactUsController = async (req: Request, res: Response) => {
   try {
     const payload = req.body;
-    const result = contactUsSchema.safeParse(payload);
-
+    const result = contactUsSchema.safeParse(payload); 
     if (!result.success) {
       const formattedError: any = {};
       result.error.errors.forEach((e) => {
@@ -392,8 +477,11 @@ export const contactUsController = async (req: Request, res: Response) => {
         subject: data.subject,
         message: data.message,
       }
-    });
-
+    });  
+    if (result.data?.email && result.data?.message) {
+      await mailing(result.data.email, result.data.message);
+    }
+    
     res.status(201).json({
       message: "Your message has been received. We will get back to you shortly.",
       contactMessage,
@@ -520,5 +608,25 @@ export const checkFollowStatusController = async (req: UserAuthRequest, res: Res
         message: "An unexpected error occurred.",
       },
     });
+  }
+};
+
+export const checkingBlockOrUnblock = async (req: UserAuthRequest, res: Response) => {
+  const userId = req.userId;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { blocked: true },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ blocked: user.blocked });
+  } catch (error) {
+    console.error("Error checking blocked status:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

@@ -7,12 +7,14 @@ import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import bgHero from "../assets/bgHero.png";
+import CaptchaUser from "../components/CaptchaUser";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslation();
+  const [isCaptchaValid, setIsCaptchaValid] = useState(false);
 
   const [error, setError] = useState({
     email: "",
@@ -22,10 +24,15 @@ const Signin = () => {
   const setTokenState = useSetRecoilState(tokenState);
   const navigate = useNavigate();
 
-    document.title='Style Share | Login page 👋'
+  document.title='Style Share | Login page 👋'
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!isCaptchaValid) {
+      toast.error('Captcha is not valid');
+      return;
+    }
 
     try {
       const response = await axios.post("/api/v1/user/signin", {
@@ -102,12 +109,12 @@ const Signin = () => {
                   <AiOutlineEye fontSize={24} fill="#AFB2BF" />
               )}
               </span>
-            </label>
-                                
+            </label>      
             <p className="text-sm font-semibold mb-2 text-red-600">
               {error.password}
             </p>
           </div>
+          <CaptchaUser onChange={(isValid) => setIsCaptchaValid(isValid)} />
           <div className="flex justify-center">
           <button
             type="submit"

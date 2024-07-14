@@ -23,12 +23,14 @@ function Policy() {
   }, [location]);
 
   return (
-    <div className="w-full text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4 ">
+    <div className="w-full text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4 lg:px-16 mx-auto">
       <div className="flex flex-col items-start">
         <div className="flex items-center mb-8 w-full">
-          <img src={privacy} alt="Privacy" className="rounded-lg w-32 h-32 mr-8" />
           <div className="flex flex-col">
-            <h1 id="privacy-policy" className="text-3xl font-bold mb-4 scroll-margin-top">Privacy Policy</h1>
+          <div className="flex items-center mb-4">
+               <h1 id="privacy-policy" className="text-3xl font-bold">Privacy Policy</h1>
+              <img src={privacy} alt="Privacy" className="rounded-full mr-4 h-12 w-12 ml-2 hover:scale-110 transition-transform duration-300" />
+          </div>
             <section>
               <p>Your privacy is important to us. This privacy policy explains how we collect, use, and protect your personal information when you use our website.</p>
               <h3 className="text-xl font-semibold mt-4">1. Information We Collect</h3>
@@ -60,9 +62,11 @@ function Policy() {
         </div>
 
         <div className="flex items-center mb-8 w-full">
-          <img src={terms} alt="Terms" className="rounded-lg w-32 h-32 mr-8" />
           <div className="flex flex-col">
+          <div className="flex items-center mb-4">
             <h1 id="terms-and-conditions" className="text-3xl font-bold mb-4 scroll-margin-top">Terms and Conditions</h1>
+            <img src={terms} alt="Terms" className="rounded-full mr-4  h-12 w-12 ml-2 mb-3 hover:scale-110 transition-transform duration-300" />
+          </div>
             <section>
               <p>Please read these terms and conditions carefully before using our website.</p>
               <h3 className="text-xl font-semibold mt-4">1. Acceptance of Terms</h3>
@@ -94,9 +98,11 @@ function Policy() {
         </div>
 
         <div className="flex items-center mb-8 w-full">
-          <img src={cookie} alt="Cookie" className="rounded-lg w-32 h-32 mr-8" />
           <div className="flex flex-col">
+          <div className="flex items-center mb-4">
             <h1 id="cookie-policy" className="text-3xl font-bold mb-4 scroll-margin-top">Cookie Policy</h1>
+            <img src={cookie} alt="Cookie" className="rounded-full mr-4  h-12 w-12 ml-2 mb-3 hover:scale-110 transition-transform duration-300" />
+          </div>
             <section>
               <p>This cookie policy explains how we use cookies and similar technologies on our website.</p>
               <h3 className="text-xl font-semibold mt-4">1. What Are Cookies?</h3>

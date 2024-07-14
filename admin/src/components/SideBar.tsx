@@ -5,6 +5,8 @@ import { CgProfile } from "react-icons/cg";
 import { IoNewspaperOutline } from "react-icons/io5";
 import logo from '../assets/favicon.png';
 import { Link, useLocation } from 'react-router-dom';
+import { VscGraphScatter } from "react-icons/vsc";
+import { MdOutlineAttachEmail } from "react-icons/md";
 
 const SideBar = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleSidebar: () => void }) => {
   const location = useLocation();
@@ -15,7 +17,9 @@ const SideBar = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleS
   return (
     <div className={`lg:rounded-xl rounded-none fixed z-30 inset-y-0 left-0 w-72 lg:m-5 transition-transform transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 bg-[#000435] text-white`}>
       <div className="flex items-center justify-between mr-6 mt-3 h-16 px-4">
-        <a href='/app' className="text-xl flex font-bold"><img src={logo} className="h-8 mx-3" alt="Styleshare Logo" /> Style Share</a>
+        <Link to='/admin' className="text-xl flex font-bold">
+        <img src={logo} className="h-8 mx-3" alt="Styleshare Logo" /> 
+          Style Share</Link>
         <button onClick={toggleSidebar} className="lg:hidden text-2xl">
           <FaTimes />
         </button>
@@ -25,6 +29,8 @@ const SideBar = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleS
         <Link to="/admin/profile" className={linkClasses('/admin/profile')}><CgProfile size={23} className='mr-3'/>My Profile</Link>
         <Link to="/admin/users" className={linkClasses('/admin/users')}><HiOutlineUsers size={23} className='mr-3'/>All Users</Link>
         <Link to="/admin/posts" className={linkClasses('/admin/posts')}><IoNewspaperOutline size={23} className='mr-3'/>All Posts</Link>
+        <Link to="/admin/statistics" className={linkClasses('/admin/statistics')}><VscGraphScatter size={23} className='mr-3'/>Statistics</Link>
+        <Link to="/admin/contactmessages" className={linkClasses('/admin/contactmessages')}><MdOutlineAttachEmail size={23} className='mr-3'/>Messages</Link>
       </nav>
     </div>
   );

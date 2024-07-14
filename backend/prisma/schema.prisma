@@ -19,6 +19,7 @@ model User {
   email        String
   passwordHash String
   verified     Boolean  @default(false)
+  blocked      Boolean  @default(false)
   otp          Int?
   isAdmin      Boolean  @default(false)
   posts        Post[]   @relation("authorPosts")
@@ -53,8 +54,6 @@ model Post {
   author      User     @relation("authorPosts", fields: [authorId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  likes       Int      @default(0)
-  dislikes    Int      @default(0)
   comments    Comment[] @relation("postComments")
   favorites   Favorite[] @relation("postFavorites")
   reactions   Reaction[]
@@ -67,7 +66,8 @@ model Reaction {
   postId   String @db.ObjectId
   user     User   @relation(fields: [userId], references: [id])
   post     Post   @relation(fields: [postId], references: [id])
-
+  createdAt DateTime @default(now())
+  
   @@unique([userId, postId])
 }
 
@@ -88,6 +88,7 @@ model Favorite {
   postId    String @db.ObjectId
   user      User   @relation("userFavorites", fields: [userId], references: [id])
   post      Post   @relation("postFavorites", fields: [postId], references: [id])
+  createdAt   DateTime @default(now())  
 
   @@unique([userId, postId])
 }

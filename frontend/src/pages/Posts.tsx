@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil";
 import { useTranslation } from "react-i18next";
 import usePosts from "../hooks/usePosts";
 import bgHero from "../assets/bgHero.png";
-import { Link } from "react-router-dom";
+import { IoIosArrowDown } from "react-icons/io";
 
 const Posts = () => {
   const currentUser = useRecoilValue(userState);
@@ -24,6 +24,7 @@ const Posts = () => {
     removeTag: deleteTag,
     searchQuery,
     setSearchQuery,
+    fetchPosts, 
   } = usePosts({
     initialPage: 1,
     pageSize: 12,
@@ -77,6 +78,10 @@ const Posts = () => {
     }
   };
 
+  const handleSearch = () => {
+    fetchPosts(page, 12, searchQuery, filterTags);
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -91,8 +96,8 @@ const Posts = () => {
 
   return (
     <div
-      className="-mt-7 min-h-screen text-[#000435] bg-white dark:text-white dark:bg-[#000435]"
-      style={{
+    className="-mt-7 min-h-screen text-[#000435] bg-white dark:text-white dark:bg-[#000435]"
+    style={{
         backgroundImage: `url(${bgHero})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -116,27 +121,8 @@ const Posts = () => {
               className="flex items-center text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] hover:text-blue-400"
             >
               {t("allPosts.filter")}
-              <svg
-                className="w-4 h-4 ml-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
+              <IoIosArrowDown size={20} className="items-center pt-1" />
             </button>
-            <Link
-              to={`/app/trending-posts`}
-              className="text-blue-500 dark:text-white bg-white dark:bg-blue-900 hover:text-white dark:hover:text-white dark:hover:bg-sky-500 hover:bg-sky-500 transition-colors duration-200 rounded-md border border-sky-500 p-2"
-            >
-              Show Trending Posts
-            </Link>
           </div>
           {showFilterDialog && (
             <div
@@ -155,54 +141,58 @@ const Posts = () => {
               </div>
               <button
                 onClick={addTag}
-                className="px-4 py-2 text-white border border-gray-600 rounded hover:bg-gray-700"
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-200"
               >
-                {t("allPosts.tag")}
+                {t("allPosts.addTag")}
               </button>
-              <div className="mt-2 flex flex-wrap">
+              <div className="flex flex-wrap mt-2">
                 {filterTags.map((tag, index) => (
                   <div
                     key={index}
-                    className="flex items-center bg-gray-700 text-white px-2 py-1 rounded mr-2 mb-2"
+                    className="bg-blue-500 text-white px-4 py-2 rounded mr-2 mb-2"
                   >
-                    <span>{tag}</span>
+                    {tag}
                     <button
                       onClick={() => removeTag(tag)}
-                      className="ml-2 focus:outline-none"
+                      className="ml-2 text-red-300 hover:text-red-500"
                     >
-                      <svg
-                        className="w-4 h-4 fill-current text-red-500"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M10 0c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm5 13.586-1.414 1.414-3.586-3.586-3.586 3.586-1.414-1.414 3.586-3.586-3.586-3.586 1.414-1.414 3.586 3.586 3.586-3.586 1.414 1.414-3.586 3.586 3.586 3.586z" />
-                      </svg>
+                      &times;
                     </button>
                   </div>
                 ))}
               </div>
             </div>
           )}
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-            }}
-            placeholder={t("allPosts.search")}
-            className="p-2 w-full max-w-xs rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <div className="flex items-center w-full sm:w-auto">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={t("allPosts.search")}
+              className="p-2 w-full max-w-xs rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            <button
+              onClick={handleSearch}
+              className="bg-blue-500 text-white px-4 py-2 rounded ml-2 hover:bg-blue-600 transition-colors duration-200"
+            >
+              Search
+            </button>
+          </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
-          {filteredPosts.map((post, index) => (
-            <PostCard
-              key={index}
-              post={post}
-              onDelete={handleDelete}
-              currentUser={currentUser}
-            />
-          ))}
-        </div>
+        {filteredPosts.length === 0 ? (
+          <div className="text-center text-white">{t("allPosts.noPosts")}</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
+            {filteredPosts.map((post) => (
+              <PostCard
+                key={post.id}
+                post={post}
+                currentUser={currentUser}
+                onDelete={handleDelete}
+              />
+            ))}
+          </div>
+        )}
         <div className="flex justify-center items-center mt-4 w-full space-x-2">
           <button
             onClick={handlePreviousPage}

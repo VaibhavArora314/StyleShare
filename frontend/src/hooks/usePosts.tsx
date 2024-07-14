@@ -45,7 +45,7 @@ const usePosts = ({ initialPage = 1, pageSize = 12 }: Props) => {
     const initialTags = tagsFromParams ? tagsFromParams.split(",") : [];
     setTags(initialTags);
     fetchPosts(page, pageSize, searchQuery, initialTags);
-  }, [page, searchQuery, searchParams]);
+  }, [page, searchParams]);
 
   const handlePreviousPage = () => {
     if (page > 1) {
@@ -95,7 +95,8 @@ const usePosts = ({ initialPage = 1, pageSize = 12 }: Props) => {
     removeTag,
     searchQuery,
     setSearchQuery,
-    tags
+    tags,
+    fetchPosts 
   };
 };
 

@@ -180,8 +180,6 @@ export const getPostController = async (req: Request, res: Response) => {
         jsCodeSnippet: true,
         description: true,
         tags: true,
-        likes: true,
-        dislikes: true,
         author: {
           select: {
             id: true,
@@ -252,7 +250,6 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
     const pageSize = parseInt(req.query.pageSize as string);
     const searchQuery = req.query.searchQuery as string || "";
     const tags = req.query.tags ? (req.query.tags as string).split(',') : [];
-    console.log(tags)
 
      const totalPosts = await prisma.post.count({
       where: {
@@ -296,6 +293,11 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
           },
           tags.length > 0 ? { tags: { hasSome: tags } } : {}
         ]
+      },
+      orderBy: {
+        reactions: {
+          _count: "desc"
+        }
       }
     });
     res.status(200).json({
@@ -305,39 +307,6 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Failed to fetch posts' });
-  }
-};
-
-export const getTrendingPostsController = async (req: Request, res: Response) => {
-  try{
-    const trendingPosts = await prisma.post.findMany({
-      select: {
-        id: true,
-        title: true,
-        codeSnippet: true,
-        jsCodeSnippet: true,
-        description: true,
-        tags: true,
-        author: {
-          select: {
-            id: true,
-            username: true,
-            email: true,
-          },
-        },
-        reactions:true,
-      },
-    });
-    res.status(200).json({
-      message: "Successfully created comment!",
-      trendingPosts,
-    });
-
-
-  }catch(error){
-    res.status(500).json({
-      error: "An unexpected exception occurred!",
-    });
   }
 };
 
@@ -462,7 +431,8 @@ export const favoritePostController = async (req: UserAuthRequest, res: Response
     await prisma.favorite.create({
       data: {
         userId,
-        postId
+        postId,
+        createdAt: new Date()
       }
     });
 
@@ -576,22 +546,26 @@ export const getLeaderboardController = async (req: Request, res: Response) => {
         },
         posts: {
           select: {
-            likes: true,
+            reactions: {
+              select: {
+                id: true,
+              },
+            },
           },
         },
       },
     });
 
-    const userLikes = leaderboard.map((user) => ({
+    const userReactions = leaderboard.map((user) => ({
       id: user.id,
       username: user.username,
       postCount: user._count.posts,
-      totalLikes: user.posts.reduce((sum, post) => sum + post.likes, 0),
+      totalReactions: user.posts.reduce((sum, post) => sum + post.reactions.length, 0),
     }));
 
-    userLikes.sort((a, b) => b.totalLikes - a.totalLikes);
+    userReactions.sort((a, b) => b.totalReactions - a.totalReactions);
 
-    const top10Users = userLikes.slice(0, 10);
+    const top10Users = userReactions.slice(0, 10);
 
     res.status(200).json({
       leaderboard: top10Users.map((user, index) => ({
@@ -599,7 +573,7 @@ export const getLeaderboardController = async (req: Request, res: Response) => {
         userId: user.id,
         username: user.username,
         postCount: user.postCount,
-        totalLikes: user.totalLikes,
+        totalReactions: user.totalReactions,
       })),
     });
   } catch (error) {
@@ -749,6 +723,7 @@ export const reactToPostController = async (req: UserAuthRequest, res: Response)
           userId,
           postId,
           type,
+          createdAt: new Date()
         },
       });
       res.status(201).json({ message: "Reaction added", reaction: newReaction });

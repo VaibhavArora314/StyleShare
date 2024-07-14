@@ -10,6 +10,7 @@ import { faCheck, faCircle } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import bgHero from "../assets/bgHero.png";
+import CaptchaUser from "../components/CaptchaUser";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -26,7 +27,7 @@ const Signup = () => {
     message: "",
   });
   const { t } = useTranslation();
-
+  const [isCaptchaValid, setIsCaptchaValid] = useState(false);
   const setTokenState = useSetRecoilState(tokenState);
   const navigate = useNavigate();
 
@@ -55,6 +56,12 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!isCaptchaValid) {
+      toast.error('Captcha is not valid');
+      return;
+    }
+
     try {
       const response = await axios.post("/api/v1/user/signup", {
         username,
@@ -240,6 +247,7 @@ const Signup = () => {
               <p className="text-sm font-semibold mb-2 text-red-600">
                 {error.password}
               </p>
+              <CaptchaUser onChange={(isValid) => setIsCaptchaValid(isValid)} />
               <div className="flex justify-center">
                 <button
                   type="submit"

@@ -29,6 +29,7 @@ export interface IUser {
   email: string;
   verified: boolean;
   createdAt:string;
+  updatedAt : string;
   posts: IPost[];
   favoritePosts?: IPost[]; 
   isFollowing: boolean;
@@ -42,5 +43,5 @@ export interface ILeaderboardUser {
   userId: string;
   username: string;
   postCount: number;
-  totalLikes:number;
+  totalReactions:number;
 }
