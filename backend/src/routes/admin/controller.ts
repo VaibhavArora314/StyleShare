@@ -434,3 +434,29 @@ export const getAllContactMessages = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const deleteCommentController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const { commentId } = req.params;
+
+    const comment = await prisma.comment.findUnique({
+      where: { id: commentId },
+    });
+
+    if (!comment) {
+      return res.status(404).json({ error: { message: "Comment not found" } });
+    }
+
+    await prisma.comment.delete({
+      where: { id: commentId },
+    });
+
+    res.status(200).json({
+      message: "Comment deleted successfully.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};

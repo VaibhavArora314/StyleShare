@@ -13,8 +13,9 @@ import { Toaster } from "react-hot-toast";
 import UpdatePost from "./components/UpdatePost";
 import Graphs from "./pages/Graphs";
 import ContactMessages from "./pages/ContactMessages";
-// import axios from "axios";
-// axios.defaults.baseURL = "http://localhost:3001/";
+import axios from "axios";
+import Comments from "./pages/Comments";
+axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
   return (
@@ -83,6 +84,14 @@ function App() {
               element={
                 <AuthenticatedRoute>
                   <ContactMessages />
+                </AuthenticatedRoute>
+              }
+            />
+            <Route
+              path="/admin/comments"
+              element={
+                <AuthenticatedRoute>
+                  <Comments />
                 </AuthenticatedRoute>
               }
             />

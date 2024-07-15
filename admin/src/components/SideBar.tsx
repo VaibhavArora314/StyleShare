@@ -7,6 +7,7 @@ import logo from '../assets/favicon.png';
 import { Link, useLocation } from 'react-router-dom';
 import { VscGraphScatter } from "react-icons/vsc";
 import { MdOutlineAttachEmail } from "react-icons/md";
+import { FaRegComments } from "react-icons/fa";
 
 const SideBar = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleSidebar: () => void }) => {
   const location = useLocation();
@@ -31,6 +32,7 @@ const SideBar = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleS
         <Link to="/admin/posts" className={linkClasses('/admin/posts')}><IoNewspaperOutline size={23} className='mr-3'/>All Posts</Link>
         <Link to="/admin/statistics" className={linkClasses('/admin/statistics')}><VscGraphScatter size={23} className='mr-3'/>Statistics</Link>
         <Link to="/admin/contactmessages" className={linkClasses('/admin/contactmessages')}><MdOutlineAttachEmail size={23} className='mr-3'/>Messages</Link>
+        <Link to="/admin/comments" className={linkClasses('/admin/comments')}><FaRegComments size={23} className='mr-3'/>Comments</Link>
       </nav>
     </div>
   );

@@ -12,11 +12,23 @@ export interface IPost {
       email: string;
       totalFollowers:number
     },
-    comments:[]
+    comments:IComment[]
     reactions:[];
     favoritePosts: [];
     userReaction: 'Like' | 'Celebrate' | 'Support' | 'Love' | 'Insightful' | 'Funny' | null; 
   }
+
+  export interface IComment {
+    id: string;
+    content: string;
+    createdAt: number;
+    author: {
+      id: string;
+      username: string;
+      email: string;
+    };
+  }
+  
   
   export interface IUser {
     id: string;
