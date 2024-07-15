@@ -65,9 +65,9 @@ const StatusCard = () => {
           <div className="col-span-1">
             {renderCard(<MdAddReaction size={40} />, stats?.totalReactions ?? null, 'Total Reactions')}
           </div>
-          <div className="col-span-1">
+          <Link to="/admin/contactmessages" className="col-span-1">
             {renderCard(<SiGooglemessages size={40} />, stats?.contactMessages ?? null, 'Contact Messages')}
-          </div>
+          </Link>
           <div className="col-span-1">
             {renderCard(<RiHeartsFill size={40} />, stats?.favoritesPosts ?? null, 'Most Favorites')}
           </div>
