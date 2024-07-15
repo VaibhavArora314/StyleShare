@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
-import about from "../assets/about.png";
 import bgHero from "../assets/bgHero.png";
 import { useTranslation } from "react-i18next";
 import Tilt from "react-parallax-tilt";
 import Lottie from "lottie-react";
 import animationData from "../assets/lottieabout.json";
-import RippleCheckbox from "../components/RippleCheckbox.tsx";
+import RippleCheckbox from "../components/RippleCheckbox";
 import "../styles/about.css";
 
 function About() {
@@ -13,14 +12,14 @@ function About() {
 
   return (
     <div
-      className="w-full  text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4"
+      className="w-full text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4"
       style={{
         backgroundImage: `url(${bgHero})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="max-w-[1240px] mx-auto grid md:grid-cols-2 ">
+      <div className="max-w-[1240px] mx-auto grid md:grid-cols-2">
         <Tilt>
           <Lottie
             animationData={animationData}
@@ -44,18 +43,6 @@ function About() {
           🤔 {t("about.head2.heading")}
         </p>
         <p className="text-lg text-[#000435] bg-white dark:text-white dark:bg-[#000435] grid grid-cols-1">
-          {/* <span> ✅ {t("about.head2.list.l1")}</span>
-          <br />
-          <span> ✅ {t("about.head2.list.l2")}</span>
-          <br />
-          <span> ✅ {t("about.head2.list.l3")}</span>
-          <br />
-          <span> ✅ {t("about.head2.list.l4")}</span>
-          <br />
-          <span> ✅ {t("about.head2.list.l5")}</span>
-          <br />
-          <span> ✅ {t("about.head2.list.l6")}</span> */}
-          {/* <br /> */}
           <RippleCheckbox innertext="about.head2.list.l1" />
           <RippleCheckbox innertext="about.head2.list.l2" />
           <RippleCheckbox innertext="about.head2.list.l3" />
