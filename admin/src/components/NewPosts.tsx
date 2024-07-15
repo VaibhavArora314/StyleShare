@@ -5,11 +5,13 @@ import { IPost } from '../types';
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import { Link } from "react-router-dom";
+import { ColorRing } from 'react-loader-spinner';
 
 const NewPosts = () => {
   const [posts, setposts] = useState<IPost[]>([]);
   const token = useRecoilValue(tokenState);
-
+  const [loading,setLoading] = useState(true);
+  
   const fetchPost = async () => {
     try {
       const response = await axios.get('/api/v1/admin/posts/all',{
@@ -18,14 +20,17 @@ const NewPosts = () => {
         },
       });
       setposts(response.data.posts.reverse());
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(true);
     }
   };
 
   useEffect(() => {
     fetchPost();
   }, []);
+
     return (
       <div>
         <div> 
@@ -36,6 +41,19 @@ const NewPosts = () => {
             New Posts
         </span>
     </div>
+    {loading ? 
+    <>
+      <div className="flex justify-center items-center h-80">
+        <ColorRing
+          visible={true}
+          height="100"
+          width="100"
+          colors={['#000435', 'rgb(14 165 233)', 'rgb(243 244 246)','#000435','rgb(14 165 233)']}
+        />
+      </div>
+    </>
+    :
+    <>
     <div className="lg:mx-24 mx-10 lg:mr-11 mt-5 overflow-x-auto shadow-md rounded-xl mb-5">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-white uppercase bg-sky-500">
@@ -71,6 +89,8 @@ const NewPosts = () => {
           </tbody>
         </table>
       </div>
+    </>
+    }
       </div>
     )
   }
