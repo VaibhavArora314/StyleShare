@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import bgHero from "../assets/bgHero.png";
 import CaptchaUser from "../components/CaptchaUser";
+import OAuth from "../components/oAuth";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
@@ -118,10 +119,15 @@ const Signin = () => {
           <div className="flex justify-center">
           <button
             type="submit"
-            className=" bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full"
           >
             {t("login.sigin")}
+
           </button>
+          </div>
+          <br></br>
+          <div className="flex justify-center  bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
+            <OAuth/>
           </div>
         </form>
         <p className=" mt-4 text-md text-[#000435] bg-white dark:text-white dark:bg-[#000453]">

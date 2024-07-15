@@ -150,6 +150,99 @@ export const userSigninController = async (req: Request, res: Response) => {
   }
 };
 
+const generateRandomPassword = (length: number) => {
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length);
+    password += chars[randomIndex];
+  }
+  return password;
+};
+
+export const googleAuthController = async (req: Request, res: Response) => {
+  try {
+    const { email, name} = req.body;
+
+    if (!email || !name) {
+      return res.status(400).json({
+        error: { message: "Email and Name are required" },
+      });
+    }
+
+    // Check if the user already exists
+    let user = await prisma.user.findFirst({
+      where: { email },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+      },
+    });
+
+    if (!user) {
+      // Generate random password
+      const generatedPassword = generateRandomPassword(10);
+      const hashedPassword = await createHash(generatedPassword);
+
+      // Prepare user data for validation
+      const newUserPayload = {
+        email,
+        username: name.split(" ").join("").toLowerCase() + Math.random().toString(36).slice(-4),
+        password: generatedPassword,
+      };
+
+      // Validate the user data
+      const result = signupBodySchema.safeParse(newUserPayload);
+
+      if (!result.success) {
+        const formattedError: any = {};
+        result.error.errors.forEach((e) => {
+          formattedError[e.path[0]] = e.message;
+        });
+        return res.status(411).json({
+          error: { ...formattedError, message: "" },
+        });
+      }
+
+      // Create new user if not exists
+      user = await prisma.user.create({
+        data: {
+          email,
+          username: newUserPayload.username,
+          passwordHash: hashedPassword,
+        
+        },
+        select: {
+          id: true,
+          email: true,
+          username: true,
+        },
+      });
+
+      await sendWelcomeEmail(user.email, user.username);
+    }
+
+    // Create JWT token
+    const token = createJWT({
+      id: user.id,
+      username: user.username,
+    });
+
+    res.status(201).json({
+      message: "User authenticated successfully.",
+      user,
+      token,
+    });
+  } catch (error) {
+    console.error("Google Auth Error:", error);
+    return res.status(500).json({
+      error: { message: "An unexpected error occurred!" },
+    });
+  }
+};
+
 export const userProfileController = async (req: UserAuthRequest, res: Response) => {
   const userId = req.userId;
 

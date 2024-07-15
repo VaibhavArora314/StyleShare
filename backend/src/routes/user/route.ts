@@ -11,13 +11,15 @@ import {
   userSigninController,
   userSignupController,
   verifyOtpController,
-  userProfileUpdate
+  userProfileUpdate,
+  googleAuthController
 } from "./controller";
 import authMiddleware from "../../middleware/auth";
 
 const userRouter = Router();
 
 userRouter.post("/signup", userSignupController);
+userRouter.post("/google", googleAuthController);
 
 userRouter.post("/signin", userSigninController);
 
