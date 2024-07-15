@@ -5,7 +5,6 @@ import { useSetRecoilState } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import toast from "react-hot-toast";
-import { useTranslation } from "react-i18next";
 import bgHero from "../assets/bgHero.png";
 import CaptchaUser from "../components/CaptchaUser";
 
@@ -13,7 +12,6 @@ const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { t } = useTranslation();
   const [isCaptchaValid, setIsCaptchaValid] = useState(false);
 
   const [error, setError] = useState({
@@ -66,12 +64,12 @@ const Signin = () => {
 
       <div className="max-w-md mx-auto mt-8 p-6  rounded-lg shadow-md">
         <h2 className="text-3xl font-bold mb-4 text-[#5f67de] dark:text-white text-center">
-        {t("login.sigin")}
+        Sign In
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-[#5f67de] dark:text-white">
-            {t("login.email")}
+            Email
             </label>
             <input
               type="email"
@@ -88,7 +86,7 @@ const Signin = () => {
           </div>
           <div className="mb-4">
             <label htmlFor="password" className="block text-[#5f67de] dark:text-white relative">
-            {t("login.password")}
+            Password
             <input
               type={showPassword ? "text" : "password"}
               id="password"
@@ -120,14 +118,14 @@ const Signin = () => {
             type="submit"
             className=" bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
           >
-            {t("login.sigin")}
+            Sign In
           </button>
           </div>
         </form>
         <p className=" mt-4 text-md text-[#000435] bg-white dark:text-white dark:bg-[#000453]">
-        {t("login.noAccount")} -
+        Don't have an account?  -
           <Link to="/app/signup" className="text-blue-500 text-lg p-2">
-          {t("register.signup")}
+          Sign Up
           </Link>
         </p>
       </div>

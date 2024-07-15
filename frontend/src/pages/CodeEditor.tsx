@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import MonacoEditor from '@monaco-editor/react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from "react-i18next";
 import toast, { Toaster } from 'react-hot-toast';
 import bgHero from "../assets/bgHero.png";
 import { FaCopy } from 'react-icons/fa';
@@ -48,7 +47,6 @@ const CodeEditor = () => {
   const [activeTab, setActiveTab] = useState<"html" | "js">("html");
   const outputRef = useRef<HTMLIFrameElement>(null);
   const navigate = useNavigate();
-  const { t } = useTranslation();
 
   const handleTabSwitch = (tab: "html" | "js") => {
     setActiveTab(tab);
@@ -114,7 +112,7 @@ const CodeEditor = () => {
           <button
             onClick={handlePublish}
             className='p-2 rounded cursor-pointer border-2 font-mono border-red-200 focus:outline-none text-[#801fc4] bg-white dark:text-white dark:bg-[#000490] hover:bg-sky-500 hover:text-white dark:hover:text-white dark:hover:bg-sky-500'>
-            {t("share")}
+            Share
           </button>
           <div>
             <button

@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { IPost, IUser } from '../types';
 import axios from 'axios';
 import PostCard from '../components/PostCard';
-import { useTranslation } from 'react-i18next';
 import { useRecoilValue } from 'recoil';
 import { tokenState, userState } from '../store/atoms/auth';
 import Loader from '../components/Loader';
@@ -21,7 +20,6 @@ const ShowProfile = () => {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const currentUser = useRecoilValue(userState);
-  const { t } = useTranslation();
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const token = useRecoilValue(tokenState);
 
@@ -144,7 +142,7 @@ const ShowProfile = () => {
         )
       )}
           <div className="mt-8 w-full">
-            <h4 className="font-semibold">{t("leaderboard.posts")} ( {user?.posts.length} )</h4>
+            <h4 className="font-semibold">Posts ( {user?.posts.length} )</h4>
             <div className="mt-6 mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
 
               {user?.posts.map(post => <PostCard key={post.id} post={post} onDelete={handleDelete} currentUser={currentUser} />)}

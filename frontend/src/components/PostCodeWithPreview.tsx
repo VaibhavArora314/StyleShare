@@ -3,7 +3,6 @@ import PostCodeWindow from "./PostCodeWindow";
 import PostPreview from "./PostPreview";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useTranslation } from "react-i18next";
 
 type Props = {
   id: string;
@@ -26,7 +25,6 @@ const PostCodeWithPreview = ({
 }: Props) => {
   const [activeTab, setActiveTab] = useState<"html" | "js">("html");
   const [isPreview, setIsPreview] = useState(false);
-  const { t } = useTranslation();
 
 
   const handleCopy = () => {
@@ -86,14 +84,14 @@ const PostCodeWithPreview = ({
           onClick={handleCopy}
           className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
         >
-          {t("postdet.copy")}
+          Copy
         </button>
         {showCustomizeAiOption && (
           <button
             onClick={handleCustomizeAi}
             className="px-2 py-1 rounded-md text-white bg-green-600 hover:bg-green-700 text-sm"
           >
-            {t("postdet.cus")}
+            Customize AI
           </button>
         )}
         {!showTogether && (
@@ -101,7 +99,7 @@ const PostCodeWithPreview = ({
             onClick={() => {setIsPreview(val => !val)}}
             className="px-2 py-1 rounded-md text-white bg-green-600 hover:bg-green-700 text-sm"
           >
-            {isPreview ? t("postdet.show") : t("postdet.preview")}
+            {isPreview ? "Show Code" : "Preview"}
           </button>
         )}
       </div>

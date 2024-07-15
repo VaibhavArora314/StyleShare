@@ -8,7 +8,6 @@ import zxcvbn, { ZXCVBNResult } from "zxcvbn";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCircle } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast";
-import { useTranslation } from "react-i18next";
 import bgHero from "../assets/bgHero.png";
 import CaptchaUser from "../components/CaptchaUser";
 
@@ -26,7 +25,6 @@ const Signup = () => {
     password: "",
     message: "",
   });
-  const { t } = useTranslation();
   const [isCaptchaValid, setIsCaptchaValid] = useState(false);
   const setTokenState = useSetRecoilState(tokenState);
   const navigate = useNavigate();
@@ -98,7 +96,7 @@ const Signup = () => {
         <div className="w-full text-[#000435] bg-white dark:text-white dark:bg-[#000453] rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0  dark:border-gray-700"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h2 className="text-3xl font-bold mb-4 text-[#5f67de] dark:text-white text-center">
-            {t("register.signup")}
+            Sign Up
             </h2>
             <p className="text-lg font-semibold mb-2 text-red-600 text-center">
               {error.message}
@@ -106,7 +104,7 @@ const Signup = () => {
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label htmlFor="username" className="block text-[#5f67de] dark:text-white">
-                {t("register.username")}
+                Username
                 </label>
                 <input
                   type="text"
@@ -123,7 +121,7 @@ const Signup = () => {
               </p>
               <div className="mb-4">
                 <label htmlFor="email" className="block text-[#5f67de] dark:text-white">
-                {t("login.email")}
+                Email
                 </label>
                 <input
                   type="email"
@@ -143,7 +141,7 @@ const Signup = () => {
                   htmlFor="password"
                   className="block text-[#5f67de] dark:text-white relative"
                 >
-                  {t("login.password")}
+                  Password
                   <input
                     type={showPassword ? "text" : "password"}
                     id="password"
@@ -253,14 +251,14 @@ const Signup = () => {
                   type="submit"
                   className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full"
                 >
-                  {t("register.signup")}
+                 Sign Up
                 </button>
               </div>
             </form>
             <p className="mt-4 text-sm text-[#000435] bg-white dark:text-white dark:bg-[#000453]">
-            {t("register.alAccount")}{" "}
+            Already have an account?{" "}
               <Link to="/app/signin" className="text-blue-500">
-              {t("login.sigin")}
+              Sign In
               </Link>
             </p>
           </div>
