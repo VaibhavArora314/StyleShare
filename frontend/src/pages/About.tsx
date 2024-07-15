@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import Tilt from "react-parallax-tilt";
 import Lottie from "lottie-react";
 import animationData from "../assets/lottieabout.json";
-import RippleCheckbox from "../components/RippleCheckbox";
 import "../styles/about.css";
 
 function About() {
@@ -39,16 +38,21 @@ function About() {
         </div>
       </div>
       <div className="flex mt-20 flex-col items-center">
-        <p className="md:text-4xl lg:text-5xl mb-10 sm:text-3xl text-2xl font-bold text-[#000435] bg-white mt-54 py-auto dark:text-white dark:bg-[#000435] vibrate-1">
+        <p className="md:text-4xl lg:text-5xl mb-20 sm:text-3xl text-2xl font-bold text-[#000435] bg-white mt-54 py-auto dark:text-white dark:bg-[#000435] vibrate-1">
           🤔 {t("about.head2.heading")}
         </p>
         <p className="text-lg text-[#000435] bg-white dark:text-white dark:bg-[#000435] grid grid-cols-1">
-          <RippleCheckbox innertext="about.head2.list.l1" />
-          <RippleCheckbox innertext="about.head2.list.l2" />
-          <RippleCheckbox innertext="about.head2.list.l3" />
-          <RippleCheckbox innertext="about.head2.list.l4" />
-          <RippleCheckbox innertext="about.head2.list.l5" />
-          <RippleCheckbox innertext="about.head2.list.l6" />
+          <span> ✅ {t("about.head2.list.l1")}</span>
+          <br />
+          <span> ✅ {t("about.head2.list.l2")}</span>
+          <br />
+          <span> ✅ {t("about.head2.list.l3")}</span>
+          <br />
+          <span> ✅ {t("about.head2.list.l4")}</span>
+          <br />
+          <span> ✅ {t("about.head2.list.l5")}</span>
+          <br />
+          <span> ✅ {t("about.head2.list.l6")}</span>
         </p>
         <Link
           to="/app/posts"
