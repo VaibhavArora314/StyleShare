@@ -45,17 +45,17 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme })=> {
     <nav className={`bg-gradient-to-r from-[#6a11cb] via-[#ab67df] to-[#2575fc] fixed w-full z-20 top-0 start-0 `}>
 
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link to="/app" className="flex items-center justify-between space-x-3 rtl:space-x-reverse" onClick={closeMenu}>
+        <div className="flex items-center justify-between space-x-3 rtl:space-x-reverse" onClick={closeMenu}>
           <div className="flex items-center space-x-3 rtl:space-x-reverse dark:text-black">
             <img src={logo} className="h-8" alt="Styleshare Logo" />
-            <span className="self-center text-2xl font-bold text-white font-mono">
+            <Link to="/app" className="self-center text-2xl font-bold text-white font-mono">
               {t("navbar.logo")}
-            </span>
+            </Link>
           </div>
-          <div className=" ">
+          <div>
             <LanguageDropdown />
           </div>
-        </Link>
+        </div>
         <button
           onClick={toggleMenu}
           type="button"
