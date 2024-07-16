@@ -165,7 +165,7 @@ function ContactUs() {
           </form>
         </div>
         <div className={`w-full md:w-1/2 flex justify-center items-center p-8 transition-opacity duration-1000 ease-in-out ${fadeTransition ? 'opacity-100' : 'opacity-0'}`}>
-          <img src={images[currentImageIndex]} alt="Contact Us" className="max-w-full h-auto rounded-lg" style={{ width: '90rem', height: 'auto' }} />
+            <img src={images[currentImageIndex]} alt="Contact Us" className="max-w-full h-auto rounded-lg transform hover:translate-x-2 transition-transform duration-700 ease-in-out" style={{ width: '90rem', height: 'auto' }} />
         </div>
       </section>
     </div>
