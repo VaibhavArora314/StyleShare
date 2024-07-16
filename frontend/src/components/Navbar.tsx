@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import logo from '../assets/favicon.png';
 import { FaSun, FaMoon } from 'react-icons/fa';
+import GoogleTranslate from "./GoogleTranslate";
 
 interface NavbarProps {
   theme: 'light' | 'dark';
@@ -43,12 +44,15 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
 
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
         <Link to="/app" className="flex items-center space-x-3 rtl:space-x-reverse" onClick={closeMenu}>
-          <div className="flex items-center space-x-3 rtl:space-x-reverse dark:text-black">
+          <div className="flex items-center space-x-3 rtl:space-x-reverse dark:text-black mr-4">
             <img src={logo} className="h-8" alt="Styleshare Logo" />
-            <span className="self-center text-2xl font-bold text-white font-mono">
+            <span className="self-center text-2xl font-bold text-white font-mono notranslate">
               Style Share
             </span>
           </div>
+          <div className="Translator">
+          <GoogleTranslate />
+        </div>
         </Link>
         <button
           onClick={toggleMenu}

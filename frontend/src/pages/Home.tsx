@@ -64,7 +64,7 @@ function Home() {
             <h1>
               <TypewriterEffectSmoothDemo />
             </h1>
-            <h1 className='md:text-3xl sm:text-3xl font-medium py-2'>Welcome to Style Share</h1>
+            <h1 className='md:text-3xl sm:text-3xl font-medium py-2'>A simple web-based platform where users can easily</h1>
             <div className="tick-container text-lg text-[#000435] bg-white dark:text-white dark:bg-[#000435] font-semibold">
               <AnimatePresence>
                 {visibleItems.map((item, index) => (

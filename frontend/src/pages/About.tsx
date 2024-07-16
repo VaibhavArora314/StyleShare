@@ -13,7 +13,7 @@ function About() {
       </Tilt>
         <div className="flex flex-col justify-center">
         <p className="bg-gradient-to-r from-blue-600 via-blue-500 to-white inline-block text-transparent bg-clip-text text-4xl font-bold py-1" >👨‍💻 About Style Share</p>
-        <h1 className='md:text-4xl sm:text-3xl font-bold py-4 text-white'>Unleashing Creativity - Tailwind CSS</h1>
+        <h1 className='md:text-4xl sm:text-3xl font-bold py-4 text-[#000435] bg-white dark:text-white dark:bg-[#000435]'>Unleashing Creativity - Tailwind CSS</h1>
         <p className="text-lg text-[#000435] bg-white dark:text-white dark:bg-[#000435] text-justify">
             💁‍♂️ Our mission is to make the design process more accessible and efficient for everyone. 
             Whether you are a seasoned developer looking for inspiration or a beginner taking your first steps into the world of web design, our platform offers a wealth of resources tailored to your needs.    
