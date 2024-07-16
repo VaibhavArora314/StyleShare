@@ -7,9 +7,12 @@ import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { ColorRing } from 'react-loader-spinner';
+
 const Posts = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [posts, setPosts] = useState<IPost[]>([]);
+  const [loading,setLoading] = useState(true);
   const token = useRecoilValue(tokenState);
 
   document.title ="Style Share Admin | Manage Users Posts 📃"
@@ -30,8 +33,10 @@ const Posts = () => {
         },
       });
       setPosts(response.data.posts);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching posts", error);
+      setLoading(true);
     }
   };
 
@@ -54,6 +59,16 @@ const Posts = () => {
       <Navbar toggleSidebar={toggleSidebar} />
       <div className="lg:ml-80">
         <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        {loading ? 
+        <div className="flex justify-center items-center h-80">
+        <ColorRing
+          visible={true}
+          height="100"
+          width="100"
+          colors={['#000435', 'rgb(14 165 233)', 'rgb(243 244 246)','#000435','rgb(14 165 233)']}
+        />
+      </div>
+      :
         <div className="mx-5 lg:mr-11 overflow-x-auto shadow-md rounded-xl mb-5">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-white uppercase bg-sky-500">
@@ -92,6 +107,7 @@ const Posts = () => {
             </tbody>
           </table>
         </div>
+      }
       </div>
     </div>
   );

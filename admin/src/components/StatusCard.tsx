@@ -10,6 +10,8 @@ import { RiHeartsFill } from "react-icons/ri";
 import { FaComments } from "react-icons/fa6";
 import axios from 'axios';
 import { IStats } from '../types';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const StatusCard = () => {
   const [stats, setStats] = useState<IStats | null>(null);
@@ -31,83 +33,47 @@ const StatusCard = () => {
     fetchStats();
   }, [token]);
 
-  if (!stats) {
-    return <div>Loading...</div>;
-  }
+  const renderCard = (icon: JSX.Element, count: number | string | null, label: string) => (
+    <div className="flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
+      <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
+        {icon}
+      </div>
+      <div>
+        <h2 className="title-font font-medium text-3xl">
+          {count !== null && count !== undefined ? count : <Skeleton width={50} />}
+        </h2>
+        <p className="text-gray-200 py-1">
+          {count !== null && count !== undefined ? label : <Skeleton width={100} />}
+        </p>
+      </div>
+    </div>
+  );
 
   return (
-    <section className="text-white mt-5">
-      <div className="container mx-auto px-5">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 lg:mx-20 text-center">
+    <SkeletonTheme baseColor="rgb(14 165 233)" highlightColor="rgb(255 255 255)">
+      <div className="mx-auto container pl-9 text-white">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 lg:mx-14 text-center">
           <Link to="/admin/users" className="col-span-1">
-            <div className="flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
-              <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
-                <HiUsers size={40} />
-              </div>
-              <div>
-                <h2 className="title-font font-medium text-3xl">{stats.totalUsers}</h2>
-                <p className="text-gray-200 py-1">Total Users</p>
-              </div>
-            </div>
+            {renderCard(<HiUsers size={40} />, stats?.totalUsers ?? null, 'Total Users')}
           </Link>
           <Link to="/admin/posts" className="col-span-1">
-            <div className="flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
-              <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
-                <LiaNewspaperSolid size={40} />
-              </div>
-              <div>
-                <h2 className="title-font font-medium text-3xl">{stats.totalPosts}</h2>
-                <p className="text-gray-200 py-1">Total Posts</p>
-              </div>
-            </div>
+            {renderCard(<LiaNewspaperSolid size={40} />, stats?.totalPosts ?? null, 'Total Posts')}
           </Link>
           <div className="col-span-1">
-            <div className="hover:cursor-default flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
-              <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
-                <FaComments size={40} />
-              </div>
-              <div>
-                <h2 className="title-font font-medium text-3xl">{stats.totalComments}</h2>
-                <p className="text-gray-200 py-1">Total Comments</p>
-              </div>
-            </div>
+            {renderCard(<FaComments size={40} />, stats?.totalComments ?? null, 'Total Comments')}
           </div>
           <div className="col-span-1">
-            <div className="flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
-              <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
-                <MdAddReaction size={40} />
-              </div>
-              <div>
-                <h2 className="title-font font-medium text-3xl">{stats.totalReactions}</h2>
-                <p className="text-gray-200 py-1">Total Reactions</p>
-              </div>
-            </div>
+            {renderCard(<MdAddReaction size={40} />, stats?.totalReactions ?? null, 'Total Reactions')}
           </div>
+          <Link to="/admin/contactmessages" className="col-span-1">
+            {renderCard(<SiGooglemessages size={40} />, stats?.contactMessages ?? null, 'Contact Messages')}
+          </Link>
           <div className="col-span-1">
-            <div className="flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
-              <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
-                <SiGooglemessages size={40} />
-              </div>
-              <div>
-                <h2 className="title-font font-medium text-3xl">{stats.contactMessages}</h2>
-                <p className="text-gray-200 py-1">Contact Messages</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-span-1">
-            <div className="hover:cursor-default flex items-center justify-between border-2 bg-[#000435] backdrop-blur-sm cursor-pointer transition-transform duration-300 hover:-translate-y-1 px-4 py-6 rounded-xl">
-              <div className='inline-block p-2 text-white bg-sky-500 rounded-xl'>
-                <RiHeartsFill size={40} />
-              </div>
-              <div>
-                <h2 className="title-font font-medium text-3xl">{stats.favoritesPosts}</h2>
-                <p className="text-gray-200 py-1">Most Favorites</p>
-              </div>
-            </div>
+            {renderCard(<RiHeartsFill size={40} />, stats?.favoritesPosts ?? null, 'Most Favorites')}
           </div>
         </div>
       </div>
-    </section>
+    </SkeletonTheme>
   );
 };
 
