@@ -43,6 +43,7 @@
     "react-tilt": "^1.0.2",
     "react-tooltip": "^5.26.4",
     "recoil": "^0.7.7",
+    "rollup": "^4.18.1",
     "slick-carousel": "^1.8.1",
     "tailwind-merge": "^2.3.0",
     "zxcvbn": "^4.4.2"
