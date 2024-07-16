@@ -33,8 +33,8 @@ import Contributors from "./pages/Contributors";
 import userBlock from "./hooks/userBlock";
 import Blocked from "./pages/Blocked";
 
-// import axios from "axios";
-// axios.defaults.baseURL = "http://localhost:3001/";
+import axios from "axios";
+axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
   const { theme, toggleTheme } = useTheme();
