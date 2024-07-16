@@ -1,7 +1,6 @@
 import notfound from '../assets/notFound.png'
 
 const PageNotFound = () => {
-
   document.title='Style Share | Nothing here 🫗'
 
   return (
