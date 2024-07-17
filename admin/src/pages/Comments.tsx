@@ -63,7 +63,7 @@ const Comments = () => {
                 <th scope="col" className="px-8 py-3">Author</th>
                 <th scope="col" className="px-3 py-3">createdAt</th>
                 <th scope="col" className="px-6 py-3">Comments</th>
--              </tr>
+              </tr>
             </thead>
             <tbody>
               {posts.map(post => (
@@ -81,17 +81,26 @@ const Comments = () => {
                 </tr>
                 {post.comments.map(comment => (
                   <tr key={comment.id} className="text-xs md:text-sm border-b bg-gray-800 border-gray-700 hover:bg-gray-700 hover:text-white">
-                    <td colSpan={5} className="px-8 py-4">
-                      <div className="flex justify-between">
-                        <div>
-                          <p className="font-semibold text-white">{comment.content}</p>
-                          <p className="text-gray-300">{new Date(comment.createdAt).toLocaleString()}</p>
+                    <td colSpan={4} className="px-8 py-4">
+                      <div className="flex items-start space-x-4">
+                        <div className="flex-shrink-0">
+                          <img className="h-10 w-10 rounded-full" src={`https://ui-avatars.com/api/?name=${comment.user.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic" />                        
                         </div>
-                        <button 
-                          onClick={() => handleDeleteComment(comment.id)} 
-                          className="font-semibold rounded-md p-2 bg-red-500 text-white border-2 hover:bg-red-600">
-                          Delete
-                        </button>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-medium text-white">
+                            {comment.user.username} <span className="text-gray-400"> {comment.user.email}</span>
+                          </p>
+                          <p className="text-sm text-gray-300">
+                            {comment.content} <span className="text-xs text-gray-400">• {new Date(comment.createdAt).toLocaleString()}</span>
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 self-center">
+                          <button 
+                            onClick={() => handleDeleteComment(comment.id)} 
+                            className="font-semibold rounded-md p-2 bg-red-500 text-white border-2 hover:bg-red-600">
+                            Delete
+                          </button>
+                        </div>
                       </div>
                     </td>
                   </tr>

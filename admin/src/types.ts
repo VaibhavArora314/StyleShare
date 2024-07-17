@@ -22,13 +22,8 @@ export interface IPost {
     id: string;
     content: string;
     createdAt: number;
-    author: {
-      id: string;
-      username: string;
-      email: string;
-    };
+    user: IUser;
   }
-  
   
   export interface IUser {
     id: string;

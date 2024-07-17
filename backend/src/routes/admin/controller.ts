@@ -156,9 +156,21 @@ export const getAdminPostsController = async (req: Request, res: Response) => {
       jsCodeSnippet: true,
       description: true,
       tags: true,
-      createdAt:true,
-      comments:true,
-      reactions:true,
+      createdAt: true,
+      comments: {
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+          user: {
+            select: {
+              username: true,
+              email: true,
+            },
+          },
+        },
+      },
+      reactions: true,
       author: {
         select: {
           id: true,
@@ -173,6 +185,7 @@ export const getAdminPostsController = async (req: Request, res: Response) => {
     posts,
   });
 };
+
 
 export const getAdminTrendingPostsController = async (req: Request, res: Response) => {
   try{
