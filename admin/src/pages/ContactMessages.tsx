@@ -8,12 +8,14 @@ import { IContactMessage } from "../types";
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import '../styles/Model.css'
+import { ColorRing } from 'react-loader-spinner';
 
 const ContactMessages = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [contactMessages, setContactMessages] = useState<IContactMessage[]>([]);
   const [open, setOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<IContactMessage | null>(null);
+  const [loading,setLoading] = useState(true);
   const token = useRecoilValue(tokenState);
 
   document.title = "Style Share Admin | Manage Contact Messages 👥";
@@ -31,8 +33,10 @@ const ContactMessages = () => {
           },
         });
         setContactMessages(response.data.contactMessage);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching messages:", error);
+        setLoading(true);
       }
     };
 
@@ -54,6 +58,16 @@ const ContactMessages = () => {
       <Navbar toggleSidebar={toggleSidebar} />
       <div className="flex-1 flex flex-col lg:ml-80">
         <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        {loading ? 
+        <div className="flex justify-center items-center h-80">
+        <ColorRing
+          visible={true}
+          height="100"
+          width="100"
+          colors={['#000435', 'rgb(14 165 233)', 'rgb(243 244 246)','#000435','rgb(14 165 233)']}
+        />
+      </div>
+      :
         <div className="mx-5 lg:mr-11 overflow-x-auto shadow-md rounded-xl mb-5">
           <table className="w-full rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs md:text-sm text-white uppercase bg-sky-500 text-center">
@@ -98,6 +112,7 @@ const ContactMessages = () => {
             </tbody>
           </table>
         </div>
+      }
       </div>
       <Modal open={open} onClose={handleCloseModal} center classNames={{ modal: 'customModal',overlay: 'customOverlay'}}>
         {selectedMessage && (

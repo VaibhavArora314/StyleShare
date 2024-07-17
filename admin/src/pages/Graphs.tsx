@@ -6,6 +6,7 @@ import { Line, Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend } from "chart.js";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
+import { ColorRing } from 'react-loader-spinner';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend);
 
@@ -17,6 +18,7 @@ const Graphs = () => {
   const [favoritesStats, setFavoritesStats] = useState([]);
   const [reactionsStats, setReactionsStats] = useState([]);
   const [contactMessagesStats, setContactMessagesStats] = useState([]);
+  const [loading,setLoading] = useState(true);
   const token = useRecoilValue(tokenState);
 
   const toggleSidebar = () => {
@@ -37,8 +39,10 @@ const Graphs = () => {
         setFavoritesStats(response.data.favorites);
         setReactionsStats(response.data.reactions);
         setContactMessagesStats(response.data.contacts);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching stats:", error);
+        setLoading(true);
       }
     };
     fetchStats();
@@ -114,6 +118,16 @@ const Graphs = () => {
       <Navbar toggleSidebar={toggleSidebar} />
       <div className="flex-1 flex flex-col lg:ml-80">
         <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        {loading ? 
+        <div className="flex justify-center items-center h-80">
+        <ColorRing
+          visible={true}
+          height="100"
+          width="100"
+          colors={['#000435', 'rgb(14 165 233)', 'rgb(243 244 246)','#000435','rgb(14 165 233)']}
+        />
+      </div>
+      :
         <div className="mx-5 -mt-2 lg:mr-11 overflow-x-auto rounded-xl mb-5">
           <h3 className="mb-2 flex font-bold text-xl decoration-sky-500 decoration-dotted underline">Users Over Time {year}</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -170,6 +184,7 @@ const Graphs = () => {
             </div>
           </div>
         </div>
+      }
       </div>
     </div>
   );
