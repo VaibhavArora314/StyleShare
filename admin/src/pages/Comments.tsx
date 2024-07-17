@@ -30,7 +30,6 @@ const Comments = () => {
         },
       });
       setPosts(response.data.posts);
-      console.log(response.data.posts);
     } catch (error) {
       console.error("Error fetching posts", error);
     }
