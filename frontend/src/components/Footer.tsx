@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { loggedInState } from '../store/atoms/auth';
 import { CgProfile } from 'react-icons/cg';
 import { BsFilePost } from 'react-icons/bs';
-import { FaHome, FaRegCopyright, FaGithub, FaEnvelope, FaInfoCircle, FaTools, FaLock, FaFileAlt, FaCookieBite } from 'react-icons/fa';
+import { FaHome, FaGithub, FaEnvelope, FaInfoCircle, FaTools, FaLock, FaFileAlt, FaCookieBite } from 'react-icons/fa';
 import logo from "../assets/favicon.png";
 import { FaRegHandshake } from "react-icons/fa6";
 
