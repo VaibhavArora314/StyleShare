@@ -19,6 +19,19 @@ Make sure you star the repository and show your love to us💗
 Contributing in open source increases your opportunities to work with different projects and mentors, getting to know various insights and ideas. It is a platform where contributors grow together with a construvtive and a positive attitude.
 This repository also provides one such platforms where contributers come over and put their ideas  and make our website as interactive as much they can!
 
+<table>
+    <tr>
+      <th>Event Logo</th>
+      <th>Event Name</th>
+      <th>Event Description</th>
+    </tr>
+    <tr>
+        <td><img src="https://user-images.githubusercontent.com/63473496/213306279-338f7ce9-9a9f-4427-8c2a-3e344874498f.png#gh-dark-mode-only" width="200" height="auto" loading="lazy" alt="GSSoC 24"/></td>
+        <td>GirlScript Summer of Code 2024</td>
+        <td>GirlScript Summer of Code is a three-month-long Open Source Program conducted every summer by GirlScript Foundation. It is an initiative to bring more beginners to Open-Source Software Development. 
+    </tr>
+</table>
+
 ![GitHub issues](https://img.shields.io/github/issues/VaibhavArora314/StyleShare)
 ![GitHub forks](https://img.shields.io/github/forks/VaibhavArora314/StyleShare)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/VaibhavArora314/StyleShare)
@@ -29,6 +42,18 @@ This repository also provides one such platforms where contributers come over an
 </p>
 
 </div>
+
+## Table of Contents
+
+1. [Project Description](#project-description)
+2. [TechStack](#techstack)
+3. [Screenshots](#screenshots)
+4. [Video](#video)
+5. [Code of Conduct](#code-of-conduct)
+6. [Setting Up on your machine](#setting-up-on-your-machine)
+7. [How to Contribute](#how-to-contribute)
+8. [Our Contributors](#our-contributors)
+9. [License](#license)
 <br>
 
 ## Project Description
@@ -63,6 +88,13 @@ Style Share is a collaborative platform designed to streamline the process of cr
 ## Video
 
 https://github.com/VaibhavArora314/StyleShare/assets/142779809/bb8969a2-90b2-431a-b95a-a87df61bb39a
+
+<!-- Code of conduct -->
+<div>
+<h2><img src = "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Handshake.png" width="35" height="35"> Code of Conduct</h2>
+</div>
+
+Please note that this project is released with a [Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 ## Setting Up on your machine
 
@@ -135,6 +167,14 @@ We welcome contributions from the community! To contribute:
    git push origin your-branch-name
    ```
 7. Open a pull request.
+
+
+<div>
+  <h2><img src="https://github.com/Meetjain1/wanderlust/assets/133582566/90f3930e-5a12-4a4e-8ac9-0dc7d5396adb" width="35" height="35">Are Ready to Contribute?</h2>
+</div>
+
+If you would like to contribute to the project then kindly go through [Contributing Guidelines](CONTRIBUTING.md) to understand everything from setup to necessary instructions.
+
 
 ## Our Contributors
 
