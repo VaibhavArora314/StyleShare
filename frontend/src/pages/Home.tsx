@@ -6,7 +6,6 @@ import About from "./About";
 import HomePagePost from "./HomePagePosts";
 import { TypewriterEffectSmoothDemo } from "../components/HeroText";
 import MagicButton from "../components/ui/MagicButton";
-import { useTranslation } from 'react-i18next';
 import TestimonialSlider from "../components/TestimonialSlider";
 import FAQ from "../components/FAQ";
 import Showcase from "../components/Showcase";
@@ -17,17 +16,16 @@ import { motion, AnimatePresence } from "framer-motion";
 
 function Home() {
   console.log("Home page rerendered");
-  const { t } = useTranslation();
 
   document.title = 'Style Share | Welcome 🙏';
 
   const [visibleItems, setVisibleItems] = useState<string[]>([]);
   const [showButton, setShowButton] = useState(false);
   const listItems = [
-    t("hero.list.first"),
-    t("hero.list.second"),
-    t("hero.list.third"),
-    t("hero.list.fourth"),
+    "Contributor",
+    "Create",
+    "Explore",
+    "Share",
   ];
 
   useEffect(() => {
@@ -66,7 +64,7 @@ function Home() {
             <h1>
               <TypewriterEffectSmoothDemo />
             </h1>
-            <h1 className='md:text-3xl sm:text-3xl font-medium py-2'>{t("hero.subheading")}</h1>
+            <h1 className='md:text-3xl sm:text-3xl font-medium py-2'>A simple web-based platform where users can easily</h1>
             <div className="tick-container text-lg text-[#000435] bg-white dark:text-white dark:bg-[#000435] font-semibold">
               <AnimatePresence>
                 {visibleItems.map((item, index) => (
@@ -88,7 +86,7 @@ function Home() {
                   animate={{ opacity: 1, rotate: [1, 2, -2, 0] }}
                   transition={{ duration: 0.5, repeat: 3, repeatType: "loop" }}
                 >
-                  <MagicButton title={t("hero.button")} />
+                  <MagicButton title="Get Started" />
                 </motion.div>
               </Link>
             )}

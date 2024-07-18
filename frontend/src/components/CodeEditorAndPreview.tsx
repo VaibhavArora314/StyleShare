@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PostPreview from "../components/PostPreview";
 import Switch from "react-switch";
 import toast from "react-hot-toast";
-import { useTranslation } from "react-i18next";
+
 
 type Props = {
   codeSnippet: string;
@@ -18,7 +18,6 @@ function CodeEditorAndPreview({
   setJsCodeSnippet
 }: Props) {
   const [isPreviewMode, setIsPreviewMode] = useState(false);
-  const { t } = useTranslation();
 
   const handleToggle = () => {
     setIsPreviewMode(!isPreviewMode);
@@ -37,7 +36,7 @@ function CodeEditorAndPreview({
     <div>
       <div>
         <label htmlFor="codeSnippet" className="block text-sm font-medium">
-          {t("newPost.codeSnippet")}
+        Code Snippet
         </label>
         <textarea
           id="codeSnippet"
@@ -50,7 +49,7 @@ function CodeEditorAndPreview({
       </div>
       <div>
         <label htmlFor="jsCodeSnippet" className="block text-sm font-medium">
-          {t("newPost.jsCodeSnippet")}
+        js Code Snippet
         </label>
         <textarea
           id="jsCodeSnippet"

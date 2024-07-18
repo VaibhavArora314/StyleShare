@@ -1,32 +1,36 @@
-import { useTranslation } from "react-i18next";
+"use client";
+
 import { TypewriterEffectSmooth } from "./ui/TypeWriter";
 
 export function TypewriterEffectSmoothDemo() {
-  const { t } = useTranslation();
 
   const words = [
     {
-      text: t("hero.h1"),
-      className: "md:text-3xl lg:text-4xl text-white text-typing ",
+      text: "👋",
+      className: "md:text-3xl lg:text-4xl text-white text-typing notranslate",
     },
     {
-      text: t("hero.h2"),
+      text: "Welcome",
+      className: "md:text-3xl lg:text-4xl text-white text-typing",
+    },
+    {
+      text: "To",
       className: "text-white lg:text-4xl md:text-3xl text-typing",
     },
     {
-      text: t("hero.h3"),
-      className: "text-blue-500 lg:text-4xl md:text-3xl  text-typing ",
+      text: "Style",
+      className: "text-blue-500 lg:text-4xl md:text-3xl  text-typing",
     },
     {
-      text: t("hero.h4"),
+      text: "Share",
       className: "text-blue-500 lg:text-4xl md:text-3xl text-typing",
     },
   ];
 
   return (
     <div className="max-w-screen-xl mx-auto">
-      <div className="mx-autofont-bold mb-4 ">
-        <TypewriterEffectSmooth words={words}  />
+      <div className=" mx-autofont-bold mb-4">
+        <TypewriterEffectSmooth words={words} />
       </div>
     </div>
   );

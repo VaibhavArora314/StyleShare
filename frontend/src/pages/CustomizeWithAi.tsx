@@ -5,7 +5,6 @@ import { IPost } from "../types";
 import { tokenState, userState } from "../store/atoms/auth";
 import { useRecoilValue } from "recoil";
 import toast from "react-hot-toast";
-import { useTranslation } from "react-i18next";
 import PostCodeWithPreview from "../components/PostCodeWithPreview";
 import bgHero from "../assets/bgHero.png";
 
@@ -19,7 +18,6 @@ const CustomizeWithAi = () => {
   const post: IPost = location.state.post;
   const token = useRecoilValue(tokenState);
   const [loading, setLoading] = useState(false);
-  const { t } = useTranslation();
 
   const handleCustomize = async () => {
     if (!user.verified) {
@@ -70,9 +68,9 @@ const CustomizeWithAi = () => {
   return (
     <div className="-mt-20 w-full text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="customize-page p-6 max-w-screen-xl mx-auto text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
-        <h1 className="text-3xl font-bold mb-5 text-[#9b42c4] bg-white dark:text-white dark:bg-[#000435]">✨ {t("postdet.cus")} ✨</h1>
+      <h1 className="text-3xl font-bold mb-5">✨ Customize Component with AI ✨</h1>
         <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">😀 {t("custom.og")}</h2>
+        <h2 className="text-xl font-semibold mb-2">😀 Original Code Snippet</h2>
           <PostCodeWithPreview
             id={post.id}
             isOwner={false}
@@ -87,7 +85,7 @@ const CustomizeWithAi = () => {
           className="w-full p-3 mb-5 rounded text-[#000435] bg-white dark:text-white dark:bg-[#000435] border-2 border-sky-500 backdrop-blur-sm"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder={t("custom.des")}
+          placeholder="📝 Describe your customization here..."
           required
         />
         {loading ? (
@@ -102,7 +100,7 @@ const CustomizeWithAi = () => {
             className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded mb-4"
             onClick={handleCustomize}
           >
-            {t("newPost.submit")}
+             Submit
           </button>
         )}
         {(customCssCode || customJsCode) && (
