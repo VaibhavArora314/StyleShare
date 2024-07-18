@@ -1,7 +1,7 @@
 import React from 'react';
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { app } from '../firebase';
+import { appPromise } from '../firebase';
 import { useSetRecoilState } from 'recoil';
 import { tokenState } from '../store/atoms/auth';
 import axios, { AxiosError } from 'axios';
@@ -13,6 +13,7 @@ const OAuth: React.FC = () => {
 
   const handleGoogleClick = async () => {
     try {
+      const app = await appPromise;
       const provider = new GoogleAuthProvider().addScope("email");
       const auth = getAuth(app);
       const result = await signInWithPopup(auth, provider);

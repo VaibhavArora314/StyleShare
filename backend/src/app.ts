@@ -20,6 +20,19 @@ app.get('/app/*', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../../frontend/dist', 'index.html'));
 });
 
+app.get('/config', (req: Request, res: Response) => {
+  res.json({
+    apiKey: process.env.VITE_FIREBASE_API_KEY,
+    authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.VITE_FIREBASE_APP_ID,
+    measurementId: process.env.VITE_FIREBASE_MEASUREMENT_ID
+  });
+});
+
+
 app.use('/admin', express.static(path.join(__dirname, '../../admin/dist'), {maxAge: 0}));
 app.get('/admin/*', (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
