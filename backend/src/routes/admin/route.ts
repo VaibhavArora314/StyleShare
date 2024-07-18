@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { adminLoginController, adminProfileController, allUserForAdmin, blockUserController, unblockUserController, getAdminPostsController, getAdminTrendingPostsController, getAdminStatsController, getGraphsStatsController, updatePostController, deletePostController, getPostByIdController, getAllContactMessages } from './controller';
+import { adminLoginController, adminProfileController, allUserForAdmin, blockUserController, unblockUserController, getAdminPostsController, getAdminTrendingPostsController, getAdminStatsController, getGraphsStatsController, updatePostController, deletePostController, getPostByIdController, getAllContactMessages, deleteCommentController } from './controller';
 import { isAdmin } from '../../middleware/adminAuth';
 
 const adminRouter = Router();
@@ -29,5 +29,7 @@ adminRouter.patch('/posts/update/:postId', isAdmin, updatePostController);
 adminRouter.delete('/posts/delete/:postId', isAdmin, deletePostController);
 
 adminRouter.get("/geallcontactmessages", isAdmin,getAllContactMessages);
+
+adminRouter.delete('/comments/delete/:commentId', isAdmin, deleteCommentController);
 
 export default adminRouter;

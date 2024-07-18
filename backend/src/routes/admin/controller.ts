@@ -156,9 +156,21 @@ export const getAdminPostsController = async (req: Request, res: Response) => {
       jsCodeSnippet: true,
       description: true,
       tags: true,
-      createdAt:true,
-      comments:true,
-      reactions:true,
+      createdAt: true,
+      comments: {
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+          user: {
+            select: {
+              username: true,
+              email: true,
+            },
+          },
+        },
+      },
+      reactions: true,
       author: {
         select: {
           id: true,
@@ -173,6 +185,7 @@ export const getAdminPostsController = async (req: Request, res: Response) => {
     posts,
   });
 };
+
 
 export const getAdminTrendingPostsController = async (req: Request, res: Response) => {
   try{
@@ -429,6 +442,32 @@ export const getAllContactMessages = async (req: Request, res: Response) => {
       contactMessage,
     });
   }catch(error){
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const deleteCommentController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const { commentId } = req.params;
+
+    const comment = await prisma.comment.findUnique({
+      where: { id: commentId },
+    });
+
+    if (!comment) {
+      return res.status(404).json({ error: { message: "Comment not found" } });
+    }
+
+    await prisma.comment.delete({
+      where: { id: commentId },
+    });
+
+    res.status(200).json({
+      message: "Comment deleted successfully.",
+    });
+  } catch (error) {
     res.status(500).json({
       error: "An unexpected exception occurred!",
     });
