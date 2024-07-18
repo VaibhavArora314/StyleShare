@@ -3,8 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
-import Signin from "./pages/Signin";
-import Signup from "./pages/Signup";
+import LoginForm from "./pages/LoginForm";
 import Posts from "./pages/Posts";
 import Post from "./pages/Post";
 import NewPost from "./pages/NewPost";
@@ -32,7 +31,6 @@ import CodeEditor from "./pages/CodeEditor";
 import Contributors from "./pages/Contributors";
 import userBlock from "./hooks/userBlock";
 import Blocked from "./pages/Blocked";
-
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -65,7 +63,7 @@ function App() {
                   path="/app/signin"
                   element={
                     <NonAuthenticatedRoute>
-                      <Signin />
+                      <LoginForm defaultFormType="Signin" />
                     </NonAuthenticatedRoute>
                   }
                 />
@@ -73,7 +71,7 @@ function App() {
                   path="/app/signup"
                   element={
                     <NonAuthenticatedRoute>
-                      <Signup />
+                      <LoginForm defaultFormType="SignUp" />
                     </NonAuthenticatedRoute>
                   }
                 />
@@ -118,13 +116,13 @@ function App() {
                   }
                 />
                 <Route
-                path="/app/leaderboard"
+                  path="/app/leaderboard"
                   element={
-                      <LeaderBoard   />
+                    <LeaderBoard   />
                   }
                 />
                 <Route
-                path="/app/code"
+                  path="/app/code"
                   element={
                     <AuthenticatedRoute>
                       <CodeEditor />

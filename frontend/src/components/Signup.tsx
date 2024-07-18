@@ -11,7 +11,8 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import bgHero from "../assets/bgHero.png";
 import CaptchaUser from "../components/CaptchaUser";
-import OAuth from "../components/oAuth";
+import OAuth from "./oAuth";
+
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -260,7 +261,7 @@ const Signup = () => {
               <br></br>
               <div className="flex justify-center bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full">
 
-                <OAuth />
+                <OAuth/>
 
               </div>
             </form>

@@ -8,7 +8,8 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import bgHero from "../assets/bgHero.png";
 import CaptchaUser from "../components/CaptchaUser";
-import OAuth from "../components/oAuth";
+import OAuth from "./oAuth";
+
 
 const Signin = () => {
   const [email, setEmail] = useState("");

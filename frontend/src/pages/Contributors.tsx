@@ -37,29 +37,25 @@ const Contributors: React.FC = () => {
         <h1 className="text-center text-3xl font-semibold mb-8">🤝 Contributors</h1>
         <div className="flex flex-wrap justify-center gap-8">
           {contributors.map((contributor) => (
-            <div
+            <a
               key={contributor.id}
+              href={contributor.html_url}
               className="w-full md:w-1/3 lg:w-1/4 flex flex-col items-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-md p-4 transition-transform transform hover:scale-105 hover:shadow-xl"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <a
-                href={contributor.html_url}
-                className="block"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src={contributor.avatar_url}
-                  alt={contributor.login}
-                  className="w-24 h-24 rounded-full object-cover mb-4"
-                />
-              </a>
+              <img
+                src={contributor.avatar_url}
+                alt={contributor.login}
+                className="w-24 h-24 rounded-full object-cover mb-4"
+              />
               <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
                 {contributor.login}
               </h2>
               <p className="text-gray-700 dark:text-gray-400">
                 Contributions: {contributor.contributions}
               </p>
-            </div>
+            </a>
           ))}
         </div>
       </div>
@@ -68,4 +64,3 @@ const Contributors: React.FC = () => {
 };
 
 export default Contributors;
-

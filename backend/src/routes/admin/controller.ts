@@ -411,3 +411,26 @@ export const deletePostController = async (req: UserAuthRequest, res: Response) 
     });
   }
 };
+
+export const getAllContactMessages = async (req: Request, res: Response) => {
+  try{
+    const contactMessage = await prisma.contactMessage.findMany({
+      select: {
+        id: true,
+        name:true,
+        email:true,
+        subject:true,
+        message:true,
+        createdAt:true
+      },
+    });
+    res.status(200).json({
+      message: "Successfully fetched contact messages!",
+      contactMessage,
+    });
+  }catch(error){
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
