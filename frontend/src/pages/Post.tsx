@@ -7,7 +7,6 @@ import Comment from "./Comment";
 import { MdFavorite } from "react-icons/md";
 import { MdFavoriteBorder } from "react-icons/md";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { useTranslation } from "react-i18next";
 import usePost from "../hooks/usePost";
 import SharePostButtons from "../components/SharePostButtons";
 import ReactionButton from "../components/ReactionButtons";
@@ -27,7 +26,6 @@ const Post = () => {
   const { post, error, loading, isOwner } = usePost(id || "");
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
-  const { t } = useTranslation();
   const token = useRecoilValue(tokenState);
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const currentUser = useRecoilValue(userState);
@@ -251,7 +249,7 @@ const Post = () => {
           Download as zip
         </button>
         <div className="mb-4">
-          <h3 className="text-xl font-semibold my-2">{t("newPost.tags")}</h3>
+          <h3 className="text-xl font-semibold my-2">Tags</h3>
           <div className="flex flex-wrap gap-2">
         {post.tags.map((tag, index) => (
           <Link
@@ -265,14 +263,14 @@ const Post = () => {
       </div>
         </div>
         <div className="my-5">
-          <h3 className="text-xl font-semibold  my-2">{t("postdet.author")}</h3>
+          <h3 className="text-xl font-semibold  my-2">Author</h3>
           <button
             onClick={handleProfileNavigation}
             data-tooltip-content={`View ${post.author.username} profile 👀`}
             data-tooltip-id="my-tooltip"
             className="text-lg font-semibold cursor-pointer"
           >
-            {t("postdet.user")}: @{post.author.username}
+            User: @{post.author.username}
           </button>
           <p className="text-black font-semibold text-sm  dark:text-white">{post.author.totalFollowers} followers</p>
           {currentUser?.id && post.author?.id &&  currentUser?.id !== post.author?.id && (

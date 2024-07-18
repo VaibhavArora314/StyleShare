@@ -4,7 +4,7 @@ import axios, { AxiosError } from 'axios';
 import { IComment } from '../types';
 import Loader from '../components/Loader';
 import toast from 'react-hot-toast';
-import { useTranslation } from 'react-i18next';
+
 
 const Comment = () => {
   const { id } = useParams<{ id: string }>();
@@ -13,7 +13,6 @@ const Comment = () => {
   const [error, setError] = useState<string | null>(null);
   const [commentContent, setCommentContent] = useState("");
   const [comments, setComments] = useState<IComment[]>([]);
-  const { t } = useTranslation();
 
   const fetchComments = async () => {
     setLoading(true);
@@ -76,7 +75,7 @@ const Comment = () => {
   return (
     <div className="text-[#000435] bg-white dark:text-white dark:bg-[#000435]">
       <div>
-        <h3 className="text-xl font-semibold mb-4">{comments.length} {t("postdet.comments")}</h3>
+      <h3 className="text-xl font-semibold mb-4">{comments.length} Comments</h3>
         {comments.length > 0 ? (
           <ul className="space-y-3">
           {comments.map((comment: IComment) => (
@@ -101,7 +100,7 @@ const Comment = () => {
         </ul>
         
         ) : (
-          <p className="text-[#000435] bg-white dark:text-white dark:bg-[#000435]">{t("postdet.firstcomment")}</p>
+          <p className="text-gray-300">Be the first one to comment...</p>
         )}
       </div>
       <form onSubmit={handleCommentSubmit} className="mt-5">
@@ -110,7 +109,7 @@ const Comment = () => {
           onChange={(e) => setCommentContent(e.target.value)}
           className="w-full p-2 text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-500 rounded mb-2"
           rows={2}
-          placeholder={t("postdet.addcomment")}
+          placeholder="Add a comment..."
           disabled={submitting}
           required
         />
@@ -119,7 +118,7 @@ const Comment = () => {
           className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white"
           disabled={submitting}
         >
-          {submitting ? t("postdet.submitting") : t("postdet.comment")}
+          {submitting ? 'Submitting...' : 'Comment'}
         </button>
       </form>
       {submitting && <Loader />}

@@ -10,7 +10,6 @@ import { GoVerified } from "react-icons/go";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { AiTwotoneInfoCircle } from "react-icons/ai";
 import toast from "react-hot-toast";
-import { useTranslation } from "react-i18next";
 import bgHero from "../assets/bgHero.png";
 import {ProfileForm} from "../components/profileForm.tsx";
 
@@ -25,9 +24,7 @@ const Profile = ()=> {
   const [verificationError, setVerificationError] = useState("");
   const token = useRecoilValue(tokenState);
   const currentUser = useRecoilValue(userState);
-  const { t } = useTranslation();
   const [clickUpdate, setClickUpdate] = useState(false)
-  
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -162,8 +159,7 @@ const Profile = ()=> {
               <ProfileForm user={user} dismiss={()=>{setClickUpdate(false)}}/>
           }
           <div className="mt-8 w-full">
-            <h4 className={` text-[#000435] dark:text-white font-semibold`}>
-              {t("leaderboard.posts")} ( {user?.posts.length} )</h4>
+          <h4 className="font-semibold">Posts ( {user?.posts.length} )</h4>
             <div className="mt-6 mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
 
               {user?.posts.map(post => <PostCard key={post.id} post={post} onDelete={handleDelete} currentUser={currentUser} />)}

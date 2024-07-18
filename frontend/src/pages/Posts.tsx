@@ -3,7 +3,6 @@ import Loader from "../components/Loader";
 import PostCard from "../components/PostCard";
 import { userState } from "../store/atoms/auth";
 import { useRecoilValue } from "recoil";
-import { useTranslation } from "react-i18next";
 import usePosts from "../hooks/usePosts";
 import bgHero from "../assets/bgHero.png";
 import { IoIosArrowDown } from "react-icons/io";
@@ -34,8 +33,6 @@ const Posts = () => {
   const [tagInput, setTagInput] = useState("");
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const filterRef = useRef<HTMLDivElement>(null);
-
-  const { t } = useTranslation();
 
   const filteredPosts = posts;
 
@@ -111,16 +108,14 @@ const Posts = () => {
           backgroundPosition: "center",
         }}
       >
-        <h1 className="text-2xl font-semibold mb-4 text-[#5f67de] bg-white dark:text-white dark:bg-[#000435]">
-          {t("allPosts.Posts")}
-        </h1>
+        <h1 className="text-2xl font-semibold mb-4 text-white">Posts</h1>
         <div className="w-full flex flex-col sm:flex-row justify-between items-center mb-4 relative space-y-4 sm:space-y-0 sm:space-x-4">
           <div className="flex space-x-4">
             <button
               onClick={toggleFilterDialog}
               className="flex items-center text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] hover:text-blue-400"
             >
-              {t("allPosts.filter")}
+              Filter
               <IoIosArrowDown size={20} className="items-center pt-1" />
             </button>
           </div>
@@ -135,7 +130,7 @@ const Posts = () => {
                   value={tagInput}
                   onChange={(e) => setTagInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder={t("allPosts.tag")}
+                  placeholder="Add tag"
                   className="p-2 w-full rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-gray-500"
                 />
               </div>
@@ -143,7 +138,7 @@ const Posts = () => {
                 onClick={addTag}
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-200"
               >
-                {t("allPosts.addTag")}
+                Add Tag
               </button>
               <div className="flex flex-wrap mt-2">
                 {filterTags.map((tag, index) => (
@@ -168,7 +163,7 @@ const Posts = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={t("allPosts.search")}
+              placeholder="🔍 Search anything"
               className="p-2 w-full max-w-xs rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             <button
@@ -180,7 +175,7 @@ const Posts = () => {
           </div>
         </div>
         {filteredPosts.length === 0 ? (
-          <div className="text-center text-white">{t("allPosts.noPosts")}</div>
+          <div className="text-center text-white">No Posts</div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
             {filteredPosts.map((post) => (
@@ -203,7 +198,7 @@ const Posts = () => {
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            {t("allPosts.pre")}
+           Previous
           </button>
           {Array.from({ length: totalPages }, (_, i) => (
             <button
@@ -227,7 +222,7 @@ const Posts = () => {
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            {t("allPosts.next")}
+           Next
           </button>
         </div>
       </div>

@@ -22,7 +22,6 @@ import Favorite from "./pages/Favorite";
 import LeaderBoard from "./pages/LeaderBoard";
 import CustomizeWithAi from "./pages/CustomizeWithAi";
 import ScrollToTopWhenRouteChanges from "./components/ScrollToTopWhenRouteChanges";
-import './i18n';
 import ShowProfile from "./pages/ShowProfile";
 import { Tooltip } from 'react-tooltip'
 import EditPost from "./pages/EditPost";
