@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import bgHero from "../assets/bgHero.png";
 import Tilt from "react-parallax-tilt";
