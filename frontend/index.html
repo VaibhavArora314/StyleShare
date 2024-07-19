@@ -2,18 +2,115 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./src/assets/favicon.png" />
+    <link rel="icon" type="image/png" href="./src/assets/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Style Share</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
+    <style>
+      @charset "UTF-8";
+      .scroll_progress {
+          position: fixed;
+          overflow: hidden;
+          z-index: 9999; /* Ensure it's above other content */
+      }
+      .scroll_progress div {
+          position: absolute;
+          top: 0;
+          left: 0;
+          background-color: red; /* Default color for visibility */
+      }
+      .circle-container {
+          position: fixed;
+          pointer-events: none;
+          z-index: 10000; /* Ensure it's above other content */
+      }
+      .circle {
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          background-color: rgba(0, 0, 0, 0.5);
+          border-radius: 50%;
+      }
+    </style>
   </head>
-  <body>
+  <body class="bg-white dark:bg-black dark:text-white">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    
     <div class="circle-container"></div>
+    <script>
+      function ScrollProgress(option) {
+          var d4 = {
+              position: 'top',
+              thick: 5,
+              color: 'red'
+          };
+          var percent;
+          var dom = document.querySelector('body'),
+              progress = document.createElement('div'),
+              div = document.createElement('div');
 
+          option = option || {};
+          option.position = option.position || d4.position;
+          option.thick = option.thick || d4.thick;
+          option.color = option.color || d4.color;
+
+          switch(option.position) {
+              case 'top':
+                  progress.style.top = 0;
+                  progress.style.left = 0;
+                  progress.style.width = '100%';
+                  progress.style.height = option.thick + 'px';
+                  div.style.height = '100%';
+              break;
+              case 'bottom':
+                  progress.style.bottom = 0;
+                  progress.style.left = 0;
+                  progress.style.width = '100%';
+                  progress.style.height = option.thick + 'px';
+                  div.style.height = '100%';
+              break;
+              case 'left':
+                  progress.style.top = 0;
+                  progress.style.left = 0;
+                  progress.style.width = option.thick + 'px';
+                  progress.style.height = '100%';
+                  div.style.width = '100%';
+              break;
+              case 'right':
+                  progress.style.top = 0;
+                  progress.style.right = 0;
+                  progress.style.width = option.thick + 'px';
+                  progress.style.height = '100%';
+                  div.style.width = '100%';
+              break;
+              default:
+              return;
+          }
+
+          window.addEventListener('scroll', function() {
+              if (dom.scrollTop) {
+                  percent = (dom.scrollTop/(dom.scrollHeight - document.documentElement.clientHeight))*100 + '%';
+              } else {
+                  percent = (window.pageYOffset/(dom.scrollHeight - document.documentElement.clientHeight))*100 + '%';
+              }
+              if (option.position === 'top' || option.position === 'bottom') {
+                  div.style.width = percent;
+              }
+              if (option.position === 'left' || option.position === 'right') {
+                  div.style.height = percent;
+              }
+          });
+
+          div.style.backgroundColor = option.color;
+          progress.setAttribute('class', 'scroll_progress');
+          progress.appendChild(div);
+          dom.appendChild(progress);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+          ScrollProgress({ position: 'top', thick: 10, color: '#ff8800' });
+      });
+    </script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
           const coords = { x: 0, y: 0 };
