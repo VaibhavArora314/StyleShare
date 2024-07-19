@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
-import SideBar from "../components/SideBar";
 import axios from "axios";
 import { IPost } from "../types";
 import { useRecoilValue } from "recoil";
@@ -58,7 +57,6 @@ const Posts = () => {
     <div>
       <Navbar toggleSidebar={toggleSidebar} />
       <div className="lg:ml-80">
-        <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
         {loading ? 
         <div className="flex justify-center items-center h-80">
         <ColorRing
