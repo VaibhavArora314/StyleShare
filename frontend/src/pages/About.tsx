@@ -91,23 +91,22 @@ function About() {
         </div>
       </div>
       <div className="flex mt-20 flex-col items-center">
-        <p className="md:text-4xl lg:text-5xl mb-20 sm:text-3xl text-2xl font-bold text-[#000435] bg-white mt-54 py-auto dark:text-white dark:bg-[#000435] vibrate-1">
+        <p className="md:text-4xl lg:text-5xl mb-20 sm:text-3xl text-2xl font-bold text-[#000435] bg-white mt-54 py-auto dark:text-white dark:bg-[#000435] vibrate-1 text-center">
           🤔 How it Works !
         </p>
-        <div ref={howItWorksRef} className="text-lg text-[#000435] bg-white dark:text-white dark:bg-[#000435] grid grid-cols-1" style={{ minHeight: '240px' }}>
+        <div ref={howItWorksRef} className="text-lg text-[#000435] bg-white dark:text-white dark:bg-[#000435] flex flex-col items-start pl-10" style={{ minHeight: '240px' }}>
           <AnimatePresence>
             {visibleItems.map((item, index) => (
-              <motion.span
+              <motion.div
                 key={index}
-                initial={{ opacity: 0, y: -10 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
+                exit={{ opacity: 0, y: 10 }}
                 transition={{ duration: 0.8 }}
                 className="mb-2"
               >
                 {item}
-                <br />
-              </motion.span>
+              </motion.div>
             ))}
           </AnimatePresence>
         </div>
@@ -121,8 +120,8 @@ function About() {
             </Link>
           )}
         </div>
-        </div>
       </div>
+    </div>
   );
 }
 
