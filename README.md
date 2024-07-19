@@ -1,3 +1,4 @@
+<a id="top"></a>
 <div style="display:none;" align="center">
 <h1><font size="10"> Style Share </font></h1>
 
@@ -43,7 +44,9 @@ This repository also provides one such platforms where contributers come over an
 
 </div>
 
-## Table of Contents
+<details>
+    <summary><h2>:pushpin:Table of Contents: </h2></summary>
+
 
 1. [Project Description](#project-description)
 2. [TechStack](#techstack)
@@ -54,7 +57,9 @@ This repository also provides one such platforms where contributers come over an
 7. [How to Contribute](#how-to-contribute)
 8. [Our Contributors](#our-contributors)
 9. [License](#license)
-<br>
+
+</details>
+<hr>
 
 ## Project Description
 
@@ -69,8 +74,11 @@ Style Share is a collaborative platform designed to streamline the process of cr
 - Prisma + MongoDB
 - Tailwind
 
-## Screenshots
+<hr>
 
+<details>
+    <summary><h2>📷 Screenshots: </h2></summary>
+    
 ![alt text](./screenshots/Screenshot_home.png)
 ![alt text](./screenshots/Screenshot_aboutus.png)
 ![alt text](./screenshots/Screenshot_signup.png)
@@ -83,6 +91,8 @@ Style Share is a collaborative platform designed to streamline the process of cr
 ![alt text](./screenshots/Screenshot_faqs.png)
 ![alt text](./screenshots/Screenshot_favourites.png)
 ![alt text](./screenshots/Screenshot_footer.png)
+
+</details>
 
 
 ## Video
@@ -144,7 +154,11 @@ Please note that this project is released with a [Code of Conduct](CODE_OF_CONDU
    Also, set the default base URL of the backend (don't push this to GitHub) or simply uncomment the following:
    [App.tsx lines 17-18](https://github.com/VaibhavArora314/StyleShare/blob/ffb31d5bd3f68fbd76b300a736d56c2a0f1f77ac/frontend/src/App.tsx#L17-L18)
 
-## How to Contribute
+<hr>
+
+<details>
+ <summary><h2>:sparkles:How to Contribute</h2></summary>
+    
 
 We welcome contributions from the community! To contribute:
 
@@ -168,6 +182,10 @@ We welcome contributions from the community! To contribute:
    ```
 7. Open a pull request.
 
+</details>
+
+<hr>
+
 
 <div>
   <h2><img src="https://github.com/Meetjain1/wanderlust/assets/133582566/90f3930e-5a12-4a4e-8ac9-0dc7d5396adb" width="35" height="35">Are Ready to Contribute?</h2>
@@ -175,13 +193,28 @@ We welcome contributions from the community! To contribute:
 
 If you would like to contribute to the project then kindly go through [Contributing Guidelines](CONTRIBUTING.md) to understand everything from setup to necessary instructions.
 
-
-## Our Contributors
+<hr>
+<h2 align = "center">Our Contributors ❤️</h2>
+<div align = "center">
+ <h3>Thank you for contributing to our repository</h3>
 
 <p><a href="https://github.com/VaibhavArora314/StyleShare/contributors">
   <img src="https://contributors-img.web.app/image?repo=VaibhavArora314/StyleShare" />
 </a></p>
 
-## License
+</div>
+
+<hr>
+<!-- License -->
+<div>
+<h2><img src = "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Page%20with%20Curl.png" width="35" height="35"> License:</h2>
+</div>
 
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/VaibhavArora314/StyleShare/blob/main/LICENSE) file for more details.
+
+<hr>
+<div>
+  Don't forget to leave a star<img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f31f/512.webp" width="35" height="30"> for this project!
+</div> <br>
+
+<a href="#top" style="position: fixed; bottom: 20px; right: 20px; background-color: black ; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px; font-family: Arial; font-size: 16px;">Go to Top</a>
