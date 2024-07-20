@@ -1,65 +1,76 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="./src/assets/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Style Share</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-  </head>
-  <body>
+    <link rel="stylesheet" href="scroll-progress.css">
+</head>
+<body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    
+
     <div class="circle-container"></div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-          const coords = { x: 0, y: 0 };
-          const circlesCount = 26; 
-          const circleContainer = document.querySelector(".circle-container");
+        document.addEventListener("DOMContentLoaded", function () {
+            const coords = { x: 0, y: 0 };
+            const circlesCount = 26;
+            const circleContainer = document.querySelector(".circle-container");
 
-          for (let i = 0; i < circlesCount; i++) {
-              const circle = document.createElement("div");
-              circle.classList.add("circle");
-              circleContainer.appendChild(circle);
-          }
+            for (let i = 0; i < circlesCount; i++) {
+                const circle = document.createElement("div");
+                circle.classList.add("circle");
+                circleContainer.appendChild(circle);
+            }
 
-          const circles = document.querySelectorAll(".circle");
+            const circles = document.querySelectorAll(".circle");
 
-          circles.forEach(function (circle) {
-              circle.x = 0;
-              circle.y = 0;
-          });
+            circles.forEach(function (circle) {
+                circle.x = 0;
+                circle.y = 0;
+            });
 
-          window.addEventListener("mousemove", function (e) {
-              coords.x = e.pageX;
-              coords.y = e.pageY - window.scrollY;
-          });
+            window.addEventListener("mousemove", function (e) {
+                coords.x = e.pageX;
+                coords.y = e.pageY - window.scrollY;
+            });
 
-          function animateCircles() {
-              let x = coords.x;
-              let y = coords.y;
+            function animateCircles() {
+                let x = coords.x;
+                let y = coords.y;
 
-              circles.forEach(function (circle, index) {
-                  circle.style.left = `${x - 12}px`;
-                  circle.style.top = `${y - 12}px`;
-                  circle.style.transform = `scale(${(circles.length - index) / circles.length})`;
+                circles.forEach(function (circle, index) {
+                    circle.style.left = `${x - 12}px`;
+                    circle.style.top = `${y - 12}px`;
+                    circle.style.transform = `scale(${(circles.length - index) / circles.length})`;
 
-                  const nextCircle = circles[index + 1] || circles[0];
-                  circle.x = x;
-                  circle.y = y;
+                    const nextCircle = circles[index + 1] || circles[0];
+                    circle.x = x;
+                    circle.y = y;
 
-                  x += (nextCircle.x - x) * 0.3;
-                  y += (nextCircle.y - y) * 0.3;
-              });
+                    x += (nextCircle.x - x) * 0.3;
+                    y += (nextCircle.y - y) * 0.3;
+                });
 
-              requestAnimationFrame(animateCircles);
-          }
+                requestAnimationFrame(animateCircles);
+            }
 
-          animateCircles();
-      });
+            animateCircles();
+        });
     </script>
-  </body>
+
+            <!-- Scroll Progress -->
+    <script src="scroll-progress.js"></script> 
+    <script>
+        var setting = {
+            position: 'top',  // Set the position to 'top'
+            thick: 10,        // Set the thickness to 10
+            color: '#ff8800'  // Set the color to #ff8800
+        };
+        ScrollProgress(setting);
+    </script>
+</body>
 </html>
