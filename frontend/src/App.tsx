@@ -30,6 +30,7 @@ import CodeEditor from "./pages/CodeEditor";
 import Contributors from "./pages/Contributors";
 import userBlock from "./hooks/userBlock";
 import Blocked from "./pages/Blocked";
+import ProgressScrollDown from "./components/ProgressScrollDown";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -44,116 +45,118 @@ function App() {
   if (isBlocked) {
     return <Blocked />;
   }
+
   return (
     <BrowserRouter>
-        <React.Suspense fallback={<Loader />}>
-          <GoTop/>
-          <div style={{ backgroundColor: theme === 'light' ? '#fff' : '#000435', color: theme === 'light' ? '#000435' : '#fff'}}>
-            <Navbar theme={theme} toggleTheme={toggleTheme}  />
-            <ScrollToTopWhenRouteChanges/>
-            <div className="min-h-[80vh] mt-12 pt-12">
-              <Routes>
-                <Route path="/app" element={<Home />} />
-                <Route path="/app/posts/:id" element={<Post />} />
-                <Route path="/app/posts" element={<Posts />} />
-                <Route path="/app/contributors" element={<Contributors/>}/>
-                <Route path="/app/profile/:id" element={<ShowProfile/>} />
-                <Route
-                  path="/app/signin"
-                  element={
-                    <NonAuthenticatedRoute>
-                      <LoginForm defaultFormType="Signin" />
-                    </NonAuthenticatedRoute>
-                  }
-                />
-                <Route
-                  path="/app/signup"
-                  element={
-                    <NonAuthenticatedRoute>
-                      <LoginForm defaultFormType="SignUp" />
-                    </NonAuthenticatedRoute>
-                  }
-                />
-                <Route
-                  path="/app/new-post"
-                  element={
-                    <AuthenticatedRoute>
-                      <NewPost  />
-                    </AuthenticatedRoute>
-                  }
-                />
-                <Route
-                  path="/app/posts/edit/:id"
-                  element={
-                    <AuthenticatedRoute>
-                      <EditPost />
-                    </AuthenticatedRoute>
-                  }
-                />
-                <Route
-                  path="/app/profile"
-                  element={
-                    <AuthenticatedRoute>
-                      <Profile  />
-                    </AuthenticatedRoute>
-                  }
-                />
-                <Route
-                  path="/app/fav"
-                  element={
-                    <AuthenticatedRoute>
-                      <Favorite />
-                    </AuthenticatedRoute>
-                  }
-                />
-                <Route
-                  path="/app/customize-with-ai/:id"
-                  element={
-                    <AuthenticatedRoute>
-                      <CustomizeWithAi />
-                    </AuthenticatedRoute>
-                  }
-                />
-                <Route
-                  path="/app/leaderboard"
-                  element={
-                    <LeaderBoard   />
-                  }
-                />
-                <Route
-                  path="/app/code"
-                  element={
-                    <AuthenticatedRoute>
-                      <CodeEditor />
-                    </AuthenticatedRoute>
-                  }
-                />
-                <Route
-                  path="/app/contact-us"
-                  element={
-                    <ContactUs />
-                  }
-                />
-                <Route
-                  path="/app/about"
-                  element={
-                    <About />
-                  }
-                />
-                <Route
-                  path="/app/policy"
-                  element={
-                    <Policy />
-                  }
-                />
-                <Route path="*" element={<PageNotFound/>} />
-              </Routes>
-            </div>
-            <Footer />
+      <React.Suspense fallback={<Loader />}>
+        <GoTop />
+        <ProgressScrollDown />
+        <div style={{ backgroundColor: theme === 'light' ? '#fff' : '#000435', color: theme === 'light' ? '#000435' : '#fff'}}>
+          <Navbar theme={theme} toggleTheme={toggleTheme} />
+          <ScrollToTopWhenRouteChanges />
+          <div className="min-h-[80vh] mt-12 pt-12">
+            <Routes>
+              <Route path="/app" element={<Home />} />
+              <Route path="/app/posts/:id" element={<Post />} />
+              <Route path="/app/posts" element={<Posts />} />
+              <Route path="/app/contributors" element={<Contributors />} />
+              <Route path="/app/profile/:id" element={<ShowProfile />} />
+              <Route
+                path="/app/signin"
+                element={
+                  <NonAuthenticatedRoute>
+                    <LoginForm defaultFormType="Signin" />
+                  </NonAuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/app/signup"
+                element={
+                  <NonAuthenticatedRoute>
+                    <LoginForm defaultFormType="SignUp" />
+                  </NonAuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/app/new-post"
+                element={
+                  <AuthenticatedRoute>
+                    <NewPost />
+                  </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/app/posts/edit/:id"
+                element={
+                  <AuthenticatedRoute>
+                    <EditPost />
+                  </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/app/profile"
+                element={
+                  <AuthenticatedRoute>
+                    <Profile />
+                  </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/app/fav"
+                element={
+                  <AuthenticatedRoute>
+                    <Favorite />
+                  </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/app/customize-with-ai/:id"
+                element={
+                  <AuthenticatedRoute>
+                    <CustomizeWithAi />
+                  </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/app/leaderboard"
+                element={
+                  <LeaderBoard />
+                }
+              />
+              <Route
+                path="/app/code"
+                element={
+                  <AuthenticatedRoute>
+                    <CodeEditor />
+                  </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/app/contact-us"
+                element={
+                  <ContactUs />
+                }
+              />
+              <Route
+                path="/app/about"
+                element={
+                  <About />
+                }
+              />
+              <Route
+                path="/app/policy"
+                element={
+                  <Policy />
+                }
+              />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
           </div>
-        </React.Suspense>
+          <Footer />
+        </div>
+      </React.Suspense>
       <Tooltip id="my-tooltip" place='right' style={{backgroundColor:"#00AAFF",color:'#fff',fontSize:'15px'}} />
-      <Toaster/>
+      <Toaster />
     </BrowserRouter>
   );
 }
