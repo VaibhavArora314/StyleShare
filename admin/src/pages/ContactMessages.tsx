@@ -9,6 +9,7 @@ import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import '../styles/Model.css'
 import { ColorRing } from 'react-loader-spinner';
+import { MdMessage } from "react-icons/md";
 
 const ContactMessages = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -58,6 +59,14 @@ const ContactMessages = () => {
       <Navbar toggleSidebar={toggleSidebar} />
       <div className="flex-1 flex flex-col lg:ml-80">
         <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        <div className="mx-5 mb-5">
+        <span className="flex  items-center  text-xl font-bold decoration-sky-500 decoration-dotted underline">
+          <div className='inline-block p-2 text-white bg-[#000435] rounded-lg mr-2'>
+            <MdMessage size={23} />
+          </div>
+          All Contact Messages
+        </span>
+      </div>
         {loading ? 
         <div className="flex justify-center items-center h-80">
         <ColorRing

@@ -7,6 +7,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import { ColorRing } from 'react-loader-spinner';
+import { TbGraphFilled } from "react-icons/tb";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend);
 
@@ -118,6 +119,14 @@ const Graphs = () => {
       <Navbar toggleSidebar={toggleSidebar} />
       <div className="flex-1 flex flex-col lg:ml-80">
         <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        <div className="mx-5 mb-5">
+        <span className="flex  items-center  text-xl font-bold decoration-sky-500 decoration-dotted underline">
+          <div className='inline-block p-2 text-white bg-[#000435] rounded-lg mr-2'>
+            <TbGraphFilled size={23} />
+          </div>
+          All Graphs
+        </span>
+      </div>
         {loading ? 
         <div className="flex justify-center items-center h-80">
         <ColorRing

@@ -7,6 +7,7 @@ import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import toast from "react-hot-toast";
 import { ColorRing } from 'react-loader-spinner';
+import { FaComments } from "react-icons/fa";
 
 const Comments = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -58,6 +59,14 @@ const Comments = () => {
       <Navbar toggleSidebar={toggleSidebar} />
       <div className="lg:ml-80">
         <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        <div className="mx-5 mb-5">
+        <span className="flex  items-center  text-xl font-bold decoration-sky-500 decoration-dotted underline">
+          <div className='inline-block p-2 text-white bg-[#000435] rounded-lg mr-2'>
+            <FaComments size={23} />
+          </div>
+          All Comments
+        </span>
+      </div>
         {loading ? 
         <div className="flex justify-center items-center h-80">
         <ColorRing
