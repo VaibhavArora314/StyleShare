@@ -162,6 +162,11 @@ export const userProfileController = async (req: UserAuthRequest, res: Response)
       id: true,
       email: true,
       username: true,
+      twitter:true,
+      facebook:true,
+      github:true,
+      linkedin:true,
+      portfolio:true,
       posts: {
         select: {
           id: true,
@@ -197,7 +202,7 @@ export const userProfileController = async (req: UserAuthRequest, res: Response)
 export const userProfileUpdate = async (req: UserAuthRequest, res: Response) => {
   try {
     const userId = req.params.id;
-    const payload = req.body
+    const payload = req.body;
     const result = UpdateBodySchema.safeParse(payload);
 
     if (!result.success) {
@@ -210,66 +215,65 @@ export const userProfileUpdate = async (req: UserAuthRequest, res: Response) => 
       });
     }
 
-    const data = result.data
+    const data = result.data;
 
     const existingUser = await prisma.user.findFirst({
       where: {
         email: data.email,
-      NOT : {
-          id : userId
-        }
-      }
+        NOT: {
+          id: userId,
+        },
+      },
     });
 
     if (existingUser) {
-       return res.status(411).json({
+      return res.status(411).json({
         error: {
-          message : "Email already in use."
+          message: "Email already in use.",
         },
       });
     }
 
     const userEmail = await prisma.user.findFirst({
-      where : {
-        id : userId
+      where: {
+        id: userId,
       },
       select: {
-        email : true
-      }
-    })
-
-    const user = await prisma.user.updateMany({
-      where: {
-        id:  userId,
-      },
-      data:{
-        username : data.username,
-        email : data.email,
+        email: true,
       },
     });
 
-    if(userEmail?.email != data.email){
-      const user = await prisma.user.updateMany({
-        where: {
-          id:  userId,
-        },
-        data:{
-          verified : false
-        }
-      })
-    }
+    const user = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        username: data.username,
+        email: data.email,
+        twitter: data.twitter,
+        facebook: data.facebook,
+        github: data.github,
+        linkedin: data.linkedin,
+        portfolio:data.portfolio
+      },
+    });
 
-    if (!user) {
-      return res.status(411).json({
-        error: "Invalid token",
+    if (userEmail?.email != data.email) {
+      await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          verified: false,
+        },
       });
     }
 
     res.status(201).json({
-      message:"user updated successfully",
+      message: "User updated successfully",
       user,
     });
-  }catch (error){
+  } catch (error) {
     return res.status(500).json({
       error: {
         message: error,
@@ -277,6 +281,7 @@ export const userProfileUpdate = async (req: UserAuthRequest, res: Response) => 
     });
   }
 };
+
 
 export const showUserProfileController = async (req: UserAuthRequest, res: Response) => {
   try {
@@ -290,6 +295,11 @@ export const showUserProfileController = async (req: UserAuthRequest, res: Respo
         id: true,
         username: true,
         createdAt: true,
+        twitter:true,
+        facebook:true,
+        github:true,
+        linkedin:true,
+        portfolio:true,
         posts: {
           select: {
             id: true,
