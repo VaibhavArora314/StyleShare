@@ -175,6 +175,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
           </Link>
           </>
           }
+          {!isLoggedIn &&
           <div className="grid grid-cols-2 text-center pt-1">
           <Link to="/app/signin"  className="px-2 mr-1  rounded-md py-2 text-base font-medium bg-sky-500 hover:bg-sky-600 text-white" onClick={closeMenu}>
             SignIn
@@ -183,6 +184,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
             SignUp
           </Link>
           </div>
+          }
         </div>
       </div>
     </nav>
