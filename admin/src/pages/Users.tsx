@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import toast from "react-hot-toast";
@@ -8,16 +7,11 @@ import { IUser } from "../types";
 import { ColorRing } from 'react-loader-spinner';
 
 const Users = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [allUsers, setAllUsers] = useState<IUser[]>([]);
   const [loading,setLoading] = useState(true);
   const token = useRecoilValue(tokenState);
 
   document.title ="Style Share Admin | Manage Users 👥"
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -78,7 +72,6 @@ const Users = () => {
 
   return (
     <div>
-      <Navbar toggleSidebar={toggleSidebar} />
       <div className="flex-1 flex flex-col lg:ml-80">
       {loading ? 
         <div className="flex justify-center items-center h-80">

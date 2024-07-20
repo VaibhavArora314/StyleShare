@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
 import axios from "axios";
 import { IPost } from "../types";
 import { useRecoilValue } from "recoil";
@@ -9,16 +8,11 @@ import { Link } from "react-router-dom";
 import { ColorRing } from 'react-loader-spinner';
 
 const Posts = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading,setLoading] = useState(true);
   const token = useRecoilValue(tokenState);
 
   document.title ="Style Share Admin | Manage Users Posts 📃"
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   useEffect(() => {
     fetchPosts();
@@ -55,7 +49,6 @@ const Posts = () => {
 
   return (
     <div>
-      <Navbar toggleSidebar={toggleSidebar} />
       <div className="lg:ml-80">
         {loading ? 
         <div className="flex justify-center items-center h-80">
