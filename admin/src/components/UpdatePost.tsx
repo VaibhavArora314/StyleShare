@@ -1,27 +1,20 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import SideBar from "../components/SideBar";
 import toast from "react-hot-toast";
 import axios, { AxiosError } from "axios";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import { IPost } from "../types";
 import CodeEditorAndPreview from "../components/CodeEditorAndPreview";
-import Navbar from "./Navbar";
 import { ColorRing } from 'react-loader-spinner';
 
 const UpdatePost = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [post, setPost] = useState<IPost | null>(null);
   const [tagInput, setTagInput] = useState("");
   const { postId } = useParams<{ postId: string }>();
   const token = useRecoilValue(tokenState);
   const navigate = useNavigate();
   const [updateError, setUpdateError] = useState<string | null>(null);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   useEffect(() => {
     fetchPost();
@@ -87,9 +80,7 @@ const UpdatePost = () => {
 
   return (
     <div>
-    <Navbar toggleSidebar={toggleSidebar} />
     <div className="flex-1 flex flex-col lg:ml-80">
-      <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <div className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <h2 className="text-2xl font-bold -mt-5 text-[#000435]">📝 Update Post</h2>
         <p className="mt-4">{updateError}</p>

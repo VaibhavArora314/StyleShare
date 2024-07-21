@@ -14,6 +14,7 @@ import UpdatePost from "./components/UpdatePost";
 import Graphs from "./pages/Graphs";
 import ContactMessages from "./pages/ContactMessages";
 import Comments from "./pages/Comments";
+import Layout from "./components/Layout";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -32,72 +33,28 @@ function App() {
               }
             />
             <Route
-              path="/admin"
+              path="/admin/*"
               element={
-                <AuthenticatedRoute>
-                  <Dashboard />
-                </AuthenticatedRoute>
-              }
-            />
-            <Route
-              path="/admin/profile"
-              element={
-                <AuthenticatedRoute>
-                  <Profile />
-                </AuthenticatedRoute>
-              }
-            />
-            <Route
-              path="/admin/users"
-              element={
-                <AuthenticatedRoute>
-                  <Users />
-                </AuthenticatedRoute>
-              }
-            />
-            <Route
-              path="/admin/posts"
-              element={
-                <AuthenticatedRoute>
-                  <Posts />
-                </AuthenticatedRoute>
-              }
-            />
-            <Route
-              path="/admin/update-post/:postId"
-              element={
-                <AuthenticatedRoute>
-                  <UpdatePost />
-                </AuthenticatedRoute>
-              }
-            />
-            <Route
-              path="/admin/statistics"
-              element={
-                <AuthenticatedRoute>
-                  <Graphs />
-                </AuthenticatedRoute>
-              }
-            />
-            <Route
-              path="/admin/contactmessages"
-              element={
-                <AuthenticatedRoute>
-                  <ContactMessages />
-                </AuthenticatedRoute>
-              }
-            />
-            <Route
-              path="/admin/comments"
-              element={
-                <AuthenticatedRoute>
-                  <Comments />
-                </AuthenticatedRoute>
+                <Layout>
+                  <AuthenticatedRoute>
+                    <Routes>
+                      <Route path="" element={<Dashboard />} />
+                      <Route path="profile" element={<Profile />} />
+                      <Route path="users" element={<Users />} />
+                      <Route path="posts" element={<Posts />} />
+                      <Route path="update-post/:postId" element={<UpdatePost />} />
+                      <Route path="statistics" element={<Graphs />} />
+                      <Route path="contactmessages" element={<ContactMessages />} />
+                      <Route path="comments" element={<Comments />} />
+                      <Route path="*" element={<PageNotFound />} />
+                    </Routes>
+                  </AuthenticatedRoute>
+                </Layout>
               }
             />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
-          <Toaster/>
+          <Toaster />
         </React.Suspense>
       </RecoilRoot>
     </BrowserRouter>

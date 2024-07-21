@@ -1,6 +1,6 @@
 import { FaBars } from 'react-icons/fa';
-import { useRecoilValue,useSetRecoilState } from "recoil";
-import { tokenState, userState } from "../store/atoms/auth"
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { tokenState, userState } from "../store/atoms/auth";
 
 const Navbar = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
   const setTokenState = useSetRecoilState(tokenState);
@@ -9,7 +9,8 @@ const Navbar = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
   const handleLogout = () => {
     setTokenState(null);
     localStorage.removeItem("authToken");
-  }
+  };
+
   return (
     <header className='-mt-2'>
       <div className="mx-auto flex flex-wrap p-5 justify-between items-center">
