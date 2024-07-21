@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import SideBar from "../components/SideBar";
 import axios from "axios";
 import { Line, Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend } from "chart.js";
@@ -11,7 +9,6 @@ import { ColorRing } from 'react-loader-spinner';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend);
 
 const Graphs = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userStats, setUserStats] = useState([]);
   const [postStats, setPostStats] = useState([]);
   const [commentStats, setCommentStats] = useState([]);
@@ -20,10 +17,6 @@ const Graphs = () => {
   const [contactMessagesStats, setContactMessagesStats] = useState([]);
   const [loading,setLoading] = useState(true);
   const token = useRecoilValue(tokenState);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -115,9 +108,7 @@ const Graphs = () => {
 
   return (
     <div className="mb-10 w-full">
-      <Navbar toggleSidebar={toggleSidebar} />
       <div className="flex-1 flex flex-col lg:ml-80">
-        <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
         {loading ? 
         <div className="flex justify-center items-center h-80">
         <ColorRing
