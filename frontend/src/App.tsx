@@ -30,6 +30,7 @@ import CodeEditor from "./pages/CodeEditor";
 import Contributors from "./pages/Contributors";
 import userBlock from "./hooks/userBlock";
 import Blocked from "./pages/Blocked";
+import GoogleTranslate from "./components/GoogleTranslate";
 import ProgressScrollDown from "./components/ProgressScrollDown";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
@@ -54,7 +55,10 @@ function App() {
         <div style={{ backgroundColor: theme === 'light' ? '#fff' : '#000435', color: theme === 'light' ? '#000435' : '#fff'}}>
           <Navbar theme={theme} toggleTheme={toggleTheme} />
           <ScrollToTopWhenRouteChanges />
-          <div className="min-h-[80vh] mt-12 pt-12">
+          <div className="min-h-[80vh] pt-20">
+            <div className="ml-2 fixed z-40">
+              <GoogleTranslate/>
+            </div>
             <Routes>
               <Route path="/app" element={<Home />} />
               <Route path="/app/posts/:id" element={<Post />} />

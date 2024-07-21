@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar";
-import SideBar from "../components/SideBar";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import { IContactMessage } from "../types";
@@ -11,7 +9,6 @@ import '../styles/Model.css'
 import { ColorRing } from 'react-loader-spinner';
 
 const ContactMessages = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [contactMessages, setContactMessages] = useState<IContactMessage[]>([]);
   const [open, setOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<IContactMessage | null>(null);
@@ -19,10 +16,6 @@ const ContactMessages = () => {
   const token = useRecoilValue(tokenState);
 
   document.title = "Style Share Admin | Manage Contact Messages 👥";
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -55,9 +48,7 @@ const ContactMessages = () => {
 
   return (
     <div>
-      <Navbar toggleSidebar={toggleSidebar} />
       <div className="flex-1 flex flex-col lg:ml-80">
-        <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
         {loading ? 
         <div className="flex justify-center items-center h-80">
         <ColorRing
