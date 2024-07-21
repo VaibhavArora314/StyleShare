@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar";
-import SideBar from "../components/SideBar";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import { IContactMessage } from "../types";
@@ -12,7 +10,6 @@ import { ColorRing } from 'react-loader-spinner';
 import { MdMessage } from "react-icons/md";
 
 const ContactMessages = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [contactMessages, setContactMessages] = useState<IContactMessage[]>([]);
   const [open, setOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<IContactMessage | null>(null);
@@ -20,10 +17,6 @@ const ContactMessages = () => {
   const token = useRecoilValue(tokenState);
 
   document.title = "Style Share Admin | Manage Contact Messages 👥";
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -56,9 +49,7 @@ const ContactMessages = () => {
 
   return (
     <div>
-      <Navbar toggleSidebar={toggleSidebar} />
       <div className="flex-1 flex flex-col lg:ml-80">
-        <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
         <div className="mx-5 mb-5">
         <span className="flex  items-center  text-xl font-bold decoration-sky-500 decoration-dotted underline">
           <div className='inline-block p-2 text-white bg-[#000435] rounded-lg mr-2'>

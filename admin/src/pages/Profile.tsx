@@ -1,13 +1,9 @@
-import { useState } from "react";
-import Navbar from "../components/Navbar";
-import SideBar from "../components/SideBar";
 import banner from "../assets/banner.jpg";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { tokenState, userState } from "../store/atoms/auth";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 const Profile = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const setTokenState = useSetRecoilState(tokenState);
   const user = useRecoilValue(userState);
 
@@ -18,15 +14,9 @@ const Profile = () => {
     localStorage.removeItem("authToken");
   };
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
   return (
     <div>
-      <Navbar toggleSidebar={toggleSidebar} />
       <div className="flex-1 flex flex-col lg:ml-64">
-        <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
         <section className="text-gray-600">
           <div className="container px-5 mx-auto flex flex-col">
             <div className="lg:w-4/6 mx-auto">

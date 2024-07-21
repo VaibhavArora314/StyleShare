@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
-import SideBar from "../components/SideBar";
 import axios from "axios";
 import { IPost } from "../types";
 import { useRecoilValue } from "recoil";
@@ -10,16 +8,11 @@ import { ColorRing } from 'react-loader-spinner';
 import { FaComments } from "react-icons/fa";
 
 const Comments = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading,setLoading] = useState(true);
   const token = useRecoilValue(tokenState);
 
   document.title = "Style Share Admin | Manage Users Comments 💬";
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   useEffect(() => {
     fetchPosts();
@@ -56,9 +49,7 @@ const Comments = () => {
 
   return (
     <div>
-      <Navbar toggleSidebar={toggleSidebar} />
       <div className="lg:ml-80">
-        <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
         <div className="mx-5 mb-5">
         <span className="flex  items-center  text-xl font-bold decoration-sky-500 decoration-dotted underline">
           <div className='inline-block p-2 text-white bg-[#000435] rounded-lg mr-2'>

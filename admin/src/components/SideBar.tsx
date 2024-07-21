@@ -8,6 +8,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { VscGraphScatter } from "react-icons/vsc";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import { FaRegComments } from "react-icons/fa";
+import GoogleTranslate from './GoogleTranslate';
 
 const SideBar = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleSidebar: () => void }) => {
   const location = useLocation();
@@ -19,12 +20,14 @@ const SideBar = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleS
     <div className={`lg:rounded-xl rounded-none fixed z-30 inset-y-0 left-0 w-72 lg:m-5 transition-transform transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 bg-[#000435] text-white`}>
       <div className="flex items-center justify-between mr-6 mt-3 h-16 px-4">
         <Link to='/admin' className="text-xl flex font-bold">
-        <img src={logo} className="h-8 mx-3" alt="Styleshare Logo" /> 
-          Style Share</Link>
+          <img src={logo} className="h-8 mx-3" alt="Styleshare Logo" /> 
+          Style Share
+        </Link>
         <button onClick={toggleSidebar} className="lg:hidden text-2xl">
           <FaTimes />
         </button>
       </div>
+      <GoogleTranslate />
       <nav className="px-4 py-2 font-semibold">
         <Link to="/admin" className={linkClasses('/admin')}><RxDashboard size={23} className='mr-3'/>Dashboard</Link>
         <Link to="/admin/profile" className={linkClasses('/admin/profile')}><CgProfile size={23} className='mr-3'/>My Profile</Link>

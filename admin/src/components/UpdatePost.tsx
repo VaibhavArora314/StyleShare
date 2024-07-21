@@ -1,27 +1,20 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import SideBar from "../components/SideBar";
 import toast from "react-hot-toast";
 import axios, { AxiosError } from "axios";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import { IPost } from "../types";
 import CodeEditorAndPreview from "../components/CodeEditorAndPreview";
-import Navbar from "./Navbar";
 import { BiSolidMessageEdit } from "react-icons/bi";
 
 const UpdatePost = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [post, setPost] = useState<IPost | null>(null);
   const [tagInput, setTagInput] = useState("");
   const { postId } = useParams<{ postId: string }>();
   const token = useRecoilValue(tokenState);
   const navigate = useNavigate();
   const [updateError, setUpdateError] = useState<string | null>(null);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   useEffect(() => {
     fetchPost();
@@ -80,9 +73,7 @@ const UpdatePost = () => {
 
   return (
     <div>
-    <Navbar toggleSidebar={toggleSidebar} />
     <div className="flex-1 flex flex-col lg:ml-80">
-      <SideBar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <div className="mx-3 mb-5">
         <span className="flex  items-center  text-xl font-bold decoration-sky-500 decoration-dotted underline">
           <div className='inline-block p-2 text-white bg-[#000435] rounded-lg mr-2'>
