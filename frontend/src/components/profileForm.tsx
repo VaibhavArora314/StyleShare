@@ -1,41 +1,46 @@
-import background from "../assets/bgHero.png";
-import {IUser} from "../types.ts";
-import {useState} from "react";
-import axios, {AxiosError} from "axios";
+import { IUser } from "../types.ts";
+import { useState } from "react";
+import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import { Modal } from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css';
+import "../styles/Model.css"
 
-interface ProfileForm{
-    user : IUser | null,
-    dismiss : () => void,
+interface ProfileForm {
+    user: IUser | null,
+    dismiss: () => void,
+    open: boolean,
 }
 
-export function ProfileForm({user, dismiss} : ProfileForm ){
+export function ProfileForm({ user, dismiss, open }: ProfileForm) {
     const [email, setEmail] = useState(user?.email)
     const [username, setName] = useState(user?.username)
     const [error, setError] = useState({
         username: "",
         email: "",
-        message : ""
+        message: ""
     });
 
-    async function updateUser(e : React.FormEvent<HTMLFormElement>){
+    async function updateUser(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
         try {
             const updatedUser = {
                 email,
                 username
             }
-            if(!email){
+            if (!email) {
                 toast.error("Email cannot be empty")
+                return;
             }
-            if(!username){
+            if (!username) {
                 toast.error("Username cannot be empty")
+                return;
             }
-            const response = await axios.put(`/api/v1/user/update/${user?.id}`,updatedUser);
+            const response = await axios.put(`/api/v1/user/update/${user?.id}`, updatedUser);
             toast.success(response.data.message)
             dismiss()
             window.location.reload();
-        }catch (e : any){
+        } catch (e: any) {
             const axiosError: AxiosError<{
                 error: {
                     message: string;
@@ -44,104 +49,78 @@ export function ProfileForm({user, dismiss} : ProfileForm ){
 
             const errorMessage = axiosError?.response?.data?.error?.message || "An unexpected error occurred";
             toast.error(errorMessage);
-            setError((e : any)=> {
-                if(axiosError?.response?.data?.error)
-                    e = axiosError?.response?.data?.error ;
+            setError((e: any) => {
+                if (axiosError?.response?.data?.error)
+                    e = axiosError?.response?.data?.error;
                 return e
-            } )
+            })
         }
-
     }
 
-
-    return(
-        <>
-            <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-
-                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-
-                <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-                    <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
-
-                        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                            <div className="bg-gray-300  pb-4 sm:pb-4">
-                                <div className="sm:flex sm:items-start">
-                                    <div className="relative bg-white h-24 w-full">
-                                        <img className="h-24 w-full aspect-auto object-cover" src={background} alt="cover photo"/>
-                                        <div className="absolute -bottom-10 left-10">
-                                            <img
-                                                className="inline-block h-20 w-20  ring-2 ring-white"
-                                                src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=false&bold=true`}
-                                                alt="profile photo"
-                                            />
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="sm:flex sm:items-start">
-                                    <div>
-                                        <h3 className=" font-semibold mx-5  mt-16 text-gray-900">Personal Information</h3>
-                                        <form id="editProfile" onSubmit={updateUser}>
-                                            <div className="space-y-12">
-                                                <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                                    <div className="sm:col-span-12 mx-5">
-                                                        <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
-                                                            Username
-                                                        </label>
-                                                        <div className="mt-2">
-                                                            <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-500 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                                                <input
-                                                                    type="text"
-                                                                    name="username"
-                                                                    id="username"
-                                                                    autoComplete="username"
-                                                                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-500 focus:ring-0 sm:text-sm sm:leading-6 w-75"
-                                                                    placeholder="janesmith"
-                                                                    value={username}
-                                                                    onChange={(e)=>{setName(e.target.value)}}
-                                                                />
-                                                            </div>
-                                                                <p className="text-sm font-semibold  text-red-600">
-                                                                    {error.username}
-                                                                </p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="sm:col-span-12 mx-5">
-                                                        <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
-                                                            Email
-                                                        </label>
-                                                        <div className="mt-2">
-                                                            <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-500 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                                                <input
-                                                                    value={email}
-                                                                    onChange={(e)=>{setEmail(e.target.value)}}
-                                                                    type="email"
-                                                                    name="email"
-                                                                    id="email"
-                                                                    autoComplete="email"
-                                                                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-500 focus:ring-0 sm:text-sm sm:leading-6 w-75"
-                                                                    placeholder="janesmith@gmail.com"
-                                                                />
-                                                            </div>
-                                                                <p className="text-sm font-semibold  text-red-600">
-                                                                    {error.email}
-                                                                </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+    return (
+        <Modal open={open} onClose={dismiss} center classNames={{ modal: 'customModal', overlay: 'customOverlay' }}>
+            <div className="p-5">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
+                <div className="flex items-center mb-6">
+                    <img
+                        className="inline-block h-16 w-16 rounded-full ring-2 ring-white"
+                        src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`}
+                        alt="profile photo"
+                    />
+                    <div className="ml-4">
+                        <p className="text-sm font-medium text-gray-900">{user?.username}</p>
+                        <p className="text-sm text-gray-600">{user?.email}</p>
+                    </div>
+                </div>
+                <form id="editProfile" onSubmit={updateUser}>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label htmlFor="username" className="block text-sm font-semibold text-gray-900">
+                                Username
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="text"
+                                    name="username"
+                                    id="username"
+                                    autoComplete="username"
+                                    className="block w-full rounded-md p-2 border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    placeholder="janesmith"
+                                    value={username}
+                                    onChange={(e) => { setName(e.target.value) }}
+                                />
+                                {error.username && <p className="mt-2 text-sm text-red-600">{error.username}</p>}
                             </div>
-                            <div className="bg-gray-100 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                <button form="editProfile" type="submit" className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Save</button>
-                                <button onClick={dismiss} type="submit" className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+                        </div>
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-semibold text-gray-900">
+                                Email
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    autoComplete="email"
+                                    className="block w-full rounded-md p-2 border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    placeholder="janesmith@gmail.com"
+                                    value={email}
+                                    onChange={(e) => { setEmail(e.target.value) }}
+                                />
+                                {error.email && <p className="mt-2 text-sm text-red-600">{error.email}</p>}
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div className="mt-6 flex justify-end space-x-4">
+                        <button onClick={dismiss} type="button" className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            Cancel
+                        </button>
+                        <button form="editProfile" type="submit" className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            Save
+                        </button>
+                    </div>
+                </form>
             </div>
-        </>
+        </Modal>
     )
 }

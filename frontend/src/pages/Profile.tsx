@@ -5,16 +5,14 @@ import { useRecoilValue } from "recoil";
 import { tokenState, userState } from "../store/atoms/auth";
 import Loader from "../components/Loader";
 import PostCard from "../components/PostCard";
-import { GoUnverified } from "react-icons/go";
-import { GoVerified } from "react-icons/go";
+import { GoUnverified, GoVerified } from "react-icons/go";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { AiTwotoneInfoCircle } from "react-icons/ai";
 import toast from "react-hot-toast";
 import bgHero from "../assets/bgHero.png";
-import {ProfileForm} from "../components/profileForm.tsx";
+import { ProfileForm } from "../components/profileForm.tsx";
 
-
-const Profile = ()=> {
+const Profile = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
@@ -24,7 +22,7 @@ const Profile = ()=> {
   const [verificationError, setVerificationError] = useState("");
   const token = useRecoilValue(tokenState);
   const currentUser = useRecoilValue(userState);
-  const [clickUpdate, setClickUpdate] = useState(false)
+  const [clickUpdate, setClickUpdate] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -42,11 +40,9 @@ const Profile = ()=> {
       }
     };
 
-    document.title='Style Share | View profile 👀'
-
+    document.title = 'Style Share | View profile 👀';
     fetchUser();
-  }, [token,posts]);
-
+  }, [token, posts]);
 
   const handleGenerateOtp = async () => {
     try {
@@ -58,12 +54,11 @@ const Profile = ()=> {
       setOtpSent(true);
       toast.success(response.data.message);
       setVerificationError("OTP sent to your mail");
-    } catch (error:any) {
+    } catch (error: any) {
       toast.error('Failed to generate OTP');
-      setVerificationError(error.response.data.error.message||'Failed to generate OTP');
+      setVerificationError(error.response.data.error.message || 'Failed to generate OTP');
     }
   };
-
 
   const handleVerifyOtp = async () => {
     try {
@@ -75,7 +70,6 @@ const Profile = ()=> {
 
       setUser((u) => {
         if (!u) return u;
-
         u.verified = true;
         return u;
       });
@@ -83,9 +77,9 @@ const Profile = ()=> {
       setOtp("");
       setVerificationError("");
       toast.success('OTP verified successfully');
-    } catch (error:any) {
+    } catch (error: any) {
       toast.error('Failed to verify OTP');
-      setVerificationError(error.response.data.error.message||'Failed to generate OTP');
+      setVerificationError(error.response.data.error.message || 'Failed to generate OTP');
     }
   };
 
@@ -103,27 +97,27 @@ const Profile = ()=> {
 
   return (
     <>
-      <div className="-mt-5 min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]"  style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
-        <div className="w-full max-w-screen-xl mx-auto p-4  flex flex-col items-center  text-[#000435] bg-white dark:text-white dark:bg-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
-          <div className="w-80   text-[#000435] bg-white dark:text-white dark:bg-[#000435] backdrop-blur-sm rounded-xl p-3 border border-sky-500" >
-            <div className="p-2 flex justify-end mr-2 ">
+      <div className="-mt-5 min-h-screen text-[#000435] bg-white dark:text-white dark:bg-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="w-full max-w-screen-xl mx-auto p-4 flex flex-col items-center text-[#000435] bg-white dark:text-white dark:bg-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <div className="w-80 text-[#000435] bg-white dark:text-white dark:bg-[#000435] backdrop-blur-sm rounded-xl p-3 border border-sky-500">
+            <div className="p-2 flex justify-end mr-2">
               {
                 user?.verified ?
-                    <button><GoVerified className="text-2xl text-[#000435] bg-white dark:text-white dark:bg-[#000435]" title="Verified" /></button>
+                  <button><GoVerified className="text-2xl text-[#000435] bg-white dark:text-white dark:bg-[#000435]" title="Verified" /></button>
                   :
-                    <button><GoUnverified className="text-2xl text-[#000435] bg-white dark:text-white dark:bg-[#000435]" title="Unverified" /></button>
+                  <button><GoUnverified className="text-2xl text-[#000435] bg-white dark:text-white dark:bg-[#000435]" title="Unverified" /></button>
               }
             </div>
             <div className="flex flex-col items-center mb-3">
               <img src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} width={60} alt="profile-pic" />
               <p className="p-4 text-xl">{user?.username}</p>
-              <p className="text-[#000435] font-semibold text-sm  dark:text-white">{user?._count.following} followers</p>
-              <p className="text-sky-400 flex items-center "><MdOutlineMailOutline className="text-xl " />
-              <span className="ml-2 text-sm">{user?.email}</span>
+              <p className="text-[#000435] font-semibold text-sm dark:text-white">{user?._count.following} followers</p>
+              <p className="text-sky-400 flex items-center "><MdOutlineMailOutline className="text-xl" />
+                <span className="ml-2 text-sm">{user?.email}</span>
               </p>
             </div>
             <div className="flex flex-col items-center mb-2">
-              <button type="button" onClick={()=>{setClickUpdate(true)}} className="bg-red-500 py-2 px-3 rounded-md text-sm hover:bg-red-600">
+              <button type="button" onClick={() => { setClickUpdate(true) }} className="bg-red-500 py-2 px-3 rounded-md text-sm hover:bg-red-600">
                 Edit
               </button>
             </div>
@@ -137,7 +131,7 @@ const Profile = ()=> {
                 </div>
                 {
                   otpSent && (
-                    <form method="post" action="#" className="flex justify-around items-center mt-5 mb-4" onSubmit={(e)=>{
+                    <form method="post" action="#" className="flex justify-around items-center mt-5 mb-4" onSubmit={(e) => {
                       e.preventDefault()
                       handleVerifyOtp()
                     }}>
@@ -156,12 +150,11 @@ const Profile = ()=> {
           }
           {
             clickUpdate &&
-              <ProfileForm user={user} dismiss={()=>{setClickUpdate(false)}}/>
+              <ProfileForm user={user} dismiss={() => { setClickUpdate(false) }} open={clickUpdate} />
           }
           <div className="mt-8 w-full">
-          <h4 className="font-semibold">Posts ( {user?.posts.length} )</h4>
+            <h4 className="font-semibold">Posts ( {user?.posts.length} )</h4>
             <div className="mt-6 mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
-
               {user?.posts.map(post => <PostCard key={post.id} post={post} onDelete={handleDelete} currentUser={currentUser} />)}
             </div>
           </div>
