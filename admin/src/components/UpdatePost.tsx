@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import { IPost } from "../types";
 import CodeEditorAndPreview from "../components/CodeEditorAndPreview";
+import { ColorRing } from 'react-loader-spinner';
 
 const UpdatePost = () => {
   const [post, setPost] = useState<IPost | null>(null);
@@ -68,7 +69,14 @@ const UpdatePost = () => {
     }
   };
 
-  if (!post) return <>Loading...</>;
+  if (!post) return <div className="flex justify-center items-center h-80">
+  <ColorRing
+    visible={true}
+    height="100"
+    width="100"
+    colors={['#000435', 'rgb(14 165 233)', 'rgb(243 244 246)','#000435','rgb(14 165 233)']}
+  />
+</div>;
 
   return (
     <div>
