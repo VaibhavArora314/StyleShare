@@ -5,6 +5,7 @@ import { tokenState } from "../store/atoms/auth";
 import toast from "react-hot-toast";
 import { IUser } from "../types";
 import { ColorRing } from 'react-loader-spinner';
+import { FaUsers } from "react-icons/fa";
 
 const Users = () => {
   const [allUsers, setAllUsers] = useState<IUser[]>([]);
@@ -73,6 +74,14 @@ const Users = () => {
   return (
     <div>
       <div className="flex-1 flex flex-col lg:ml-80">
+        <div className="mx-5 mb-5">
+        <span className="flex  items-center  text-xl font-bold decoration-sky-500 decoration-dotted underline">
+          <div className='inline-block p-2 text-white bg-[#000435] rounded-lg mr-2'>
+            <FaUsers size={23} />
+          </div>
+          All Users
+        </span>
+      </div>
       {loading ? 
         <div className="flex justify-center items-center h-80">
         <ColorRing

@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import { IPost } from "../types";
 import CodeEditorAndPreview from "../components/CodeEditorAndPreview";
+import { BiSolidMessageEdit } from "react-icons/bi";
 import { ColorRing } from 'react-loader-spinner';
 
 const UpdatePost = () => {
@@ -81,8 +82,15 @@ const UpdatePost = () => {
   return (
     <div>
     <div className="flex-1 flex flex-col lg:ml-80">
+      <div className="mx-3 mb-5">
+        <span className="flex  items-center  text-xl font-bold decoration-sky-500 decoration-dotted underline">
+          <div className='inline-block p-2 text-white bg-[#000435] rounded-lg mr-2'>
+            <BiSolidMessageEdit size={23} />
+          </div>
+          Update Post
+        </span>
+      </div>
       <div className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <h2 className="text-2xl font-bold -mt-5 text-[#000435]">📝 Update Post</h2>
         <p className="mt-4">{updateError}</p>
         <form onSubmit={handleUpdate} className="space-y-4 m-3">
           <div className="mb-4">
