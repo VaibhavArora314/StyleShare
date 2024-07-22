@@ -18,6 +18,11 @@ export const UpdateBodySchema = zod.object({
       .min(5, { message: "Username too short!" })
       .max(30, { message: "Username too long!" }),
   email: zod.string().email().max(80, { message: "Email too long!" }),
+  twitter: zod.string().url().optional().or(zod.literal('')),
+  facebook: zod.string().url().optional().or(zod.literal('')),
+  github: zod.string().url().optional().or(zod.literal('')),
+  linkedin: zod.string().url().optional().or(zod.literal('')),
+  portfolio: zod.string().url().optional().or(zod.literal('')),
 })
 
 export const signinBodySchema = zod.object({

@@ -30,6 +30,11 @@ model User {
   reactions    Reaction[]
   following    Follow[] @relation("following")
   followers    Follow[] @relation("followers")
+  twitter      String? 
+  facebook     String?  
+  github       String?  
+  linkedin     String? 
+  portfolio    String? 
 }
 
 model Follow {

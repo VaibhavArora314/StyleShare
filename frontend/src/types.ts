@@ -28,14 +28,19 @@ export interface IUser {
   username: string;
   email: string;
   verified: boolean;
-  createdAt:string;
-  updatedAt : string;
+  createdAt: string;
+  updatedAt: string;
   posts: IPost[];
-  favoritePosts?: IPost[]; 
+  favoritePosts?: IPost[];
   isFollowing: boolean;
   _count: {
-    following: number
-  }
+    following: number;
+  };
+  twitter?: string;
+  facebook?: string;
+  github?: string;
+  linkedin?: string;
+  portfolio?:string
 }
 
 export interface ILeaderboardUser {

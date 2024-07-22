@@ -12,6 +12,11 @@ import { RiUserFollowFill } from "react-icons/ri";
 import { RiUserUnfollowFill } from "react-icons/ri";
 import { followUser, unfollowUser, getFollowStatus } from '../components/api/FollowApis';
 import toast from 'react-hot-toast';
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { FaFacebookSquare } from "react-icons/fa";
+import { FaGithubSquare } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
+import { FaSquareParking } from "react-icons/fa6";
 
 const ShowProfile = () => {
   const { id } = useParams();
@@ -122,6 +127,13 @@ const ShowProfile = () => {
               <p className="text-sky-400 flex items-center">
               <span className="ml-2 text-base font-semibold">Joined: {formatDate(user?.createdAt)}</span>
             </p>          
+            </div>
+            <div className="flex flex-row justify-center space-x-2 mb-3">
+              {user?.twitter && <a href={user.twitter} target="_blank" rel="noopener noreferrer"><FaSquareXTwitter size={30} /></a>}
+              {user?.facebook && <a href={user.facebook} target="_blank" rel="noopener noreferrer"><FaFacebookSquare size={30} /></a>}
+              {user?.github && <a href={user.github} target="_blank" rel="noopener noreferrer"><FaGithubSquare size={30} /></a>}
+              {user?.linkedin && <a href={user.linkedin} target="_blank" rel="noopener noreferrer"><FaLinkedin size={30} /></a>}
+              {user?.portfolio && <a href={user.portfolio} target="_blank" rel="noopener noreferrer"><FaSquareParking size={30} /></a>}
             </div>
           </div>
           {user?.id && currentUser?.id && currentUser?.id !== user?.id && (
