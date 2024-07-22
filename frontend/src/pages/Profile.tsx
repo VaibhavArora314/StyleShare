@@ -11,7 +11,11 @@ import { AiTwotoneInfoCircle } from "react-icons/ai";
 import toast from "react-hot-toast";
 import bgHero from "../assets/bgHero.png";
 import { ProfileForm } from "../components/profileForm.tsx";
-
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { FaFacebookSquare } from "react-icons/fa";
+import { FaGithubSquare } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
+import { FaSquareParking } from "react-icons/fa6";
 const Profile = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [user, setUser] = useState<IUser | null>(null);
@@ -115,6 +119,13 @@ const Profile = () => {
               <p className="text-sky-400 flex items-center "><MdOutlineMailOutline className="text-xl" />
                 <span className="ml-2 text-sm">{user?.email}</span>
               </p>
+            </div>
+            <div className="flex flex-row justify-center space-x-2 mb-3">
+              {user?.twitter && <a href={user.twitter} target="_blank" rel="noopener noreferrer"><FaSquareXTwitter size={30} /></a>}
+              {user?.facebook && <a href={user.facebook} target="_blank" rel="noopener noreferrer"><FaFacebookSquare size={30} /></a>}
+              {user?.github && <a href={user.github} target="_blank" rel="noopener noreferrer"><FaGithubSquare size={30} /></a>}
+              {user?.linkedin && <a href={user.linkedin} target="_blank" rel="noopener noreferrer"><FaLinkedin size={30} /></a>}
+              {user?.portfolio && <a href={user.portfolio} target="_blank" rel="noopener noreferrer"><FaSquareParking size={30} /></a>}
             </div>
             <div className="flex flex-col items-center mb-2">
               <button type="button" onClick={() => { setClickUpdate(true) }} className="bg-red-500 py-2 px-5 text-white font-semibold rounded-md text-sm hover:bg-red-600">
