@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../styles/Translate.css";
 
 declare global {
@@ -9,6 +9,8 @@ declare global {
 }
 
 const GoogleTranslate = () => {
+  const [isVisible, setIsVisible] = useState(true);
+
   useEffect(() => {
     window.googleTranslateInit = () => {
       if (!window.google.translate.TranslateElement) {
@@ -39,9 +41,21 @@ const GoogleTranslate = () => {
     if (window.google && window.google.translate) {
       window.googleTranslateInit();
     }
+
+    const handleScroll = () => {
+      setIsVisible(window.scrollY < 100); // Adjust the scroll amount as needed
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
-  return <div id="google_element" className="google-translate-container"></div>;
+  return (
+    <div id="google_element" className={`google-translate-container ${isVisible ? '' : 'hidden'}`}></div>
+  );
 };
 
 export default GoogleTranslate;
