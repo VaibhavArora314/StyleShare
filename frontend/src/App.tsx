@@ -32,8 +32,8 @@ import userBlock from "./hooks/userBlock";
 import Blocked from "./pages/Blocked";
 import GoogleTranslate from "./components/GoogleTranslate";
 import ProgressScrollDown from "./components/ProgressScrollDown";
-import axios from "axios";
-axios.defaults.baseURL = "http://localhost:3001/";
+// import axios from "axios";
+// axios.defaults.baseURL = "http://localhost:3001/";
 
 function App() {
   const { theme, toggleTheme } = useTheme();

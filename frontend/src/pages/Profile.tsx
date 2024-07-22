@@ -117,7 +117,7 @@ const Profile = () => {
               </p>
             </div>
             <div className="flex flex-col items-center mb-2">
-              <button type="button" onClick={() => { setClickUpdate(true) }} className="bg-red-500 py-2 px-3 rounded-md text-sm hover:bg-red-600">
+              <button type="button" onClick={() => { setClickUpdate(true) }} className="bg-red-500 py-2 px-5 text-white font-semibold rounded-md text-sm hover:bg-red-600">
                 Edit
               </button>
             </div>
