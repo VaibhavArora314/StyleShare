@@ -37,7 +37,6 @@ export interface IUser {
     following: number;
   };
   twitter?: string;
-  facebook?: string;
   github?: string;
   linkedin?: string;
   portfolio?:string
