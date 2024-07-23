@@ -23,7 +23,7 @@ function Policy() {
   }, [location]);
 
   return (
-    <div className="w-full text-[#1A202C] bg-gradient-animated dark:text-gray-200 dark:bg-[#1A202C] py-16 px-4" style={{ fontFamily: 'Roboto, sans-serif' }}>
+    <div className="-mt-4 w-full text-[#1A202C] bg-gradient-animated dark:text-gray-200 dark:bg-[#1A202C] py-16 px-4" style={{ fontFamily: 'Roboto, sans-serif' }}>
       <div className="max-w-7xl mx-auto space-y-12">
         <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md transition-transform duration-300 hover:shadow-lg transform hover:scale-105">
           <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-8 mb-8">
