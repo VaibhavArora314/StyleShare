@@ -49,4 +49,5 @@ export interface ILeaderboardUser {
   username: string;
   postCount: number;
   totalReactions:number;
+  avatar?:string;
 }

@@ -5,6 +5,11 @@ import toast from "react-hot-toast";
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import "../styles/Model.css"
+import avatar1 from "../assets/avatars/avatar1.jpg"
+import avatar2 from "../assets/avatars/avatar2.jpg"
+import avatar3 from "../assets/avatars/avatar3.jpg"
+import avatar4 from "../assets/avatars/avatar4.jpg"
+import avatar5 from "../assets/avatars/avatar5.jpg"
 
 interface ProfileForm {
     user: IUser | null,
@@ -19,51 +24,65 @@ export function ProfileForm({ user, dismiss, open }: ProfileForm) {
     const [github, setGithub] = useState(user?.github || "");
     const [linkedin, setLinkedin] = useState(user?.linkedin || "");
     const [portfolio, setportfolio] = useState(user?.portfolio || "");
+    const [avatar, setAvatar] = useState(user?.avatar || "");
     const [error, setError] = useState({
         username: "",
         email: "",
+        twitter: "",
+        facebook:"",
+        github:"",
+        linkedin:"",
+        portfolio:"",
+        avatar: "",
         message: ""
     });
 
-    async function updateUser(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault()
-        try {
-            const updatedUser = {
-                email,
-                username,
-                twitter,
-                github,
-                linkedin,
-                portfolio
-            }
-            if (!email) {
-                toast.error("Email cannot be empty")
-                return;
-            }
-            if (!username) {
-                toast.error("Username cannot be empty")
-                return;
-            }
-            const response = await axios.put(`/api/v1/user/update/${user?.id}`, updatedUser);
-            toast.success(response.data.message)
-            dismiss()
-            window.location.reload();
-        } catch (e: any) {
-            const axiosError: AxiosError<{
-                error: {
-                    message: string;
-                };
-            }> = e;
+    const avatars = [
+        avatar1,
+        avatar2,
+        avatar3,
+        avatar4,
+        avatar5
+    ];
 
-            const errorMessage = axiosError?.response?.data?.error?.message || "An unexpected error occurred";
-            toast.error(errorMessage);
-            setError((e: any) => {
-                if (axiosError?.response?.data?.error)
-                    e = axiosError?.response?.data?.error;
-                return e
-            })
+      async function updateUser(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        try {
+          const updatedUser = {
+            email,
+            username,
+            twitter,
+            github,
+            linkedin,
+            portfolio,
+            avatar
+          };
+          if (!email) {
+            toast.error("Email cannot be empty");
+          }
+          if (!username) {
+            toast.error("Username cannot be empty");
+          }
+          const response = await axios.put(`/api/v1/user/update/${user?.id}`, updatedUser);
+          toast.success(response.data.message);
+          dismiss();
+          window.location.reload();
+        } catch (e: any) {
+          const axiosError: AxiosError<{
+            error: {
+              message: string;
+            };
+          }> = e;
+    
+          const errorMessage = axiosError?.response?.data?.error?.message || "An unexpected error occurred";
+          toast.error(errorMessage);
+          setError((e : any)=> {
+            if(axiosError?.response?.data?.error)
+                e = axiosError?.response?.data?.error ;
+            return e
+        });
         }
-    }
+      }
 
     return (
         <Modal open={open} onClose={dismiss} center classNames={{ modal: 'customModal', overlay: 'customOverlay' }}>
@@ -72,13 +91,37 @@ export function ProfileForm({ user, dismiss, open }: ProfileForm) {
                 <div className="flex items-center mb-6">
                     <img
                         className="inline-block h-16 w-16 rounded-full ring-2 ring-white"
-                        src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`}
+                        src={avatar || `https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=false&bold=true`}
                         alt="profile photo"
                     />
                     <div className="ml-4">
-                        <p className="text-sm font-medium text-gray-900">{user?.username}</p>
-                        <p className="text-sm text-gray-600">{user?.email}</p>
+                        <p className="text-sm font-bold text-gray-900">{user?.username}</p>
+                        <p className="text-sm font-semibold text-gray-600">{user?.email}</p>
                     </div>
+                    <div className="sm:col-span-12 ml-5">
+                            <label htmlFor="avatar" className="block text-sm font-semibold leading-6 text-gray-900">
+                              Select Avatar
+                            </label>
+                            <div className="mt-2 grid grid-cols-5 gap-2">
+                              {avatars.map((img) => (
+                                <img
+                                  key={img}
+                                  src={img}
+                                  alt="avatar"
+                                  className={`h-16 w-16 cursor-pointer rounded-full ${avatar === img ? 'ring-4 ring-sky-600' : ''}`}
+                                  onClick={() => setAvatar(img)}
+                                />
+                              ))}
+                            </div>
+                            <button
+                              type="button"
+                              className="my-3 px-4 rounded-md border border-transparent bg-red-500 py-2 text-sm font-medium text-white hover:bg-red-600"
+                              onClick={() => setAvatar('')}
+                            >
+                              Reset
+                            </button>
+                            <p className="text-sm font-semibold text-red-600">{error.avatar}</p>
+                          </div>
                 </div>
                 <form id="editProfile" onSubmit={updateUser}>
                     <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
@@ -133,7 +176,7 @@ export function ProfileForm({ user, dismiss, open }: ProfileForm) {
                                     value={twitter}
                                     onChange={(e) => { setTwitter(e.target.value) }}
                                 />
-                                {error.email && <p className="mt-2 text-sm text-red-600">{error.email}</p>}
+                                {error.twitter && <p className="mt-2 text-sm text-red-600">{error.twitter}</p>}
                             </div>
                         </div>
                         <div>
@@ -151,7 +194,7 @@ export function ProfileForm({ user, dismiss, open }: ProfileForm) {
                                     value={github}
                                     onChange={(e) => { setGithub(e.target.value) }}
                                 />
-                                {error.email && <p className="mt-2 text-sm text-red-600">{error.email}</p>}
+                                {error.github && <p className="mt-2 text-sm text-red-600">{error.github}</p>}
                             </div>
                         </div>
                         <div>
@@ -169,7 +212,7 @@ export function ProfileForm({ user, dismiss, open }: ProfileForm) {
                                     value={linkedin}
                                     onChange={(e) => { setLinkedin(e.target.value) }}
                                 />
-                                {error.email && <p className="mt-2 text-sm text-red-600">{error.email}</p>}
+                                {error.linkedin && <p className="mt-2 text-sm text-red-600">{error.linkedin}</p>}
                             </div>
                         </div>
                         <div>
@@ -187,7 +230,7 @@ export function ProfileForm({ user, dismiss, open }: ProfileForm) {
                                     value={portfolio}
                                     onChange={(e) => { setportfolio(e.target.value) }}
                                 />
-                                {error.email && <p className="mt-2 text-sm text-red-600">{error.email}</p>}
+                                {error.portfolio && <p className="mt-2 text-sm text-red-600">{error.portfolio}</p>}
                             </div>
                         </div>
                     </div>

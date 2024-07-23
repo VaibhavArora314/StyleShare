@@ -378,6 +378,7 @@ export const getCommentsController = async (req: Request, res: Response) => {
           select: {
             id: true,
             username: true,
+            avatar:true
           }
         },
         createdAt: true
@@ -541,6 +542,7 @@ export const getLeaderboardController = async (req: Request, res: Response) => {
       select: {
         id: true,
         username: true,
+        avatar:true,
         _count: {
           select: { posts: true },
         },
@@ -559,6 +561,7 @@ export const getLeaderboardController = async (req: Request, res: Response) => {
     const userReactions = leaderboard.map((user) => ({
       id: user.id,
       username: user.username,
+      avatar:user.avatar,
       postCount: user._count.posts,
       totalReactions: user.posts.reduce((sum, post) => sum + post.reactions.length, 0),
     }));
@@ -571,6 +574,7 @@ export const getLeaderboardController = async (req: Request, res: Response) => {
       leaderboard: top10Users.map((user, index) => ({
         rank: index + 1,
         userId: user.id,
+        avatar:user.avatar,
         username: user.username,
         postCount: user.postCount,
         totalReactions: user.totalReactions,
