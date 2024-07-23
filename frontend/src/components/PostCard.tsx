@@ -223,14 +223,14 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
               ))}
             </div>
         <div className="flex justify-between mt-1 ">
-          <button>
+          {/* <button>
           <Link
             to={`/app/posts/${post.id}`}
             className="inline-block mt-4 text-blue-400 hover:text-blue-300 transition-colors duration-200 rounded-3xl border-2 border-blue-500 hover:border-blue-300 px-4 py-2"
           >
             Read More
           </Link>
-          </button>
+          </button> */}
           {currentUser && currentUser.id === post.author.id && (
             <div className="flex space-x-2">
               <button>
