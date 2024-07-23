@@ -17,6 +17,7 @@ export function ProfileForm({ user, dismiss }: ProfileFormProps) {
   const [github, setGithub] = useState(user?.github || "");
   const [linkedin, setLinkedin] = useState(user?.linkedin || "");
   const [portfolio, setportfolio] = useState(user?.portfolio || "");
+  const [avatar, setAvatar] = useState(user?.avatar || "");
   const [error, setError] = useState({
     username: "",
     email: "",
@@ -25,8 +26,17 @@ export function ProfileForm({ user, dismiss }: ProfileFormProps) {
     github:"",
     linkedin:"",
     portfolio:"",
+    avatar: "",
     message: ""
   });
+
+  const avatars = [
+    "https://pics.craiyon.com/2023-07-28/4d23f41d2a314bf18241a5eb7cba44ad.webp",
+    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/27a5ebeb-b941-40ff-81ca-4bc839d75d27/dg2pjvt-de4e0619-5dd1-49ad-b1f2-285542ebcd95.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzI3YTVlYmViLWI5NDEtNDBmZi04MWNhLTRiYzgzOWQ3NWQyN1wvZGcycGp2dC1kZTRlMDYxOS01ZGQxLTQ5YWQtYjFmMi0yODU1NDJlYmNkOTUuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.aTdL1oScOa8eBHHWmeTJuTaf5KvRL6ofUTzgyh0VtBI",
+    "https://pics.craiyon.com/2023-07-28/4d23f41d2a314bf18241a5eb7cba44ad.webp",
+    "https://pics.craiyon.com/2023-07-28/4d23f41d2a314bf18241a5eb7cba44ad.webp",
+    "https://pics.craiyon.com/2023-07-28/4d23f41d2a314bf18241a5eb7cba44ad.webp"
+  ];
 
   async function updateUser(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -38,7 +48,8 @@ export function ProfileForm({ user, dismiss }: ProfileFormProps) {
         facebook,
         github,
         linkedin,
-        portfolio
+        portfolio,
+        avatar
       };
       if (!email) {
         toast.error("Email cannot be empty");
@@ -81,7 +92,7 @@ export function ProfileForm({ user, dismiss }: ProfileFormProps) {
                     <div className="absolute -bottom-10 left-10">
                       <img
                         className="inline-block h-20 w-20 ring-2 ring-white"
-                        src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=false&bold=true`}
+                        src={avatar || `https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=false&bold=true`}
                         alt="profile photo"
                       />
                     </div>
@@ -210,7 +221,7 @@ export function ProfileForm({ user, dismiss }: ProfileFormProps) {
                             </div>
                           </div>
                           <div className="sm:col-span-12 mx-5">
-                            <label htmlFor="linkedin" className="block text-sm font-medium leading-6 text-gray-900">
+                            <label htmlFor="portfolio" className="block text-sm font-medium leading-6 text-gray-900">
                                 Portfolio
                             </label>
                             <div className="mt-2">
@@ -227,6 +238,30 @@ export function ProfileForm({ user, dismiss }: ProfileFormProps) {
                                 />
                               </div>
                             </div>
+                          </div>
+                          <div className="sm:col-span-12 mx-5">
+                            <label htmlFor="avatar" className="block text-sm font-medium leading-6 text-gray-900">
+                              Avatar
+                            </label>
+                            <div className="mt-2 grid grid-cols-5 gap-2">
+                              {avatars.map((img) => (
+                                <img
+                                  key={img}
+                                  src={img}
+                                  alt="avatar"
+                                  className={`h-16 w-16 cursor-pointer ${avatar === img ? 'ring-2 ring-indigo-600' : ''}`}
+                                  onClick={() => setAvatar(img)}
+                                />
+                              ))}
+                            </div>
+                            <button
+                              type="button"
+                              className="mt-2 text-sm text-red-600 hover:underline"
+                              onClick={() => setAvatar('')}
+                            >
+                              Reset to default avatar
+                            </button>
+                            <p className="text-sm font-semibold text-red-600">{error.avatar}</p>
                           </div>
                         </div>
                       </div>

@@ -40,7 +40,8 @@ export interface IUser {
   facebook?: string;
   github?: string;
   linkedin?: string;
-  portfolio?:string
+  portfolio?:string;
+  avatar?:string;
 }
 
 export interface ILeaderboardUser {

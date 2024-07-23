@@ -31,10 +31,10 @@ model User {
   following    Follow[] @relation("following")
   followers    Follow[] @relation("followers")
   twitter      String? 
-  facebook     String?  
   github       String?  
   linkedin     String? 
   portfolio    String? 
+  avatar     String?  
 }
 
 model Follow {

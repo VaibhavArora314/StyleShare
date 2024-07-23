@@ -163,7 +163,7 @@ export const userProfileController = async (req: UserAuthRequest, res: Response)
       email: true,
       username: true,
       twitter:true,
-      facebook:true,
+      avatar:true,
       github:true,
       linkedin:true,
       portfolio:true,
@@ -251,10 +251,10 @@ export const userProfileUpdate = async (req: UserAuthRequest, res: Response) => 
         username: data.username,
         email: data.email,
         twitter: data.twitter,
-        facebook: data.facebook,
         github: data.github,
         linkedin: data.linkedin,
-        portfolio:data.portfolio
+        portfolio: data.portfolio,
+        avatar: data.avatar
       },
     });
 
@@ -294,9 +294,9 @@ export const showUserProfileController = async (req: UserAuthRequest, res: Respo
       select: {
         id: true,
         username: true,
+        avatar:true,
         createdAt: true,
         twitter:true,
-        facebook:true,
         github:true,
         linkedin:true,
         portfolio:true,
