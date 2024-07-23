@@ -77,12 +77,12 @@ const NewPost = () => {
   return (
     <div className=" min-h-screen  text-[#000435] bg-white dark:text-white dark:bg-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
       <div className="border  text-[#000435] bg-white dark:text-white dark:bg-[#000435] rounded-lg p-6 sm:max-w-[70%] max-w-[50vh] mx-auto " style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-      <h2 className="text-2xl font-semibold mb-4">Create New Post</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-center">Create New Post</h2>
         <p className="mt-4">{errorMessage}</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="title" className="block text-sm font-medium">
-            
+              Title
             </label>
             <input
               type="text"
