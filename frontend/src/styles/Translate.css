@@ -40,3 +40,7 @@ font {
   background: none !important;
   box-shadow: none !important;
 }
+
+.google-translate-container.hidden {
+  display: none !important;
+}
