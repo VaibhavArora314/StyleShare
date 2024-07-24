@@ -1,0 +1,55 @@
+
+.link-hover {
+    position: relative;
+    color: #ffffff;
+    text-decoration: none;
+    transition: text-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.link-hover::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 26px;
+    background: hsl(221, 83%, 53%);
+    transition:  0.3s ease;
+}
+
+.link-hover:hover {
+  color: linear-gradient(
+    135deg,
+    #fc25f5,
+    #000b88) !important;
+  text-shadow: 1px 1px 1px rgb(184, 255, 253), 0 0 0.2em #fc25f5, 0 0 0.2em blue; 
+  transform: scale(1.01);
+}
+
+.section-title {
+    position: relative;
+    color: #ffffff;
+    transition: color 0.3s ease-in-out;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 5px;
+    left: 0;
+    background: linear-gradient(to right, rgb(199, 217, 255), rgb(5, 26, 101));
+    transition: width 0.5s ease;
+}
+
+.section-title:hover::after {
+    width:28%;
+    left: 0;
+}
+
+.section-title:hover {
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(5, 165, 160, 0.707), 0 0 1em blue, 0 0 0.2em blue;
+}
