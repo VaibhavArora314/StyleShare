@@ -120,10 +120,10 @@ const Profile = () => {
               </p>
             </div>
             <div className="flex flex-row justify-center space-x-2 mb-3">
-              {user?.twitter && <a href={user.twitter} target="_blank" rel="noopener noreferrer"><FaSquareXTwitter size={30} /></a>}
-              {user?.github && <a href={user.github} target="_blank" rel="noopener noreferrer"><FaGithubSquare size={30} /></a>}
-              {user?.linkedin && <a href={user.linkedin} target="_blank" rel="noopener noreferrer"><FaLinkedin size={30} /></a>}
-              {user?.portfolio && <a href={user.portfolio} target="_blank" rel="noopener noreferrer"><FaSquareParking size={30} /></a>}
+              {user?.twitter && <a href={user.twitter} target="_blank" rel="noopener noreferrer" className="hover:-translate-y-1 transition-transform duration-300"><FaSquareXTwitter size={30} /></a>}
+              {user?.github && <a href={user.github} target="_blank" rel="noopener noreferrer" className="hover:-translate-y-1 transition-transform duration-300"><FaGithubSquare size={30} /></a>}
+              {user?.linkedin && <a href={user.linkedin} target="_blank" rel="noopener noreferrer" className="hover:-translate-y-1 transition-transform duration-300"><FaLinkedin size={30} /></a>}
+              {user?.portfolio && <a href={user.portfolio} target="_blank" rel="noopener noreferrer" className="hover:-translate-y-1 transition-transform duration-300"><FaSquareParking size={30} /></a>}
             </div>
             <div className="flex flex-col items-center mb-2">
               <button type="button" onClick={() => { setClickUpdate(true) }} className="bg-red-500 py-2 px-5 text-white font-semibold rounded-md text-sm hover:bg-red-600">
