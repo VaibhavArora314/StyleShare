@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import bgHero from "../assets/bgHero.png";
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
+import "../styles/faq.css";
 
 interface FAQItem {
   question: string;
@@ -31,6 +32,26 @@ const FAQ: React.FC = () => {
       question: "How do I contribute to Style Share ?",
       answer: "You can contribute by creating your own components and sharing them on the platform. You can also help improve existing components.",
     },
+    {
+      question: "Can I use Style Share for commercial projects?",
+      answer: "Yes, you can use the components shared on Style Share for both personal and commercial projects without any restrictions.",
+    },
+    {
+      question: "How do I get started with Tailwind CSS?",
+      answer: "To get started with Tailwind CSS, visit the official Tailwind CSS documentation. You can also explore the components on Style Share for inspiration and examples.",
+    },
+    {
+      question: "Can I request specific components on Style Share?",
+      answer: "Yes, you can request specific components by posting in the 'Requests' section. The community can then create and share the requested components.",
+    },
+    {
+      question: "Are there any guidelines for contributing components?",
+      answer: "Yes, please follow the contribution guidelines provided on the platform. This ensures that all components meet the quality standards and are consistent with the platform's design principles.",
+    },
+    {
+      question: "How can I give feedback or suggest improvements?",
+      answer: "You can provide feedback or suggest improvements by using the 'Feedback' section on the platform. We value your input and strive to continuously improve Style Share.",
+    }
   ];
 
   const handleToggle = (index: number) => {
@@ -42,26 +63,27 @@ const FAQ: React.FC = () => {
   };
 
   return (
-    <section className=" text-[#000435] bg-white dark:text-white dark:bg-[#000435]" >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  text-[#000435] bg-white dark:text-white dark:bg-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        <h2 className="text-3xl md:text-4xl mb-14 font-extrabold text-center  text-[#000435] bg-white dark:text-white dark:bg-[#000435]">🤔 Frequently Asked Questions 🤔</h2>
-        <dl className="space-y-5">
+    <section className="faq-section">
+      <div className="faq-container" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <h2 className="faq-title">Frequently Asked Questions ! </h2>
+        
+        <dl className="faq-list">
           {faqs.map((faq, index) => (
-            <div key={index} className="space-y-2">
-              <div className={`rounded-lg ${activeIndex === index ? 'animated-border' : 'border-2 border-transparent  text-[#000435] bg-white dark:text-white dark:bg-[#000435]'}`}>
+            <div key={index} className="faq-item">
+              <div className={`faq-question-container ${activeIndex === index ? 'active' : ''}`}>
                 <button
                   onClick={() => handleToggle(index)}
-                  className={`animated-border-inner w-full focus:outline-none transition duration-100 ease-in-out  text-[#000435] bg-white dark:text-white dark:bg-[#000435]`}
+                  className="faq-question"
                 >
-                  <span className="text-lg md:text-2xl leading-6 font-medium  text-[#000435] bg-white dark:text-white dark:bg-[#000435]">{faq.question}</span>
-                  {activeIndex === index ? <BiChevronUp className="h-5 w-5" /> : <BiChevronDown className="h-5 w-5" />}
+                  <span className="faq-question-text">{faq.question}</span>
+                  {activeIndex === index ? <BiChevronUp className="icon" /> : <BiChevronDown className="icon" />}
                 </button>
               </div>
               <div
-                className={`transition-all duration-1000 ease-in-out overflow-hidden ${activeIndex === index ? 'max-h-full' : 'max-h-0'}`}
+                className={`faq-answer ${activeIndex === index ? 'open' : ''}`}
                 style={{ maxHeight: activeIndex === index ? '200px' : '0px' }} // Adjust maxHeight as needed
               >
-                 <div className="mt-2 ml-4 text-xl font-mono ">{faq.answer}</div>
+                 <div className="faq-answer-text">{faq.answer}</div>
               </div>
             </div>
           ))}
@@ -72,3 +94,5 @@ const FAQ: React.FC = () => {
 };
 
 export default FAQ;
+
+
