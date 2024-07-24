@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import bgHero from "../assets/bgHero.png";
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
-import "../styles/faq.css";
 
 interface FAQItem {
   question: string;
@@ -13,23 +12,23 @@ const FAQ: React.FC = () => {
 
   const faqs: FAQItem[] = [
     {
-      question: "What is Style Share ?",
+      question: "What is Style Share?",
       answer: "Style Share is a simple web-based platform where users can contribute, create, explore, and share web design components, focusing on Tailwind CSS.",
     },
     {
-      question: "How does it work ?",
+      question: "How does it work?",
       answer: "Users can search any component with search bar from various developers, contribute to open source for more Tailwind components, create their own component to help other developers, and create posts from the 'New Posts' section.",
     },
     {
-      question: "Who can use Style Share ?",
+      question: "Who can use Style Share?",
       answer: "Whether you are a seasoned developer looking for inspiration or a beginner taking your first steps into the world of web design, Style Share offers a wealth of resources tailored to your needs.",
     },
     {
-      question: "Is there a cost to use Style Share ?",
+      question: "Is there a cost to use Style Share?",
       answer: "No, Style Share is completely free to use.",
     },
     {
-      question: "How do I contribute to Style Share ?",
+      question: "How do I contribute to Style Share?",
       answer: "You can contribute by creating your own components and sharing them on the platform. You can also help improve existing components.",
     },
     {
@@ -55,35 +54,31 @@ const FAQ: React.FC = () => {
   ];
 
   const handleToggle = (index: number) => {
-    if (activeIndex === index) {
-      setActiveIndex(null);
-    } else {
-      setActiveIndex(index);
-    }
+    setActiveIndex(activeIndex === index ? null : index);
   };
 
   return (
-    <section className="faq-section">
-      <div className="faq-container" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        <h2 className="faq-title">Frequently Asked Questions ! </h2>
-        
-        <dl className="faq-list">
+    <section className="text-center text-[#000435]">
+      <div className="max-w-[70%] mx-auto p-8 text-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <h2 className="text-[37px] mb-14 font-bold text-white transition-shadow duration-300 hover:shadow-[1px_1px_5px_rgb(0,255,208),_0_0_1em_rgb(238,71,224),_0_0_0.2em_rgb(255,0,200)]">
+          Frequently Asked Questions!
+        </h2>
+        <dl className="flex flex-col items-center">
           {faqs.map((faq, index) => (
-            <div key={index} className="faq-item">
-              <div className={`faq-question-container ${activeIndex === index ? 'active' : ''}`}>
+            <div key={index} className="w-[83%] mb-2 transition-transform duration-300 hover:translate-y-1">
+              <div className={`rounded-lg border-2 border-transparent transition-all duration-300 ${activeIndex === index ? 'border-[#000435]' : ''}`}>
                 <button
                   onClick={() => handleToggle(index)}
-                  className="faq-question"
+                  className="rounded-lg bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] w-full flex justify-between items-center p-4 text-[1.25rem] font-medium text-white border-none cursor-pointer text-left transition-shadow duration-300 hover:shadow-[1px_1px_2px_rgb(255,0,225),_0_0_1em_rgb(0,255,251),_0_0_0.2em_rgb(0,255,242)]"
                 >
-                  <span className="faq-question-text">{faq.question}</span>
-                  {activeIndex === index ? <BiChevronUp className="icon" /> : <BiChevronDown className="icon" />}
+                  <span>{faq.question}</span>
+                  {activeIndex === index ? <BiChevronUp className="w-5 h-5" /> : <BiChevronDown className="w-5 h-5" />}
                 </button>
               </div>
-              <div
-                className={`faq-answer ${activeIndex === index ? 'open' : ''}`}
-                style={{ maxHeight: activeIndex === index ? '200px' : '0px' }} // Adjust maxHeight as needed
-              >
-                 <div className="faq-answer-text">{faq.answer}</div>
+              <div className={`overflow-hidden transition-max-height duration-1000 ${activeIndex === index ? 'max-h-[200px]' : 'max-h-0'}`}>
+                <div className="mt-1 ml-1 rounded-lg text-[17px] text-white p-2 bg-gradient-to-r from-[#8d2de23d] to-[#b700e07f] hover:bg-gradient-to-r hover:from-[#8d2de257] hover:to-[#b700e0b3]">
+                  {faq.answer}
+                </div>
               </div>
             </div>
           ))}
@@ -94,5 +89,3 @@ const FAQ: React.FC = () => {
 };
 
 export default FAQ;
-
-
