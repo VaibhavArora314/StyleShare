@@ -1,0 +1,120 @@
+.faq-section {
+    text-align: center;
+    color: #000435;
+  }
+  
+  .faq-container {
+    max-width: 70%;
+    
+    margin: 0 auto;
+    padding: 2rem;
+    color: #000435;
+  }
+  
+  .faq-title {
+    font-size: 37px;
+    margin-bottom: 3.5rem;
+
+    font-weight: bold;
+    color: white;
+
+    text-shadow: 1px 1px 2px rgb(255, 0, 200), 0 0 1em rgb(0, 255, 208), 0 0 0.2em rgb(255, 0, 200);
+    transition: text-shadow 0.3s ease-in-out;
+  }
+  .faq-title:hover {
+    text-shadow: 1px 1px 5px rgb(0, 255, 208), 0 0 1em rgb(238, 71, 224), 0 0 0.2em rgb(255, 0, 200);
+  }
+  
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .faq-item {
+    width: 83%;
+    margin-bottom: 8px;
+
+    transition: transform 0.3s ease-in-out;
+  }
+
+
+
+  .faq-item:hover{
+
+    transform: translateY(2px);
+  }
+  
+  .faq-question-container {
+
+    border-radius: 0.5rem;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+
+}
+.faq-question:hover{
+    background: linear-gradient(135deg, #823fffc2, #7e00ec);
+}
+.faq-question-container.active {
+    border-color: #000435;
+}
+
+.faq-question {
+
+
+    border-radius: 11px;
+    background: linear-gradient(to right, #8e2de2, #4a00e0);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+
+    font-size: 1.25rem;
+    font-weight: medium;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+
+    transition: text-shadow 0.3s;
+  }
+  
+  .faq-question:hover .faq-question-text {
+
+    text-shadow: 1px 1px 2px rgb(255, 0, 225), 0 0 1em rgb(0, 255, 251), 0 0 0.2em rgb(0, 255, 242);
+    color: rgb(236, 255, 249);
+    /* transform: translateY(-1px); */
+  }
+  
+  .icon {
+    width: 1.25rem;
+
+    height: 1.25rem;
+  }
+
+  
+  .faq-answer {
+
+    transition: all 1s ease-in-out;
+    overflow: hidden;
+    margin-top: 3px;
+  }
+  
+  .faq-answer-text {
+    margin-left: 3px;
+    border-radius: 11px;
+
+    font-size: 17px;
+    color: white;
+    text-align: left;
+    padding: 4px 13px;
+
+    background: linear-gradient(to right, #8d2de23d, #b700e07f);
+  }
+
+  .faq-answer-text:hover{
+
+    background: linear-gradient(to right, #8d2de257, #b700e0b3);
+  }
+  
