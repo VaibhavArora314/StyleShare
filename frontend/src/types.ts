@@ -39,7 +39,8 @@ export interface IUser {
   twitter?: string;
   github?: string;
   linkedin?: string;
-  portfolio?:string
+  portfolio?:string;
+  avatar?:string;
 }
 
 export interface ILeaderboardUser {
@@ -48,4 +49,5 @@ export interface ILeaderboardUser {
   username: string;
   postCount: number;
   totalReactions:number;
+  avatar?:string;
 }

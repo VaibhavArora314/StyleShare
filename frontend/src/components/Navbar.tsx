@@ -102,7 +102,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                   <span className="sr-only">Open user menu</span>
                   <img
                     className="h-10 w-10 rounded-full"
-                    src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`}
+                    src={user?.avatar || `https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`}
                     alt={user?.username}
                   />
                 </button>}

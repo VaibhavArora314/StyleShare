@@ -112,7 +112,7 @@ const Profile = () => {
               }
             </div>
             <div className="flex flex-col items-center mb-3">
-              <img src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} width={60} alt="profile-pic" />
+              <img className='h-20 w-20 rounded-full ring-2 ring-[#000435] dark:ring-white' src={user?.avatar || `https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic" />
               <p className="p-4 text-xl">{user?.username}</p>
               <p className="text-[#000435] font-semibold text-sm dark:text-white">{user?._count.following} followers</p>
               <p className="text-sky-400 flex items-center "><MdOutlineMailOutline className="text-xl" />
