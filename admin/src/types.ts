@@ -14,7 +14,9 @@ export interface IPost {
     },
     comments:IComment[]
     reactions:[];
-    favoritePosts: [];
+    favoritePosts: {
+      user: IUser;
+    }[];
     userReaction: 'Like' | 'Celebrate' | 'Support' | 'Love' | 'Insightful' | 'Funny' | null; 
   }
 
@@ -55,4 +57,19 @@ export interface IContactMessage{
   subject:string,
   message:string,
   createdAt:number
+}
+
+export interface IFavoritePost {
+  id: string;
+  createdAt: number;
+  user: {
+    id: string;
+    username: string;
+    email: string;
+  };
+  post: {
+    id: string;
+    title: string;
+    description: string;
+  };
 }

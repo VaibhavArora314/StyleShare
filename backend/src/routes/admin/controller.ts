@@ -473,3 +473,40 @@ export const deleteCommentController = async (req: UserAuthRequest, res: Respons
     });
   }
 };
+
+export const getFavoritesController = async (req: Request, res: Response) => {
+  try {
+    const favorites = await prisma.favorite.findMany({
+      select: {
+        id: true,
+        createdAt: true,
+        user: {
+          select: {
+            id: true,
+            username: true,
+            email: true
+          }
+        },
+        post: {
+          select: {
+            id: true,
+            title: true,
+            description: true
+          }
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    res.status(200).json({
+      message: "Successfully fetched favorite posts!",
+      favorites,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
