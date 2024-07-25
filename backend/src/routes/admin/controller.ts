@@ -473,3 +473,45 @@ export const deleteCommentController = async (req: UserAuthRequest, res: Respons
     });
   }
 };
+
+export const getPostReactionsController = async (req: Request, res: Response) => {
+  try {
+    const reactions = await prisma.reaction.findMany({
+      select: {
+        type: true,
+        createdAt: true,
+        user: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+          },
+        },
+        post: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            author: {
+              select: {
+                id: true,
+                username: true,
+                email: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    res.status(200).json({
+      message: "Successfully fetched all reactions!",
+      reactions,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
