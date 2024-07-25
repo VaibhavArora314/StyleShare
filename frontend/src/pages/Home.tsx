@@ -1,25 +1,108 @@
 import { Link } from "react-router-dom";
+import hero from "../assets/hero.png";
+import bgHero from "../assets/bgHero.png";
+import '../styles/hero.css';
+import About from "./About";
+import HomePagePost from "./HomePagePosts";
+import { TypewriterEffectSmoothDemo } from "../components/HeroText";
+import MagicButton from "../components/ui/MagicButton";
+import TestimonialSlider from "../components/TestimonialSlider";
+import FAQ from "../components/FAQ";
+import Showcase from "../components/Showcase";
+import Features from "../components/Features";
+import Category from "./Category";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const Home = () => {
-  return (
-    <div className="max-w-screen-xl mx-auto px-4 py-8 text-white">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-        <div>
-          <h1 className="text-6xl font-bold mb-4">Welcome to Style Share</h1>
-          <p className="text-xl  mb-6">
-            A simple web based platform where users can easily create, explore,
-            and share Tailwind CSS components and designs with fellow users.
-          </p>
-          <button className="bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-600">
-            <Link to="/app/posts">Explore</Link>
-          </button>
-        </div>
-        <div className="hidden md:block">
-          {/* <img src={""} alt="Code" className="rounded-lg shadow-xl" /> */}
+function Home() {
+  console.log("Home page rerendered");
+
+  document.title = 'Style Share | Welcome 🙏';
+
+  const [visibleItems, setVisibleItems] = useState<string[]>([]);
+  const [showButton, setShowButton] = useState(false);
+  const listItems = [
+    "Contributor",
+    "Create",
+    "Explore",
+    "Share",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisibleItems((prevItems) => {
+        if (prevItems.length < listItems.length) {
+          return [...prevItems, listItems[prevItems.length]];
+        }
+        clearInterval(interval);
+        setTimeout(() => setShowButton(true), 1000); 
+        return prevItems;
+      });
+    }, 673);
+    return () => clearInterval(interval);
+  }, [listItems]);
+
+  return (      
+    <div className="-mt-7 min-h-screen text-[#000435] dark:text-white dark:bg-[#000435]" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <style>
+        {`
+          .tick-container {
+            position: relative;
+            overflow: hidden;
+            height: 120px; 
+          }
+          .tick-item {
+            position: relative;
+            height: 24px; 
+            margin-bottom: 8px; 
+          }
+        `}
+      </style>
+      <div className="w-full text-[#000435] bg-white dark:text-white dark:bg-[#000435] py-16 px-4" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="max-w-[1240px] mx-auto grid md:grid-cols-2">
+          <div className="flex flex-col justify-center">
+            <h1>
+              <TypewriterEffectSmoothDemo />
+            </h1>
+            <h1 className='md:text-3xl sm:text-3xl font-medium py-2'>A simple web-based platform where users can easily</h1>
+            <div className="tick-container text-lg text-[#000435] bg-white dark:text-white dark:bg-[#000435] font-semibold">
+              <AnimatePresence>
+                {visibleItems.map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="tick-item"
+                  >
+                    ✅ {item}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+            {showButton && (
+              <Link to="/app/posts" className='text-[#000435] bg-white dark:text-white dark:bg-[#000435] mt-9'>
+                <motion.div
+                  animate={{ opacity: 1, rotate: [1, 2, -2, 0] }}
+                  transition={{ duration: 0.5, repeat: 3, repeatType: "loop" }}
+                >
+                  <MagicButton title="Get Started" />
+                </motion.div>
+              </Link>
+            )}
+          </div>
+          <img className="w-[600px] imgAnimate" src={hero} alt="About Us" />
         </div>
       </div>
+      <Features />
+      <About />
+      <Showcase />
+      <Category />
+      <HomePagePost />
+      <TestimonialSlider />
+      <FAQ />
     </div>
   );
-};
+}
 
 export default Home;

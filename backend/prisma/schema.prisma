@@ -18,19 +18,91 @@ model User {
   username     String
   email        String
   passwordHash String
+  verified     Boolean  @default(false)
+  blocked      Boolean  @default(false)
+  otp          Int?
+  isAdmin      Boolean  @default(false)
   posts        Post[]   @relation("authorPosts")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  comments     Comment[] @relation("userComments")
+  favorites    Favorite[] @relation("userFavorites")
+  reactions    Reaction[]
+  following    Follow[] @relation("following")
+  followers    Follow[] @relation("followers")
+  twitter      String? 
+  facebook     String?  
+  github       String?  
+  linkedin     String? 
+  portfolio    String? 
+}
+
+model Follow {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  followerId   String   @db.ObjectId
+  followingId  String   @db.ObjectId
+  follower     User     @relation("followers", fields: [followerId], references: [id])
+  following    User     @relation("following", fields: [followingId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([followerId, followingId])
 }
 
 model Post {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   codeSnippet String
+  jsCodeSnippet String @default("")
   description String
   tags        String[]
   authorId    String   @db.ObjectId
   author      User     @relation("authorPosts", fields: [authorId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  comments    Comment[] @relation("postComments")
+  favorites   Favorite[] @relation("postFavorites")
+  reactions   Reaction[]
+}
+
+model Reaction {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  type     String
+  userId   String @db.ObjectId
+  postId   String @db.ObjectId
+  user     User   @relation(fields: [userId], references: [id])
+  post     Post   @relation(fields: [postId], references: [id])
+  createdAt DateTime @default(now())
+  
+  @@unique([userId, postId])
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  userId    String   @db.ObjectId
+  postId    String   @db.ObjectId
+  user      User     @relation("userComments", fields: [userId], references: [id])
+  post      Post     @relation("postComments", fields: [postId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Favorite {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String @db.ObjectId
+  postId    String @db.ObjectId
+  user      User   @relation("userFavorites", fields: [userId], references: [id])
+  post      Post   @relation("postFavorites", fields: [postId], references: [id])
+  createdAt   DateTime @default(now())  
+
+  @@unique([userId, postId])
+}
+
+model contactMessage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
 }
