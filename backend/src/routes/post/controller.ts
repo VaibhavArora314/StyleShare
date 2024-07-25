@@ -536,6 +536,41 @@ export const getFavoritePostsController = async (req: UserAuthRequest, res: Resp
   }
 };
 
+export const checkFavoriteStatusController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required." });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: { id: userId },
+      select: { verified: true }
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({ error: "User is not verified!" });
+    }
+
+    const favorite = await prisma.favorite.findUnique({
+      where: {
+        userId_postId: {
+          userId,
+          postId
+        }
+      }
+    });
+
+    const isFavorite = favorite ? true : false;
+
+    res.status(200).json({ isFavorite });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to check favorite status." });
+  }
+};
+
 export const getLeaderboardController = async (req: Request, res: Response) => {
   try {
     const leaderboard = await prisma.user.findMany({
