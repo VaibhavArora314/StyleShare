@@ -50,11 +50,11 @@ const Posts = () => {
 
   return (
     <div>
-      <div className="lg:ml-80">
-        <div className="mx-5 mb-5">
-        <span className="flex  items-center  text-xl font-bold decoration-sky-500 decoration-dotted underline">
-          <div className='inline-block p-2 text-white bg-[#000435] rounded-lg mr-2'>
-            <BsFillPostcardFill size={23} />
+      <div className="flex-1 flex flex-col lg:ml-80">
+      <div className="mx-5 mb-5">
+      <span className="flex  items-center  text-xl font-bold decoration-sky-500 decoration-dotted underline">
+      <div className='inline-block p-2 text-white bg-[#000435] rounded-lg mr-2'>
+      <BsFillPostcardFill size={23} />
           </div>
           All Posts
         </span>
@@ -69,9 +69,9 @@ const Posts = () => {
         />
       </div>
       :
-        <div className="mx-5 lg:mr-11 overflow-x-auto shadow-md rounded-xl mb-5">
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-white uppercase bg-sky-500">
+      <div className="mx-5 lg:mr-11 overflow-x-auto shadow-md rounded-xl mb-5">
+      <table className="w-full rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead className="text-xs md:text-sm text-white uppercase bg-sky-500 text-center">
               <tr>
                 <th scope="col" className="px-8 py-3">Title</th>
                 <th scope="col" className="px-8 py-3">Author</th>
@@ -106,7 +106,7 @@ const Posts = () => {
               ))}
             </tbody>
           </table>
-        </div>
+          </div>
       }
       </div>
     </div>
