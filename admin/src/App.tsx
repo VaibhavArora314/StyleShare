@@ -15,6 +15,7 @@ import Graphs from "./pages/Graphs";
 import ContactMessages from "./pages/ContactMessages";
 import Comments from "./pages/Comments";
 import Layout from "./components/Layout";
+import Reactions from "./pages/Reactions";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -46,6 +47,7 @@ function App() {
                       <Route path="statistics" element={<Graphs />} />
                       <Route path="contactmessages" element={<ContactMessages />} />
                       <Route path="comments" element={<Comments />} />
+                      <Route path="reactions" element={<Reactions />} />
                       <Route path="*" element={<PageNotFound />} />
                     </Routes>
                   </AuthenticatedRoute>
