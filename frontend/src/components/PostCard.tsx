@@ -44,7 +44,9 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
     setIsFavorite(favoriteStatus === "true");
   }, [post.id]);
 
-  const handleAddToFavorite = async () => {
+  const handleAddToFavorite = async (event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -79,7 +81,9 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
     }
   };
 
-  const handleRemoveFromFavorite = async () => {
+  const handleRemoveFromFavorite = async (event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
     try {
       const token = localStorage.getItem("token");
       if (!token) {
