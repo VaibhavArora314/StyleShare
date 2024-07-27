@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import { GiTrophyCup } from "react-icons/gi";
 import { useRecoilValue } from 'recoil';
@@ -9,6 +9,11 @@ import bgHero from "../assets/bgHero.png";
 const LeaderBoard = () => {
   const { loading, leaderboard } = useLeaderboard();
   const currentUser = useRecoilValue(userState);
+  const navigate = useNavigate();
+
+  const onTabClick = (userId:any) => {
+    navigate(`/app/profile/${userId}`);
+  }
 
   document.title = 'Style Share | Top users 😎';
 
@@ -36,8 +41,9 @@ const LeaderBoard = () => {
                 <tbody>
                   {leaderboard.map((user, index) => (
                     <tr
+                      onClick={() => onTabClick(user.userId)}
                       key={user.userId}
-                      className={`text-center text-[#000435] dark:text-gray-50 border-b-2 border-sky-900 font-semibold ${currentUser && user.userId === currentUser.id ? ' bg-sky-500' : ''}`}
+                      className={` cursor-pointer text-center text-[#000435] dark:text-gray-50 border-b-2 border-sky-900 font-semibold ${currentUser && user.userId === currentUser.id ? ' bg-sky-500' : ''}`}
                     >
                       <td className="px-2 py-4 sm:px-6">
                         {(index === 0 || index === 1 || index === 2) ? (
