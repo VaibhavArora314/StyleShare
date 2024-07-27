@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import { GiTrophyCup } from "react-icons/gi";
 import { useRecoilValue } from 'recoil';
@@ -60,7 +60,7 @@ const LeaderBoard = () => {
                         </div>
                       </td>
                       <td className="px-2 py-4 sm:px-6">
-                        <Link to={`/app/profile/${user.userId}`} className={`text-sm dark:text-gray-50 ${currentUser && user.userId === currentUser.id ? 'font-bold' : ''}`}>@{user.username}</Link>
+                        <div className={`text-sm dark:text-gray-50 ${currentUser && user.userId === currentUser.id ? 'font-bold' : ''}`}>@{user.username}</div>
                       </td>
                       <td className="px-2 py-4 sm:px-6">
                         <div className="text-sm text-[#000435] dark:text-gray-50">{user.postCount}</div>
