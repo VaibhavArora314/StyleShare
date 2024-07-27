@@ -3,6 +3,7 @@ import PostCodeWindow from "./PostCodeWindow";
 import PostPreview from "./PostPreview";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { FaRegCopy,FaRegEdit,FaRobot } from "react-icons/fa";
 
 type Props = {
   id: string;
@@ -75,23 +76,23 @@ const PostCodeWithPreview = ({
         {isOwner ? (
           <Link
             to={`/app/posts/edit/${id}`}
-            className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+            className="px-2 py-1 bg-blue-600 hover:bg-blue-700 rounded text-white"
           >
-            Edit
+            <FaRegEdit/>
           </Link>
         ) : null}
         <button
           onClick={handleCopy}
-          className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+          className="px-2 py-1 bg-blue-600 hover:bg-blue-700 rounded text-white"
         >
-          Copy
+          <FaRegCopy/>
         </button>
         {showCustomizeAiOption && (
           <button
             onClick={handleCustomizeAi}
-            className="px-2 py-1 rounded-md text-white bg-green-600 hover:bg-green-700 text-sm"
+            className="px-2 py-1 rounded-md bg-green-600 hover:bg-green-700 text-white"
           >
-            Customize AI
+            <FaRobot/>
           </button>
         )}
         {!showTogether && (
