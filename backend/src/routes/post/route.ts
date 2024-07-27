@@ -1,7 +1,7 @@
 import { Router } from "express";
 import authMiddleware from "../../middleware/auth"
 
-import { aiCustomization, createCommentController, createPostController, deletePostController, favoritePostController, getAllTagsController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostReactionsController, getPostsWithPagination, getUserReactionController, reactToPostController, removeReactionController, unfavoritePostController, updatePostController } from "./controller";
+import { checkFavoriteStatusController,aiCustomization, createCommentController, createPostController, deletePostController, favoritePostController, getAllTagsController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostReactionsController, getPostsWithPagination, getUserReactionController, reactToPostController, removeReactionController, unfavoritePostController, updatePostController } from "./controller";
 
 const postRouter = Router();
 
@@ -24,6 +24,8 @@ postRouter.post('/:id/favorite', authMiddleware, favoritePostController);
 postRouter.post('/:id/unfavorite', authMiddleware, unfavoritePostController);
 
 postRouter.get('/:id/favorites', authMiddleware, getFavoritePostsController);
+
+postRouter.get('/:id/favorite-status', authMiddleware, checkFavoriteStatusController);
 
 postRouter.get('/all/leaderboard', getLeaderboardController);
 

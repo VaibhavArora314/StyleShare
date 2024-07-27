@@ -10,6 +10,7 @@ import { MdOutlineAttachEmail } from "react-icons/md";
 import { FaRegComments } from "react-icons/fa";
 import GoogleTranslate from './GoogleTranslate';
 import { RiHeartsLine } from "react-icons/ri";
+import { VscReactions } from "react-icons/vsc";
 
 const SideBar = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleSidebar: () => void }) => {
   const location = useLocation();
@@ -37,6 +38,7 @@ const SideBar = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleS
         <Link to="/admin/contactmessages" className={linkClasses('/admin/contactmessages')}><MdOutlineAttachEmail size={23} className='mr-3'/>Messages</Link>
         <Link to="/admin/comments" className={linkClasses('/admin/comments')}><FaRegComments size={23} className='mr-3'/>Comments</Link>
         <Link to="/admin/favorites" className={linkClasses('/admin/favorites')}><RiHeartsLine size={23} className='mr-3'/>Favorites</Link>
+        <Link to="/admin/reactions" className={linkClasses('/admin/reactions')}><VscReactions size={23} className='mr-3'/>Reactions</Link>
         <Link to="/admin/statistics" className={linkClasses('/admin/statistics')}><VscGraphScatter size={23} className='mr-3'/>Statistics</Link>
       </nav>
     </div>

@@ -16,6 +16,7 @@ import ContactMessages from "./pages/ContactMessages";
 import Comments from "./pages/Comments";
 import Layout from "./components/Layout";
 import Favorites from "./pages/Favorites";
+import Reactions from "./pages/Reactions";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -48,6 +49,7 @@ function App() {
                       <Route path="contactmessages" element={<ContactMessages />} />
                       <Route path="comments" element={<Comments />} />
                       <Route path="favorites" element={<Favorites />} />
+                      <Route path="reactions" element={<Reactions />} />
                       <Route path="*" element={<PageNotFound />} />
                     </Routes>
                   </AuthenticatedRoute>

@@ -39,6 +39,7 @@ export interface IPost {
     comments:[];
     following: [];
     isFollowing: boolean;
+    avatar?:string;
   }
 
   export interface IStats {
@@ -72,4 +73,11 @@ export interface IFavoritePost {
     title: string;
     description: string;
   };
+}
+
+export interface IReaction {
+  type: 'Like' | 'Celebrate' | 'Support' | 'Love' | 'Insightful' | 'Funny';
+  createdAt: number;
+  user: IUser;
+  post: IPost;
 }
