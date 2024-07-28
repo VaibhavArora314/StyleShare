@@ -12,6 +12,8 @@ interface Contributor {
 
 const Contributors: React.FC = () => {
   const [contributors, setContributors] = useState<Contributor[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const contributorsPerPage = 9;
 
   useEffect(() => {
     async function fetchContributors() {
@@ -27,6 +29,30 @@ const Contributors: React.FC = () => {
     fetchContributors();
   }, []);
 
+  const indexOfLastContributor = currentPage * contributorsPerPage;
+  const indexOfFirstContributor = indexOfLastContributor - contributorsPerPage;
+  const currentContributors = contributors.slice(indexOfFirstContributor, indexOfLastContributor);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  const totalPages = Math.ceil(contributors.length / contributorsPerPage);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      paginate(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      paginate(currentPage + 1);
+    }
+  };
+
+  const handlePageClick = (pageNumber: number) => {
+    paginate(pageNumber);
+  };
+
   return (
     <div className="-mt-7 bg-white dark:bg-[#000435] text-black dark:text-gray-200 min-h-screen" style={{
       backgroundImage: `url(${bgHero})`,
@@ -36,7 +62,7 @@ const Contributors: React.FC = () => {
       <div className="container mx-auto py-8">
         <h1 className="text-center text-3xl font-semibold mb-8">🤝 Contributors</h1>
         <div className="flex flex-wrap justify-center gap-8">
-          {contributors.map((contributor) => (
+          {currentContributors.map((contributor) => (
             <a
               key={contributor.id}
               href={contributor.html_url}
@@ -57,6 +83,43 @@ const Contributors: React.FC = () => {
               </p>
             </a>
           ))}
+        </div>
+        <div className="flex justify-center items-center mt-4 w-full space-x-2">
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className={`text-white px-4 py-2 rounded ${
+              currentPage === 1
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+            Previous
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageClick(i + 1)}
+              className={`text-white px-4 py-2 rounded ${
+                currentPage === i + 1
+                  ? "bg-blue-500"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className={`text-white px-6 py-2 rounded ${
+              currentPage === totalPages
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>
