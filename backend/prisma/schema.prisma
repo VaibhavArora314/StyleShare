@@ -35,6 +35,16 @@ model User {
   linkedin     String? 
   portfolio    String? 
   avatar     String?  
+  feedbacks    Feedback[] @relation("userFeedbacks")
+}
+
+model Feedback {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  rating     Int
+  comment    String
+  userId     String   @db.ObjectId
+  user       User     @relation("userFeedbacks", fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
 }
 
 model Follow {
