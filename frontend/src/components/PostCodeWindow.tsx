@@ -48,7 +48,7 @@ function PostCodeWindow({
                   : "border border-sky-500 text-sky-500 dark:text-white"
               }`}
             >
-              JavaScript
+              JS
             </button>
           )}
         </div>
