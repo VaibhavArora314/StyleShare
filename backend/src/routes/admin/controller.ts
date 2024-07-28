@@ -5,8 +5,6 @@ import { createJWT } from "../../helpers/jwt";
 import { validatePassword } from "../../helpers/hash";
 import { UserAuthRequest } from "../../helpers/types";
 import PDFDocument from 'pdfkit';
-import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
-import { ChartConfiguration, ChartType } from 'chart.js';
 
 export const adminLoginController = async (req: Request, res: Response) => {
   try {
