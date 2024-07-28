@@ -11,9 +11,36 @@ import { FaRegComments } from "react-icons/fa";
 import GoogleTranslate from './GoogleTranslate';
 import { RiHeartsLine } from "react-icons/ri";
 import { VscReactions } from "react-icons/vsc";
+import { TbReportAnalytics } from "react-icons/tb";
+import { tokenState } from '../store/atoms/auth';
+import { useRecoilValue } from 'recoil';
+import axios from 'axios';
 
 const SideBar = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleSidebar: () => void }) => {
   const location = useLocation();
+  const token = useRecoilValue(tokenState);
+
+  const downloadReport = async () => {
+    try {
+      const response = await axios.get('/api/v1/admin/downloadReport', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: 'blob', 
+      });
+  
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'StyleShare_Report.pdf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading the report:', error);
+    }
+  };
+  
 
   const linkClasses = (path: string) => 
     `mb-2 flex items-center py-2.5 px-4 rounded-lg transition duration-200 ${location.pathname === path ? 'bg-sky-500' : 'hover:bg-sky-500'}`;
@@ -40,6 +67,9 @@ const SideBar = ({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean, toggleS
         <Link to="/admin/favorites" className={linkClasses('/admin/favorites')}><RiHeartsLine size={23} className='mr-3'/>Favorites</Link>
         <Link to="/admin/reactions" className={linkClasses('/admin/reactions')}><VscReactions size={23} className='mr-3'/>Reactions</Link>
         <Link to="/admin/statistics" className={linkClasses('/admin/statistics')}><VscGraphScatter size={23} className='mr-3'/>Statistics</Link>
+        <button onClick={downloadReport} className="w-full mb-2 flex items-center py-2.5 px-4 rounded-lg transition duration-200 bg-yellow-500 hover:bg-yellow-600"><TbReportAnalytics size={23} className='mr-3'/>
+          Download Report
+        </button>
       </nav>
     </div>
   );
