@@ -1,11 +1,4 @@
 .captcha{
-    width: 40%;
     background: url("../assets/captcha.webp") repeat 0 0 !important;
-    padding: 9px;
-    font-size: 24px;
-    font-weight: bolder;
     color: rgb(108 110 113);
-    border: 2px solid black;
-    border-radius: 6px;
-    user-select: none;
 }
