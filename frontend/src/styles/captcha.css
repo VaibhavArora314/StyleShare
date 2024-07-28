@@ -1,0 +1,4 @@
+.captcha{
+    background: url("../assets/captcha.webp") repeat 0 0 !important;
+    color: rgb(108 110 113);
+}
