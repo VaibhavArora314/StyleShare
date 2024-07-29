@@ -3,6 +3,7 @@ import PostCodeWindow from "./PostCodeWindow";
 import PostPreview from "./PostPreview";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { FaRegCopy, FaRegEdit, FaRobot } from "react-icons/fa";
 
 type Props = {
   id: string;
@@ -25,7 +26,6 @@ const PostCodeWithPreview = ({
 }: Props) => {
   const [activeTab, setActiveTab] = useState<"html" | "js">("html");
   const [isPreview, setIsPreview] = useState(false);
-
 
   const handleCopy = () => {
     if (codeSnippet && activeTab === "html") {
@@ -75,31 +75,39 @@ const PostCodeWithPreview = ({
         {isOwner ? (
           <Link
             to={`/app/posts/edit/${id}`}
-            className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+            className="px-2 py-2 md:py-1 bg-blue-600 hover:bg-blue-700 rounded text-white flex items-center"
           >
-            Edit
+            <FaRegEdit className="inline md:hidden" />
+            <span className="hidden md:inline">Edit</span>
           </Link>
         ) : null}
         <button
           onClick={handleCopy}
-          className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded"
+          className="px-2 py-2 md:py-1 bg-blue-600 hover:bg-blue-700 rounded text-white flex items-center"
         >
-          Copy
+          <FaRegCopy className="inline md:hidden" />
+          <span className="hidden md:inline">Copy</span>
         </button>
         {showCustomizeAiOption && (
           <button
             onClick={handleCustomizeAi}
-            className="px-2 py-1 rounded-md text-white bg-green-600 hover:bg-green-700 text-sm"
+            className="px-2 py-2 md:py-1 rounded-md bg-green-600 hover:bg-green-700 text-white flex items-center"
           >
-            Customize AI
+            <FaRobot className="inline md:hidden" />
+            <span className="hidden md:inline">Customize AI</span>
           </button>
         )}
         {!showTogether && (
           <button
-            onClick={() => {setIsPreview(val => !val)}}
+            onClick={() => setIsPreview((val) => !val)}
             className="px-2 py-1 rounded-md text-white bg-green-600 hover:bg-green-700 text-sm"
           >
-            {isPreview ? "Show Code" : "Preview"}
+            <span className="inline md:hidden">
+              {isPreview ? "Code" : "Preview"}
+            </span>
+            <span className="hidden md:inline">
+              {isPreview ? "Show Code" : "Show Preview"}
+            </span>
           </button>
         )}
       </div>
