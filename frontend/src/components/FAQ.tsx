@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import bgHero from "../assets/bgHero.png";
-import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
+import { BiChevronUp } from 'react-icons/bi';
 
 interface FAQItem {
   question: string;
@@ -14,6 +14,7 @@ const FAQ: React.FC = () => {
     {
       question: "What is Style Share?",
       answer: "Style Share is a simple web-based platform where users can contribute, create, explore, and share web design components, focusing on Tailwind CSS.",
+
     },
     {
       question: "How does it work?",
@@ -65,17 +66,24 @@ const FAQ: React.FC = () => {
         </h2>
         <dl className="flex flex-col items-center">
           {faqs.map((faq, index) => (
-            <div key={index} className="w-[83%] mb-2 transition-transform duration-300 hover:translate-y-1">
-              <div className={`rounded-lg border-2 border-transparent transition-all duration-300 ${activeIndex === index ? 'border-[#000435]' : ''}`}>
+            <div
+              key={index}
+              className="w-[83%] mb-2 transition-transform duration-300  group"
+            >
+              <div
+                className={`rounded-lg border-2 border-transparent transition-all duration-300 ${"border-[#000435]"}`}
+              >
                 <button
                   onClick={() => handleToggle(index)}
                   className="rounded-lg bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] w-full flex justify-between items-center p-4 text-[1.25rem] font-medium text-white border-none cursor-pointer text-left transition-shadow duration-300 hover:shadow-[1px_1px_2px_rgb(255,0,225),_0_0_1em_rgb(0,255,251),_0_0_0.2em_rgb(0,255,242)]"
                 >
                   <span>{faq.question}</span>
-                  {activeIndex === index ? <BiChevronUp className="w-5 h-5" /> : <BiChevronDown className="w-5 h-5" />}
+                  <BiChevronUp className="w-5 h-5 group-hover:rotate-180 transition-all ease-in-out duration-500" />
                 </button>
               </div>
-              <div className={`overflow-hidden transition-max-height duration-1000 ${activeIndex === index ? 'max-h-[200px]' : 'max-h-0'}`}>
+              <div
+                className={`overflow-hidden transition-max-height duration-1000 group-hover:max-h-[200px] max-h-0`}
+              >
                 <div className="mt-1 ml-1 rounded-lg text-[17px] text-white p-2 bg-gradient-to-r from-[#8d2de23d] to-[#b700e07f] hover:bg-gradient-to-r hover:from-[#8d2de257] hover:to-[#b700e0b3]">
                   {faq.answer}
                 </div>
