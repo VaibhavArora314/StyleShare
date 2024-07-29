@@ -18,10 +18,12 @@ const FAQ: React.FC = () => {
     },
     {
       question: "How does it work?",
-      answer: "Users can search any component with search bar from various developers, contribute to open source for more Tailwind components, create their own component to help other developers, and create posts from the 'New Posts' section.",},
+      answer: "Users can search any component with search bar from various developers, contribute to open source for more Tailwind components, create their own component to help other developers, and create posts from the 'New Posts' section.",
+    },
     {
       question: "Who can use Style Share?",
-      answer: "Whether you are a seasoned developer looking for inspiration or a beginner taking your first steps into the world of web design, Style Share offers a wealth of resources tailored to your needs.",},
+      answer: "Whether you are a seasoned developer looking for inspiration or a beginner taking your first steps into the world of web design, Style Share offers a wealth of resources tailored to your needs.",
+    },
     {
       question: "Is there a cost to use Style Share?",
       answer: "No, Style Share is completely free to use.",
@@ -44,11 +46,12 @@ const FAQ: React.FC = () => {
     },
     {
       question: "Are there any guidelines for contributing components?",
-      answer: "Yes, please follow the contribution guidelines provided on the platform. This ensures that all components meet the quality standards and are consistent with the platform's design principles.", },
+      answer: "Yes, please follow the contribution guidelines provided on the platform. This ensures that all components meet the quality standards and are consistent with the platform's design principles.",
+    },
     {
       question: "How can I give feedback or suggest improvements?",
       answer: "You can provide feedback or suggest improvements by using the 'Feedback' section on the platform. We value your input and strive to continuously improve Style Share.",
-    },
+    }
   ];
 
   const handleToggle = (index: number) => {
