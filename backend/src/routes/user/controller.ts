@@ -667,3 +667,24 @@ export const createFeedback = async (req: UserAuthRequest, res: Response) => {
     res.status(500).json({ error: 'An unexpected error occurred!' });
   }
 };
+
+export const getFeedbacks = async (req: Request, res: Response) => {
+  try {
+    const feedbacks = await prisma.feedback.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            avatar: true,
+          },
+        },
+      },
+    });
+
+    res.status(200).json(feedbacks);
+  } catch (error) {
+    console.error('Error fetching feedbacks:', error);
+    res.status(500).json({ error: 'An unexpected error occurred!' });
+  }
+};

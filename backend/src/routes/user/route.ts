@@ -12,7 +12,8 @@ import {
   userSignupController,
   verifyOtpController,
   userProfileUpdate,
-  createFeedback
+  createFeedback,
+  getFeedbacks
 } from "./controller";
 import authMiddleware from "../../middleware/auth";
 
@@ -43,5 +44,7 @@ userRouter.get("/:id/follow-status", authMiddleware, checkFollowStatusController
 userRouter.get('/checkBlockedOrUnblock',authMiddleware,checkingBlockOrUnblock);
 
 userRouter.post('/feedback', authMiddleware, createFeedback);
+
+userRouter.get('/getfeedback', getFeedbacks);
 
 export default userRouter;
