@@ -4,6 +4,7 @@ import { adminLoginSchema } from './zodSchema';
 import { createJWT } from "../../helpers/jwt";
 import { validatePassword } from "../../helpers/hash";
 import { UserAuthRequest } from "../../helpers/types";
+import PDFDocument from 'pdfkit';
 
 export const adminLoginController = async (req: Request, res: Response) => {
   try {
@@ -547,6 +548,94 @@ export const getFavoritesController = async (req: Request, res: Response) => {
       favorites,
     });
   } catch (error) {
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const downloadReportController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const currentDate = new Date().toLocaleDateString();
+
+    const totalUsers = await prisma.user.count();
+    const totalPosts = await prisma.post.count();
+    const totalComments = await prisma.comment.count();
+    const totalReactions = await prisma.reaction.count();
+    const contactMessages = await prisma.contactMessage.count();
+    const favoritePosts = await prisma.favorite.count();
+
+    const trendingPosts = await prisma.post.findMany({
+      orderBy: {
+        reactions: {
+          _count: 'desc',
+        },
+      },
+      take: 5,
+      select: {
+        title: true
+      },
+    });
+
+    const newPosts = await prisma.post.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 5,
+      select: {
+        title: true,
+      },
+    });
+    
+    const doc = new PDFDocument();
+    let filename = `StyleShare_Report.pdf`;
+    filename = encodeURIComponent(filename);
+
+    res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-type', 'application/pdf');
+
+    doc.pipe(res);
+
+    doc.fontSize(25).text('StyleShare Web App Report', {
+      align: 'center'
+    });
+
+    
+    doc.moveDown();
+    doc.fontSize(20).text('Overview',{
+      align: 'center'
+    });
+    doc.moveDown();
+    doc.fontSize(15).text(`Date: ${currentDate}`);
+    doc.moveDown();
+
+    doc.fontSize(12).text(`Total Users: ${totalUsers}`);
+    doc.text(`Total Posts: ${totalPosts}`);
+    doc.text(`Total Comments: ${totalComments}`);
+    doc.text(`Total Reactions: ${totalReactions}`);
+    doc.text(`Total Contact Messages: ${contactMessages}`);
+    doc.text(`Total Favorite Posts: ${favoritePosts}`);
+    doc.moveDown();
+
+    doc.moveDown();
+    doc.fontSize(15).text('Top Trending Posts');
+    doc.moveDown();
+
+    trendingPosts.forEach((post, index) => {
+      doc.fontSize(12).text(`${index + 1}. ${post.title}`);
+    });
+
+    doc.moveDown();
+    doc.fontSize(15).text('Newest Posts');
+    doc.moveDown();
+
+    newPosts.forEach((post, index) => {
+      doc.fontSize(12).text(`${index + 1}. ${post.title}`);
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error(error);
     res.status(500).json({
       error: "An unexpected exception occurred!",
     });

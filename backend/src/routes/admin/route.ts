@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { getPostReactionsController,getFavoritesController,adminLoginController, adminProfileController, allUserForAdmin, blockUserController, unblockUserController, getAdminPostsController, getAdminTrendingPostsController, getAdminStatsController, getGraphsStatsController, updatePostController, deletePostController, getPostByIdController, getAllContactMessages, deleteCommentController } from './controller';
+import { getPostReactionsController,getFavoritesController,adminLoginController, adminProfileController, allUserForAdmin, blockUserController, unblockUserController, getAdminPostsController, getAdminTrendingPostsController, getAdminStatsController, getGraphsStatsController, updatePostController, deletePostController, getPostByIdController, getAllContactMessages, deleteCommentController, downloadReportController } from './controller';
 import { isAdmin } from '../../middleware/adminAuth';
 
 const adminRouter = Router();
@@ -35,5 +35,7 @@ adminRouter.delete('/comments/delete/:commentId', isAdmin, deleteCommentControll
 adminRouter.get('/getreactions', isAdmin, getPostReactionsController);
 
 adminRouter.get('/favorites', isAdmin, getFavoritesController);
+
+adminRouter.get('/downloadReport',isAdmin, downloadReportController);
 
 export default adminRouter;
