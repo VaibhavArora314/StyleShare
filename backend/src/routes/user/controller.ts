@@ -640,3 +640,30 @@ export const checkingBlockOrUnblock = async (req: UserAuthRequest, res: Response
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+export const createFeedback = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const { rating, comment } = req.body;
+    const userId = req.userId; 
+
+    if (!rating || !comment || !userId) {
+      return res.status(400).json({ error: 'Rating and comment are required.' });
+    }
+
+    const feedback = await prisma.feedback.create({
+      data: {
+        rating,
+        comment,
+        userId,
+      },
+    });
+
+    res.status(201).json({
+      message: 'Feedback created successfully.',
+      feedback,
+    });
+  } catch (error) {
+    console.error('Error creating feedback:', error);
+    res.status(500).json({ error: 'An unexpected error occurred!' });
+  }
+};
