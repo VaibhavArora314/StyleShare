@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import bgHero from '../assets/bgHero.png';
-import { IoCaretForwardOutline } from "react-icons/io5";
-import { IoCaretBackOutline } from "react-icons/io5";
-import axios from 'axios';
 
 interface Testimonial {
   quote: string;
@@ -10,26 +7,46 @@ interface Testimonial {
   image: string;
 }
 
-interface Feedback {
-  id: string;
-  rating: number;
-  comment: string;
-  userId: string;
-  createdAt: string;
-  user: {
-    id: string;
-    username: string;
-    avatar: string;
-  };
-}
+
+const testimonials: Testimonial[] = [
+  {
+    quote: "StyleShare's Tailwind CSS platform has revolutionized my workflow! With its intuitive utility-first approach, I can create stylish and responsive designs in a fraction of the time.",
+    author: "Ravi Kiran, Front-end Developer",
+    image: "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain" 
+  },
+  {
+    quote: "I've been using StyleShare's Tailwind CSS platform for my personal projects, and I'm amazed by its flexibility and efficiency. It's truly a game-changer in the world of web development!",
+    author: "Yash Goyal, Front-end Developer",
+    image: "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain"
+  },
+  {
+    quote: "Thanks to StyleShare's Tailwind CSS platform, I've been able to speed up my design process significantly. Its modular approach and customizable components have made styling a breeze!",
+    author: "Manoj Kumar,Front-end Developer",
+    image: "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain"
+  },
+  {
+    quote: "StyleShare's Tailwind CSS platform has transformed the way I collaborate with my team. Its consistent and scalable design system ensures seamless integration across projects, fostering productivity and creativity",
+    author: "Surya Teja, Front-end Developer",
+    image: "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain" 
+  },
+  {
+    quote: "I can't imagine working on web projects without StyleShare's Tailwind CSS platform. Its simplicity and power have elevated my skills as a developer and enabled me to deliver top-notch designs to my clients.",
+    author: "Sivaram, Front-end Developer",
+    image: "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain"
+  },
+  {
+    quote: "StyleShare's Tailwind CSS platform has transformed the way I collaborate with my team. Its consistent and scalable design system ensures seamless integration across projects, fostering productivity and creativity.",
+    author: "Bharath, Front-end Developer",
+    image: "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain"
+  },
+];
 
 const TestimonialSlider: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [slidesToShow, setSlidesToShow] = useState<number>(1);
+  const [slidesToShow, setSlidesToShow] = useState<number>(3);
   const [isHovered, setIsHovered] = useState<boolean>(false);
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
-  useEffect(() => {
+ useEffect(() => {
     const updateSlidesToShow = () => {
       if (window.innerWidth < 768) {
         setSlidesToShow(1);
@@ -51,31 +68,11 @@ const TestimonialSlider: React.FC = () => {
     if (!isHovered) {
       intervalId = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + slidesToShow) % testimonials.length);
-      }, 2000); // Change slide every 2 seconds
+      }, 2000); // Change slide every 3 seconds
     }
 
     return () => clearInterval(intervalId);
-  }, [slidesToShow, isHovered, testimonials.length]);
-
-  useEffect(() => {
-    const fetchFeedback = async () => {
-      try {
-        const response = await axios.get('/api/v1/user/getfeedback');
-        const data: Feedback[] = response.data;
-        const formattedTestimonials = data.map((feedback) => ({
-          quote: feedback.comment,
-          author: feedback.user.username,
-          image: feedback.user.avatar,
-        }));
-        setTestimonials(formattedTestimonials);
-      } catch (error) {
-        console.error('Error fetching feedback:', error);
-      }
-    };
-
-    fetchFeedback();
-  }, []);
-
+  }, [slidesToShow, isHovered]);
   const goToNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + slidesToShow) % testimonials.length);
   };
@@ -91,11 +88,10 @@ const TestimonialSlider: React.FC = () => {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
-
   return (
     <div
       className="testimonial-slider-container w-full flex flex-col text-center py-10 text-[#000435] bg-white dark:text-white dark:bg-[#000435]"
-      style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}      
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -105,11 +101,11 @@ const TestimonialSlider: React.FC = () => {
           className="prev-arrow text-4xl cursor-pointer transform hover:scale-125 transition-transform duration-300"
           onClick={goToPrevious}
         >
-          <IoCaretBackOutline/>
+          &#9664;
         </button>
         <div className="flex overflow-hidden max-w-full">
           {testimonials.slice(currentIndex, currentIndex + slidesToShow).map((testimonial, index) => (
-            <div key={index} className="testimonial mx-2 p-6 md:p-10 rounded-lg shadow-lg bg-white dark:bg-[#000435] text-[#000435] dark:text-white flex flex-col items-center justify-center min-w-[260px] md:min-w-[350px] lg:min-w-[400px]">
+            <div key={index} className="testimonial border border-blue-400 dark:border-gray-00 px-2 py-4 md:py-24 rounded-md mx-2 p-6 md:p-10 rounded-lg shadow-lg bg-white dark:bg-[#000435] text-[#000435] dark:text-white flex flex-col items-center justify-center min-w-[260px] md:min-w-[350px] lg:min-w-[400px]">
               <img
                 src={testimonial.image}
                 alt={`${testimonial.author}'s picture`}
@@ -124,7 +120,7 @@ const TestimonialSlider: React.FC = () => {
           className="next-arrow text-4xl cursor-pointer transform hover:scale-125 transition-transform duration-300"
           onClick={goToNext}
         >
-          <IoCaretForwardOutline/>
+          &#9654;
         </button>
       </div>
       <div className="dots flex justify-center mt-4">
@@ -135,9 +131,8 @@ const TestimonialSlider: React.FC = () => {
             onClick={() => setCurrentIndex(index)}
           />
         ))}
-      </div>
-    </div>
+        </div>
+        </div>
   );
 };
-
 export default TestimonialSlider;
