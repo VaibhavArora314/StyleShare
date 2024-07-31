@@ -60,20 +60,22 @@ const Contributors: React.FC = () => {
       backgroundPosition: "center",
     }}>
       <div className="container mx-auto py-8">
-        <h1 className="text-center text-3xl font-semibold mb-8">🤝 Contributors</h1>
+        <h1 className="text-center text-3xl font-semibold mb-8 mt-16">Our Contributors</h1>
         <div className="flex flex-wrap justify-center gap-8">
           {currentContributors.map((contributor) => (
             <a
               key={contributor.id}
               href={contributor.html_url}
-              className="w-full md:w-1/3 lg:w-1/4 flex flex-col items-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-md p-4 transition-transform transform hover:scale-105 hover:shadow-xl"
+              className="w-full md:w-1/3 lg:w-1/4 flex flex-col items-center bg-white dark:bg-[#001f3f] border border-gray-300 dark:border-gray-700 rounded-lg shadow-md p-4 transition-transform transform hover:scale-105 hover:shadow-xl"
               target="_blank"
               rel="noopener noreferrer"
+              style={{ borderColor: '#800080', borderWidth: 2 }}
             >
               <img
                 src={contributor.avatar_url}
                 alt={contributor.login}
                 className="w-24 h-24 rounded-full object-cover mb-4"
+                style={{ borderColor: '#800080', borderWidth: 2, borderStyle: 'solid' }}
               />
               <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
                 {contributor.login}
@@ -84,7 +86,7 @@ const Contributors: React.FC = () => {
             </a>
           ))}
         </div>
-        <div className="flex justify-center items-center mt-4 w-full space-x-2">
+        <div className="flex justify-center items-center mt-4 w-full flex-wrap gap-2">
           <button
             onClick={handlePreviousPage}
             disabled={currentPage === 1}
