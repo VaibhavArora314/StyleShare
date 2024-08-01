@@ -97,7 +97,7 @@ const Comments = () => {
                     <td colSpan={4} className="px-8 py-4">
                       <div className="flex items-start space-x-4">
                         <div className="flex-shrink-0">
-                          <img className="h-10 w-10 rounded-full" src={`https://ui-avatars.com/api/?name=${comment.user.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic" />                        
+                          <img className="h-10 w-10 rounded-full" src={comment.user?.avatar?.replace('/app/src/assets/avatars', '/admin/src/assets/avatars') || `https://ui-avatars.com/api/?name=${comment.user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`}  alt="profile-pic" />                        
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="text-sm font-medium text-white">

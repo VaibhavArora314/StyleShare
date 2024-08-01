@@ -67,6 +67,7 @@ export interface IFavoritePost {
     id: string;
     username: string;
     email: string;
+    avatar?:string;
   };
   post: {
     id: string;

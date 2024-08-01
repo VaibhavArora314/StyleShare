@@ -67,7 +67,7 @@ const Favorites = () => {
                 {favoritePosts.map(favorite => (
                   <tr key={favorite.id} className="text-xs md:text-sm text-center border-b bg-[#000435] border-sky-500 hover:bg-blue-950 hover:text-white">
                     <td className="pl-7">
-                      <img className="h-10 w-10 rounded-full" src={`https://ui-avatars.com/api/?name=${favorite.user.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic" />
+                      <img className="h-10 w-10 rounded-full" src={favorite.user?.avatar?.replace('/app/src/assets/avatars', '/admin/src/assets/avatars') || `https://ui-avatars.com/api/?name=${favorite.user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic" />
                     </td>
                     <td className="px-8 py-4 font-semibold">
                       <div className="flex flex-col items-start">
