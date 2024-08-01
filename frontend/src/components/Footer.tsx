@@ -92,7 +92,7 @@ const Footer = () => {
                                 </Link>
                             </li>
                             <li className='py-1 cursor-pointer'>
-                                <Link to='https://github.com/VaibhavArora314/StyleShare?tab=MIT-1-ov-file#readme' className='flex items-center gap-2 link-hover'>
+                                <Link to='/app/policy#licensing' className='flex items-center gap-2 link-hover'>
                                 <FaFileContract className="w-4 h-4 mr-0.5" />
                                     Licensing
                                 </Link>
