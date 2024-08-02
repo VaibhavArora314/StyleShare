@@ -671,6 +671,9 @@ export const createFeedback = async (req: UserAuthRequest, res: Response) => {
 export const getFeedbacks = async (req: Request, res: Response) => {
   try {
     const feedbacks = await prisma.feedback.findMany({
+      where:{
+        visible:true
+      },
       include: {
         user: {
           select: {

@@ -17,6 +17,7 @@ import Comments from "./pages/Comments";
 import Layout from "./components/Layout";
 import Favorites from "./pages/Favorites";
 import Reactions from "./pages/Reactions";
+import UsersFeedbacks from "./pages/UsersFeedbacks";
 // import axios from "axios";
 // axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -43,6 +44,7 @@ function App() {
                       <Route path="" element={<Dashboard />} />
                       <Route path="profile" element={<Profile />} />
                       <Route path="users" element={<Users />} />
+                      <Route path="userfeedbacks" element={<UsersFeedbacks />} />
                       <Route path="posts" element={<Posts />} />
                       <Route path="update-post/:postId" element={<UpdatePost />} />
                       <Route path="statistics" element={<Graphs />} />

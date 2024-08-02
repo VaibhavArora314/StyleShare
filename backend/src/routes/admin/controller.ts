@@ -641,3 +641,47 @@ export const downloadReportController = async (req: UserAuthRequest, res: Respon
     });
   }
 };
+
+export const getFeedbacks = async (req: Request, res: Response) => {
+  try {
+    const feedbacks = await prisma.feedback.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            avatar: true,
+          },
+        },
+      },
+    });
+
+    res.status(200).json(feedbacks);
+  } catch (error) {
+    console.error('Error fetching feedbacks:', error);
+    res.status(500).json({ error: 'An unexpected error occurred!' });
+  }
+};
+
+export const toggleFeedbackVisibility = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const feedback = await prisma.feedback.findUnique({
+      where: { id },
+    });
+
+    if (!feedback) {
+      return res.status(404).json({ error: 'Feedback not found' });
+    }
+
+    const updatedFeedback = await prisma.feedback.update({
+      where: { id },
+      data: { visible: !feedback.visible },
+    });
+
+    res.status(200).json(updatedFeedback);
+  } catch (error) {
+    console.error('Error toggling feedback visibility:', error);
+    res.status(500).json({ error: 'An unexpected error occurred!' });
+  }
+};
