@@ -92,7 +92,7 @@ function ContactUs() {
       <h2 className="text-4xl font-bold mb-8 text-center text-[#000435] bg-white dark:text-white dark:bg-[#000435] mt-8">
         Contact Us
       </h2>
-      <section className="w-full max-w-4xl flex flex-col md:flex-row text-[#000435] bg-white dark:text-white dark:bg-[#000435] rounded-lg shadow border md:mt-0 border-blue-700 dark:border-sky-500">
+      <section className="w-full max-w-4xl flex flex-col md:flex-row text-[#000435] bg-white dark:text-white dark:bg-[#000435] rounded-lg shadow border md:mt-0 border-blue-700 dark:border-sky-500 my-10">
         <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
