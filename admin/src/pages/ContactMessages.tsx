@@ -8,6 +8,7 @@ import 'react-responsive-modal/styles.css';
 import '../styles/Model.css'
 import { ColorRing } from 'react-loader-spinner';
 import { MdMessage } from "react-icons/md";
+import { TbReportAnalytics } from "react-icons/tb";
 
 const ContactMessages = () => {
   const [contactMessages, setContactMessages] = useState<IContactMessage[]>([]);
@@ -36,6 +37,27 @@ const ContactMessages = () => {
 
     fetchMessages();
   }, [token]);
+
+  const downloadContactMessagesReport = async () => {
+    try {
+      const response = await axios.get('/api/v1/admin/downloadcontactmessagereport', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: 'blob', 
+      });
+  
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'StyleShare_Contact_Messages_Report.pdf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading the Contact Messages report:', error);
+    }
+  };
 
   const handleOpenModal = (message: IContactMessage) => {
     setSelectedMessage(message);
@@ -68,6 +90,7 @@ const ContactMessages = () => {
         />
       </div>
       :
+      <>
         <div className="mx-5 lg:mr-11 overflow-x-auto shadow-md rounded-xl mb-5">
           <table className="w-full rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs md:text-sm text-white uppercase bg-sky-500 text-center">
@@ -112,6 +135,12 @@ const ContactMessages = () => {
             </tbody>
           </table>
         </div>
+        <div className="mx-5 overflow-x-auto rounded-xl mb-5">
+        <button onClick={downloadContactMessagesReport} className="flex items-center py-2.5 px-4 rounded-lg transition duration-200 bg-yellow-500 hover:bg-yellow-600 text-gray-100"><TbReportAnalytics size={23} className='mr-3'/>
+            Download Messages
+          </button>
+        </div>
+        </>
       }
       </div>
       <Modal open={open} onClose={handleCloseModal} center classNames={{ modal: 'customModal',overlay: 'customOverlay'}}>
