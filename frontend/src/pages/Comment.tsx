@@ -99,7 +99,7 @@ const Comment = () => {
         </ul>
         
         ) : (
-          <p className="text-gray-300">Be the first one to comment...</p>
+          <p className="text-[#000435] dark:text-white">Be the first one to comment...</p>
         )}
       </div>
       <form onSubmit={handleCommentSubmit} className="mt-5">
