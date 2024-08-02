@@ -69,7 +69,7 @@ const Reactions = () => {
           {reactions.map(reaction => (
             <tr key={reaction.user.id + reaction.post.id + reaction.type} className="text-xs md:text-sm text-center border-b bg-[#000435] border-sky-500 hover:bg-blue-950 hover:text-white">
             <td className="pl-7">
-                <img className="h-10 w-10 rounded-full" src={reaction.user?.avatar?.replace('/app/src/assets/avatars', '/admin/src/assets/avatars') || `https://ui-avatars.com/api/?name=${reaction.user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic" />
+                <img className="h-10 w-10 rounded-full" src={reaction.user?.avatar?.replace('/app', '/admin') || `https://ui-avatars.com/api/?name=${reaction.user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic" />
             </td>
               <td className="px-6 py-4 font-semibold">
                 <div className="flex flex-col items-start">
