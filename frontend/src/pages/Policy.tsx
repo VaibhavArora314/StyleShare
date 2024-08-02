@@ -164,6 +164,22 @@ function Policy() {
             </div>
           </div>
         </div>
+
+        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md transition-transform duration-300 hover:shadow-lg transform hover:scale-105">
+          <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-8 mb-8">
+            <img src={terms} alt="MITLicense" className="rounded-lg w-32 h-32" />
+            <div>
+              <h1 id="licensing" className="text-4xl font-bold mb-4 scroll-margin-top">Licensing</h1>
+              <section className="leading-relaxed space-y-4">
+              <h3 className="text-2xl font-semibold mt-4">MIT License</h3>
+                <p>Our project is distributed under the MIT License, a permissive free software license that allows you to reuse, modify, and distribute the software with minimal restrictions, ensuring flexibility and freedom in your development endeavors.</p>
+                
+                <p>For more detailed information about the MIT License, please click on the link provided to the license.</p>
+                <a href="https://github.com/VaibhavArora314/StyleShare?tab=MIT-1-ov-file#readme" className="text-blue-500 font-bold underline hover:text-blue-700">View MIT License</a>
+              </section>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
