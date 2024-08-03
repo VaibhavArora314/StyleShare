@@ -77,6 +77,7 @@ const Posts = () => {
 
   const handleSearch = () => {
     fetchPosts(page, 12, searchQuery, filterTags);
+    // console.log(searchQuery)
   };
 
   if (loading) {
@@ -165,7 +166,12 @@ const Posts = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="🔍 Search anything"
               className="p-2 w-full max-w-xs rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              onKeyDown={(event)=>{
+                if(event.key == "Enter"){
+                  handleSearch()
+                }
+              }}
+            />
             <button
               onClick={handleSearch}
               className="bg-blue-500 text-white px-4 py-2 rounded ml-2 hover:bg-blue-600 transition-colors duration-200"
