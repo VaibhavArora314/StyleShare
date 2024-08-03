@@ -130,6 +130,7 @@ export const allUserForAdmin = async (req: Request, res:Response) => {
         posts:true,
         createdAt:true,
         comments:true,
+        avatar:true,
         following: {
           select: {
             id: true
@@ -167,6 +168,7 @@ export const getAdminPostsController = async (req: Request, res: Response) => {
             select: {
               username: true,
               email: true,
+              avatar:true
             },
           },
         },
@@ -486,6 +488,7 @@ export const getPostReactionsController = async (req: Request, res: Response) =>
             id: true,
             username: true,
             email: true,
+            avatar:true
           },
         },
         post: {
@@ -527,7 +530,8 @@ export const getFavoritesController = async (req: Request, res: Response) => {
           select: {
             id: true,
             username: true,
-            email: true
+            email: true,
+            avatar:true
           }
         },
         post: {

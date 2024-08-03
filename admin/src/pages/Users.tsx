@@ -24,6 +24,7 @@ const Users = () => {
         });
         setAllUsers(response.data.allUsers.reverse());
         setLoading(false);
+        console.log(response.data.allUsers)
       } catch (error) {
         console.error("Error fetching users:", error);
         setLoading(true);
@@ -108,7 +109,7 @@ const Users = () => {
         <tbody>
           {allUsers.map(user => (
             <tr key={user.id} className="text-xs md:text-sm text-center border-b bg-[#000435] border-sky-500 hover:bg-blue-950 hover:text-white">
-              <td className="pl-7"><img className="h-10 w-10 rounded-full" src={`https://ui-avatars.com/api/?name=${user.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic" /></td>
+              <td className="pl-7"><img className="h-10 w-10 rounded-full" src={user?.avatar?.replace('/app', '/admin') || `https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`}  alt="profile-pic" /></td>
               <td className="px-8 py-4 font-semibold">
                 <div className="flex flex-col items-start">
                   <span className="font-bold">{user.username}</span>

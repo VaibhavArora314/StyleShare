@@ -111,7 +111,7 @@ const TestimonialSlider: React.FC = () => {
           {testimonials.slice(currentIndex, currentIndex + slidesToShow).map((testimonial, index) => (
             <div key={index} className="testimonial border border-blue-400 dark:border-gray-00 px-2 py-4 md:py-24 rounded-md mx-2 p-6 md:p-10 rounded-lg shadow-lg bg-white dark:bg-[#000435] text-[#000435] dark:text-white flex flex-col items-center justify-center min-w-[260px] md:min-w-[350px] lg:min-w-[400px]">
               <img
-                src={testimonial.image}
+                src={testimonial.image|| `https://ui-avatars.com/api/?name=${testimonial.author}&background=0ea5e9&color=fff&rounded=true&bold=true`}
                 alt={`${testimonial.author}'s picture`}
                 className="w-24 h-24 md:w-32 md:h-32 rounded-full mb-6 border-4 p-1 border-[#a238ff] dark:border-white"
               />
