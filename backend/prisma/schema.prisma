@@ -43,6 +43,7 @@ model Feedback {
   rating     Int
   comment    String
   userId     String   @db.ObjectId
+  visible    Boolean  @default(false)
   user       User     @relation("userFeedbacks", fields: [userId], references: [id])
   createdAt  DateTime @default(now())
 }

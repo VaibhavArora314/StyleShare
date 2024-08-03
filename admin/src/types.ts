@@ -82,3 +82,12 @@ export interface IReaction {
   user: IUser;
   post: IPost;
 }
+
+export interface IFeedback {
+  id: string;
+  comment: string;
+  rating: number;
+  createdAt: string;
+  user: IUser;
+  visible: boolean;
+}
