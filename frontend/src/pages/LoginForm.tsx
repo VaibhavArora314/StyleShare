@@ -44,7 +44,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ defaultFormType = 'Signin' }) => 
     }, [location.pathname]);
 
     return (
-        <Box sx={{ textAlign: 'center' }}>
+        <Box sx={{ textAlign: 'center' }} >
             <ToggleButtonGroup
                 value={formType}
                 onChange={handleFormChange}
@@ -55,7 +55,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ defaultFormType = 'Signin' }) => 
                         fontSize: '16px',
                         width: '120px',
                         backgroundColor: 'rgba(0, 0, 0, 0.1)', // Slight transparency for better background adaptation
-                        color: '#fff', // Neutral text color
                         borderRadius: '8px', // Rounded corners for a modern look
                         '&.Mui-selected': {
                             backgroundColor: 'rgba(37, 117, 252, 0.8)', // Light blue with slight transparency
@@ -73,8 +72,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ defaultFormType = 'Signin' }) => 
                     }
                 }}
             >
-                <ToggleButton value="Signin"><Typography>Sign In</Typography></ToggleButton>
-                <ToggleButton value="SignUp"><Typography>Sign Up</Typography></ToggleButton>
+                <ToggleButton value="Signin"><Typography className="text-[#000435] dark:text-white">Sign In</Typography></ToggleButton>
+                <ToggleButton value="SignUp"><Typography className="text-[#000435] dark:text-white">Sign Up</Typography></ToggleButton>
             </ToggleButtonGroup>
             {formType === 'Signin' ? <Signin /> : <Signup />}
         </Box>

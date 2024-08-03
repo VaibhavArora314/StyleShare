@@ -76,7 +76,7 @@ const FAQ: React.FC = () => {
           backgroundPosition: "center",
         }}
       >
-        <h2 className="text-2xl md:text-[37px] mb-14 font-bold text-white transition-shadow duration-300 hover:shadow-[1px_1px_5px_rgb(0,255,208),_0_0_1em_rgb(238,71,224),_0_0_0.2em_rgb(255,0,200)]">
+        <h2 className="text-2xl md:text-[37px] mb-14 font-bold text-[#000435] dark:text-white">
           Frequently Asked Questions!
         </h2>
         <dl className="flex flex-col items-center">
