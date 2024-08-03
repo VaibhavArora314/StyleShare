@@ -130,6 +130,7 @@ export const allUserForAdmin = async (req: Request, res:Response) => {
         posts:true,
         createdAt:true,
         comments:true,
+        avatar:true,
         following: {
           select: {
             id: true
@@ -167,6 +168,7 @@ export const getAdminPostsController = async (req: Request, res: Response) => {
             select: {
               username: true,
               email: true,
+              avatar:true
             },
           },
         },
@@ -486,6 +488,7 @@ export const getPostReactionsController = async (req: Request, res: Response) =>
             id: true,
             username: true,
             email: true,
+            avatar:true
           },
         },
         post: {
@@ -527,7 +530,8 @@ export const getFavoritesController = async (req: Request, res: Response) => {
           select: {
             id: true,
             username: true,
-            email: true
+            email: true,
+            avatar:true
           }
         },
         post: {
@@ -639,6 +643,50 @@ export const downloadReportController = async (req: UserAuthRequest, res: Respon
     res.status(500).json({
       error: "An unexpected exception occurred!",
     });
+  }
+};
+
+export const getFeedbacks = async (req: Request, res: Response) => {
+  try {
+    const feedbacks = await prisma.feedback.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            avatar: true,
+          },
+        },
+      },
+    });
+
+    res.status(200).json(feedbacks);
+  } catch (error) {
+    console.error('Error fetching feedbacks:', error);
+    res.status(500).json({ error: 'An unexpected error occurred!' });
+  }
+};
+
+export const toggleFeedbackVisibility = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const feedback = await prisma.feedback.findUnique({
+      where: { id },
+    });
+
+    if (!feedback) {
+      return res.status(404).json({ error: 'Feedback not found' });
+    }
+
+    const updatedFeedback = await prisma.feedback.update({
+      where: { id },
+      data: { visible: !feedback.visible },
+    });
+
+    res.status(200).json(updatedFeedback);
+  } catch (error) {
+    console.error('Error toggling feedback visibility:', error);
+    res.status(500).json({ error: 'An unexpected error occurred!' });
   }
 };
 
