@@ -77,7 +77,6 @@ const Posts = () => {
 
   const handleSearch = () => {
     fetchPosts(page, 12, searchQuery, filterTags);
-    // console.log(searchQuery)
   };
 
   if (loading) {
