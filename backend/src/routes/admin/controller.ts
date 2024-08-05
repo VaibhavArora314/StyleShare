@@ -873,3 +873,219 @@ export const downloadContactMessagesReportController = async (req: Request, res:
     });
   }
 };
+
+export const downloadCommentsReportController = async (req: Request, res: Response) => {
+  try {
+    const currentDate = new Date().toLocaleDateString();
+
+    const comments = await prisma.comment.findMany({
+      select: {
+        content: true,
+        createdAt: true,
+        user: {
+          select: {
+            username: true,
+            email: true,
+          },
+        },
+        post: {
+          select: {
+            title: true,
+          },
+        },
+      },
+    });
+
+    const totalComments = comments.length;
+
+    const doc = new PDFDocument();
+    let filename = `StyleShare_Comments_Report.pdf`;
+    filename = encodeURIComponent(filename);
+
+    res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-type', 'application/pdf');
+
+    doc.pipe(res);
+
+    doc.fontSize(25).text('StyleShare Comments Report', {
+      align: 'center'
+    });
+
+    doc.moveDown();
+    doc.fontSize(20).text('Overview', {
+      align: 'center'
+    });
+    doc.moveDown();
+    doc.fontSize(15).text(`Date: ${currentDate}`);
+    doc.moveDown();
+
+    doc.fontSize(12).text(`Total Comments: ${totalComments}`);
+    doc.moveDown();
+
+    doc.fontSize(15).text('Comment Details:');
+    doc.moveDown();
+
+    comments.forEach(comment => {
+      doc.text(`Content: ${comment.content}`);
+      doc.text(`Created At: ${comment.createdAt.toLocaleDateString()}`);
+      doc.text(`User: ${comment.user.username} (${comment.user.email})`);
+      doc.text(`Post: ${comment.post.title}`);
+      doc.moveDown();
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const downloadReactionsReportController = async (req: Request, res: Response) => {
+  try {
+    const currentDate = new Date().toLocaleDateString();
+
+    const reactions = await prisma.reaction.findMany({
+      select: {
+        type: true,
+        createdAt: true,
+        user: {
+          select: {
+            username: true,
+            email: true,
+          },
+        },
+        post: {
+          select: {
+            title: true,
+            description: true,
+            author: {
+              select: {
+                username: true,
+                email: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const totalReactions = reactions.length;
+
+    const doc = new PDFDocument();
+    let filename = `StyleShare_Reactions_Report.pdf`;
+    filename = encodeURIComponent(filename);
+
+    res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-type', 'application/pdf');
+
+    doc.pipe(res);
+
+    doc.fontSize(25).text('StyleShare Reactions Report', {
+      align: 'center'
+    });
+
+    doc.moveDown();
+    doc.fontSize(20).text('Overview', {
+      align: 'center'
+    });
+    doc.moveDown();
+    doc.fontSize(15).text(`Date: ${currentDate}`);
+    doc.moveDown();
+
+    doc.fontSize(12).text(`Total Reactions: ${totalReactions}`);
+    doc.moveDown();
+
+    doc.fontSize(15).text('Reaction Details:');
+    doc.moveDown();
+
+    reactions.forEach(reaction => {
+      doc.fontSize(12).text(`Type: ${reaction.type}`);
+      doc.text(`Created At: ${reaction.createdAt.toLocaleDateString()}`);
+      doc.text(`User: ${reaction.user.username} (${reaction.user.email})`);
+      doc.text(`Post: ${reaction.post.title}`);
+      doc.text(`Post Description: ${reaction.post.description}`);
+      doc.text(`Post Author: ${reaction.post.author.username} (${reaction.post.author.email})`);
+      doc.moveDown();
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const downloadFavoritesReportController = async (req: Request, res: Response) => {
+  try {
+    const currentDate = new Date().toLocaleDateString();
+
+    const favorites = await prisma.favorite.findMany({
+      select: {
+        createdAt: true,
+        user: {
+          select: {
+            username: true,
+            email: true
+          }
+        },
+        post: {
+          select: {
+            title: true,
+            description: true
+          }
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    const totalFavorites = favorites.length;
+
+    const doc = new PDFDocument();
+    let filename = `StyleShare_Favorites_Report.pdf`;
+    filename = encodeURIComponent(filename);
+
+    res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-type', 'application/pdf');
+
+    doc.pipe(res);
+
+    doc.fontSize(25).text('StyleShare Favorites Report', {
+      align: 'center'
+    });
+
+    doc.moveDown();
+    doc.fontSize(20).text('Overview', {
+      align: 'center'
+    });
+    doc.moveDown();
+    doc.fontSize(15).text(`Date: ${currentDate}`);
+    doc.moveDown();
+
+    doc.fontSize(12).text(`Total Favorites: ${totalFavorites}`);
+    doc.moveDown();
+
+    doc.fontSize(15).text('Favorite Details:');
+    doc.moveDown();
+
+    favorites.forEach(favorite => {
+      doc.text(`Created At: ${favorite.createdAt.toLocaleDateString()}`);
+      doc.text(`User: ${favorite.user.username} (${favorite.user.email})`);
+      doc.text(`Post: ${favorite.post.title}`);
+      doc.text(`Post Description: ${favorite.post.description}`);
+      doc.moveDown();
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};

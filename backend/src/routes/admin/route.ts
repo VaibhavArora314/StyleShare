@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { getPostReactionsController,getFavoritesController,adminLoginController, adminProfileController, allUserForAdmin, blockUserController, unblockUserController, getAdminPostsController, getAdminTrendingPostsController, getAdminStatsController, getGraphsStatsController, updatePostController, deletePostController, getPostByIdController, getAllContactMessages, deleteCommentController, downloadReportController, getFeedbacks, toggleFeedbackVisibility, downloadUsersReportController, downloadContactMessagesReportController, downloadPostsReportController } from './controller';
+import { getPostReactionsController,getFavoritesController,adminLoginController, adminProfileController, allUserForAdmin, blockUserController, unblockUserController, getAdminPostsController, getAdminTrendingPostsController, getAdminStatsController, getGraphsStatsController, updatePostController, deletePostController, getPostByIdController, getAllContactMessages, deleteCommentController, downloadReportController, getFeedbacks, toggleFeedbackVisibility, downloadCommentsReportController, downloadFavoritesReportController, downloadReactionsReportController, downloadUsersReportController, downloadContactMessagesReportController, downloadPostsReportController } from './controller';
 import { isAdmin } from '../../middleware/adminAuth';
 
 const adminRouter = Router();
@@ -47,5 +47,11 @@ adminRouter.get('/downloadcontactmessagereport',isAdmin, downloadContactMessages
 adminRouter.get('/getfeedback',isAdmin, getFeedbacks);
 
 adminRouter.patch('/toggleFeedbackVisibility/:id', isAdmin, toggleFeedbackVisibility);
+
+adminRouter.get("/downloaduserscommentsreport", downloadCommentsReportController);
+
+adminRouter.get("/downloadusersfavoritesreport", downloadFavoritesReportController);
+
+adminRouter.get("/downloadusersreactionreport", downloadReactionsReportController);
 
 export default adminRouter;
