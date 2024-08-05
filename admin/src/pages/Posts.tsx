@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { ColorRing } from 'react-loader-spinner';
 import { BsFillPostcardFill } from "react-icons/bs";
+import { TbReportAnalytics } from "react-icons/tb";
 
 const Posts = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -48,6 +49,27 @@ const Posts = () => {
     }
   };
 
+  const downloadPostsReport = async () => {
+    try {
+      const response = await axios.get('/api/v1/admin/downloadpostsreport', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: 'blob', 
+      });
+  
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'StyleShare_Posts_Report.pdf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading the Posts report:', error);
+    }
+  };
+
   return (
     <div>
       <div className="flex-1 flex flex-col lg:ml-80">
@@ -69,6 +91,7 @@ const Posts = () => {
         />
       </div>
       :
+      <>
       <div className="mx-5 lg:mr-11 overflow-x-auto shadow-md rounded-xl mb-5">
       <table className="w-full rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs md:text-sm text-white uppercase bg-sky-500 text-center">
@@ -107,6 +130,12 @@ const Posts = () => {
             </tbody>
           </table>
           </div>
+          <div className="mx-5 overflow-x-auto rounded-xl mb-5">
+          <button onClick={downloadPostsReport} className="flex items-center py-2.5 px-4 rounded-lg transition duration-200 bg-yellow-500 hover:bg-yellow-600 text-gray-100"><TbReportAnalytics size={23} className='mr-3'/>
+              Download Posts Info
+            </button>
+          </div>
+          </>
       }
       </div>
     </div>
