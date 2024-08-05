@@ -690,6 +690,190 @@ export const toggleFeedbackVisibility = async (req: Request, res: Response) => {
   }
 };
 
+export const downloadUsersReportController = async (req: Request, res: Response) => {
+  try {
+    const currentDate = new Date().toLocaleDateString();
+
+    const users = await prisma.user.findMany({
+      select: {
+        username: true,
+        email: true,
+        createdAt: true,
+        blocked: true,
+      },
+    });
+
+    const totalUsers = users.length;
+
+    const doc = new PDFDocument();
+    let filename = `StyleShare_Users_Report.pdf`;
+    filename = encodeURIComponent(filename);
+
+    res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-type', 'application/pdf');
+
+    doc.pipe(res);
+
+    doc.fontSize(25).text('StyleShare Users Report', {
+      align: 'center'
+    });
+
+    doc.moveDown();
+    doc.fontSize(20).text('Overview', {
+      align: 'center'
+    });
+    doc.moveDown();
+    doc.fontSize(15).text(`Date: ${currentDate}`);
+    doc.moveDown();
+
+    doc.fontSize(12).text(`Total Users: ${totalUsers}`);
+    doc.moveDown();
+
+    doc.fontSize(15).text('User Details:');
+    doc.moveDown();
+
+    users.forEach(user => {
+      doc.text(`Username: ${user.username}`);
+      doc.text(`Email: ${user.email}`);
+      doc.text(`Created At: ${user.createdAt.toLocaleDateString()}`);
+      doc.text(`Blocked: ${user.blocked ? 'Yes' : 'No'}`);
+      doc.moveDown();
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const downloadPostsReportController = async (req: Request, res: Response) => {
+  try {
+    const currentDate = new Date().toLocaleDateString();
+
+    const posts = await prisma.post.findMany({
+      select: {
+        title: true,
+        description: true,
+        createdAt: true,
+        author: {
+          select: {
+            username: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    const totalPosts = posts.length;
+
+    const doc = new PDFDocument();
+    let filename = `StyleShare_Posts_Report.pdf`;
+    filename = encodeURIComponent(filename);
+
+    res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-type', 'application/pdf');
+
+    doc.pipe(res);
+
+    doc.fontSize(25).text('StyleShare Posts Report', {
+      align: 'center'
+    });
+
+    doc.moveDown();
+    doc.fontSize(20).text('Overview', {
+      align: 'center'
+    });
+    doc.moveDown();
+    doc.fontSize(15).text(`Date: ${currentDate}`);
+    doc.moveDown();
+
+    doc.fontSize(12).text(`Total Posts: ${totalPosts}`);
+    doc.moveDown();
+
+    doc.fontSize(15).text('Post Details:');
+    doc.moveDown();
+
+    posts.forEach(post => {
+      doc.text(`Title: ${post.title}`);
+      doc.text(`Description: ${post.description}`);
+      doc.text(`Created At: ${post.createdAt.toLocaleDateString()}`);
+      doc.text(`Author: ${post.author.username} (${post.author.email})`);
+      doc.moveDown();
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
+export const downloadContactMessagesReportController = async (req: Request, res: Response) => {
+  try {
+    const currentDate = new Date().toLocaleDateString();
+
+    const contactMessages = await prisma.contactMessage.findMany({
+      select: {
+        name: true,
+        email: true,
+        subject: true,
+        message: true,
+        createdAt: true,
+      },
+    });
+
+    const totalContactMessages = contactMessages.length;
+
+    const doc = new PDFDocument();
+    let filename = `StyleShare_Contact_Messages_Report.pdf`;
+    filename = encodeURIComponent(filename);
+
+    res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-type', 'application/pdf');
+
+    doc.pipe(res);
+
+    doc.fontSize(25).text('StyleShare Contact Messages Report', {
+      align: 'center'
+    });
+
+    doc.moveDown();
+    doc.fontSize(20).text('Overview', {
+      align: 'center'
+    });
+    doc.moveDown();
+    doc.fontSize(15).text(`Date: ${currentDate}`);
+    doc.moveDown();
+
+    doc.fontSize(12).text(`Total Contact Messages: ${totalContactMessages}`);
+    doc.moveDown();
+
+    doc.fontSize(15).text('Contact Message Details:');
+    doc.moveDown();
+
+    contactMessages.forEach(message => {
+      doc.text(`Name: ${message.name}`);
+      doc.text(`Email: ${message.email}`);
+      doc.text(`Subject: ${message.subject}`);
+      doc.text(`Message: ${message.message}`);
+      doc.text(`Created At: ${message.createdAt.toLocaleDateString()}`);
+      doc.moveDown();
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "An unexpected exception occurred!",
+    });
+  }
+};
+
 export const downloadCommentsReportController = async (req: Request, res: Response) => {
   try {
     const currentDate = new Date().toLocaleDateString();
