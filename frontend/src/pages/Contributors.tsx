@@ -66,7 +66,7 @@ const Contributors: React.FC = () => {
             <a
               key={contributor.id}
               href={contributor.html_url}
-              className="w-full md:w-1/3 lg:w-1/4 flex flex-col items-center bg-white dark:bg-[#001f3f] border border-gray-300 dark:border-gray-700 rounded-lg shadow-md p-4 transition-transform transform hover:scale-105 hover:shadow-xl"
+              className="w-11/12 sm:w-1/2 md:w-1/3 lg:w-1/4 flex flex-col items-center bg-white dark:bg-[#001f3f] border border-gray-300 dark:border-gray-700 rounded-lg shadow-md p-4 transition-transform transform hover:scale-105 hover:shadow-xl"
               target="_blank"
               rel="noopener noreferrer"
               style={{ borderColor: '#800080', borderWidth: 2 }}
