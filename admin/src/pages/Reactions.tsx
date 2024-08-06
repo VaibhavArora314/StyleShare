@@ -5,6 +5,7 @@ import { tokenState } from "../store/atoms/auth";
 import { ColorRing } from 'react-loader-spinner';
 import { MdAddReaction } from "react-icons/md";
 import { IReaction} from "../types";  
+import { TbReportAnalytics } from "react-icons/tb";
 
 const Reactions = () => {
   const [reactions, setReactions] = useState<IReaction[]>([]);
@@ -32,6 +33,27 @@ const Reactions = () => {
     fetchReactions();
   }, [token]);
 
+  const downloadUsersReactionsReport = async () => {
+    try {
+      const response = await axios.get('/api/v1/admin/downloadusersreactionreport', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: 'blob', 
+      });
+  
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'StyleShare_Reactions_Report.pdf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading users reactions report:', error);
+    }
+  };
+
   return (
     <div>
       <div className="flex-1 flex flex-col lg:ml-80">
@@ -53,6 +75,7 @@ const Reactions = () => {
         />
       </div>
       :
+      <>
       <div className="mx-5 lg:mr-11 overflow-x-auto shadow-md rounded-xl mb-5">
       <table className="w-full rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs md:text-sm text-white uppercase bg-sky-500 text-center">
@@ -86,6 +109,12 @@ const Reactions = () => {
         </tbody>
       </table>
     </div> 
+    <div className="mx-5 overflow-x-auto rounded-xl mb-5">
+    <button onClick={downloadUsersReactionsReport} className="flex items-center py-2.5 px-4 rounded-lg transition duration-200 bg-yellow-500 hover:bg-yellow-600 text-gray-100"><TbReportAnalytics size={23} className='mr-3'/>
+        Download Reactions Info
+      </button>
+    </div>
+    </>
       }
       </div>
     </div>

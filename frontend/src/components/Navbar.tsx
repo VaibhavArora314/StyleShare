@@ -41,15 +41,15 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
 
   const getNavLinkClass = (path: string) => {
     return location.pathname === path
-      ? "block rounded-md px-3 py-2 text-base font-medium text-gray-50  dark:text-gray-50  bg-[#2575fc]"
-      : "block rounded-md px-3 py-2 text-base font-medium text-gray-50 dark:text-gray-50 hover:bg-[#2575fc] ";
+      ? "block rounded-md px-3 py-2 text-base font-medium text-gray-50  dark:text-gray-50  bg-[#2575fc] "
+      : "block rounded-md px-3 py-2 text-base font-medium text-gray-50 dark:text-gray-50 hover:bg-[#2575fc]   ";
   };
 
   return (
     <div>
       <nav className="bg-gradient-to-r from-[#6a11cb] via-[#ab67df] to-[#2575fc] fixed w-full z-50">
         <div className="mx-auto max-w-7xl px-2 md:px-6 lg:px-8">
-          <div className="relative flex h-16 items-center justify-between">
+          <div className="relative flex h-16 items-center justify-between ">
             <Link to="/app" className="flex flex-shrink-0 items-center">
               <img
                 src={logo}
@@ -60,9 +60,9 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                 Style Share
               </span>
             </Link>
-            <div className="flex items-center justify-between  w-full">
-              <div className="hidden lg:block md:ml-2">
-                <div className="flex  gap-[38vw]">
+            <div className="flex items-center justify-between  w-full ">
+              <div className="hidden lg:block md:ml-2 ">
+                <div className="flex  gap-[34vw]">
                   <div className="flex items-center ">
                     <Link
                       to="/app"
@@ -126,14 +126,15 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                   {isLoggedIn && (
                     <button
                       type="button"
-                      className="relative mr-1 flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                      className="relative mr-2 w-10  flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                       id="user-menu-button"
                       aria-expanded={isProfileDropdownOpen ? "true" : "false"}
                       aria-haspopup="true"
                       onClick={toggleProfileDropdown}
                     >
                       <span className="sr-only">Open user menu</span>
-                      <img
+                     
+                     <img
                         className="h-10 w-10 rounded-full"
                         src={
                           user?.avatar ||
@@ -141,6 +142,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                         }
                         alt={user?.username}
                       />
+                     
                     </button>
                   )}
                 </div>
@@ -220,7 +222,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
           </div>
         </div>
         <div
-          className={`${isMenuOpen ? "block" : "hidden"} lg:hidden`}
+          className={`${isMenuOpen ? "block" : "hidden"} lg:hidden ]`}
           id="mobile-menu"
         >
           <div className="space-y-1 px-2 pt-2 pb-3">
@@ -251,6 +253,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                 <Link
                   to="/app/new-post"
                   className={getNavLinkClass("/app/new-post")}
+                  
                   onClick={closeMenu}
                 >
                   New Post
