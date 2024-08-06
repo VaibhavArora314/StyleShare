@@ -95,7 +95,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                           className="block rounded-md px-3 py-2 text-base font-medium bg-sky-500 hover:bg-sky-600 text-white"
                           onClick={closeMenu}
                         >
-                          Register
+                          Login/SignIn
                         </Link>
                       </>
                     ) : (
