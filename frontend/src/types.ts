@@ -51,3 +51,13 @@ export interface ILeaderboardUser {
   totalReactions:number;
   avatar?:string;
 }
+
+export interface IUserFeedback {
+  id: string;
+  rating: number;
+  comment: string;
+  userId: string;
+  visible: boolean;
+  createdAt: string;
+  user: IUser;
+}
