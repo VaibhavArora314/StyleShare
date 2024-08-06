@@ -1,33 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import bgHero from '../assets/bgHero.png';
-import { IoCaretForwardOutline } from "react-icons/io5";
-import { IoCaretBackOutline } from "react-icons/io5";
 import axios from 'axios';
-
-interface Testimonial {
-  quote: string;
-  author: string;
-  image: string;
-}
-
-interface Feedback {
-  id: string;
-  rating: number;
-  comment: string;
-  userId: string;
-  createdAt: string;
-  user: {
-    id: string;
-    username: string;
-    avatar: string;
-  };
-}
+import { IoCaretForwardOutline, IoCaretBackOutline } from "react-icons/io5";
+import { MdOutlineStarOutline, MdOutlineStar } from "react-icons/md";
+import bgHero from '../assets/bgHero.png';
+import { IUserFeedback } from '../types';
+import { ImQuotesLeft, ImQuotesRight } from "react-icons/im";
 
 const TestimonialSlider: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [slidesToShow, setSlidesToShow] = useState<number>(1);
   const [isHovered, setIsHovered] = useState<boolean>(false);
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [testimonials, setTestimonials] = useState<IUserFeedback[]>([]);
 
   useEffect(() => {
     const updateSlidesToShow = () => {
@@ -46,6 +29,12 @@ const TestimonialSlider: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    axios.get('/api/v1/user/getfeedback')
+      .then(response => setTestimonials(response.data))
+      .catch(error => console.error('Error fetching testimonials:', error));
+  }, []);
+
+  useEffect(() => {
     let intervalId: ReturnType<typeof setInterval>;
 
     if (!isHovered) {
@@ -56,25 +45,6 @@ const TestimonialSlider: React.FC = () => {
 
     return () => clearInterval(intervalId);
   }, [slidesToShow, isHovered, testimonials.length]);
-
-  useEffect(() => {
-    const fetchFeedback = async () => {
-      try {
-        const response = await axios.get('/api/v1/user/getfeedback');
-        const data: Feedback[] = response.data;
-        const formattedTestimonials = data.map((feedback) => ({
-          quote: feedback.comment,
-          author: feedback.user.username,
-          image: feedback.user.avatar,
-        }));
-        setTestimonials(formattedTestimonials);
-      } catch (error) {
-        console.error('Error fetching feedback:', error);
-      }
-    };
-
-    fetchFeedback();
-  }, []);
 
   const goToNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + slidesToShow) % testimonials.length);
@@ -92,6 +62,16 @@ const TestimonialSlider: React.FC = () => {
     setIsHovered(false);
   };
 
+  const renderStars = (rating: number) => {
+    return (
+      <div className="flex">
+        {[...Array(5)].map((_, index) => (
+          index < rating ? <MdOutlineStar key={index} size={20} className="text-yellow-500"/> : <MdOutlineStarOutline key={index} size={20} className="text-gray-300"/>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div
       className="testimonial-slider-container w-full flex flex-col text-center py-10 text-[#000435] bg-white dark:text-white dark:bg-[#000435]"
@@ -107,19 +87,29 @@ const TestimonialSlider: React.FC = () => {
         >
           <IoCaretBackOutline/>
         </button>
-        <div className="flex overflow-hidden max-w-full">
-          {testimonials.slice(currentIndex, currentIndex + slidesToShow).map((testimonial, index) => (
-            <div key={index} className="testimonial mx-2 p-6 md:p-10 rounded-lg shadow-lg bg-white dark:bg-[#000435] text-[#000435] dark:text-white flex flex-col items-center justify-center min-w-[260px] md:min-w-[350px] lg:min-w-[400px]">
-              <img
-                src={testimonial.image}
-                alt={`${testimonial.author}'s picture`}
-                className="w-24 h-24 md:w-32 md:h-32 rounded-full mb-6 border-4 p-1 border-[#a238ff] dark:border-white"
-              />
-              <p className="text-lg md:text-2xl italic mb-4 text-center">"{testimonial.quote}"</p>
-              <h4 className="text-base md:text-xl font-semibold text-center">- {testimonial.author}</h4>
+        <div className="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
+    {testimonials.slice(currentIndex, currentIndex + slidesToShow).map((testimonial, index) => (
+        <figure key={index} className="max-w-screen-md mx-auto">
+            <div className='flex justify-start mb-5'>
+                <ImQuotesLeft size={30} />
             </div>
-          ))}
-        </div>
+            <blockquote>
+                <p className="text-2xl font-medium text-gray-900 dark:text-white">{testimonial.comment}</p>
+            </blockquote>
+            <div className='flex justify-end mt-5'>
+                <ImQuotesRight size={30} />
+            </div>
+            <figcaption className="flex items-center justify-center mt-6 space-x-3">
+                <img className="w-12 h-12 rounded-full" src={testimonial.user.avatar || `https://ui-avatars.com/api/?name=${testimonial.user.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile picture" />
+                <div className="flex flex-col items-center divide-y-2 divide-gray-500 dark:divide-gray-700">
+                    <div className="pb-1 text-sm font-light text-gray-500 dark:text-gray-400">{renderStars(testimonial.rating)}</div>
+                    <div className="pt-1 font-medium text-gray-900 dark:text-white">{testimonial.user.username}</div>
+                </div>
+            </figcaption>
+        </figure>
+    ))}
+</div>
+
         <button
           className="next-arrow text-4xl cursor-pointer transform hover:scale-125 transition-transform duration-300"
           onClick={goToNext}

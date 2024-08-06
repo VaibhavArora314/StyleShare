@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { loggedInState } from '../store/atoms/auth';
 import { CgProfile } from 'react-icons/cg';
 import { BsFilePost } from 'react-icons/bs';
-import { FaHome, FaGithub, FaEnvelope, FaInfoCircle, FaTools, FaLock, FaFileAlt, FaCookieBite } from 'react-icons/fa';
+import { FaHome, FaGithub, FaEnvelope, FaInfoCircle, FaTools, FaLock, FaFileAlt, FaCookieBite, FaFileContract} from 'react-icons/fa';
 import logo from "../assets/favicon.png";
 import { FaRegHandshake } from "react-icons/fa6";
 import "../styles/Footer.css"; 
@@ -89,6 +89,12 @@ const Footer = () => {
                                 <Link to='/app/policy#terms-and-conditions' className='flex items-center gap-2 link-hover'>
                                     <FaFileAlt />
                                     Terms and Conditions
+                                </Link>
+                            </li>
+                            <li className='py-1 cursor-pointer'>
+                                <Link to='/app/policy#licensing' className='flex items-center gap-2 link-hover'>
+                                <FaFileContract className="w-4 h-4 mr-0.5" />
+                                    Licensing
                                 </Link>
                             </li>
                             <li className='py-1 cursor-pointer'>

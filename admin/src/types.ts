@@ -67,6 +67,7 @@ export interface IFavoritePost {
     id: string;
     username: string;
     email: string;
+    avatar?:string;
   };
   post: {
     id: string;
@@ -80,4 +81,13 @@ export interface IReaction {
   createdAt: number;
   user: IUser;
   post: IPost;
+}
+
+export interface IFeedback {
+  id: string;
+  comment: string;
+  rating: number;
+  createdAt: string;
+  user: IUser;
+  visible: boolean;
 }
