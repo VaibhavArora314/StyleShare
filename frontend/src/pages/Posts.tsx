@@ -36,9 +36,9 @@ const Posts = () => {
   const filteredPosts = posts;
   const allTags = filteredPosts.map(post => post.tags).flat();
   const uniqueTags = [...new Set(allTags)];
-  const tagsToDisplay = uniqueTags.slice(0, 5);
-  const placeholderTags = tagsToDisplay.length > 0 ? tagsToDisplay.join(", ") : "";
-
+  const tagsToDisplay = uniqueTags.slice(0, 3);
+  var placeholderTags = tagsToDisplay.length > 0 ? tagsToDisplay.join(", ") : "";
+  placeholderTags = placeholderTags + (uniqueTags.length > 3 ? " ..." : "");
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
