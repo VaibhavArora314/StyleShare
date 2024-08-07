@@ -1,6 +1,13 @@
 version: '3.8'
 services:
 
+  admin:
+    build: 
+      context: ./admin
+    container_name: styleshare-admin
+    ports:
+      - '5173:5173'
+
   frontend:
     build: 
       context: ./frontend
