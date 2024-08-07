@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import bgHero from "../assets/bgHero.png";
-import { MdFavorite,MdFavoriteBorder } from "react-icons/md";
+import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 
 type Props = {
   post: IPost;
@@ -181,10 +181,10 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
     <Link to={`/app/posts/${post.id}`}>
       <div
         key={post.id}
-        className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 border border-gray-600 p-6 rounded-lg shadow-lg hover:shadow-2xl hover:border-blue-500 hover:-translate-y-2 transition-transform duration-300 ease-in-out"style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 border border-gray-600 p-6 rounded-lg shadow-lg hover:shadow-2xl hover:border-blue-500 hover:-translate-y-2 transition-transform duration-300 ease-in-out" style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-bold mb-3 text-[#c94aff] bg-white dark:text-[#c94aff] dark:bg-blue-950">{post.title}</h2>
+          <h2 className="text-xl font-bold mb-3 text-[#c94aff] dark:text-[#c94aff] ">{post.title}</h2>
           {isFavorite ? (
             <MdFavorite
               onClick={handleRemoveFromFavorite}
@@ -198,30 +198,31 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
               className="cursor-pointer text-[#e74e4e] dark:text-white"
             />
           )}
-        </div>      <p className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 mb-4">
+        </div>
+        <p className="text-[#000435] dark:text-white  mb-4">
           {post.description.length > 100
             ? `${post.description.slice(0, 100)}...`
             : post.description}
         </p>
-        <p className="text-[#000435] bg-white dark:text-white dark:bg-blue-950 mb-4">By : 
+        <p className="text-[#000435] dark:text-white  mb-4">By :
           <Link to={`/app/profile/${post.author.id}`} data-tooltip-content={`View ${post.author.username} profile 👀`} data-tooltip-id="my-tooltip" className="text-base">
-          <strong className="text-sky-500">
+            <strong className="text-sky-500">
               {' '} @{post.author.username}{' '}
-          </strong>
+            </strong>
           </Link>
         </p>
-          
+
         <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag, index) => (
-                <Link
-                  to={`/app/posts?tags=${tag}`}
-                  key={index}
-                  className="inline-flex items-center px-2 py-1 border-2 border-[#5f67de] text-[#5f67de] font-semibold dark:border-white dark:text-white dark:bg-transparent text-sm rounded-md transition-colors duration-300 hover:bg-[#5f67de] hover:text-white dark:hover:bg-white dark:hover:text-black"
-                >
-                  {tag}
-                </Link>
-              ))}
-            </div>
+          {post.tags.map((tag, index) => (
+            <Link
+              to={`/app/posts?tags=${tag}`}
+              key={index}
+              className="inline-flex items-center px-2 py-1 border-2 border-[#5f67de] text-[#5f67de] font-semibold dark:border-white dark:text-white dark:bg-transparent text-sm rounded-md transition-colors duration-300 hover:bg-[#5f67de] hover:text-white dark:hover:bg-white dark:hover:text-black"
+            >
+              {tag}
+            </Link>
+          ))}
+        </div>
         <div className="flex justify-between mt-1 ">
           {/* <button>
           <Link
@@ -234,20 +235,20 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
           {currentUser && currentUser.id === post.author.id && (
             <div className="flex space-x-2">
               <button>
-              <Link
-                to={`/app/posts/edit/${post.id}`}
-                className="justify-end mt-4 inline-block text-blue-400 hover:text-blue-300 transition-colors duration-200 border-2 border-blue-500 hover:border-blue-300 p-2 rounded-3xl"
-              >
-                <FaEdit size={23} />
-              </Link>
+                <Link
+                  to={`/app/posts/edit/${post.id}`}
+                  className="justify-end mt-4 inline-block text-blue-400 hover:text-blue-300 transition-colors duration-200 border-2 border-blue-500 hover:border-blue-300 p-2 rounded-3xl"
+                >
+                  <FaEdit size={23} />
+                </Link>
               </button>
               <button
                 onClick={handleDelete}
                 disabled={isDeleting}
-                className="" 
+                className=""
               > <Link className="justify-end mt-4 inline-block text-red-500 hover:text-red-400 transition-colors duration-200 border-2 border-red-500 dark:border-red-500 hover:border-red-400 p-2 rounded-3xl" to={""}>
-                  {isDeleting ? "Deleting..." : <MdDeleteOutline  size={23} />}
-                  </Link>
+                  {isDeleting ? "Deleting..." : <MdDeleteOutline size={23} />}
+                </Link>
               </button>
             </div>
           )}
