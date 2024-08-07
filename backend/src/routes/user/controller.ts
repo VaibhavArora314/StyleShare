@@ -163,6 +163,7 @@ export const userProfileController = async (req: UserAuthRequest, res: Response)
       email: true,
       username: true,
       twitter:true,
+      avatar:true,
       github:true,
       linkedin:true,
       portfolio:true,
@@ -252,7 +253,8 @@ export const userProfileUpdate = async (req: UserAuthRequest, res: Response) => 
         twitter: data.twitter,
         github: data.github,
         linkedin: data.linkedin,
-        portfolio:data.portfolio
+        portfolio: data.portfolio,
+        avatar: data.avatar
       },
     });
 
@@ -292,6 +294,7 @@ export const showUserProfileController = async (req: UserAuthRequest, res: Respo
       select: {
         id: true,
         username: true,
+        avatar:true,
         createdAt: true,
         twitter:true,
         github:true,
@@ -635,5 +638,56 @@ export const checkingBlockOrUnblock = async (req: UserAuthRequest, res: Response
   } catch (error) {
     console.error("Error checking blocked status:", error);
     res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const createFeedback = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const { rating, comment } = req.body;
+    const userId = req.userId; 
+
+    if (!rating || !comment || !userId) {
+      return res.status(400).json({ error: 'Rating and comment are required.' });
+    }
+
+    const feedback = await prisma.feedback.create({
+      data: {
+        rating,
+        comment,
+        userId,
+      },
+    });
+
+    res.status(201).json({
+      message: 'Feedback created successfully.',
+      feedback,
+    });
+  } catch (error) {
+    console.error('Error creating feedback:', error);
+    res.status(500).json({ error: 'An unexpected error occurred!' });
+  }
+};
+
+export const getFeedbacks = async (req: Request, res: Response) => {
+  try {
+    const feedbacks = await prisma.feedback.findMany({
+      where:{
+        visible:true
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            avatar: true,
+          },
+        },
+      },
+    });
+
+    res.status(200).json(feedbacks);
+  } catch (error) {
+    console.error('Error fetching feedbacks:', error);
+    res.status(500).json({ error: 'An unexpected error occurred!' });
   }
 };

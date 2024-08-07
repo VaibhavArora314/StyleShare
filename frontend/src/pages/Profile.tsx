@@ -15,6 +15,7 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaGithubSquare } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaSquareParking } from "react-icons/fa6";
+import { FeedbackForm } from "../components/FeedbackForm.tsx";
 const Profile = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [user, setUser] = useState<IUser | null>(null);
@@ -26,6 +27,7 @@ const Profile = () => {
   const token = useRecoilValue(tokenState);
   const currentUser = useRecoilValue(userState);
   const [clickUpdate, setClickUpdate] = useState(false);
+  const [feedbackUpdate, setfeedbackUpdate] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -112,7 +114,7 @@ const Profile = () => {
               }
             </div>
             <div className="flex flex-col items-center mb-3">
-              <img src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} width={60} alt="profile-pic" />
+              <img className='h-20 w-20 rounded-full ring-2 ring-[#000435] dark:ring-white' src={user?.avatar || `https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic" />
               <p className="p-4 text-xl">{user?.username}</p>
               <p className="text-[#000435] font-semibold text-sm dark:text-white">{user?._count.following} followers</p>
               <p className="text-sky-400 flex items-center "><MdOutlineMailOutline className="text-xl" />
@@ -120,16 +122,23 @@ const Profile = () => {
               </p>
             </div>
             <div className="flex flex-row justify-center space-x-2 mb-3">
-              {user?.twitter && <a href={user.twitter} target="_blank" rel="noopener noreferrer"><FaSquareXTwitter size={30} /></a>}
-              {user?.github && <a href={user.github} target="_blank" rel="noopener noreferrer"><FaGithubSquare size={30} /></a>}
-              {user?.linkedin && <a href={user.linkedin} target="_blank" rel="noopener noreferrer"><FaLinkedin size={30} /></a>}
-              {user?.portfolio && <a href={user.portfolio} target="_blank" rel="noopener noreferrer"><FaSquareParking size={30} /></a>}
+              {user?.twitter && <a href={user.twitter} target="_blank" rel="noopener noreferrer" className="hover:-translate-y-1 transition-transform duration-300"><FaSquareXTwitter size={30} /></a>}
+              {user?.github && <a href={user.github} target="_blank" rel="noopener noreferrer" className="hover:-translate-y-1 transition-transform duration-300"><FaGithubSquare size={30} /></a>}
+              {user?.linkedin && <a href={user.linkedin} target="_blank" rel="noopener noreferrer" className="hover:-translate-y-1 transition-transform duration-300"><FaLinkedin size={30} /></a>}
+              {user?.portfolio && <a href={user.portfolio} target="_blank" rel="noopener noreferrer" className="hover:-translate-y-1 transition-transform duration-300"><FaSquareParking size={30} /></a>}
             </div>
-            <div className="flex flex-col items-center mb-2">
-              <button type="button" onClick={() => { setClickUpdate(true) }} className="bg-red-500 py-2 px-5 text-white font-semibold rounded-md text-sm hover:bg-red-600">
+            <div className="flex flex-row justify-center">  
+            <div className="mb-2">
+              <button type="button" onClick={() => { setClickUpdate(true) }} className="bg-red-500 py-2 mx-1 px-7 text-white font-semibold rounded-md text-sm hover:bg-red-600">
                 Edit
               </button>
             </div>
+            <div className="mb-2">
+              <button type="button" onClick={() => { setfeedbackUpdate(true) }} className="bg-yellow-500 py-2 px-5 mx-1 text-white font-semibold rounded-md text-sm hover:bg-yellow-600">
+                Rate Us
+              </button>
+            </div>
+          </div>
           </div>
           {
             !user?.verified && (
@@ -160,6 +169,10 @@ const Profile = () => {
           {
             clickUpdate &&
               <ProfileForm user={user} dismiss={() => { setClickUpdate(false) }} open={clickUpdate} />
+          }
+          {
+            feedbackUpdate &&
+              <FeedbackForm user={user} dismiss={() => { setfeedbackUpdate(false) }} open={feedbackUpdate} />
           }
           <div className="mt-8 w-full">
             <h4 className="font-semibold">Posts ( {user?.posts.length} )</h4>

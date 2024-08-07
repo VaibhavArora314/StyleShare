@@ -120,18 +120,18 @@ const ShowProfile = () => {
               }
             </div>
             <div className="flex flex-col items-center mb-3">
-              <img src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} width={60} alt="profile-pic" />
-              <p className="p-4 text-xl">{user?.username}</p>
+            <img className='h-20 w-20 rounded-full ring-2 ring-[#000435] dark:ring-white' src={user?.avatar || `https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic" />
+            <p className="p-4 text-xl">{user?.username}</p>
               <p className="text-[#000435] font-semibold text-sm  dark:text-white">{user?._count.following} followers</p>
               <p className="text-sky-400 flex items-center">
               <span className="ml-2 text-base font-semibold">Joined: {formatDate(user?.createdAt)}</span>
             </p>          
             </div>
             <div className="flex flex-row justify-center space-x-2 mb-3">
-              {user?.twitter && <a href={user.twitter} target="_blank" rel="noopener noreferrer"><FaSquareXTwitter size={30} /></a>}
-              {user?.github && <a href={user.github} target="_blank" rel="noopener noreferrer"><FaGithubSquare size={30} /></a>}
-              {user?.linkedin && <a href={user.linkedin} target="_blank" rel="noopener noreferrer"><FaLinkedin size={30} /></a>}
-              {user?.portfolio && <a href={user.portfolio} target="_blank" rel="noopener noreferrer"><FaSquareParking size={30} /></a>}
+              {user?.twitter && <a href={user.twitter} target="_blank" rel="noopener noreferrer" className="hover:-translate-y-1 transition-transform duration-300"><FaSquareXTwitter size={30} /></a>}
+              {user?.github && <a href={user.github} target="_blank" rel="noopener noreferrer" className="hover:-translate-y-1 transition-transform duration-300"><FaGithubSquare size={30} /></a>}
+              {user?.linkedin && <a href={user.linkedin} target="_blank" rel="noopener noreferrer" className="hover:-translate-y-1 transition-transform duration-300"><FaLinkedin size={30} /></a>}
+              {user?.portfolio && <a href={user.portfolio} target="_blank" rel="noopener noreferrer" className="hover:-translate-y-1 transition-transform duration-300"><FaSquareParking size={30} /></a>}
             </div>
           </div>
           {user?.id && currentUser?.id && currentUser?.id !== user?.id && (

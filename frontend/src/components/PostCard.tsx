@@ -40,11 +40,29 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
   }, [post.id]);
 
   useEffect(() => {
-    const favoriteStatus = localStorage.getItem(`post-${post.id}-favorite`);
-    setIsFavorite(favoriteStatus === "true");
+    const fetchFavoriteStatus = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          return;
+        }
+        const { data } = await axios.get(`/api/v1/posts/${post.id}/favorite-status`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setIsFavorite(data.isFavorite);
+      } catch (error) {
+        toast.error("Failed to fetch favorite status");
+      }
+    };
+
+    fetchFavoriteStatus();
   }, [post.id]);
 
-  const handleAddToFavorite = async () => {
+  const handleAddToFavorite = async (event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -61,25 +79,20 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
         }
       );
       setIsFavorite(true);
-      localStorage.setItem(`post-${post.id}-favorite`, "true");
       toast.success("Post added to favorites");
     } catch (e) {
-      const error = e as AxiosError<{
-        error: {
-          message: string;
-        };
-      }>;
+      const error = e as AxiosError<{ error: { message: string } }>;
       if (error.response && error.response.status === 403) {
-        toast.error(
-          error.response.data.error.message || "User is not verified!"
-        );
+        toast.error(error.response.data.error.message || "User is not verified!");
       } else {
         toast.error("Failed to add to favorites. Please try again later.");
       }
     }
   };
 
-  const handleRemoveFromFavorite = async () => {
+  const handleRemoveFromFavorite = async (event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -96,18 +109,11 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
         }
       );
       setIsFavorite(false);
-      localStorage.removeItem(`post-${post.id}-favorite`);
       toast.success("Post removed from favorites");
     } catch (e) {
-      const error = e as AxiosError<{
-        error: {
-          message: string;
-        };
-      }>;
+      const error = e as AxiosError<{ error: { message: string } }>;
       if (error.response && error.response.status === 403) {
-        toast.error(
-          error.response.data.error.message || "User is not verified!"
-        );
+        toast.error(error.response.data.error.message || "User is not verified!");
       } else {
         toast.error("Failed to remove from favorites. Please try again later.");
       }
@@ -117,7 +123,7 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
         toast.error('Please login to delete post');
         return;
@@ -224,14 +230,9 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
           ))}
         </div>
         <div className="flex justify-between mt-1 ">
-          {/* <button>
-          <Link
-            to={`/app/posts/${post.id}`}
-            className="inline-block mt-4 text-blue-400 hover:text-blue-300 transition-colors duration-200 rounded-3xl border-2 border-blue-500 hover:border-blue-300 px-4 py-2"
-          >
-            Read More
-          </Link>
-          </button> */}
+        <button>
+        {renderReactions()}
+        </button>
           {currentUser && currentUser.id === post.author.id && (
             <div className="flex space-x-2">
               <button>

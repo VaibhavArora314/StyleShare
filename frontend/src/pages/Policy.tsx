@@ -23,13 +23,14 @@ function Policy() {
   }, [location]);
 
   return (
-    <div className="w-full text-[#1A202C] bg-gradient-animated dark:text-gray-200 dark:bg-[#1A202C] py-16 px-4" style={{ fontFamily: 'Roboto, sans-serif' }}>
+    <div className="-mt-4 w-full text-[#1A202C] bg-gradient-animated dark:text-gray-200 dark:bg-[#1A202C] py-16 px-4" style={{ fontFamily: 'Roboto, sans-serif' }}>
       <div className="max-w-7xl mx-auto space-y-12">
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md transition-transform duration-300 hover:shadow-lg transform hover:scale-105">
+        
+        <div id="privacy-policy" className="py-20 bg-white dark:bg-gray-800 px-8 rounded-lg shadow-md transition-transform duration-300 hover:shadow-lg transform hover:scale-105">
           <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-8 mb-8">
             <img src={privacy} alt="Privacy" className="rounded-lg w-32 h-32" />
             <div>
-              <h1 id="privacy-policy" className="text-4xl font-bold mb-4 scroll-margin-top">Privacy Policy</h1>
+              <h1 className="text-4xl font-bold mb-4 scroll-margin-top">Privacy Policy</h1>
               <section className="leading-relaxed space-y-4">
                 <p>Your privacy is important to us. This privacy policy explains how we collect, use, and protect your personal information when you use our website.</p>
                 <div>
@@ -72,12 +73,11 @@ function Policy() {
             </div>
           </div>
         </div>
-
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md transition-transform duration-300 hover:shadow-lg transform hover:scale-105">
+        <div id="terms-and-conditions" className="py-20 bg-white dark:bg-gray-800 px-8 rounded-lg shadow-md transition-transform duration-300 hover:shadow-lg transform hover:scale-105">
           <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-8 mb-8">
             <img src={terms} alt="Terms" className="rounded-lg w-32 h-32" />
             <div>
-              <h1 id="terms-and-conditions" className="text-4xl font-bold mb-4 scroll-margin-top">Terms and Conditions</h1>
+              <h1 className="text-4xl font-bold mb-4 scroll-margin-top">Terms and Conditions</h1>
               <section className="leading-relaxed space-y-4">
                 <p>Please read these terms and conditions carefully before using our website.</p>
                 <div>
@@ -123,11 +123,11 @@ function Policy() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md transition-transform duration-300 hover:shadow-lg transform hover:scale-105">
+        <div id="cookie-policy" className="py-20 bg-white dark:bg-gray-800 px-8 rounded-lg shadow-md transition-transform duration-300 hover:shadow-lg transform hover:scale-105">
           <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-8 mb-8">
             <img src={cookie} alt="Cookie" className="rounded-lg w-32 h-32" />
             <div>
-              <h1 id="cookie-policy" className="text-4xl font-bold mb-4 scroll-margin-top">Cookie Policy</h1>
+              <h1 className="text-4xl font-bold mb-4 scroll-margin-top">Cookie Policy</h1>
               <section className="leading-relaxed space-y-4">
                 <p>This cookie policy explains how we use cookies and similar technologies on our website.</p>
                 <div>
@@ -160,6 +160,22 @@ function Policy() {
                   <h3 className="text-2xl font-semibold mt-4">5. Changes to This Cookie Policy</h3>
                   <p>We may update our cookie policy from time to time. We will notify you of any changes by posting the new cookie policy on this page. You are advised to review this policy periodically for any changes.</p>
                 </div>
+              </section>
+            </div>
+          </div>
+        </div>
+
+        <div id="licensing"  className="bg-white dark:bg-gray-800 px-8 py-20 rounded-lg shadow-md transition-transform duration-300 hover:shadow-lg transform hover:scale-105">
+          <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-8 mb-8">
+            <img src={terms} alt="MITLicense" className="rounded-lg w-32 h-32" />
+            <div>
+              <h1 className="text-4xl font-bold mb-4 scroll-margin-top">Licensing</h1>
+              <section className="leading-relaxed space-y-4">
+              <h3 className="text-2xl font-semibold mt-4">MIT License</h3>
+                <p>Our project is distributed under the MIT License, a permissive free software license that allows you to reuse, modify, and distribute the software with minimal restrictions, ensuring flexibility and freedom in your development endeavors.</p>
+                
+                <p>For more detailed information about the MIT License, please click on the link provided to the license.</p>
+                <a href="https://github.com/VaibhavArora314/StyleShare?tab=MIT-1-ov-file#readme" className="text-blue-500 font-bold underline hover:text-blue-700">View MIT License</a>
               </section>
             </div>
           </div>

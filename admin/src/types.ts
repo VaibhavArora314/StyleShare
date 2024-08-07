@@ -14,7 +14,9 @@ export interface IPost {
     },
     comments:IComment[]
     reactions:[];
-    favoritePosts: [];
+    favoritePosts: {
+      user: IUser;
+    }[];
     userReaction: 'Like' | 'Celebrate' | 'Support' | 'Love' | 'Insightful' | 'Funny' | null; 
   }
 
@@ -37,6 +39,7 @@ export interface IPost {
     comments:[];
     following: [];
     isFollowing: boolean;
+    avatar?:string;
   }
 
   export interface IStats {
@@ -55,4 +58,36 @@ export interface IContactMessage{
   subject:string,
   message:string,
   createdAt:number
+}
+
+export interface IFavoritePost {
+  id: string;
+  createdAt: number;
+  user: {
+    id: string;
+    username: string;
+    email: string;
+    avatar?:string;
+  };
+  post: {
+    id: string;
+    title: string;
+    description: string;
+  };
+}
+
+export interface IReaction {
+  type: 'Like' | 'Celebrate' | 'Support' | 'Love' | 'Insightful' | 'Funny';
+  createdAt: number;
+  user: IUser;
+  post: IPost;
+}
+
+export interface IFeedback {
+  id: string;
+  comment: string;
+  rating: number;
+  createdAt: string;
+  user: IUser;
+  visible: boolean;
 }

@@ -1,52 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { IoCaretForwardOutline, IoCaretBackOutline } from "react-icons/io5";
+import { MdOutlineStarOutline, MdOutlineStar } from "react-icons/md";
 import bgHero from '../assets/bgHero.png';
-
-interface Testimonial {
-  quote: string;
-  author: string;
-  image: string;
-}
-
-
-const testimonials: Testimonial[] = [
-  {
-    quote: "StyleShare's Tailwind CSS platform has revolutionized my workflow! With its intuitive utility-first approach, I can create stylish and responsive designs in a fraction of the time.",
-    author: "Ravi Kiran, Front-end Developer",
-    image: "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain" 
-  },
-  {
-    quote: "I've been using StyleShare's Tailwind CSS platform for my personal projects, and I'm amazed by its flexibility and efficiency. It's truly a game-changer in the world of web development!",
-    author: "Yash Goyal, Front-end Developer",
-    image: "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain"
-  },
-  {
-    quote: "Thanks to StyleShare's Tailwind CSS platform, I've been able to speed up my design process significantly. Its modular approach and customizable components have made styling a breeze!",
-    author: "Manoj Kumar,Front-end Developer",
-    image: "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain"
-  },
-  {
-    quote: "StyleShare's Tailwind CSS platform has transformed the way I collaborate with my team. Its consistent and scalable design system ensures seamless integration across projects, fostering productivity and creativity",
-    author: "Surya Teja, Front-end Developer",
-    image: "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain" 
-  },
-  {
-    quote: "I can't imagine working on web projects without StyleShare's Tailwind CSS platform. Its simplicity and power have elevated my skills as a developer and enabled me to deliver top-notch designs to my clients.",
-    author: "Sivaram, Front-end Developer",
-    image: "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain"
-  },
-  {
-    quote: "StyleShare's Tailwind CSS platform has transformed the way I collaborate with my team. Its consistent and scalable design system ensures seamless integration across projects, fostering productivity and creativity.",
-    author: "Bharath, Front-end Developer",
-    image: "https://th.bing.com/th/id/OIP.MnOHsqmDK0x6eSduQ6UjdwHaHa?w=512&h=512&rs=1&pid=ImgDetMain"
-  },
-];
+import { IUserFeedback } from '../types';
+import { ImQuotesLeft, ImQuotesRight } from "react-icons/im";
 
 const TestimonialSlider: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [slidesToShow, setSlidesToShow] = useState<number>(3);
+  const [slidesToShow, setSlidesToShow] = useState<number>(1);
   const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [testimonials, setTestimonials] = useState<IUserFeedback[]>([]);
 
- useEffect(() => {
+  useEffect(() => {
     const updateSlidesToShow = () => {
       if (window.innerWidth < 768) {
         setSlidesToShow(1);
@@ -63,16 +29,23 @@ const TestimonialSlider: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    axios.get('/api/v1/user/getfeedback')
+      .then(response => setTestimonials(response.data))
+      .catch(error => console.error('Error fetching testimonials:', error));
+  }, []);
+
+  useEffect(() => {
     let intervalId: ReturnType<typeof setInterval>;
 
     if (!isHovered) {
       intervalId = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + slidesToShow) % testimonials.length);
-      }, 2000); // Change slide every 3 seconds
+      }, 2000); // Change slide every 2 seconds
     }
 
     return () => clearInterval(intervalId);
-  }, [slidesToShow, isHovered]);
+  }, [slidesToShow, isHovered, testimonials.length]);
+
   const goToNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + slidesToShow) % testimonials.length);
   };
@@ -88,10 +61,21 @@ const TestimonialSlider: React.FC = () => {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+
+  const renderStars = (rating: number) => {
+    return (
+      <div className="flex">
+        {[...Array(5)].map((_, index) => (
+          index < rating ? <MdOutlineStar key={index} size={20} className="text-yellow-500"/> : <MdOutlineStarOutline key={index} size={20} className="text-gray-300"/>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div
       className="testimonial-slider-container w-full flex flex-col text-center py-10 text-[#000435] bg-white dark:text-white dark:bg-[#000435]"
-      style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}      
+      style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -101,26 +85,36 @@ const TestimonialSlider: React.FC = () => {
           className="prev-arrow text-4xl cursor-pointer transform hover:scale-125 transition-transform duration-300"
           onClick={goToPrevious}
         >
-          &#9664;
+          <IoCaretBackOutline/>
         </button>
-        <div className="flex overflow-hidden max-w-full">
-          {testimonials.slice(currentIndex, currentIndex + slidesToShow).map((testimonial, index) => (
-            <div key={index} className="testimonial mx-2 p-6 md:p-10 rounded-lg shadow-lg bg-white dark:bg-[#000435] text-[#000435] dark:text-white flex flex-col items-center justify-center min-w-[260px] md:min-w-[350px] lg:min-w-[400px]">
-              <img
-                src={testimonial.image}
-                alt={`${testimonial.author}'s picture`}
-                className="w-24 h-24 md:w-32 md:h-32 rounded-full mb-6 border-4 p-1 border-[#a238ff] dark:border-white"
-              />
-              <p className="text-lg md:text-2xl italic mb-4 text-center">"{testimonial.quote}"</p>
-              <h4 className="text-base md:text-xl font-semibold text-center">- {testimonial.author}</h4>
+        <div className="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
+    {testimonials.slice(currentIndex, currentIndex + slidesToShow).map((testimonial, index) => (
+        <figure key={index} className="max-w-screen-md mx-auto">
+            <div className='flex justify-start mb-5'>
+                <ImQuotesLeft size={30} />
             </div>
-          ))}
-        </div>
+            <blockquote>
+                <p className="text-2xl font-medium text-gray-900 dark:text-white">{testimonial.comment}</p>
+            </blockquote>
+            <div className='flex justify-end mt-5'>
+                <ImQuotesRight size={30} />
+            </div>
+            <figcaption className="flex items-center justify-center mt-6 space-x-3">
+                <img className="w-12 h-12 rounded-full" src={testimonial.user.avatar || `https://ui-avatars.com/api/?name=${testimonial.user.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile picture" />
+                <div className="flex flex-col items-center divide-y-2 divide-gray-500 dark:divide-gray-700">
+                    <div className="pb-1 text-sm font-light text-gray-500 dark:text-gray-400">{renderStars(testimonial.rating)}</div>
+                    <div className="pt-1 font-medium text-gray-900 dark:text-white">{testimonial.user.username}</div>
+                </div>
+            </figcaption>
+        </figure>
+    ))}
+</div>
+
         <button
           className="next-arrow text-4xl cursor-pointer transform hover:scale-125 transition-transform duration-300"
           onClick={goToNext}
         >
-          &#9654;
+          <IoCaretForwardOutline/>
         </button>
       </div>
       <div className="dots flex justify-center mt-4">
@@ -131,8 +125,9 @@ const TestimonialSlider: React.FC = () => {
             onClick={() => setCurrentIndex(index)}
           />
         ))}
-        </div>
-        </div>
+      </div>
+    </div>
   );
 };
+
 export default TestimonialSlider;

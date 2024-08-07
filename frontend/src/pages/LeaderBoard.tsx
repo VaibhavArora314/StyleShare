@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import { GiTrophyCup } from "react-icons/gi";
 import { useRecoilValue } from 'recoil';
@@ -9,6 +9,11 @@ import bgHero from "../assets/bgHero.png";
 const LeaderBoard = () => {
   const { loading, leaderboard } = useLeaderboard();
   const currentUser = useRecoilValue(userState);
+  const navigate = useNavigate();
+
+  const onTabClick = (userId:any) => {
+    navigate(`/app/profile/${userId}`);
+  }
 
   document.title = 'Style Share | Top users 😎';
 
@@ -36,8 +41,9 @@ const LeaderBoard = () => {
                 <tbody>
                   {leaderboard.map((user, index) => (
                     <tr
+                      onClick={() => onTabClick(user.userId)}
                       key={user.userId}
-                      className={`text-center text-[#000435] dark:text-gray-50 border-b-2 border-sky-900 font-semibold ${currentUser && user.userId === currentUser.id ? ' bg-sky-500' : ''}`}
+                      className={` cursor-pointer text-center text-[#000435] dark:text-gray-50 border-b-2 border-sky-900 font-semibold ${currentUser && user.userId === currentUser.id ? ' bg-sky-500' : ''}`}
                     >
                       <td className="px-2 py-4 sm:px-6">
                         {(index === 0 || index === 1 || index === 2) ? (
@@ -50,11 +56,11 @@ const LeaderBoard = () => {
                       </td>
                       <td className="px-2 py-4 sm:px-6">
                         <div className="flex flex-col items-center">
-                          <img className="h-8 w-8 rounded-full" src={`https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic" />
+                          <img className="h-10 w-10 rounded-full" src={user?.avatar || `https://ui-avatars.com/api/?name=${user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic" />
                         </div>
                       </td>
                       <td className="px-2 py-4 sm:px-6">
-                        <Link to={`/app/profile/${user.userId}`} className={`text-sm dark:text-gray-50 ${currentUser && user.userId === currentUser.id ? 'font-bold' : ''}`}>@{user.username}</Link>
+                        <div className={`text-sm dark:text-gray-50 ${currentUser && user.userId === currentUser.id ? 'font-bold' : ''}`}>@{user.username}</div>
                       </td>
                       <td className="px-2 py-4 sm:px-6">
                         <div className="text-sm text-[#000435] dark:text-gray-50">{user.postCount}</div>

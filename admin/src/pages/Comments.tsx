@@ -6,6 +6,7 @@ import { tokenState } from "../store/atoms/auth";
 import toast from "react-hot-toast";
 import { ColorRing } from 'react-loader-spinner';
 import { FaComments } from "react-icons/fa";
+import { TbReportAnalytics } from "react-icons/tb";
 
 const Comments = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -47,10 +48,31 @@ const Comments = () => {
     }
   };
 
+  const downloadUsersCommentsReport = async () => {
+    try {
+      const response = await axios.get('/api/v1/admin/downloaduserscommentsreport', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: 'blob', 
+      });
+  
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'StyleShare_Comments_Report.pdf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading users comments report:', error);
+    }
+  };
+
   return (
     <div>
-      <div className="lg:ml-80">
-        <div className="mx-5 mb-5">
+      <div className="flex-1 flex flex-col lg:ml-80">
+      <div className="mx-5 mb-5">
         <span className="flex  items-center  text-xl font-bold decoration-sky-500 decoration-dotted underline">
           <div className='inline-block p-2 text-white bg-[#000435] rounded-lg mr-2'>
             <FaComments size={23} />
@@ -68,6 +90,7 @@ const Comments = () => {
         />
       </div>
       :
+      <>
         <div className="mx-5 lg:mr-11 overflow-x-auto shadow-md rounded-xl mb-5">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-white uppercase bg-sky-500">
@@ -97,7 +120,7 @@ const Comments = () => {
                     <td colSpan={4} className="px-8 py-4">
                       <div className="flex items-start space-x-4">
                         <div className="flex-shrink-0">
-                          <img className="h-10 w-10 rounded-full" src={`https://ui-avatars.com/api/?name=${comment.user.username}&background=0ea5e9&color=fff&rounded=true&bold=true`} alt="profile-pic" />                        
+                          <img className="h-10 w-10 rounded-full" src={comment.user?.avatar?.replace('/app', '/admin') || `https://ui-avatars.com/api/?name=${comment.user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`}  alt="profile-pic" />                        
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="text-sm font-medium text-white">
@@ -123,6 +146,12 @@ const Comments = () => {
             </tbody>
           </table>
         </div>
+        <div className="mx-5 overflow-x-auto rounded-xl mb-5">
+        <button onClick={downloadUsersCommentsReport} className="flex items-center py-2.5 px-4 rounded-lg transition duration-200 bg-yellow-500 hover:bg-yellow-600 text-gray-100"><TbReportAnalytics size={23} className='mr-3'/>
+            Download Comments Info
+          </button>
+        </div>
+        </>
       }
       </div>
     </div>

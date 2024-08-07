@@ -59,18 +59,18 @@ const StatusCard = () => {
           <Link to="/admin/posts" className="col-span-1">
             {renderCard(<LiaNewspaperSolid size={40} />, stats?.totalPosts ?? null, 'Total Posts')}
           </Link>
-          <div className="col-span-1">
+          <Link to="/admin/comments" className="col-span-1">
             {renderCard(<FaComments size={40} />, stats?.totalComments ?? null, 'Total Comments')}
-          </div>
-          <div className="col-span-1">
+          </Link>
+          <Link to="/admin/reactions" className="col-span-1">
             {renderCard(<MdAddReaction size={40} />, stats?.totalReactions ?? null, 'Total Reactions')}
-          </div>
+          </Link>
           <Link to="/admin/contactmessages" className="col-span-1">
             {renderCard(<SiGooglemessages size={40} />, stats?.contactMessages ?? null, 'Contact Messages')}
           </Link>
-          <div className="col-span-1">
+          <Link to="/admin/favorites" className="col-span-1">
             {renderCard(<RiHeartsFill size={40} />, stats?.favoritesPosts ?? null, 'Most Favorites')}
-          </div>
+          </Link>
         </div>
       </div>
     </SkeletonTheme>

@@ -378,6 +378,7 @@ export const getCommentsController = async (req: Request, res: Response) => {
           select: {
             id: true,
             username: true,
+            avatar:true
           }
         },
         createdAt: true
@@ -535,12 +536,48 @@ export const getFavoritePostsController = async (req: UserAuthRequest, res: Resp
   }
 };
 
+export const checkFavoriteStatusController = async (req: UserAuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const postId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required." });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: { id: userId },
+      select: { verified: true }
+    });
+
+    if (!user?.verified) {
+      return res.status(403).json({ error: "User is not verified!" });
+    }
+
+    const favorite = await prisma.favorite.findUnique({
+      where: {
+        userId_postId: {
+          userId,
+          postId
+        }
+      }
+    });
+
+    const isFavorite = favorite ? true : false;
+
+    res.status(200).json({ isFavorite });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to check favorite status." });
+  }
+};
+
 export const getLeaderboardController = async (req: Request, res: Response) => {
   try {
     const leaderboard = await prisma.user.findMany({
       select: {
         id: true,
         username: true,
+        avatar:true,
         _count: {
           select: { posts: true },
         },
@@ -559,6 +596,7 @@ export const getLeaderboardController = async (req: Request, res: Response) => {
     const userReactions = leaderboard.map((user) => ({
       id: user.id,
       username: user.username,
+      avatar:user.avatar,
       postCount: user._count.posts,
       totalReactions: user.posts.reduce((sum, post) => sum + post.reactions.length, 0),
     }));
@@ -571,6 +609,7 @@ export const getLeaderboardController = async (req: Request, res: Response) => {
       leaderboard: top10Users.map((user, index) => ({
         rank: index + 1,
         userId: user.id,
+        avatar:user.avatar,
         username: user.username,
         postCount: user.postCount,
         totalReactions: user.totalReactions,

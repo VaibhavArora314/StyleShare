@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import { loggedInState } from '../store/atoms/auth';
 import { CgProfile } from 'react-icons/cg';
 import { BsFilePost } from 'react-icons/bs';
-import { FaHome, FaGithub, FaEnvelope, FaInfoCircle, FaTools, FaLock, FaFileAlt, FaCookieBite } from 'react-icons/fa';
+import { FaHome, FaGithub, FaEnvelope, FaInfoCircle, FaTools, FaLock, FaFileAlt, FaCookieBite, FaFileContract} from 'react-icons/fa';
 import logo from "../assets/favicon.png";
 import { FaRegHandshake } from "react-icons/fa6";
+import "../styles/Footer.css"; 
 
 const Footer = () => {
     const isLoggedIn = useRecoilValue(loggedInState);
@@ -19,7 +20,7 @@ const Footer = () => {
                         <div className="flex items-center sm:w-full">
                             <Link to="/app" className="flex items-center gap-2">
                                 <img src={logo} className="h-8" alt="Styleshare Logo" />
-                                <span className="ml-4 text-2xl font-semibold whitespace-nowrap text-white ">
+                                <span className="ml-4 text-2xl font-semibold whitespace-nowrap text-white">
                                     StyleShare
                                 </span>
                             </Link>
@@ -31,22 +32,22 @@ const Footer = () => {
                 </div>
                 <div className='md:w-3/4 md:flex'>
                     <div className='md:w-1/3'>
-                        <p className='text-gray-200 font-bold mt-8 md:mt-0'>Company</p>
+                        <p className='text-gray-200 font-bold mt-8 md:mt-0 section-title'>Company</p>
                         <ul className='text-gray-300 py-4'>
-                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to='/app/about' className='flex items-center gap-2'>
+                            <li className='py-1 cursor-pointer'>
+                                <Link to='/app/about' className='flex items-center gap-2 link-hover'>
                                     <FaInfoCircle />
                                     About Us
                                 </Link>
                             </li>
-                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to='/app/contact-us' className='flex items-center gap-2'>
+                            <li className='py-1 cursor-pointer'>
+                                <Link to='/app/contact-us' className='flex items-center gap-2 link-hover'>
                                     <FaEnvelope />
                                     Contact Us
                                 </Link>
                             </li>
-                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <a href='/admin' className='flex items-center gap-2'>
+                            <li className='py-1 cursor-pointer'>
+                                <a href='/admin' className='flex items-center gap-2 link-hover'>
                                     <FaTools />
                                     Admin Dashboard
                                 </a>
@@ -54,44 +55,50 @@ const Footer = () => {
                         </ul>
                     </div>
                     <div className='md:w-1/3'>
-                        <p className='text-gray-200 font-bold'>Quick Links</p>
+                        <p className='text-gray-200 font-bold section-title'>Quick Links</p>
                         <ul className='text-gray-300 py-4 cursor-pointer'>
-                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link className='flex items-center gap-2' to='/app/posts'>
+                            <li className='py-1 cursor-pointer'>
+                                <Link className='flex items-center gap-2 link-hover' to='/app/posts'>
                                     <BsFilePost size={20} />
                                     Posts
                                 </Link>
                             </li>
-                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link className='flex items-center gap-2' to={isLoggedIn ? '/app/profile' : '/app/signin'}>
+                            <li className='py-1 cursor-pointer'>
+                                <Link className='flex items-center gap-2 link-hover' to={isLoggedIn ? '/app/profile' : '/app/signin'}>
                                     <CgProfile size={20} />
                                     Profile
                                 </Link>
                             </li>
-                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to="/app/contributors" className='flex items-center gap-2'>
+                            <li className='py-1 cursor-pointer'>
+                                <Link to="/app/contributors" className='flex items-center gap-2 link-hover'>
                                     <FaRegHandshake size={20} /> Our Contributors
                                 </Link>
                             </li>
                         </ul>
                     </div>
                     <div className='md:w-1/3'>
-                        <p className='text-gray-200 font-bold'>Legal</p>
+                        <p className='text-gray-200 font-bold section-title'>Legal</p>
                         <ul className='text-gray-300 py-4 cursor-pointer'>
-                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to='/app/policy#privacy-policy' className='flex items-center gap-2'>
+                            <li className='py-1 cursor-pointer'>
+                                <Link to='/app/policy#privacy-policy' className='flex items-center gap-2 link-hover'>
                                     <FaLock />
                                     Privacy Policy
                                 </Link>
                             </li>
-                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to='/app/policy#terms-and-conditions' className='flex items-center gap-2'>
+                            <li className='py-1 cursor-pointer'>
+                                <Link to='/app/policy#terms-and-conditions' className='flex items-center gap-2 link-hover'>
                                     <FaFileAlt />
                                     Terms and Conditions
                                 </Link>
                             </li>
-                            <li className='py-1 cursor-pointer hover:text-[#2563EB]'>
-                                <Link to='/app/policy#cookie-policy' className='flex items-center gap-2'>
+                            <li className='py-1 cursor-pointer'>
+                                <Link to='/app/policy#licensing' className='flex items-center gap-2 link-hover'>
+                                <FaFileContract className="w-4 h-4 mr-0.5" />
+                                    Licensing
+                                </Link>
+                            </li>
+                            <li className='py-1 cursor-pointer'>
+                                <Link to='/app/policy#cookie-policy' className='flex items-center gap-2 link-hover'>
                                     <FaCookieBite />
                                     Cookie Policy
                                 </Link>

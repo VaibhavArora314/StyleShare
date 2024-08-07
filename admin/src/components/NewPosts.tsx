@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import { tokenState } from "../store/atoms/auth";
 import { Link } from "react-router-dom";
 import { ColorRing } from 'react-loader-spinner';
+import { TbReportAnalytics } from "react-icons/tb";
 
 const NewPosts = () => {
   const [posts, setposts] = useState<IPost[]>([]);
@@ -24,6 +25,27 @@ const NewPosts = () => {
     } catch (error) {
       console.log(error);
       setLoading(true);
+    }
+  };
+
+  const downloadReport = async () => {
+    try {
+      const response = await axios.get('/api/v1/admin/downloadReport', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: 'blob', 
+      });
+  
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'StyleShare_Report.pdf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading the report:', error);
     }
   };
 
@@ -88,6 +110,11 @@ const NewPosts = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="lg:mx-24 mx-10 lg:mr-11 mt-5 overflow-x-auto rounded-xl mb-5">
+      <button onClick={downloadReport} className="flex items-center py-2.5 px-4 rounded-lg transition duration-200 bg-yellow-500 hover:bg-yellow-600 text-gray-100"><TbReportAnalytics size={23} className='mr-3'/>
+          Download Report
+        </button>
       </div>
     </>
     }

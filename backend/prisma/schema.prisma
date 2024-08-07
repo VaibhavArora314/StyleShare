@@ -34,6 +34,18 @@ model User {
   github       String?  
   linkedin     String? 
   portfolio    String? 
+  avatar     String?  
+  feedbacks    Feedback[] @relation("userFeedbacks")
+}
+
+model Feedback {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  rating     Int
+  comment    String
+  userId     String   @db.ObjectId
+  visible    Boolean  @default(false)
+  user       User     @relation("userFeedbacks", fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
 }
 
 model Follow {

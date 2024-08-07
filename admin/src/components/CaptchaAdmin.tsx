@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { IoMdRefresh } from "react-icons/io";
+import "../styles/captcha.css"
 
 const CaptchaAdmin = ({ onChange }: { onChange: (isValid: boolean) => void }) => {
   const [captchaText, setCaptchaText] = useState('');
@@ -33,7 +34,7 @@ const CaptchaAdmin = ({ onChange }: { onChange: (isValid: boolean) => void }) =>
   return (
     <div className="mb-4 rounded-lg">
       <div className="flex items-center justify-between mb-4 text-[#000435] bg-gray-100 dark:text-white dark:bg-blue-950 p-2 rounded-lg border border-[#5f67de] dark:border-white">
-        <span className="text-xl font-semibold italic line-through">{captchaText}</span>
+        <span className="captcha w-1/2 p-2.5  text-2xl font-bold border-2 border-black rounded-md select-none border-solid italic line-through">{captchaText}</span>
         <button
           type="button"
           onClick={generateCaptcha}

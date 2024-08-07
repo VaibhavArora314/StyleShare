@@ -168,6 +168,11 @@ const Posts = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="🔍 Search anything"
               className="p-2 w-full max-w-xs rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onKeyDown={(event)=>{
+                if(event.key == "Enter"){
+                  handleSearch()
+                }
+              }}
             />
             <button
               onClick={handleSearch}

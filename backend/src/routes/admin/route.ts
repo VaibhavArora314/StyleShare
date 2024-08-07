@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { adminLoginController, adminProfileController, allUserForAdmin, blockUserController, unblockUserController, getAdminPostsController, getAdminTrendingPostsController, getAdminStatsController, getGraphsStatsController, updatePostController, deletePostController, getPostByIdController, getAllContactMessages, deleteCommentController } from './controller';
+import { getPostReactionsController,getFavoritesController,adminLoginController, adminProfileController, allUserForAdmin, blockUserController, unblockUserController, getAdminPostsController, getAdminTrendingPostsController, getAdminStatsController, getGraphsStatsController, updatePostController, deletePostController, getPostByIdController, getAllContactMessages, deleteCommentController, downloadReportController, getFeedbacks, toggleFeedbackVisibility, downloadCommentsReportController, downloadFavoritesReportController, downloadReactionsReportController, downloadUsersReportController, downloadContactMessagesReportController, downloadPostsReportController } from './controller';
 import { isAdmin } from '../../middleware/adminAuth';
 
 const adminRouter = Router();
@@ -31,5 +31,27 @@ adminRouter.delete('/posts/delete/:postId', isAdmin, deletePostController);
 adminRouter.get("/geallcontactmessages", isAdmin,getAllContactMessages);
 
 adminRouter.delete('/comments/delete/:commentId', isAdmin, deleteCommentController);
+
+adminRouter.get('/getreactions', isAdmin, getPostReactionsController);
+
+adminRouter.get('/favorites', isAdmin, getFavoritesController);
+
+adminRouter.get('/downloadReport',isAdmin, downloadReportController);
+
+adminRouter.get('/downloadusersreport',isAdmin, downloadUsersReportController);
+
+adminRouter.get('/downloadpostsreport',isAdmin, downloadPostsReportController);
+
+adminRouter.get('/downloadcontactmessagereport',isAdmin, downloadContactMessagesReportController);
+
+adminRouter.get('/getfeedback',isAdmin, getFeedbacks);
+
+adminRouter.patch('/toggleFeedbackVisibility/:id', isAdmin, toggleFeedbackVisibility);
+
+adminRouter.get("/downloaduserscommentsreport", downloadCommentsReportController);
+
+adminRouter.get("/downloadusersfavoritesreport", downloadFavoritesReportController);
+
+adminRouter.get("/downloadusersreactionreport", downloadReactionsReportController);
 
 export default adminRouter;

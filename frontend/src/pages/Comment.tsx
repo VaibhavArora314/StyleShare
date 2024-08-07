@@ -81,10 +81,9 @@ const Comment = () => {
           {comments.map((comment: IComment) => (
             <li key={comment.id} className=" pb-3 flex items-start space-x-3 text-sky-500">
               <img
-                src={`https://ui-avatars.com/api/?name=${comment.user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`}
-                width={40}
+                src={comment.user?.avatar|| `https://ui-avatars.com/api/?name=${comment.user?.username}&background=0ea5e9&color=fff&rounded=true&bold=true`}
                 alt="profile-pic"
-                className="flex-shrink-0 "
+                className="h-12 w-12 flex-shrink-0 rounded-full"
               />
               <div>
                 <Link to={`/app/profile/${comment.user.id}`} data-tooltip-content={`View ${comment.user.username} profile 👀`} data-tooltip-id="my-tooltip" className="text-base">
@@ -100,7 +99,7 @@ const Comment = () => {
         </ul>
         
         ) : (
-          <p className="text-gray-300">Be the first one to comment...</p>
+          <p className="text-[#000435] dark:text-white">Be the first one to comment...</p>
         )}
       </div>
       <form onSubmit={handleCommentSubmit} className="mt-5">
