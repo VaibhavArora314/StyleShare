@@ -254,7 +254,7 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
             </div>
           )}
         </div>
-        {renderReactions()}
+        {/* {renderReactions()} */}
       </div>
     </Link>
   );
