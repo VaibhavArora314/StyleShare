@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import Loader from "../components/Loader";
 import PostCard from "../components/PostCard";
 import { userState } from "../store/atoms/auth";
 import { useRecoilValue } from "recoil";
 import usePosts from "../hooks/usePosts";
 import bgHero from "../assets/bgHero.png";
 import { IoIosArrowDown } from "react-icons/io";
+import PostsPageSkeleton from "../components/PostsSkeleton";
 
 const Posts = () => {
   const currentUser = useRecoilValue(userState);
@@ -83,7 +83,7 @@ const Posts = () => {
   };
 
   if (loading) {
-    return <Loader />;
+    return <PostsPageSkeleton />;
   }
 
   if (error) {
