@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import Loader from '../components/Loader';
 import { GiTrophyCup } from "react-icons/gi";
 import { useRecoilValue } from 'recoil';
 import { userState } from '../store/atoms/auth';
