@@ -9,6 +9,7 @@ import '../styles/Model.css'
 import { ColorRing } from 'react-loader-spinner';
 import { MdMessage } from "react-icons/md";
 import { TbReportAnalytics } from "react-icons/tb";
+import toast from "react-hot-toast";
 
 const ContactMessages = () => {
   const [contactMessages, setContactMessages] = useState<IContactMessage[]>([]);
@@ -59,6 +60,21 @@ const ContactMessages = () => {
     }
   };
 
+  const handleDeleteMessage = async (id: string) => {
+      try {
+        await axios.delete(`/api/v1/admin/deletecontactmessage/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setContactMessages(contactMessages.filter((msg) => msg.id !== id));
+        toast.success("Contact Message deleted successfully !")
+      } catch (error) {
+        console.error("Error deleting message:", error);
+        toast.error("Error in deleting message")
+      }
+  };
+  
   const handleOpenModal = (message: IContactMessage) => {
     setSelectedMessage(message);
     setOpen(true);
@@ -114,7 +130,7 @@ const ContactMessages = () => {
                   <td className="px-8 py-4 font-semibold">{new Date(contactMessage.createdAt).toLocaleDateString()}</td>
                   <td className="px-8 py-4 font-semibold">{contactMessage.subject.slice(0, 10)}</td>
                   <td className="px-12 py-4 font-semibold">{contactMessage.message.slice(0, 10)}</td>
-                  <td className="px-2 py-4 grid grid-cols-1 gap-3 justify-center md:grid-cols-2">
+                  <td className="px-2 py-4 grid grid-cols-1 gap-3 justify-center md:grid-cols-3">
                   <button
                     onClick={() => handleOpenModal(contactMessage)}
                     className="font-semibold rounded-md p-2 bg-sky-500 text-white border-2 hover:bg-sky-600"
@@ -129,6 +145,12 @@ const ContactMessages = () => {
                   >
                     Reply
                   </a>
+                  <button
+                    onClick={() => handleDeleteMessage(contactMessage.id)}
+                    className="font-semibold rounded-md p-2 bg-red-500 text-white border-2 hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
                 </td>
                 </tr>
               ))}

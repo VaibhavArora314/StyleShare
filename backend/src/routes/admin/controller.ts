@@ -1089,3 +1089,22 @@ export const downloadFavoritesReportController = async (req: Request, res: Respo
     });
   }
 };
+
+export const deleteContactMessage = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  
+  try {
+    const deletedMessage = await prisma.contactMessage.delete({
+      where: { id },
+    });
+
+    res.status(200).json({
+      message: "Contact message deleted successfully!",
+      deletedMessage,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "An error occurred while deleting the contact message!",
+    });
+  }
+};
