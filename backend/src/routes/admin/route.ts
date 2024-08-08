@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { getPostReactionsController,getFavoritesController,adminLoginController, adminProfileController, allUserForAdmin, blockUserController, unblockUserController, getAdminPostsController, getAdminTrendingPostsController, getAdminStatsController, getGraphsStatsController, updatePostController, deletePostController, getPostByIdController, getAllContactMessages, deleteCommentController, downloadReportController, getFeedbacks, toggleFeedbackVisibility, downloadCommentsReportController, downloadFavoritesReportController, downloadReactionsReportController, downloadUsersReportController, downloadContactMessagesReportController, downloadPostsReportController, deleteFeedback } from './controller';
+import { getPostReactionsController,getFavoritesController,adminLoginController, adminProfileController, allUserForAdmin, blockUserController, unblockUserController, getAdminPostsController, getAdminTrendingPostsController, getAdminStatsController, getGraphsStatsController, updatePostController, deletePostController, getPostByIdController, getAllContactMessages, deleteCommentController, downloadReportController, getFeedbacks, toggleFeedbackVisibility, downloadCommentsReportController, downloadFavoritesReportController, downloadReactionsReportController, downloadUsersReportController, downloadContactMessagesReportController, downloadPostsReportController, deleteContactMessage, deleteFeedback } from './controller';
 import { isAdmin } from '../../middleware/adminAuth';
 
 const adminRouter = Router();
@@ -53,6 +53,8 @@ adminRouter.get("/downloaduserscommentsreport", downloadCommentsReportController
 adminRouter.get("/downloadusersfavoritesreport", downloadFavoritesReportController);
 
 adminRouter.get("/downloadusersreactionreport", downloadReactionsReportController);
+
+adminRouter.delete("/deletecontactmessage/:id", isAdmin, deleteContactMessage);
 
 adminRouter.delete('/deletefeedback/:id', isAdmin, deleteFeedback);
 

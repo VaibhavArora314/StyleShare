@@ -1,0 +1,40 @@
+
+services:
+
+  admin:
+    build: 
+      context: ./admin
+    container_name: styleshare-admin
+    ports:
+      - '5173:5173'
+
+  frontend:
+    build: 
+      context: ./frontend
+    container_name: styleshare-frontend
+    ports:
+      - '3000:3000'
+
+  backend:
+    build: 
+      context: ./backend
+    container_name: styleshare-backend
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+  
+    ports:
+      - '8000:8000'
+
+  db:
+    image: mongo:latest
+    container_name: styleshare-db
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:

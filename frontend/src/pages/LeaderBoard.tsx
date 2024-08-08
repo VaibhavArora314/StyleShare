@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import Loader from '../components/Loader';
 import { GiTrophyCup } from "react-icons/gi";
 import { useRecoilValue } from 'recoil';
 import { userState } from '../store/atoms/auth';
 import useLeaderboard from '../hooks/useLeadearboard';
 import bgHero from "../assets/bgHero.png";
+import LeaderboardSkeleton from '../components/LeaderboardSkeleton';
 
 const LeaderBoard = () => {
   const { loading, leaderboard } = useLeaderboard();
@@ -24,7 +24,7 @@ const LeaderBoard = () => {
         <div className="shadow-md text-[#5f67de] bg-white dark:text-white dark:bg-[#000435] backdrop-blur-sm rounded-lg p-4 border-2 border-sky-500 lg:mx-52 md:mx-20 overflow-x-auto">
           {loading ? (
             <div className="flex justify-center">
-              <Loader />
+              <LeaderboardSkeleton />
             </div>
           ) : (
             <div className="overflow-x-auto">
