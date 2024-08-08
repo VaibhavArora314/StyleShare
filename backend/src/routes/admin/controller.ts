@@ -1089,3 +1089,18 @@ export const downloadFavoritesReportController = async (req: Request, res: Respo
     });
   }
 };
+
+export const deleteFeedback = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const feedback = await prisma.feedback.delete({
+      where: { id },
+    });
+
+    res.status(200).json({ message: 'Feedback deleted successfully', feedback });
+  } catch (error) {
+    console.error('Error deleting feedback:', error);
+    res.status(500).json({ error: 'An unexpected error occurred!' });
+  }
+};

@@ -54,6 +54,21 @@ const GetFeedbacks = () => {
     }
   };
 
+  const handleDeleteFeedback = async (feedbackId: string) => {
+    try {
+      await axios.delete(`/api/v1/admin/deletefeedback/${feedbackId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Feedback deleted successfully");
+      setFeedbacks(feedbacks.filter(feedback => feedback.id !== feedbackId));
+    } catch (error) {
+      console.error("Error deleting feedback:", error);
+      toast.error("Error deleting feedback");
+    }
+  };
+
   return (
     <div>
       <div className="flex-1 flex flex-col lg:ml-80">
@@ -95,12 +110,18 @@ const GetFeedbacks = () => {
                     <td className="px-8 py-4 font-semibold">{feedback.comment}</td>
                     <td className="px-8 py-4 font-semibold">{feedback.rating}</td>
                     <td className="px-8 py-4 font-semibold">{new Date(feedback.createdAt).toLocaleDateString()}</td>
-                    <td className="px-2 py-4 grid justify-center text-center">
-                      <button 
+                    <td className="px-2 py-4 grid grid-cols-1 gap-3 justify-center md:grid-cols-2">
+                    <button 
                         className={`font-semibold rounded-md p-2 text-white border-2 ${feedback.visible ? 'bg-red-500 hover:bg-red-600' : 'bg-sky-500 hover:bg-sky-600'}`}
                         onClick={() => handleToggleVisibility(feedback.id)}
                       >
-                        {feedback.visible ? 'Hide from Testimonials' : 'Show on Testimonials'}
+                        {feedback.visible ? 'Hide' : 'Show'}
+                      </button>
+                      <button 
+                        className='font-semibold rounded-md p-2 text-white border-2 bg-red-500 hover:bg-red-600'
+                        onClick={() => handleDeleteFeedback(feedback.id)}
+                      >
+                        Delete
                       </button>
                     </td>
                   </tr>
