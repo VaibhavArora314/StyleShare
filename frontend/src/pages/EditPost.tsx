@@ -42,7 +42,7 @@ const EditPost = () => {
 
   const handleAddTag = () => {
     if (tagInput.length > 0 && !post.tags.includes(tagInput)) {
-      setPost({ ...post, tags: [...post.tags, tagInput] });
+      setPost({ ...post, tags: [...post.tags, tagInput.toLowerCase()] });
       setTagInput("");
     }
   };

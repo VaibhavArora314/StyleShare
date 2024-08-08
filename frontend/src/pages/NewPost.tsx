@@ -33,7 +33,7 @@ const NewPost = () => {
 
   const handleAddTag = () => {
     if (tagInput.length > 0 && !tags.includes(tagInput)) {
-      setTags([...tags, tagInput]);
+      setTags([...tags, tagInput.toLowerCase()]);
       setTagInput("");
     }
   };
