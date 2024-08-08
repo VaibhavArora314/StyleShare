@@ -21,8 +21,9 @@ services:
     container_name: styleshare-backend
     depends_on:
       - db
-    env_file:
-      - ./backend/.env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+  
     ports:
       - '8000:8000'
 
