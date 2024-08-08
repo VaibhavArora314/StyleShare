@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import usePosts from "../hooks/usePosts";
 import bgHero from "../assets/bgHero.png";
 import { IoIosArrowDown } from "react-icons/io";
+import PostsPageSkeleton from "../components/PostsSkeleton";
 
 const Posts = () => {
   const currentUser = useRecoilValue(userState);
@@ -80,7 +81,7 @@ const Posts = () => {
   };
 
   if (loading) {
-    return <Loader />;
+    return <PostsPageSkeleton />;
   }
 
   if (error) {
