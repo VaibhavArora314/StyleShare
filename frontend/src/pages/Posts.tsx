@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import Loader from "../components/Loader";
 import PostCard from "../components/PostCard";
 import { userState } from "../store/atoms/auth";
 import { useRecoilValue } from "recoil";
