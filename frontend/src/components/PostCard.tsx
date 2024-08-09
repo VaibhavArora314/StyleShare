@@ -42,6 +42,9 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
   useEffect(() => {
     const fetchFavoriteStatus = async () => {
       try {
+        if (!currentUser) {
+          return;
+        }
         const token = localStorage.getItem("token");
         if (!token) {
           return;
@@ -56,9 +59,10 @@ const PostCard = ({ post, onDelete, currentUser }: Props) => {
         toast.error("Failed to fetch favorite status");
       }
     };
-
+  
     fetchFavoriteStatus();
-  }, [post.id]);
+  }, [post.id, currentUser]);
+  
 
   const handleAddToFavorite = async (event: React.MouseEvent) => {
     event.stopPropagation();
