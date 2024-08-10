@@ -33,6 +33,9 @@ const Posts = () => {
   const [tagInput, setTagInput] = useState("");
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const filterRef = useRef<HTMLDivElement>(null);
+  const [sortOrder, setSortOrder] = useState("reactions");
+  const [sortDirection, setSortDirection] = useState('desc');
+
   const filteredPosts = posts;
   const allTags = filteredPosts.map(post => post.tags).flat();
   const uniqueTags = [...new Set(allTags)];
@@ -47,15 +50,28 @@ const Posts = () => {
     };
 
     document.title = "Style Share | Our Posts 📃";
-    
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
+  useEffect(() => {
+    fetchPosts(page, 12, searchQuery, filterTags, sortOrder, sortDirection);
+  }, [sortOrder, sortDirection]);
+
   const toggleFilterDialog = () => {
     setShowFilterDialog(!showFilterDialog);
+  };
+
+  const handleSortChange = (selectedSort: any) => {
+    if (selectedSort === sortOrder) {
+      setSortDirection(prevDirection => (prevDirection === 'desc' ? 'asc' : 'desc'));
+    } else {
+      setSortOrder(selectedSort);
+      setSortDirection('desc');
+    }
   };
 
   const addTag = () => {
@@ -79,7 +95,7 @@ const Posts = () => {
   };
 
   const handleSearch = () => {
-    fetchPosts(page, 12, searchQuery, filterTags);
+    fetchPosts(page, 12, searchQuery, filterTags, sortOrder, sortDirection);
   };
 
   if (loading) {
@@ -162,14 +178,29 @@ const Posts = () => {
             </div>
           )}
           <div className="flex items-center w-full sm:w-auto">
+            <div className="flex items-center">
+              <span className="p-2 text-[#5f67de] whitespace-nowrap">Sort by:</span>
+              <select
+                value={sortOrder}
+                onChange={(e) => handleSortChange(e.target.value)}
+                className="p-2 rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500 mr-4"
+              >
+                <option value="reactions" onClick={() => handleSortChange('reactions')}>
+            Reactions {sortOrder === 'reactions' && (sortDirection === 'asc' ? '↓' : '↑')}
+          </option>
+          <option value="createdAt" onClick={() => handleSortChange('createdAt')}>
+            Date {sortOrder === 'createdAt' && (sortDirection === 'asc' ? '↓' : '↑')}
+          </option>
+        </select>
+            </div>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="🔍 Search anything"
               className="p-2 w-full max-w-xs rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              onKeyDown={(event)=>{
-                if(event.key == "Enter"){
+              onKeyDown={(event) => {
+                if (event.key == "Enter") {
                   handleSearch()
                 }
               }}
@@ -185,53 +216,54 @@ const Posts = () => {
         {filteredPosts.length === 0 ? (
           <div className="text-center text-black dark:text-white">No Posts</div>
         ) : (
-          <div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
-              {filteredPosts.map((post) => (
-                <PostCard
-                  key={post.id}
-                  post={post}
-                  currentUser={currentUser}
-                  onDelete={handleDelete}
-                />
-              ))}
-            </div>
-            <div className="flex justify-center items-center mt-4 w-full space-x-2">
-              <button
-                onClick={handlePreviousPage}
-                disabled={page === 1}
-                className={`text-white px-4 py-2 rounded ${page === 1
-                  ? "bg-gray-600 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700"
-                  }`}
-              >
-                Previous
-              </button>
-              {Array.from({ length: totalPages }, (_, i) => (
-                <button
-                  key={i}
-                  onClick={() => handlePageClick(i + 1)}
-                  className={`text-white px-4 py-2 rounded ${page === i + 1
-                    ? "bg-blue-500 text-white"
-                    : "bg-blue-600 hover:bg-blue-700"
-                    }`}
-                >
-                  {i + 1}
-                </button>
-              ))}
-              <button
-                onClick={handleNextPage}
-                disabled={page === totalPages}
-                className={`text-white px-6 py-2 rounded ${page === totalPages
-                  ? "bg-gray-600 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700"
-                  }`}
-              >
-                Next
-              </button>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
+            {filteredPosts.map((post) => (
+              <PostCard
+                key={post.id}
+                post={post}
+                currentUser={currentUser}
+                onDelete={handleDelete}
+              />
+            ))}
           </div>
         )}
+        <div className="flex justify-center items-center mt-4 w-full space-x-2">
+          <button
+            onClick={handlePreviousPage}
+            disabled={page === 1}
+            className={`text-white px-4 py-2 rounded ${
+              page === 1
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+           Previous
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageClick(i + 1)}
+              className={`text-white px-4 py-2 rounded ${
+                page === i + 1
+                  ? "bg-blue-500 text-white"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={handleNextPage}
+            disabled={page === totalPages}
+            className={`text-white px-6 py-2 rounded ${
+              page === totalPages
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+           Next
+          </button>
+        </div>
       </div>
     </div>
   );
