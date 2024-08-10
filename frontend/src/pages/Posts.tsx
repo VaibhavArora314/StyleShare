@@ -24,6 +24,7 @@ const Posts = () => {
     searchQuery,
     setSearchQuery,
     fetchPosts,
+    fetchSearchSuggestions
   } = usePosts({
     initialPage: 1,
     pageSize: 12,
@@ -32,6 +33,9 @@ const Posts = () => {
   const [showFilterDialog, setShowFilterDialog] = useState(false);
   const [tagInput, setTagInput] = useState("");
   const [filterTags, setFilterTags] = useState<string[]>([]);
+  const [suggestions, setSuggestions] = useState<{ id: string; title: string }[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
   const filterRef = useRef<HTMLDivElement>(null);
   const [sortOrder, setSortOrder] = useState("reactions");
   const [sortDirection, setSortDirection] = useState('desc');
@@ -94,8 +98,37 @@ const Posts = () => {
     }
   };
 
+  useEffect(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = window.setTimeout(async () => {
+      if (searchQuery.length > 0) {
+        const results = await fetchSearchSuggestions(searchQuery);
+        setSuggestions(results);
+        setShowSuggestions(true);
+      } else {
+        setSuggestions([]);
+        setShowSuggestions(false);
+      }
+    }, 300);
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [searchQuery]);
+
   const handleSearch = () => {
     fetchPosts(page, 12, searchQuery, filterTags, sortOrder, sortDirection);
+  };
+
+  const handleSuggestionClick = (suggestion: { id: string; title: string }) => {
+    setSearchQuery(suggestion.title);
+    setShowSuggestions(false);
+    handleSearch();
   };
 
   if (loading) {
@@ -211,6 +244,19 @@ const Posts = () => {
             >
               Search
             </button>
+            {showSuggestions && suggestions.length > 0 && (
+              <ul className="z-20 absolute top-full mt-2 bg-white rounded-md dark:bg-gray-800 border border-sky-400 px-3 py-2">
+                {suggestions.map((suggestion) => (
+                  <li
+                    key={suggestion.id}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    className="cursor-pointer p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md"
+                  >
+                    {suggestion.title}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
         {filteredPosts.length === 0 ? (

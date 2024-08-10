@@ -1,7 +1,7 @@
 import { Router } from "express";
 import authMiddleware from "../../middleware/auth"
 
-import { checkFavoriteStatusController,aiCustomization, createCommentController, createPostController, deletePostController, favoritePostController, getAllTagsController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostReactionsController, getPostsWithPagination, getUserReactionController, reactToPostController, removeReactionController, unfavoritePostController, updatePostController } from "./controller";
+import { checkFavoriteStatusController,aiCustomization, createCommentController, createPostController, deletePostController, favoritePostController, getAllTagsController, getCommentsController, getFavoritePostsController, getLeaderboardController, getPostController, getPostReactionsController, getPostsWithPagination, getUserReactionController, reactToPostController, removeReactionController, unfavoritePostController, updatePostController, getSearchSuggestions } from "./controller";
 
 const postRouter = Router();
 
@@ -42,5 +42,7 @@ postRouter.get('/:id/reactions', getPostReactionsController);
 postRouter.get('/all/tags', getAllTagsController);
 
 postRouter.post('/customize', aiCustomization);
+
+postRouter.get('/search/suggestions', getSearchSuggestions);
 
 export default postRouter;

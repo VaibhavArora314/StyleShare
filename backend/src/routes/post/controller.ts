@@ -897,3 +897,35 @@ export const getAllTagsController = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getSearchSuggestions = async (req: Request, res: Response) => {
+  try {
+    const searchQuery = req.query.searchQuery as string || "";
+    
+    if (!searchQuery) {
+      return res.status(200).json({ suggestions: [] });
+    }
+
+    const suggestions = await prisma.post.findMany({
+      where: {
+        OR: [
+          { title: { contains: searchQuery, mode: 'insensitive' } },
+          { description: { contains: searchQuery, mode: 'insensitive' } }
+        ]
+      },
+      select: {
+        id: true,
+        title: true,
+      },
+      orderBy: {
+        title: 'asc',
+      },
+      take: 10,
+    });
+
+    res.status(200).json({ suggestions });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch search suggestions' });
+  }
+};

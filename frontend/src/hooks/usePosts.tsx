@@ -54,6 +54,16 @@ const usePosts = ({ initialPage = 1, pageSize = 12 }: Props) => {
     fetchPosts(page, pageSize, searchQuery, initialTags, sortOrder, sortDirection);
   }, [page, searchParams]);
 
+const fetchSearchSuggestions = async (query: string) => {
+  try {
+    const response = await axios.get(`/api/v1/posts/search/suggestions?searchQuery=${query}`);
+    return response.data.suggestions;
+  } catch (error) {
+    console.error("Failed to fetch search suggestions");
+    return [];
+  }
+};
+
   const handlePreviousPage = () => {
     if (page > 1) {
       setPage(page - 1);
@@ -103,7 +113,8 @@ const usePosts = ({ initialPage = 1, pageSize = 12 }: Props) => {
     searchQuery,
     setSearchQuery,
     tags,
-    fetchPosts 
+    fetchPosts ,
+    fetchSearchSuggestions
   };
 };
 
