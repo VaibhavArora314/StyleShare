@@ -250,7 +250,8 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
     const pageSize = parseInt(req.query.pageSize as string);
     const searchQuery = req.query.searchQuery as string || "";
     const tags = req.query.tags ? (req.query.tags as string).split(',') : [];
-
+    const sortOrder = req.query.sortOrder as string || 'reactions';
+    const sortDirection = req.query.sortDirection as string || 'desc';
      const totalPosts = await prisma.post.count({
       where: {
         AND: [
@@ -265,7 +266,13 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
       }
     });
     const totalPages = Math.ceil(totalPosts / pageSize);
-
+    const orderPosts = sortOrder === 'reactions' ? {
+      reactions: {
+        _count: sortDirection as 'asc' | 'desc'
+      } as const
+    } : {
+      createdAt: sortDirection as 'asc' | 'desc'
+    } as const ;
     const posts = await prisma.post.findMany({
       skip: (page - 1) * pageSize,
       take: pageSize,
@@ -294,11 +301,7 @@ export const getPostsWithPagination = async (req: Request, res: Response) => {
           tags.length > 0 ? { tags: { hasSome: tags } } : {}
         ]
       },
-      orderBy: {
-        reactions: {
-          _count: "desc"
-        }
-      }
+      orderBy: orderPosts,
     });
     res.status(200).json({
       posts,

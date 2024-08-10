@@ -54,11 +54,11 @@ function PostCodeWindow({
         </div>
         <div className="">
         {activeTab === "html" ? (
-          <pre className="p-4 text-[#000435] bg-sky-300 dark:text-white dark:bg-gray-800 border-4 border-sky-700 rounded overflow-auto max-h-96">
+          <pre className="p-4 text-[#000435] bg-sky-300 dark:text-white dark:bg-gray-800 border-4 border-sky-700 rounded overflow-auto max-h-[30rem] text-xs md:text-base">
             <code className="html rounded-lg">{codeSnippet}</code>
           </pre>
         ) : (
-          <pre className="p-4 text-[#000435] bg-sky-300 dark:text-white dark:bg-gray-800 border-4 border-sky-700 rounded overflow-auto max-h-96">
+          <pre className="p-4 text-[#000435] bg-sky-300 dark:text-white dark:bg-gray-800 border-4 border-sky-700 rounded overflow-auto max-h-[30rem] text-xs md:text-base">
             <code className="javascript rounded-lg">{jsCodeSnippet}</code>
           </pre>
         )}

@@ -17,19 +17,26 @@ const usePosts = ({ initialPage = 1, pageSize = 12 }: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [sortOrder, setSortOrder] = useState("reactions");
+  const [sortDirection, setSortDirection] = useState("desc");
 
   const fetchPosts = async (
     page: number,
     pageSize: number,
     searchQuery: string,
-    tags: string[]
+    tags: string[],
+    sortOrder: string,
+    sortDirection: string
   ) => {
+  
+    setSortOrder(sortOrder);
+    setSortDirection(sortDirection);
     setLoading(true);
     try {
       const response = await axios.get(
         `/api/v1/posts?page=${page}&pageSize=${pageSize}&searchQuery=${searchQuery}&tags=${tags.join(
           ","
-        )}`
+        )}&sortOrder=${sortOrder}&sortDirection=${sortDirection}`
       );
       setPosts(response.data.posts);
       setTotalPages(response.data.totalPages);
@@ -44,7 +51,7 @@ const usePosts = ({ initialPage = 1, pageSize = 12 }: Props) => {
     const tagsFromParams = searchParams.get("tags");
     const initialTags = tagsFromParams ? tagsFromParams.split(",") : [];
     setTags(initialTags);
-    fetchPosts(page, pageSize, searchQuery, initialTags);
+    fetchPosts(page, pageSize, searchQuery, initialTags, sortOrder, sortDirection);
   }, [page, searchParams]);
 
   const handlePreviousPage = () => {
@@ -64,7 +71,7 @@ const usePosts = ({ initialPage = 1, pageSize = 12 }: Props) => {
   };
 
   const handleDelete = () => {
-    fetchPosts(page, pageSize, searchQuery, tags);
+    fetchPosts(page, pageSize, searchQuery, tags, sortOrder, sortDirection);
   };
 
   const addTag = (tagInput: string) => {

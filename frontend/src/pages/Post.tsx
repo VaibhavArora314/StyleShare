@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios, { AxiosError } from "axios";
-import Loader from "../components/Loader";
 import toast from "react-hot-toast";
 import Comment from "./Comment";
 import { MdFavorite } from "react-icons/md";
@@ -20,6 +19,7 @@ import { tokenState, userState } from "../store/atoms/auth";
 import { useRecoilValue } from "recoil";
 import { RiUserFollowFill } from "react-icons/ri";
 import { RiUserUnfollowFill } from "react-icons/ri";
+import CodeSkeletonLoader from "../components/CodeSkeleton";
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
@@ -173,7 +173,7 @@ const Post = () => {
   };
 
   if (loading) {
-    return <Loader />;
+    return <CodeSkeletonLoader />;
   }
 
   if (error) {

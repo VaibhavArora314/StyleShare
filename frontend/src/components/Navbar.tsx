@@ -73,7 +73,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
         <div className="flex items-center justify-between w-full">
   <div className="hidden lg:block md:ml-2">
     <div className="flex justify-between w-full">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2gap-3">
         <Link
           to="/app"
           className={`${getNavLinkClass("/app")} flex items-center`}
