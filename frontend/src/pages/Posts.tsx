@@ -35,6 +35,7 @@ const Posts = () => {
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const [suggestions, setSuggestions] = useState<{ id: string; title: string }[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
   const filterRef = useRef<HTMLDivElement>(null);
   const filteredPosts = posts;
   const allTags = filteredPosts.map(post => post.tags).flat();
@@ -82,7 +83,11 @@ const Posts = () => {
   };
 
   useEffect(() => {
-    const fetchSuggestions = async () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = window.setTimeout(async () => {
       if (searchQuery.length > 0) {
         const results = await fetchSearchSuggestions(searchQuery);
         setSuggestions(results);
@@ -91,9 +96,13 @@ const Posts = () => {
         setSuggestions([]);
         setShowSuggestions(false);
       }
-    };
+    }, 300);
 
-    fetchSuggestions();
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
   }, [searchQuery]);
 
   const handleSearch = () => {
