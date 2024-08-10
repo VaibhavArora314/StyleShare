@@ -213,19 +213,19 @@ const Posts = () => {
             >
               Search
             </button>
-            {showSuggestions && (
-          <ul className="z-20 absolute top-full mt-2 bg-white rounded-md dark:bg-gray-800 border border-sky-400 px-3 py-2 ">
-            {suggestions.map((suggestion) => (
-              <li
-                key={suggestion.id}
-                onClick={() => handleSuggestionClick(suggestion)}
-                className="cursor-pointer p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md"
-              >
-                {suggestion.title}
-              </li>
-            ))}
-          </ul>
-        )}
+            {showSuggestions && suggestions.length > 0 && (
+              <ul className="z-20 absolute top-full mt-2 bg-white rounded-md dark:bg-gray-800 border border-sky-400 px-3 py-2">
+                {suggestions.map((suggestion) => (
+                  <li
+                    key={suggestion.id}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    className="cursor-pointer p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md"
+                  >
+                    {suggestion.title}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
         {filteredPosts.length === 0 ? (
