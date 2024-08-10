@@ -274,14 +274,14 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
           <div className="grid grid-cols-2 text-center pt-1">
             <Link
               to="/app/signin"
-              className="flex justify-center px-2 mr-1 rounded-md py-2 text-base font-medium bg-sky-500 hover:bg-sky-600 text-white"
+              className="flex  items-center justify-center px-2 mr-1 rounded-md py-2 text-base font-medium bg-sky-500 hover:bg-sky-600 text-white"
               onClick={closeMenu}
             >
               <MdLogin size={20} className="mx-1" />SignIn
             </Link>
             <Link
               to="/app/signup"
-              className="flex justify-center px-2 ml-1 rounded-md py-2 text-base font-medium bg-sky-500 hover:bg-sky-600 text-white"
+              className="flex items-center  justify-center px-2 ml-1 rounded-md py-2 text-base font-medium bg-sky-500 hover:bg-sky-600 text-white"
               onClick={closeMenu}
             >
               <FaUserPlus size={20} className="mx-1" /> SignUp
