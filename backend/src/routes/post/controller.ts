@@ -711,8 +711,8 @@ export const aiCustomization = async (req: UserAuthRequest, res: Response) => {
     const cssResponse = await cssResult.response;
     const jsResponse = await jsResult.response;
 
-    const cssText = cssResponse.text();
-    const jsText = jsResponse.text();
+    const cssText = cssResponse.text().replace('```html','').replace('```','');
+    const jsText = jsResponse.text().replace('```javascript','').replace('```','');
 
     res.json({ css: cssText, js: jsText });
 
