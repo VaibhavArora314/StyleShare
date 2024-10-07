@@ -210,54 +210,58 @@ const Posts = () => {
               </div>
             </div>
           )}
-          <div className="flex items-center w-full sm:w-auto">
-            <div className="flex items-center">
-              <span className="p-2 text-[#5f67de] whitespace-nowrap">Sort by:</span>
-              <select
-                value={sortOrder}
-                onChange={(e) => handleSortChange(e.target.value)}
-                className="p-2 rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500 mr-4"
-              >
-                <option value="reactions" onClick={() => handleSortChange('reactions')}>
+    <div className="flex flex-col sm:flex-row items-center w-full sm:w-auto">
+      <div className="flex items-center mb-2 sm:mb-0">
+        <span className="p-2 text-[#5f67de] whitespace-nowrap">Sort by:</span>
+        <select
+          value={sortOrder}
+          onChange={(e) => handleSortChange(e.target.value)}
+          className="p-2 rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500 mr-4"
+        >
+          <option value="reactions" onClick={() => handleSortChange('reactions')}>
             Reactions {sortOrder === 'reactions' && (sortDirection === 'asc' ? '↓' : '↑')}
           </option>
           <option value="createdAt" onClick={() => handleSortChange('createdAt')}>
             Date {sortOrder === 'createdAt' && (sortDirection === 'asc' ? '↓' : '↑')}
           </option>
         </select>
-            </div>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="🔍 Search anything"
-              className="p-2 w-full max-w-xs rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              onKeyDown={(event) => {
-                if (event.key == "Enter") {
-                  handleSearch()
-                }
-              }}
-            />
-            <button
-              onClick={handleSearch}
-              className="bg-blue-500 text-white px-4 py-2 rounded ml-2 hover:bg-blue-600 transition-colors duration-200"
+      </div>
+
+      <div className="flex w-full sm:w-auto">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="🔍 Search anything"
+          className="p-2 w-full max-w-xs rounded-md text-[#000435] bg-white dark:text-white dark:bg-[#000435] border border-sky-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              handleSearch();
+            }
+          }}
+        />
+        <button
+          onClick={handleSearch}
+          className="bg-blue-500 text-white px-4 py-2 rounded ml-2 hover:bg-blue-600 transition-colors duration-200"
+        >
+          Search
+        </button>
+      </div>
+
+      {showSuggestions && suggestions.length > 0 && (
+        <ul className="z-20 absolute top-full mt-2 bg-white rounded-md dark:bg-gray-800 border border-sky-400 px-3 ml-0 md:ml-52 py-2">
+          {suggestions.map((suggestion) => (
+            <li
+              key={suggestion.id}
+              onClick={() => handleSuggestionClick(suggestion)}
+              className="cursor-pointer p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md"
             >
-              Search
-            </button>
-            {showSuggestions && suggestions.length > 0 && (
-              <ul className="z-20 absolute top-full mt-2 bg-white rounded-md dark:bg-gray-800 border border-sky-400 px-3 py-2">
-                {suggestions.map((suggestion) => (
-                  <li
-                    key={suggestion.id}
-                    onClick={() => handleSuggestionClick(suggestion)}
-                    className="cursor-pointer p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md"
-                  >
-                    {suggestion.title}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+              {suggestion.title}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
         </div>
         {filteredPosts.length === 0 ? (
           <div className="text-center text-black dark:text-white">No Posts</div>
